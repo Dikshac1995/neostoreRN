@@ -8,50 +8,47 @@ import {
     TouchableOpacity,
     Image,Button
 } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import TextField from '../Reusable/textFirld/textField'
 import ButtonField from '../Reusable/ButtonField/buttonField'
+import { styles } from './style'
+
 
 
 
 
 class LoginScreen extends Component {
+    navigate = () => {
+       navigation.navigate('registrationScreen')
+    }
     render() {
         return (
             <View style={styles.LoginScreen1}>
                 <View style={styles.login}>    
                     <Text style={styles.login_neostore}>NeoSTORE</Text>
-                    {/* <TextInput style={styles.TextInput}
-                        placeholder="userName" placeholoderTextColor="white"/>
-                    <TextInput style={styles.TextInput}
-                       placeholder="Password" /> */}
-                    {/* <TextField placeholder='password'/> */}
+                
                     <TextField placeholder="username" name="user" />
                      <TextField placeholder = "Password"
                      name = "lock" / >
-        
-                    {/* <TouchableOpacity>
-                        <View style={styles.button}>
-                        <Text style={styles.buttonText}>Login</Text>
-                        </View>
-                    </TouchableOpacity> */}
-                    <ButtonField text="LOGIN"/>
-            
+                    <ButtonField text = "LOGIN" onPress = {()=>this.props.navigation.navigate('Register')}/>
+                    <TouchableOpacity>
+                        <Text style = {styles.forgot_link}>Forgot Password ?</Text>
+                     </TouchableOpacity>    
                 </View>  
                 <View style={styles.Account}>
-                    <Text style={styles.Account_Text}>DON'T HAVE AN ACCOUNT</Text>
-                        <TouchableOpacity>
-                        <Image
-                            style={{ width: 24, height: 28 }}
-                            source={{ uri: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADMAAAAzCAYAAAA6oTAqAAAAEXRFWHRTb2Z0d2FyZQBwbmdjcnVzaEB1SfMAAABQSURBVGje7dSxCQBACARB+2/ab8BEeQNhFi6WSYzYLYudDQYGBgYGBgYGBgYGBgYGBgZmcvDqYGBgmhivGQYGBgYGBgYGBgYGBgYGBgbmQw+P/eMrC5UTVAAAAABJRU5ErkJggg==' }}
-                        />
-                      </TouchableOpacity>
+                    <Text style={styles.Account_Text}>DONT HAVE AN ACCOUNT</Text>
+                    <TouchableOpacity onPress = {() => this.props.navigation.navigate('Register')}>
+                        <View style = {{backgroundColor: 'black',opacity: 0.6,padding: 10}}>
+                            <Icon name="plus" size={20} color="#fff" />
+                        </View>
+                    </TouchableOpacity>
                 </View> 
                 
             </View>
         );
     }
 }
-const styles = StyleSheet.create({
+{/* const styles = StyleSheet.create({
     LoginScreen1: {
         flex: 1,
         justifyContent: 'center',
@@ -68,6 +65,13 @@ const styles = StyleSheet.create({
         fontSize: 40,
         fontWeight: 'bold', 
         textAlign:'center'
+    },
+    forgot_link: {
+        color: 'white',
+        fontSize: 20,
+        fontWeight: 'bold',
+        textAlign: 'center'
+        
     },
     // TextInput: {
     //     fontSize: 20,
@@ -98,5 +102,5 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',   
         
     }
-});
+}); */}
 export default LoginScreen;

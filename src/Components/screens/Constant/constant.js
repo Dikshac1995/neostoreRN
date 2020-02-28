@@ -1,0 +1,14 @@
+
+export const StyleConstants = {
+    FONT_BOLD: 'bold',
+    FONT_MEDIUM: '500',
+    FONT_45: 45,
+    FONT_35: 35,
+    FONT_26: 26,
+    FONT_23: 23,
+    FONT_20: 20,
+    FONT_18: 18,
+    FONT_16: 16,
+    FONT_13: 13,
+    FONT_10: 10
+}

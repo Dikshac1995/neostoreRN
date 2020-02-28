@@ -12,7 +12,7 @@ export default class ButtonField extends Component {
             <View>
                <TouchableOpacity style={styles.button1}>
                    <View>
-                        <Text style = {styles.buttonText}> {this.props.text} </Text>
+                        <Text style={styles.buttonText} onPress={()=>this.props.onPress()}> {this.props.text}</Text>
                    </View> 
                    </TouchableOpacity>
             </View>

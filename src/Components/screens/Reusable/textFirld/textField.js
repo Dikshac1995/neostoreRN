@@ -15,7 +15,7 @@ export default class TextField extends Component {
                 <Icon name = {this.props.name} size ={30}
                  color = "#fff"
                  style = {styles.Icon}/>
-                <TextInput style={styles.input_text} placeholder={this.props.placeholder}>
+                <TextInput style={styles.input_text} placeholder={this.props.placeholder} secureTextEntry={this.props.secureTextEntry?this.props.secureTextEntry:null}>
                 </TextInput>
             </View>
         )

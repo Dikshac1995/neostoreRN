@@ -2,21 +2,23 @@ import React, {Component} from 'react';
 import {
     View,
     Text,
-    StyleSheet,Button
+    StyleSheet,Button, ActivityIndicator
 } from 'react-native';
 
 
 
 class Splashscreen extends Component {
+
+    componentDidMount() {
+        setTimeout(() => this.props.navigation.navigate('loginScreen'), 3000);
+    }
+
     render() {
         return (
             <View style = {styles.splashscreen1}>
                 <Text style={styles.splashscreen_message}> Welcome to </Text>
                 <Text style={styles.splashscreen_logo} > NeoSTORE </Text> 
-                <Button
-                    title="login Screen"
-                    onPress={() => this.props.navigation.navigate('loginScreen')}
-                />
+                <ActivityIndicator size = "large"  color = "#fff" / >
             </View>
         );
     }
