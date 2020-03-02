@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
+import React ,{ Component } from 'react'
 import { Text, View } from 'react-native'
 import TextField from '../../Reusable/textField/textField'
 import ButtonField from '../../Reusable/ButtonField/buttonField'
 import {styles} from  '../../../style/style' 
 
-export default class SetPassword extends Component {
+export default class ProductList extends Component {
     render() {
         return (
           

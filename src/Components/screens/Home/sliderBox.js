@@ -16,7 +16,6 @@ export default class SliderBox1 extends Component {
             dataSource:[]
         };
     }
-
     componentDidMount() {
         return fetch('http://180.149.241.208:3022/getAllCategories')
             .then(res => res.json())
@@ -32,12 +31,13 @@ export default class SliderBox1 extends Component {
     render() {
         const imageData = this.state.dataSource;
         let res = imageData.map(a => a.product_image);
-
-        console.log('rr',res);
+        const url = 'http://180.149.241.208:3022/';
+        let images = res.map((a) => { return url.concat(a) })
+        console.log('rr',images);
         console.log('hh',this.state.images)
         return (
         <View style={styles.container}>
-                <SliderBox autoplay circleLoop images={this.state.images}/>
+          <SliderBox autoplay circleLoop images={this.state.images}/>
       </View>
         )
     }

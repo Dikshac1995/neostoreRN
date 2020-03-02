@@ -14,12 +14,12 @@ export default class Homescreen extends Component {
         return (
         <View>
             <View style={styles.headerSection}>
-                    <TouchableOpacity onPress ={() => this.props.navigation.openDrawer
+                    <TouchableOpacity onPress ={() => this.props.navigation.openDrawer()
                             //this.props.navigation.navigate('Register')
-                        } >
-                        <View style = {{backgroundColor:'red',opacity: 0.6,padding: 10}}>
-                            <Icon name="bars" size={30} color="#fff"  />
-                        </View>
+                    }>
+                    <View style = {{backgroundColor:'red',opacity: 0.6,padding: 10}}>
+                        <Icon name="bars" size={30} color="#fff" />
+                    </View>
                     </TouchableOpacity>
                     <Text style = {styles.headerTitle}>NeoSTORE</Text>
                     <Icon name ="search" size = {30} color= '#fff'></Icon>
@@ -28,22 +28,17 @@ export default class Homescreen extends Component {
                     <SliderBox1 / >
                 </View>
             <View style={{display:'flex'}}>
-                < View style = {
-                    {
-                        flexDirection: 'row',
+                <View style = {{flexDirection: 'row',
                         justifyContent: 'center'
-                    }
-                } >
-                    <Card title="sofa" name="couch"/>
-                    <Card title="bed" name="bed" />
+                    }}>
+                        <Card title="sofa" name="couch" {...this.props}/>
+                    <Card title="bed" name="bed" {...this.props}/>
                 </View>
                 <View style={{ flexDirection:'row',justifyContent:'center'}}>
-                    <Card title="chair" name="chair"/>
-                    <Card title="Table" name="table"/>
+                    <Card title="chair" name="chair" {...this.props}/>
+                    <Card title="Table" name="table"{...this.props}/>
                 </View>
-            </View>
-                
-                   
+            </View>       
          </View>
         )
     }

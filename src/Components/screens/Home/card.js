@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, TouchableHighlight, StyleSheet } from 'react-native'
+import { Text, View, TouchableOpacity, StyleSheet } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome5';
 // import bedIcon from 'react-native-vector-icons/Ionicons';
 export default class Card extends Component {
@@ -13,11 +13,12 @@ export default class Card extends Component {
 
         return (
             <View style={styles.cards}>
-                {/* <TouchableHighlight> */}
-                <View style={styles. CardContents}><Text style = {styles.card_name}>{this.props.title}</Text></View>
-                 <View style={styles.CardContentRC}><Icon name={this.props.name} size={50}
-                    color="#fff" /></View>
-                {/* </TouchableHighlight> */}
+                <TouchableOpacity onPress={ ()=>this.props.navigation.navigate('Register')}>
+                    <>
+                  <View style={styles. CardContents}><Text style = {styles.card_name}>{this.props.title}</Text></View>
+                  <View style={styles.CardContentRC}><Icon name={this.props.name} size={50}
+                    color="#fff" /></View></>
+                </TouchableOpacity>
             </View>
         )
     }
