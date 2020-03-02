@@ -9,8 +9,8 @@ import {
     Image,Button
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import TextField from '../Reusable/textFirld/textField'
-import ButtonField from '../Reusable/ButtonField/buttonField'
+import TextField from '../../Reusable/textField/textField'
+import ButtonField from '../../Reusable/ButtonField/buttonField'
 import { styles } from './style'
 
 
@@ -26,12 +26,10 @@ class LoginScreen extends Component {
             <View style={styles.LoginScreen1}>
                 <View style={styles.login}>    
                     <Text style={styles.login_neostore}>NeoSTORE</Text>
-                
                     <TextField placeholder="username" name="user" />
-                     <TextField placeholder = "Password"
-                     name = "lock" / >
+                    <TextField placeholder = "Password" name = "lock" / >
                     <ButtonField text = "LOGIN" onPress = {()=>this.props.navigation.navigate('Register')}/>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress = {()=>this.props.navigation.navigate('ForgotPassword')}>
                         <Text style = {styles.forgot_link}>Forgot Password ?</Text>
                      </TouchableOpacity>    
                 </View>  

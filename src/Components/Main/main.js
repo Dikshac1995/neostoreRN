@@ -11,7 +11,7 @@ import {
     StatusBar,
 } from 'react-native';
 import {
-    NavigationContainer
+    NavigationContainer, DrawerActions
 } from '@react-navigation/native';
 import {
     createStackNavigator
@@ -27,6 +27,9 @@ import Homescreen from '../screens/Home/homescreen'
 import Splashscreen from '../screens/splashscreen'
 import LoginScreen from '../screens/Login/login'
 import Registration from '../screens/Register/registration'
+import MyDrawer from '../drawernav';
+import ForgotPassword from '../screens/ForgotPassword/forgotpassword';
+import SetPassword from '../screens/setpassword/setpassword'
 
 
 const Stack = createStackNavigator();
@@ -36,10 +39,10 @@ class Main extends Component {
         return (
             <NavigationContainer>
                 <Stack.Navigator >
-                    <Stack.Screen name="homescreen" component={Homescreen} options={{headerShown: false }}/>
-                    <Stack.Screen name="Splashscreen" component={Splashscreen} options={{ headerShown: false }}/>
-                    <Stack.Screen name="loginScreen" component={LoginScreen} options={{headerShown: false}} />
-                    < Stack.Screen name="Register" component={Registration}
+                    {/* <Stack.Screen name="homescreen" component={Homescreen} options={{headerShown: false }}/> */}
+                    <Stack.Screen name="MyDrawer" component={MyDrawer} options={{ headerShown: false }}/>
+                    <Stack.Screen name="loginScreen" component={LoginScreen}  />
+                    <Stack.Screen name="Register" component={Registration}
                         options = { {headerStyle: {backgroundColor: 'red'},
                                 headerTintColor: '#fff',
                                 headerTitleStyle: {
@@ -47,9 +50,9 @@ class Main extends Component {
                                 }
                             }
                         }
-                        />
-
-                    {/* <Stack.Screen name="listView" component={SectionListBasics} /> */}
+                    />
+                    <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
+                    <Stack.Screen name="SetPassword" component={SetPassword} />
                 </Stack.Navigator> 
              </NavigationContainer>  
         );

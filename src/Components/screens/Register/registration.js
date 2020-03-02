@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { Text, View ,ScrollView} from 'react-native'
-import TextField from '../Reusable/textFirld/textField'
-import ButtonField from '../Reusable/ButtonField/buttonField'
+import TextField from '../../Reusable/textField/textField'
+import ButtonField from '../../Reusable/ButtonField/buttonField'
 import { styles } from './style'
-import Gender from '../Reusable/Radiobutton/gender'
-import Checkbox1 from '../Reusable/checkBox/checkbox'
+import Gender from '../../Reusable/Radiobutton/gender'
+import Checkbox1 from '../../Reusable/checkBox/checkbox'
 
 export default class Registration extends Component {
     render() {

@@ -12,18 +12,32 @@ export default class SliderBox1 extends Component {
                 "https://source.unsplash.com/1024x768/?girl",
                 "https://source.unsplash.com/1024x768/?tree", // Network image
                  // Local image
-            ]
+            ],
+            dataSource:[]
         };
     }
+
+    componentDidMount() {
+        return fetch('http://180.149.241.208:3022/getAllCategories')
+            .then(res => res.json())
+            .then(response => {
+                this.setState({
+                    dataSource: response.category_details,
+                });
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
     render() {
+        const imageData = this.state.dataSource;
+        let res = imageData.map(a => a.product_image);
+
+        console.log('rr',res);
+        console.log('hh',this.state.images)
         return (
-           <View style={styles.container}>
-                <SliderBox
-                    autoplay
-                    circleLoop
-          images={this.state.images}
-          
-        />
+        <View style={styles.container}>
+                <SliderBox autoplay circleLoop images={this.state.images}/>
       </View>
         )
     }

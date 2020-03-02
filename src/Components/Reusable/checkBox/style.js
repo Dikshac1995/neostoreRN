@@ -4,7 +4,7 @@ import {
 from 'react-native'
 import {
     StyleConstants
-} from '../../Constant/constant'
+} from '../../screens/Constant/constant'
 
 export const styles = StyleSheet.create({
     checkboxField: {
