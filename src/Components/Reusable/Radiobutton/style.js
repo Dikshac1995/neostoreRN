@@ -14,8 +14,8 @@ export const styles = StyleSheet.create({
         alignItems: 'flex-end'
     },
          GenderName: {
-           color: 'white',
-           fontSize: StyleConstants.FONT_20,
+         color: 'white',
+         fontSize: StyleConstants.FONT_20,
             
         }
     

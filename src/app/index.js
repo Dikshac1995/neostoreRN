@@ -12,9 +12,8 @@ class LoginRedux extends Component{
     }
   }
 
-  login(){
-
-    this.props.login(this.state.email,this.state.password).then(() => {
+login(){
+      this.props.login(this.state.email,this.state.password).then(() => {
       if(this.props.error){
         alert(this.props.error)
       }

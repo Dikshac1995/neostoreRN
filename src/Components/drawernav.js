@@ -20,11 +20,11 @@ function CustomDrawerContent(props) {
         }
       }
       /> */}
-      <Icon name="facebook" size={220}/>
+    <Icon name="facebook" size={220}/>
     <DrawerContentScrollView {...props}>
       <DrawerItemList {...props} />
       <DrawerItem
-        icon={() => <Icon name="couch" />}
+        icon={() => <Icon name="couch"/>}
         label="Sofa"
         onPress={() => props.navigation.closeDrawer()}
       />
@@ -39,19 +39,19 @@ function CustomDrawerContent(props) {
         onPress={() => props.navigation.closeDrawer()}
       />
       <DrawerItem
-        icon={() => <Icon name="table" />}
+        icon={() => <Icon name="table"/>}
         label="Table"
         onPress={() => props.navigation.toggleDrawer()}
       />
       <DrawerItem
         icon = {
-          () => < Icon name = "dungeon" />
+          () => <Icon name = "dungeon"/>
         }
         label="Almirah"
         onPress={() => props.navigation.toggleDrawer()}
       />
       <DrawerItem
-        icon={() => <Icon name="map-marker-alt" />}
+        icon={() => <Icon name="map-marker-alt"/>}
         label="Store Locator"
         onPress={() => props.navigation.toggleDrawer()}
       />

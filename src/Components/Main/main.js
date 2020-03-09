@@ -30,6 +30,7 @@ import Registration from '../screens/Register/registration'
 import MyDrawer from '../drawernav';
 import ForgotPassword from '../screens/ForgotPassword/forgotpassword';
 import SetPassword from '../screens/setpassword/setpassword'
+import ProductList from '../screens/Productlist/product';
 
 
 const Stack = createStackNavigator();
@@ -51,8 +52,30 @@ class Main extends Component {
                             }
                         }
                     />
-                    <Stack.Screen name="ForgotPassword" component={ForgotPassword} />
-                    <Stack.Screen name="SetPassword" component={SetPassword} />
+                    <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{
+                        headerStyle: { backgroundColor: 'red' },
+                        headerTintColor: '#fff',
+                        headerTitleStyle: {
+                            fontWeight: 'bold',
+                        }
+                    }
+                    }/>
+                    <Stack.Screen name="SetPassword" component={SetPassword} options={{
+                        headerStyle: { backgroundColor: 'red' },
+                        headerTintColor: '#fff',
+                        headerTitleStyle: {
+                            fontWeight: 'bold',
+                        }
+                    }
+                    }/>
+                    <Stack.Screen name="productList" component={ProductList} options={{
+                        headerStyle: { backgroundColor: 'red' },
+                        headerTintColor: '#fff',
+                        headerTitleStyle: {
+                            fontWeight: 'bold',
+                        }
+                    }
+                    }/>
                 </Stack.Navigator> 
              </NavigationContainer>  
         );

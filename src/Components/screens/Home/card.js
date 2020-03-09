@@ -13,7 +13,7 @@ export default class Card extends Component {
 
         return (
             <View style={styles.cards}>
-                <TouchableOpacity onPress={ ()=>this.props.navigation.navigate('Register')}>
+                <TouchableOpacity onPress={ ()=>this.props.navigation.navigate('productList')}>
                     <>
                   <View style={styles. CardContents}><Text style = {styles.card_name}>{this.props.title}</Text></View>
                   <View style={styles.CardContentRC}><Icon name={this.props.name} size={50}

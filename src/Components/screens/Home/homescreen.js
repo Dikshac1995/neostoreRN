@@ -25,13 +25,11 @@ export default class Homescreen extends Component {
                     <Icon name ="search" size = {30} color= '#fff'></Icon>
               </View>
                 <View style= {{height:200}}>
-                    <SliderBox1 / >
+                    <SliderBox1 />
                 </View>
             <View style={{display:'flex'}}>
-                <View style = {{flexDirection: 'row',
-                        justifyContent: 'center'
-                    }}>
-                        <Card title="sofa" name="couch" {...this.props}/>
+                <View style = {{flexDirection: 'row',justifyContent: 'center' }}>
+                    <Card title="sofa" name="couch" {...this.props}/>
                     <Card title="bed" name="bed" {...this.props}/>
                 </View>
                 <View style={{ flexDirection:'row',justifyContent:'center'}}>
