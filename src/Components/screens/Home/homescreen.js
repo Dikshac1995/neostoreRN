@@ -6,16 +6,25 @@ import { HeaderTitle } from '@react-navigation/stack';
 import SliderBox1 from './sliderBox'
 import Card from './card'
 import MyDrawer from '../../drawernav'
+// import { styles } from '../../../style/style'
+import { connect } from 'react-redux';
+import { changeCount } from '../../../Redux/Action/index';
+// import { bindActionCreators } from 'redux';
 
 
-export default class Homescreen extends Component {
+ class Homescreen extends Component {
      
     render() {
         return (
         <View>
             <View style={styles.headerSection}>
-                    <TouchableOpacity onPress ={() => this.props.navigation.openDrawer()
-                            //this.props.navigation.navigate('Register')
+                    <TouchableOpacity onPress={() => {
+                        this.props.navigation.openDrawer()
+                        //this.props.navigation.navigate('Register')
+                        console.log('counter :', this.props)
+                        console.log('counter :', this.props.count)
+                        console.log('imageReducer :', this.props.image)
+                    }
                     }>
                     <View style = {{backgroundColor:'red',opacity: 0.6,padding: 10}}>
                         <Icon name="bars" size={30} color="#fff" />
@@ -27,12 +36,13 @@ export default class Homescreen extends Component {
                 <View style= {{height:200}}>
                     <SliderBox1 />
                 </View>
-            <View style={{display:'flex'}}>
-                <View style = {{flexDirection: 'row',justifyContent: 'center' }}>
+                <View style={{ display: 'flex', flexWrap: 'wrap' }}>
+                    <View style={{ flexDirection: 'row', justifyContent:'center' }}
+                    >
                     <Card title="sofa" name="couch" {...this.props}/>
                     <Card title="bed" name="bed" {...this.props}/>
                 </View>
-                <View style={{ flexDirection:'row',justifyContent:'center'}}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
                     <Card title="chair" name="chair" {...this.props}/>
                     <Card title="Table" name="table"{...this.props}/>
                 </View>
@@ -44,7 +54,7 @@ export default class Homescreen extends Component {
 
 
 
-const styles = StyleSheet.create({
+const styles= StyleSheet.create({
     headerSection: {
         display: 'flex',
         justifyContent: 'space-between',
@@ -59,3 +69,15 @@ const styles = StyleSheet.create({
     },
     
 })
+ 
+const mapStateToProps = state => ({
+    count: state.count,
+    stat: state,
+    image: state.imageReducer
+});
+const mapDispatchToProps = dispatch => ({
+    
+  
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Homescreen)
