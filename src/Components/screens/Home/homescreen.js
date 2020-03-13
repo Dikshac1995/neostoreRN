@@ -7,12 +7,12 @@ import SliderBox1 from './sliderBox'
 import Card from './card'
 import MyDrawer from '../../drawernav'
 // import { styles } from '../../../style/style'
-import { connect } from 'react-redux';
-import { changeCount } from '../../../Redux/Action/index';
+// import { connect } from 'react-redux';
+// import { changeCount } from '../../../Redux/Action/productlist';
 // import { bindActionCreators } from 'redux';
 
 
- class Homescreen extends Component {
+  export default class Homescreen extends Component {
      
     render() {
         return (
@@ -37,14 +37,13 @@ import { changeCount } from '../../../Redux/Action/index';
                     <SliderBox1 />
                 </View>
                 <View style={{ display: 'flex', flexWrap: 'wrap' }}>
-                    <View style={{ flexDirection: 'row', justifyContent:'center' }}
-                    >
-                    <Card title="sofa" name="couch" {...this.props}/>
-                    <Card title="bed" name="bed" {...this.props}/>
+                    <View style={{ flexDirection: 'row', justifyContent:'center' }} >
+                        <Card title="sofa" name="couch" {...this.props}  category_name="sofa" category_id="5cfe3c5aea821930af69281e"/>
+                        <Card title="bed" name="bed" {...this.props} category_id="5cfe3c65ea821930af69281f"/>
                 </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-                    <Card title="chair" name="chair" {...this.props}/>
-                    <Card title="Table" name="table"{...this.props}/>
+                        <Card title="chair" name="chair" {...this.props} category_id="5cfe3c6fea821930af692820"/>
+                        <Card title="Table" name="table"{...this.props} category_id="5cfe3c79ea821930af692821"/>
                 </View>
             </View>       
          </View>
@@ -70,14 +69,14 @@ const styles= StyleSheet.create({
     
 })
  
-const mapStateToProps = state => ({
-    count: state.count,
-    stat: state,
-    image: state.imageReducer
-});
-const mapDispatchToProps = dispatch => ({
+// const mapStateToProps = state => ({
+//     count: state.count,
+//     stat: state,
+//     image: state.imageReducer
+// });
+// const mapDispatchToProps = dispatch => ({
     
   
-});
+// });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Homescreen)
+// export default connect(mapStateToProps, mapDispatchToProps)(Homescreen)

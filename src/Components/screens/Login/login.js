@@ -6,29 +6,81 @@ import {
     TextInput,
     TouchableHighlight,
     TouchableOpacity,
-    Image,Button
+    Image,Button, Alert
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import TextField from '../../Reusable/textField/textField'
 import ButtonField from '../../Reusable/ButtonField/buttonField'
 import { styles } from './style'
-
-
-
+import { connect } from 'react-redux';
+import * as actions from '../../../Redux/Action/action'
 
 
 class LoginScreen extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            email: '',
+            pass: '',
+            emailValid: 'true ',
+            passValid:'true',
+        }
+    }
     navigate = () => {
        navigation.navigate('registrationScreen')
+    }
+    updateValue(text, type) {
+        const emailPattern = /^([a-zA-Z])+([0-9a-zA-Z_\.\-])+\@+(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,5}$)$/;
+        const passreg = /^[0-9]+$/;
+        if (type == 'email') {
+            this.setState({ email: text })
+            if (emailPattern.test(text)) {
+                this.setState({ emailValid: true })
+                //console.warn("text is valid ")
+            }
+            else {
+                this.setState({ emailValid: false })
+            }
+        }
+        if (type == 'password') {
+            this.setState({ pass: text })
+            if (passreg.test(text)) {
+                this.setState({ passValid: true })
+                //console.warn("text is valid ")
+            }
+            else {
+                this.setState({ passValid: false })
+                //console.warn("password is invalid ")
+            }
+        }
+    }
+    login() {
+        this.props.login(this.state.email, this.state.pass).then(() => {
+            if (this.props.error) {
+                console.log(this.props.error)
+                Alert.alert(this.props.error)
+            }
+            else {
+                console.log('login successfully')
+                Alert.alert('login successfully')
+                this.props.navigation.navigate('Homescreen')
+            //    Alert.alert(this.props.userData.user.name + ' user successfully logged in ')
+            }
+        })
     }
     render() {
         return (
             <View style={styles.LoginScreen1}>
                 <View style={styles.login}>    
                     <Text style={styles.login_neostore}>NeoSTORE</Text>
-                    <TextField placeholder="username" name="user" />
-                    <TextField placeholder="Password" name="lock" secureTextEntry / >
-                    <ButtonField text = "LOGIN" onPress = {()=>this.props.navigation.navigate('Register')}/>
+                    <TextField placeholder="email id" name="user" onChange={(e) => this.updateValue(e, 'email')}
+                        validate={!this.state.emailValid ? <Text>email invalid</Text> : null}/>
+                    <TextField placeholder="Password" name="lock" secureTextEntry onChange={(e) => this.updateValue(e, 'password')}
+                        validate={!this.state.passValid ? <Text>password invalid</Text> : null}/>
+                    <ButtonField text="LOGIN"
+                        onPress={() => this.login()}
+                       // onPress={() => this.props.navigation.navigate('Register')}
+                    />
                     <TouchableOpacity onPress = {()=>this.props.navigation.navigate('ForgotPassword')}>
                         <Text style = {styles.forgot_link}>Forgot Password ?</Text>
                      </TouchableOpacity>    
@@ -46,59 +98,15 @@ class LoginScreen extends Component {
         );
     }
 }
-{/* const styles = StyleSheet.create({
-    LoginScreen1: {
-        flex: 1,
-        justifyContent: 'center',
-        backgroundColor: 'red',
-        paddingHorizontal: 15
-     },
-    login: {
-        padding: 20,
-        flexGrow: 1,
-        justifyContent: 'center',  
-    },
-    login_neostore: {
-        color: 'white',
-        fontSize: 40,
-        fontWeight: 'bold', 
-        textAlign:'center'
-    },
-    forgot_link: {
-        color: 'white',
-        fontSize: 20,
-        fontWeight: 'bold',
-        textAlign: 'center'
-        
-    },
-    // TextInput: {
-    //     fontSize: 20,
-    //     borderWidth: 1,
-    //     borderColor: 'white', 
-    //     marginTop: 10,
-    //     marginBottom:10
-    // },
-    // button: {
-    //     marginTop: 10,
-    //     alignItems: 'center',
-    //     backgroundColor:'white'
-    // },
-    // buttonText: {
-    //     padding: 10,
-    //     color: 'red',
-    //     fontSize: 20,
-    //     fontWeight: 'bold', 
-    // },
-    Account: {
-        flexDirection: 'row',
-        justifyContent:'space-between'
-    },
-    Account_Text: {
-        padding: 10,
-        color: 'white',
-        fontSize: 20,
-        fontWeight: 'bold',   
-        
-    }
-}); */}
-export default LoginScreen;
+const mapStateToProps = state => ({
+    isLoggedIn: state.auth.isLoggedIn,
+    isLoading: state.auth.isLoading,
+    userData: state.auth.userData,
+    error: state.auth.error
+})
+
+const mapDispatchToProps = dispatch => ({
+    login: (email, pass) => dispatch(actions.login({ email, pass}))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen)

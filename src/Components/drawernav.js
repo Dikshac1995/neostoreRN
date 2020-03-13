@@ -26,7 +26,7 @@ function CustomDrawerContent(props) {
       <DrawerItem
         icon={() => <Icon name="couch"/>}
         label="Sofa"
-        onPress={() => props.navigation.closeDrawer()}
+          onPress={() => props.navigation.navigate('productList')}
       />
       <DrawerItem
         icon={() => <Icon name="bed" />}

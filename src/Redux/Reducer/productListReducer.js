@@ -6,7 +6,7 @@ const initialstate = {
     error:false
 }
 
-export default  function imageReducer (state = initialstate,action){
+export default  function productListReducer (state = initialstate,action){
     switch (action.type) {
         case FETCH_IMAGE:
             return {

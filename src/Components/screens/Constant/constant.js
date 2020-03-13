@@ -1,4 +1,4 @@
-
+import { Dimensions } from 'react-native';
 export const StyleConstants = {
     FONT_BOLD: 'bold',
     FONT_MEDIUM: '500',
@@ -12,3 +12,6 @@ export const StyleConstants = {
     FONT_13: 13,
     FONT_10: 10
 }
+
+ export const windowWidth = Dimensions.get('window').width;
+ export const windowHeight = Dimensions.get('window').height;

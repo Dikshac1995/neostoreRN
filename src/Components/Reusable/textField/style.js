@@ -11,8 +11,8 @@ export const styles = StyleSheet.create({
         color: 'white',
         justifyContent: 'flex-start',
         alignItems: 'center',
-        marginTop: 10,
-        marginBottom: 10     
+        marginTop: 5,
+        //marginBottom: 10     
     },
     Icon: {
         paddingLeft: 10,
@@ -25,5 +25,6 @@ export const styles = StyleSheet.create({
         paddingLeft: 10,
         color: '#424242',
         fontSize: 20,
+        width :'90%',
     },
     })

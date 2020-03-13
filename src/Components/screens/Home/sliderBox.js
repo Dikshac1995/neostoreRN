@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Text, View, StyleSheet,Image } from 'react-native'
 import { SliderBox } from "react-native-image-slider-box";
 import { connect } from 'react-redux';
-import { FetchImage } from '../../../Redux/Action/index'
+import { FetchImage } from '../../../Redux/Action/productlist'
 import {getPeople} from '../../../Redux/Action/listaction'
 
 class SliderBox1 extends Component {

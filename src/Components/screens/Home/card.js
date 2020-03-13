@@ -16,8 +16,7 @@ export default class Card extends Component {
         return (
             <View style={styles.card}>
                <View style={style.cards}>
-            
-                <TouchableOpacity onPress={ ()=>this.props.navigation.navigate('productList')}>
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('productList', {category_id: this.props.category_id})}>
                     <>
                         <View style={style.CardContents}>
                             <Text style={style.card_name}>

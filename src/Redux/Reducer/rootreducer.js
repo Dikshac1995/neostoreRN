@@ -1,12 +1,12 @@
 import { combineReducers} from 'redux'
 import auth from './authReducer'
-import imageReducer from './imageReducer'
+import productListReducer from './productListReducer'
 import { countReducer } from './counter'
 import listReducer from './listReducer'
 
 const rootReducer = combineReducers({
     auth,
-    imageReducer,
+    productListReducer,
     listReducer,
     count: countReducer,
    

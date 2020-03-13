@@ -1,4 +1,4 @@
-export function isLoading(){
+export function isLoading(bool){
   return{
     type:'LOGIN_ATTEMPT',
     isLoading:bool
@@ -19,23 +19,22 @@ export function loginFailed(error){
   }
 }
 
-export function login(data){
-  return dispatch => {
+export function login(data) {
+  console.log("data",data)
+  return  async dispatch => {
       dispatch(isLoading(true));
-      // return fetch("https://jsonplaceholder.typicode.com/users")
-      //     .then 
-    return fetch('https://jsonplaceholder.typicode.com/users', {
+    return  await fetch('http://180.149.241.208:3022/login', {
       method:'POST',
       headers:{
         'Content-Type':'application/json'
       },
       body:JSON.stringify({
         "email":data.email,
-        "password":data.password
+        "pass":data.pass
       })
     })
     .then((response) => {
-      if(response.status < 300){
+      if(response.status === 200){
         dispatch(isLoading(false))
         response.json().then((responseJSON) => {
           console.log("responseJSON",responseJSON);
@@ -57,10 +56,3 @@ export function login(data){
     })
   }
 }
-// export const login = (data:Object) => {
-//     userTasks.userID = localStorage.getItem('userID')
-//     return () => {
-//         fetch("https://jsonplaceholder.typicode.com/users")
-//         .then()
-//     }
-// }

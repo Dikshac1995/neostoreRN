@@ -11,17 +11,19 @@ export default class TextField extends Component {
     }
     render() {
         return (
+            <View>
             <View style = {styles.textField_wrapper}>
                 <Icon name = {this.props.name} size ={30}
                  color = "#fff"
                  style = {styles.Icon}/>
                 <TextInput style={styles.input_text} placeholder={this.props.placeholder} secureTextEntry={this.props.secureTextEntry ? this.props.secureTextEntry : null}
                     //onBlur={() => { this.props.onBlur() }}
-                
-                onChangeText={
-                this.props.onChange ? (e)=>this.props.onChange(e):null}>
+                onChangeText={this.props.onChange ? (e)=>this.props.onChange(e):null}>
                 </TextInput>
-                <Text style = {{color:'white', textAlign:'right' }}>{this.props.validate?this.props.validate:null}</Text>
+                </View>
+                <View>
+                    <Text style={{ color: 'white', textAlign: 'center' }}>{this.props.validate ? this.props.validate : null}</Text>
+                </View>
             </View>
         )
     }
