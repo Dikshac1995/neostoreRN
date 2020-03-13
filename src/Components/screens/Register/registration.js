@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View ,ScrollView} from 'react-native'
+import { Text, View ,ScrollView, Alert} from 'react-native'
 import TextField from '../../Reusable/textField/textField'
 import ButtonField from '../../Reusable/ButtonField/buttonField'
 import { styles } from './style'
@@ -15,11 +15,26 @@ export default class Registration extends Component {
             lastName: '',
             password: '',
             comformPassword: ' ',
-            phoneNo:' '
+            phoneNo: ' ',
+            
+            firstNamevalid:true,
         } 
     }
-    updateValue(e) {
-        console.warn("check updated value",e)
+    updateValue(text,type) {
+        const regex = /^[A-Za-z]+$/
+        console.warn("text is valid",text,type);
+        if(type =='username') {
+            if(regex.test(text)) {
+                this.setState({ firstNamevalid:true})
+                console.warn("text is valid ")
+            }
+            else {
+                this.setState({ firstNamevalid: false})
+                console.warn("text is valid ")
+                console.warn("text is invalid ")
+            }
+        }
+        //onChangeText = { value => this.setState({ email: value.trim() }) }
         // if (field == this.state.firstName) {
         //     this.setState({
         //         name: text
@@ -30,11 +45,11 @@ export default class Registration extends Component {
         //         lastName:text
         //     })
         // }
-       console.warn(e) 
+       //console.warn(e) 
     }
     submit() {
         let collection = {}
-        collection.name=this.state.name
+        collection.firstname=this.state.firstname
         collection.lastname = this.state.lastName
         console.warn(collection);
     }
@@ -43,9 +58,9 @@ export default class Registration extends Component {
             <ScrollView>
             <View style={styles.ResgisterScreen}>
                   <Text style = {styles.register_neostore}> NeoSTORE </Text>
-                  <TextField placeholder="First Name" name="user" onChange={(e) => this.updateValue(e)}/>
-                  <TextField placeholder="Last Name" name="user"
-                    //onChange={() => this.updateValue()} 
+                    <TextField placeholder="First Name" name="user" onChange={(e) => this.updateValue(e, 'username')}
+                         validate ={!this.state.firstNamevalid ? <Text>username invalid</Text> : null}/>
+                  <TextField placeholder="Last Name" name="user" 
                     />
                 <TextField placeholder="Password" name="lock" secureTextEntry/>
                 <TextField placeholder = "Conform Password" name="lock" secureTextEntry/>
@@ -55,10 +70,11 @@ export default class Registration extends Component {
                 <Checkbox1/>
                     <ButtonField text="Registration"
                     //onPress={() => this.props.navigation.navigate('loginScreen')} 
-                     //onPress={()=> this.submit()}
+                    onPress={()=> this.submit()}
                     />
                 </View>
                 </ScrollView>
         )
     }
 }
+//onChangeText={value => this.setState({ firstName:value()})}

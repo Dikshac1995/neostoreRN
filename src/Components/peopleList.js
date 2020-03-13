@@ -10,23 +10,23 @@ class List extends PureComponent {
         //Dispatch your dispatcher
         this.props.getPeople();
     }
-    render() {
-        // const { people, loading } = this.state;
-        const { people, loading } = this.props;
-        if (!loading) {
-            return (
-                <div className='container'>
-                    {people.length ? people.map((person, i) => <p className='welcome' key={i}>{person.name}</p>) : <p>No People</p>}
-                </div>
-            );
-        } else {
-            return (
-                <div className='container'>
-                    <p className='welcome'>Loading...........</p>
-                </div>
-            )
-        }
-    }
+    // render() {
+    //     // const { people, loading } = this.state;
+    //     const { people, loading } = this.props;
+    //     if (!loading) {
+    //         return (
+    //         //     <div className='container'>
+    //         //         {people.length ? people.map((person, i) => <p className='welcome' key={i}>{person.name}</p>) : <p>No People</p>}
+    //         //     </div>
+    //         // );
+    //     } else {
+    //         return (
+    //         //     <div className='container'>
+    //         //         <p className='welcome'>Loading...........</p>
+    //         //     </div>
+    //         // )
+    //     }
+    // }
 }
 
 

@@ -27,7 +27,7 @@ class LoginScreen extends Component {
                 <View style={styles.login}>    
                     <Text style={styles.login_neostore}>NeoSTORE</Text>
                     <TextField placeholder="username" name="user" />
-                    <TextField placeholder = "Password" name = "lock" / >
+                    <TextField placeholder="Password" name="lock" secureTextEntry / >
                     <ButtonField text = "LOGIN" onPress = {()=>this.props.navigation.navigate('Register')}/>
                     <TouchableOpacity onPress = {()=>this.props.navigation.navigate('ForgotPassword')}>
                         <Text style = {styles.forgot_link}>Forgot Password ?</Text>
