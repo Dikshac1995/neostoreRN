@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Text, View, TouchableOpacity, StyleSheet } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { styles } from '../../../style/style'
+import { styles } from '../../style/style'
 // import { styles } from '../../Reusable/textField/style';
 // import bedIcon from 'react-native-vector-icons/Ionicons';
 export default class Card extends Component {
@@ -12,7 +12,7 @@ export default class Card extends Component {
         }
     }
     render() {
-
+        console.log('id', this.props.category_id)
         return (
             <View style={styles.card}>
                <View style={style.cards}>
@@ -35,16 +35,10 @@ export default class Card extends Component {
 
 export const style = StyleSheet.create({
     cards: {
-        //display: 'flex',
-       // justifyContent:'space-between',
         backgroundColor: 'red',
         height: 150,
-        //width: 180,
         padding: 10,
-       margin:15,
-        // marginTop: 20,
-        // marginRight: 10,
-        // marginLeft: 10,
+        margin:15,
         borderRadius:5
         
     },

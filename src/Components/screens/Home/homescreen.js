@@ -1,34 +1,32 @@
 import React, { Component } from 'react'
-import { Text, View ,TouchableOpacity,StyleSheet} from 'react-native'
+import { Text, View, TouchableOpacity, StyleSheet, ScrollView} from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
 import { HeaderTitle } from '@react-navigation/stack';
-import SliderBox1 from './sliderBox'
-import Card from './card'
+import SliderBox1 from '../../Reusable/sliderBox'
+import Card from '../../Reusable/card'
 import MyDrawer from '../../drawernav'
-// import { styles } from '../../../style/style'
-// import { connect } from 'react-redux';
-// import { changeCount } from '../../../Redux/Action/productlist';
-// import { bindActionCreators } from 'redux';
+
 
 
   export default class Homescreen extends Component {
      
     render() {
         return (
+           <ScrollView>
         <View>
             <View style={styles.headerSection}>
-                    <TouchableOpacity onPress={() => {
+                <TouchableOpacity onPress={() => {
                         this.props.navigation.openDrawer()
                         //this.props.navigation.navigate('Register')
                         console.log('counter :', this.props)
                         console.log('counter :', this.props.count)
                         console.log('imageReducer :', this.props.image)
-                    }
-                    }>
-                    <View style = {{backgroundColor:'red',opacity: 0.6,padding: 10}}>
-                        <Icon name="bars" size={30} color="#fff" />
-                    </View>
+                        }
+                        }>
+                        <View style = {{opacity: 0.6,padding: 10}}>
+                            <Icon name="bars" size={30} color="#fff" />
+                        </View>
                     </TouchableOpacity>
                     <Text style = {styles.headerTitle}>NeoSTORE</Text>
                     <Icon name ="search" size = {30} color= '#fff'></Icon>
@@ -44,9 +42,13 @@ import MyDrawer from '../../drawernav'
                     <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
                         <Card title="chair" name="chair" {...this.props} category_id="5cfe3c6fea821930af692820"/>
                         <Card title="Table" name="table"{...this.props} category_id="5cfe3c79ea821930af692821"/>
-                </View>
+                    </View>
+                    <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
+                            <Card title="Almirah" name="dungeon"{...this.props} category_id="5d14c15101ae103e6e94fbe0" />
+                    </View>
             </View>       
-         </View>
+                </View>
+        </ScrollView>
         )
     }
 }

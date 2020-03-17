@@ -1,48 +1,71 @@
-import { FETCH_IMAGE, FETCH_IMAGE_SUCCESS, FETECH_IMAGE_FAILUER } from '../Constants/constant'
-// import getImageApi from '../api/api'
-export const getImage = () => {
+import { FETCH_PRODUCT, FETCH_PRODUCT_SUCCESS, FETECH_PRODUCT_FAILUER } from '../Constants/constant'
+import {api}  from '../../utils/api'
+export const getProduct = () => {
     return {
-        type:FETCH_IMAGE
+        type: FETCH_PRODUCT,
+    
     }
 }
-export const getImageSuccess = data => {
+export const getProductSuccess = data => {
     return {
-        type: FETCH_IMAGE_SUCCESS,
+        type: FETCH_PRODUCT_SUCCESS,
         payload:data
     }
 }
-export const getImageFailuer = () => {
+export const getProductFailuer = () => {
     console.log('');
     return {
-        type: FETECH_IMAGE_FAILUER
+        type: FETECH_PRODUCT_FAILUER
     }
 }
 
 
 
 
-export const FetchImage = () => {
+export const FetchProductList = (type) => {
+    console.log("typeery",type)
     console.log("ddd")
-    //IN order to use await your callback must be asynchronous using async keyword.
     return async dispatch => {
         console.log('dis')
-        //Then perform your asynchronous operations.
+      
         try {
             console.log("in tey")
-            //Have it first fetch data from our starwars url.
-            const ProductList = await fetch('http://180.149.241.208:3022/commonProducts')
-            console.log("in stay")
-            dispatch(fetchData(true))
+            const ProductList = await api.fetchapi('http://180.149.241.208:3022/'+type, 'get')
+            dispatch(getProduct(true))
             console.log("in teydfdf")
             const commonProduct = await ProductList.json();
-            dispatch(getImageSuccess(commonProduct))
-            //Now when the data is retrieved dispatch an action altering redux state.
+            console.log("jjjjhh", commonProduct)
+            dispatch(getProductSuccess(commonProduct))
+           
         } catch (error) {
             console.log('Getting People Error---------', error);
-            dispatch(getImageFailuer(error))
+            dispatch(getProductFailuer(error))
         }
     }
 }
+
+export const FetchProductDetail = (type) => {
+    console.log("typeery", type)
+    console.log("ddd")
+    return async dispatch => {
+        console.log('dis')
+
+        try {
+            console.log("in tey")
+            const ProductList = await api.fetchapi('http://180.149.241.208:3022/' + type, 'get')
+            dispatch(getProduct(true))
+            console.log("in teydfdf")
+            const commonProduct = await ProductList.json();
+            console.log("jjjjhh", commonProduct)
+            dispatch(getProductSuccess(commonProduct))
+
+        } catch (error) {
+            console.log('Getting People Error---------', error);
+            dispatch(getProductFailuer(error))
+        }
+    }
+}
+
 
 export function changeCount(count) {
     return {

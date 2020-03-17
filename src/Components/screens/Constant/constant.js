@@ -10,7 +10,12 @@ export const StyleConstants = {
     FONT_18: 18,
     FONT_16: 16,
     FONT_13: 13,
-    FONT_10: 10
+    FONT_10: 10,
+    FONT_32: 32,
+    FONT_30: 30,
+}
+export const color = {
+    color_subheading:'#4f4f4f'
 }
 
  export const windowWidth = Dimensions.get('window').width;

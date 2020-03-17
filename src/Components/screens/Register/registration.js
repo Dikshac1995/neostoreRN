@@ -5,6 +5,8 @@ import ButtonField from '../../Reusable/ButtonField/buttonField'
 import { styles } from './style'
 import Gender from '../../Reusable/Radiobutton/gender'
 import Checkbox1 from '../../Reusable/checkBox/checkbox'
+import updateValues from '../../../utils/validation'
+import {api} from '../../../utils/api'
 
 export default class Registration extends Component {
 
@@ -45,17 +47,17 @@ export default class Registration extends Component {
                 //console.warn("text is invalid ")
             }
         }
-        if (type == 'lastname') {
-            this.setState({ lastName: text })
-            if (regex.test(text)) {
-                this.setState({ lastNamevalid: true })
-                //console.warn("lastname is valid ")
-            }
-            else {
-                this.setState({ lastNamevalid: false })
-                //console.warn("text is invalid ")
-            }
-        }
+        // if (type == 'lastname') {
+        //     this.setState({ lastName: text })
+        //     if (regex.test(text)) {
+        //         this.setState({ lastNamevalid: true })
+        //         //console.warn("lastname is valid ")
+        //     }
+        //     else {
+        //         this.setState({ lastNamevalid: false })
+        //         //console.warn("text is invalid ")
+        //     }
+        // }
         else if (type == 'password') {
             this.setState({ password: text })
             if (passreg.test(text)) {
@@ -126,31 +128,38 @@ export default class Registration extends Component {
 
         
         var url = 'http://180.149.241.208:3022/register'
-        fetch(url, {
-            method: 'POST', // or 'PUT'
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(collection),
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                console.log('Success:', data);
-                Alert.alert("you are registered successfully")
-            })
-            .catch((error) => {
-                console.log('Error:', error);
-            });
+        api.fetchapi(url, 'post', collection)
+            .then(res => Alert.alert(res))
+        .catch(err=>Alert.alert(err))
+        // fetch(url, {
+        //     method: 'POST', // or 'PUT'
+        //     headers: {
+        //         'Content-Type': 'application/json',
+        //     },
+        //     body: JSON.stringify(collection),
+        // })
+        //     .then((response) => response.json())
+        //     .then((data) => {
+        //         console.log('Success:', data);
+        //         Alert.alert("you are registered successfully")
+        //     })
+        //     .catch((error) => {
+        //         console.log('Error:', error);
+        //     });
     }
+
+    
     render() {
+        console.log("props ffg",this.props)
         return (
             <ScrollView>
               <View style={styles.ResgisterScreen}>
                   <Text style = {styles.register_neostore}> NeoSTORE </Text>
-                    <TextField placeholder="First Name" name="user" onChange={(e) => this.updateValue(e, 'username')}
-                    validate ={!this.state.firstNamevalid ? <Text>username invalid</Text> : null}/>
-                    <TextField placeholder="Last Name" name="user" onChange={(e) => this.updateValue(e, 'lastname')}
-                    validate={!this.state.lastNamevalid ? <Text>lastname invalid</Text> : null}/>
+                    <TextField placeholder="First Name" name="user" onChangeText={(text) => this.setState({ firstName: text })} onChange={(e) => this.updateValue(e, 'username')}
+                        validate={!this.state.firstNamevalid ? <Text>username invalid</Text> : null} />
+                   
+                    <TextField placeholder="Last Name" name="user" onChangeText={(text) => this.setState({ lastName: text, lastNamevalid:true})} onChange={(e) => updateValues(e, 'lastname','lastNamevalid')}
+                       validate={!this.state.lastNamevalid ? <Text>lastname invalid</Text> : null}/>
                     <TextField placeholder="Password" name="lock" secureTextEntry onChange={(e) => this.updateValue(e, 'password')}
                         validate={!this.state.passwordvalid ? <Text>password invalid</Text> : null}/>
                     <TextField placeholder="Conform Password" name="lock" secureTextEntry onChange={(e) => this.updateValue(e, 'confirmpassword')}
@@ -170,4 +179,3 @@ export default class Registration extends Component {
         )
     }
 }
-//onChangeText={value => this.setState({ firstName:value()})}

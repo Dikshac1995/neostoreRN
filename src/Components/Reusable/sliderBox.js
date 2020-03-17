@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { Text, View, StyleSheet,Image } from 'react-native'
 import { SliderBox } from "react-native-image-slider-box";
 import { connect } from 'react-redux';
-import { FetchImage } from '../../../Redux/Action/productlist'
-import {getPeople} from '../../../Redux/Action/listaction'
+import { FetchImage } from '../../Redux/Action/productlist'
+import {getPeople} from '../../Redux/Action/listaction'
 
 class SliderBox1 extends Component {
     
@@ -15,9 +15,8 @@ class SliderBox1 extends Component {
    
     getData() {
       
-        const { people, loading } = this.props;
-        console.log("load", loading)
-        console.log("people123", people)
+        const { data, loading } = this.props;
+        
         if (this.props.loading) {
             return (<Text>Loading...........</Text>)
             // return this.props.people.map((people) => {
@@ -27,7 +26,7 @@ class SliderBox1 extends Component {
              }
         else { 
             var img
-             img = this.props.people.map((people) => people.product_image);
+             img = this.props.data.map((people) => people.product_image);
             var images = img.map((a) => 'http://180.149.241.208:3022/'.concat(a))
             console.log("ncc", images)
               return   < SliderBox autoplay circleLoop images = {images} />
@@ -87,7 +86,7 @@ class SliderBox1 extends Component {
 
 //Map the redux state to your props.
 const mapStateToProps = state => ({
-    people: state.listReducer.people,
+    data: state.listReducer.data,
     loading: state.listReducer.loading,
 });
 

@@ -1,4 +1,4 @@
-import { FETCH_IMAGE, FETCH_IMAGE_SUCCESS, FETCH_IMAGE_FAILUER } from '../Constants/constant'
+import { FETCH_PRODUCT, FETCH_PRODUCT_SUCCESS, FETCH_PRODUCT_FAILUER } from '../Constants/constant'
 
 const initialstate = {
     data:[],
@@ -8,19 +8,19 @@ const initialstate = {
 
 export default  function productListReducer (state = initialstate,action){
     switch (action.type) {
-        case FETCH_IMAGE:
+        case FETCH_PRODUCT:
             return {
                 ...state,
                 data: [],
                 isFetching:true
             }
-        case FETCH_IMAGE_SUCCESS:
+        case FETCH_PRODUCT_SUCCESS:
             return {
                 ...state,
                 data: action.payload,
                 isFetching:false
             }
-        case FETCH_IMAGE_FAILUER:
+        case FETCH_PRODUCT_FAILUER:
             return {
                 ...state,
                 data: action.data,

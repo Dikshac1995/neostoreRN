@@ -1,9 +1,10 @@
-import {GET_PEOPLE, GET_PEOPLE_FULFILLED, GET_PEOPLE_REJECTED} from '../Reducer/listReducer'
+import { GET_COROSAL_IMAGE, GET_COROSAL_IMAGE_FULFILLED, GET_COROSAL_IMAGE_REJECTED } from '../Reducer/listReducer'
+import { api } from '../../utils/api'
 
 export const fetchData = (bool) => {
     //return a action type and a loading state indicating it is getting data. 
     return {
-        type: GET_PEOPLE,
+        type: GET_COROSAL_IMAGE,
         payload: bool,
     };
 }
@@ -11,7 +12,7 @@ export const fetchData = (bool) => {
 export const fetchDataFulfilled = (data) => {
     //Return a action type and a loading to false, and the data.
     return {
-        type: GET_PEOPLE_FULFILLED,
+        type: GET_COROSAL_IMAGE_FULFILLED,
         payload: data,
         loading: false,
     };
@@ -21,7 +22,7 @@ export const fetchDataFulfilled = (data) => {
 export const fetchDataRejected = (error) => {
     //Return a action type and a payload with a error
     return {
-        type: GET_PEOPLE_REJECTED,
+        type: GET_COROSAL_IMAGE_REJECTED,
         payload: error,
         loading: false,
     };
@@ -36,14 +37,11 @@ export const getPeople = () => {
         try {
             console.log("in tey")
             //Have it first fetch data from our starwars url.
-            const starWarsPromise = await fetch('http://180.149.241.208:3022/getAllCategories');
-            console.log("in stay")
+            // const starWarsPromise = await fetch('http://180.149.241.208:3022/getAllCategories');
+            const res = await api.fetchapi('http://180.149.241.208:3022/getAllCategories', 'get')
             dispatch(fetchData(true))
-            console.log("in teydfdf")
-            //Then use the json method to get json data from api/
-            const people = await starWarsPromise.json();
+            const people = await res.json();
             console.log('people-----------', people);
-            //Now when the data is retrieved dispatch an action altering redux state.
             
             dispatch(fetchDataFulfilled(people.category_details))
         } catch (error) {

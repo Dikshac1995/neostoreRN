@@ -31,6 +31,7 @@ import MyDrawer from '../drawernav';
 import ForgotPassword from '../screens/ForgotPassword/forgotpassword';
 import SetPassword from '../screens/setpassword/setpassword'
 import ProductList from '../screens/Productlist/product';
+import productDetail  from '../screens/productDetail/productDetail'
 
 
 const Stack = createStackNavigator();
@@ -75,7 +76,15 @@ class Main extends Component {
                             fontWeight: 'bold',
                         }
                     }
-                    }/>
+                    } />
+                    <Stack.Screen name="productDetail" component={productDetail} options={{
+                        headerStyle: { backgroundColor: 'red' },
+                        headerTintColor: '#fff',
+                        headerTitleStyle: {
+                            fontWeight: 'bold',
+                        }
+                    }
+                    } />
                 </Stack.Navigator> 
              </NavigationContainer>  
         );

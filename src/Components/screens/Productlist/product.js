@@ -1,13 +1,15 @@
 import React, { Component } from 'react'
-import { Text, View, Image, FlatList ,ActivityIndicator,ScrollView} from 'react-native'
+import { Text, View, Image, FlatList ,ActivityIndicator} from 'react-native'
 import TextField from '../../Reusable/textField/textField'
 import ButtonField from '../../Reusable/ButtonField/buttonField'
 import { styles } from '../../../style/style'
 import StarRating from 'react-native-star-rating';
 import { TouchableOpacity } from 'react-native-gesture-handler'
-import {windowWidth}from '../Constant/constant'
+import { windowWidth } from '../Constant/constant'
+import { FetchProductList } from '../../../Redux/Action/productlist'
+import { connect } from 'react-redux';
 
-export default class ProductList extends Component {
+class ProductList extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -16,21 +18,13 @@ export default class ProductList extends Component {
         };
     }
 
-    componentWillMount() {
-        const { categoryId } = this.props.route.params;
-        return fetch("http://180.149.241.208:3022/commonProducts?"+categoryId +'&pageNo=1&perPage=5')
-          // ? category_id = 5cfe3c65ea821930af69281f & pageNo=1 & perPage=5")
-            .then(res => res.json())
-            .then(response => {
-                this.setState({
-                    ProductData: response.product_details,
-                    // isLoading:false
-                });
-            })
-            .catch(error => {
-                console.log(error);
-            });
-    }
+    componentDidMount() {
+        const { category_id } = this.props.route.params;
+        console.log("categoryId", category_id)
+        let type = 'commonProducts?category_id=' + category_id + '&pageNo=1&perPage=5'
+        console.log('type1',type)
+        this.props.FetchProductList(type);
+       }
 
     FlatListItemSeparator = () => {
         return (
@@ -44,41 +38,22 @@ export default class ProductList extends Component {
         );
     }
     render() {
-       
-       // console.log(categoryId)
-        // if (!this.state.ProductData) {
-        //     return (
-        //         <ActivityIndicator
-        //             animating={true}
-        //             style={styles.indicator}
-        //             size="large" color='red'
-        //         />
-        //     );
-        // }
-        // const ProductList = this.state.ProductData;
-
-        // console.log("product", ProductList)
-        // let res = ProductList.map(a => a.category_id);
-        // let productImage = ProductList.map(a => a.category_id.product_image);
-        // const url = 'http://180.149.241.208:3022/';
-        // let PrImage = productImage.map((a) => { return url.concat(a) })
-        // console.log("imges0000",PrImage);
-        // console.log("prod", res)
-        // console.log("productImage",productImage)
-   
+        const { data} = this.props;
+        console.log("hello", data.product_details);
+        const ProductDetail = data.product_details;
         return (
-            (!this.state.ProductData) ? <ActivityIndicator /> :
-             <ScrollView>
+            (!ProductDetail) ? <ActivityIndicator /> :
+        
                  
               <View style={{ marginHorizontal: 20 }}>
-                <FlatList data={this.state.ProductData}
+                <FlatList data={ProductDetail }
                     showsVerticalScrollIndicator={false}
                     renderItem={({ item }) =>
                         <View >
-                            <TouchableOpacity style={{ display: 'flex', flexDirection: 'row', padding: 0, alignItems: 'center' }}>
+                            <TouchableOpacity style={{ display: 'flex', flexDirection: 'row', padding: 0, alignItems: 'center' }} onPress={() => { this.props.navigation.navigate('productDetail',{product_id:item.product_id})}}>
                             <View>
                                 <Image style={{ width: 120, height: 100 }} source={{
-                                    uri: 'http://180.149.241.208:3022/' + item.product_image}} />
+                                uri: 'http://180.149.241.208:3022/' + item.product_image}} />
                             </View>
                             <View style={{ padding:20, width: 200 }}>
                                 <Text style={{ fontSize: 15, fontWeight: 'bold' }}>{item.product_name}</Text>
@@ -92,15 +67,24 @@ export default class ProductList extends Component {
                         </View>}
                             
                     ItemSeparatorComponent={this.FlatListItemSeparator}/>
-                <View>
-                    {/* <Image source={{uri:PrImage[0]}}></Image> */}
-                    {/* <ButtonField text="submit" onPress={() => this.props.navigation.navigate('loginScreen')} /> */}
-                </View>
             </View>
 
-         </ScrollView>
+    
 
         )
     }
 }
 
+const mapStateToProps = state => ({
+    data: state.productListReducer.data,
+    isFetching: state.productListReducer.isFetching,
+    state: state,
+});
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        FetchProductList: (type) => dispatch(FetchProductList(type))
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductList)
