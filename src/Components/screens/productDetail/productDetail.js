@@ -6,7 +6,8 @@ import StarRating from 'react-native-star-rating';
 import { styles } from './style'
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Button from '../../Reusable/ButtonField/buttonField'
-import { windowWidth, windowHeight} from '../Constant/constant'
+import { windowWidth, windowHeight } from '../../../Assets/Constant/constant'
+// import ModalTester from '../../Reusable/ProductRateModel/productrate'
 
 
 class productDetail extends Component {
@@ -41,64 +42,55 @@ class productDetail extends Component {
         console.log("j", this.state.ProductDetailData.category_id)
 
         return (
-            (!this.state.ProductDetailData) ? <ActivityIndicator /> :
-        <View style={{ width: windowWidth, height: windowHeight}}>
+        (!this.state.ProductDetailData) ? <ActivityIndicator /> :
+        <View style={{ width: windowWidth, height: windowHeight }}>
+
             <ScrollView>
                 <View style={styles.productDeatailModule}>
                     <Text style={styles.product_name}>{this.state.ProductDetailData.product_name}</Text>
                     <Text style={styles.categogy_name}>Categogy-{this.state.productCategory.category_name}</Text> 
-                   <View style={{display:'flex',flexDirection:'row',justifyContent:'space-between'}}>
-                        <Text style={styles.material_name}>{this.state.ProductDetailData.product_material}</Text>
+                    <View style={{display:'flex',flexDirection:'row',justifyContent:'space-between'}}>
+                       <Text style={styles.material_name}>{this.state.ProductDetailData.product_material}</Text>
                        <StarRating rating={this.state.ProductDetailData.product_rating} starSize={20} fullStarColor="orange" />
-                    </View>
-                 
-                    <View style = {{backgroundColor:'pink',borderRadius:10}}>
-                        <View style={{ display: 'flex', flexDirection: 'row' ,justifyContent:'space-between',padding:10}}>
-                                    <Text style={styles.product_cost}>Rs,{this.state.ProductDetailData.product_cost}</Text>
+                    </View> 
+                   <View style = {{backgroundColor:'pink',borderRadius:10}}>
+                       <View style={{ display: 'flex', flexDirection: 'row' ,justifyContent:'space-between',padding:10}}>
+                            <Text style={styles.product_cost}>Rs,{this.state.ProductDetailData.product_cost}</Text>
                             <Icon name="share-alt" size={30} color="#7f7f7f" />
-                        </View>
-                        <View style={{alignItems:'center'}}>
-                        <Image style={{ width: 200, height: 200}} source={{
+                       </View>
+                       <View style={{alignItems:'center'}}>
+                            <Image style={{ width: 200, height: 200}} source={{
                             uri: 'http://180.149.241.208:3022/' + this.state.productCategory.product_image
                             }} />
-                            </View>
-                            
+                       </View>
+                       <View>
+                         <FlatList data={this.state.subImages_id.product_subImages}
+                            showsVerticalScrollIndicator={false}
+                            horizontal={true}
+                            renderItem={({ item }) =>
                                 <View>
-                                    <FlatList data={this.state.subImages_id.product_subImages}
-                                        showsVerticalScrollIndicator={false}
-                                         horizontal={true}
-                                         renderItem={({ item }) =>
-                                            <View >
-                                                <TouchableOpacity style={{ display: 'flex', flexDirection: 'row', alignItems: 'center',padding:10}} onPress={() => { this.props.navigation.navigate('productDetail', { product_id: item.product_id }) }}>
-                                                    
-                                                    <View style={{ borderWidth:2,borderColor:'grey'}}>
-                                                                
-                                                                <Image style={{width:90, height: 100 }} source={{
-                                                                    uri: 'http://180.149.241.208:3022/' + item
-                                                                }} />
-                                                            </View>
-                                                    
-                                                </TouchableOpacity>
-                                            </View>}
-                                     />
-                                </View>
-                            </View>
-                        <View>
-                                <Text style={styles.Product_description_title}>Description-</Text>
-                            <Text>{this.state.ProductDetailData.product_desc}
-                            </Text>
+                                    <TouchableOpacity style={{ display: 'flex', flexDirection: 'row', alignItems: 'center',padding:10}} onPress={() => { this.props.navigation.navigate('productDetail', { product_id: item.product_id }) }}>
+                                        <View style={{ borderWidth:2,borderColor:'grey'}}>
+                                            <Image style={{ width: 90, height: 100 }}
+                                            source={{uri: 'http://180.149.241.208:3022/' + item}} />
+                                         </View>   
+                                     </TouchableOpacity>
+                                </View>}/>
                         </View>
-                        
-                       
-                        
-                </View>
-                    </ScrollView>
+                  </View>
+                  <View>
+                        <Text style={styles.Product_description_title}>Description-</Text>
+                        <Text>{this.state.ProductDetailData.product_desc}
+                        </Text>
+                   </View>
+               </View>
+            </ScrollView>
                     <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly',paddingBottom:30,marginBottom:50}}>
-                        <Button text="BUY_NOW" onPress={() => this.login()}  style ={{backgroundColor:'red'}} />
+                        <Button text="BUY_NOW" onPress={() => this.props.navigation.navigate('placeorder')}  style ={{backgroundColor:'red'}} />
                         <Button text="RATE" onPress={() => this.login()}  />
                     </View>
-           </View>
-        )
+        </View>
+    )
     }
 }
 const mapStateToProps = state => ({

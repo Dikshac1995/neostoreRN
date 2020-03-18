@@ -1,5 +1,5 @@
 import { StyleSheet} from 'react-native'
-import { StyleConstants } from '../../screens/Constant/constant'
+import { StyleConstants } from '../../../Assets/Constant/constant'
 
 export const styles = StyleSheet.create({
         GenderField: {

@@ -1,11 +1,8 @@
 import React, { Component } from 'react'
 import { Text, View, Image, FlatList ,ActivityIndicator} from 'react-native'
-import TextField from '../../Reusable/textField/textField'
-import ButtonField from '../../Reusable/ButtonField/buttonField'
-import { styles } from '../../../style/style'
 import StarRating from 'react-native-star-rating';
 import { TouchableOpacity } from 'react-native-gesture-handler'
-import { windowWidth } from '../Constant/constant'
+import { windowWidth } from '../../../Assets/Constant/constant'
 import { FetchProductList } from '../../../Redux/Action/productlist'
 import { connect } from 'react-redux';
 
@@ -46,7 +43,7 @@ class ProductList extends Component {
         
                  
               <View style={{ marginHorizontal: 20 }}>
-                <FlatList data={ProductDetail }
+                <FlatList data={ProductDetail}
                     showsVerticalScrollIndicator={false}
                     renderItem={({ item }) =>
                         <View >
@@ -55,7 +52,7 @@ class ProductList extends Component {
                                 <Image style={{ width: 120, height: 100 }} source={{
                                 uri: 'http://180.149.241.208:3022/' + item.product_image}} />
                             </View>
-                            <View style={{ padding:20, width: 200 }}>
+                            <View style={{ padding:20, width: 250 }}>
                                 <Text style={{ fontSize: 15, fontWeight: 'bold' }}>{item.product_name}</Text>
                                 <Text style={{ fontSize: 15 }}>{item.product_material}</Text>
                                 <View style={{justifyContent:'flex-end',alignItems:'flex-end'}}>

@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native'
 import {
     StyleConstants
 }
-from '../Constant/constant'
+from '../../../Assets/Constant/constant'
 export const styles = StyleSheet.create({
     ResgisterScreen: {
         flex: 1,
