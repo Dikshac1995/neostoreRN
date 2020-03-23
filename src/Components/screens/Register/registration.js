@@ -6,116 +6,36 @@ import { styles } from './style'
 import Gender from '../../Reusable/Radiobutton/gender'
 import Checkbox1 from '../../Reusable/checkBox/checkbox'
 import updateValues from '../../../utils/validation'
-import {api} from '../../../utils/api'
+import { api } from '../../../utils/api'
+import { connect } from 'react-redux';
+import {register} from '../../../Redux/Action/action'
 
-export default class Registration extends Component {
+ class Registration extends Component {
 
     constructor(props) {
         super(props)
-        this.state={
-            firstName: '',
-            lastName: '',
-            password: '',
-            comfirmPassword: ' ',
-            email:' ',
-            phoneNo: ' ',
-            gender:'male',
-            
-            firstNamevalid: true,
-            lastNamevalid: true,
-            passwordvalid: true,
-            confirmpasswordvalid: true,
-            emailvalid: true,
-            phoneValid:true,
+        this.state = {
+        
+                firstName: '',
+                lastName: '',
+                password: '',
+                comfirmPassword: ' ',
+                email: ' ',
+                phoneNo: ' ',
+                gender: 'male',
+                firstNamevalid: true,
+                lastNamevalid: true,
+                passwordvalid: true,
+                confirmpasswordvalid: true,
+                emailvalid: true,
+                phoneValid: true,
+        
+            submitted:false
         } 
     }
-    updateValue(text,type) {
-        const regex = /^[A-Za-z]+$/
-        const passreg = /^[0-9]+$/
-        const emailPattern = /^([a-zA-Z])+([0-9a-zA-Z_\.\-])+\@+(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,5}$)$/;
-        console.warn("text is valid",text,type);
-        if(type == 'username') {
-            this.setState({ firstName: text })
-            console.warn ("firstname state",this.state.firstName)
-            if(regex.test(text)) {
-                this.setState({ firstNamevalid:true})
-                console.warn("text is valid ")
-            }
-            else {
-                this.setState({ firstNamevalid: false})
-                //console.warn("text is valid ")
-                //console.warn("text is invalid ")
-            }
-        }
-        // if (type == 'lastname') {
-        //     this.setState({ lastName: text })
-        //     if (regex.test(text)) {
-        //         this.setState({ lastNamevalid: true })
-        //         //console.warn("lastname is valid ")
-        //     }
-        //     else {
-        //         this.setState({ lastNamevalid: false })
-        //         //console.warn("text is invalid ")
-        //     }
-        // }
-        else if (type == 'password') {
-            this.setState({ password: text })
-            if (passreg.test(text)) {
-                this.setState({ passwordvalid: true})
-                //console.warn("text is valid ")
-            }
-            else {
-                this.setState({ passwordvalid: false })
-                //console.warn("password is invalid ")
-            }
-        }
-        else if (type == 'confirmpassword') {
-            this.setState({ comfirmPassword: text })
-            if (passreg.test(text)) {
-                this.setState({ confirmpasswordvalid: true })
-                //console.warn("text is valid ")
-            }
-            else {
-                this.setState({ confirmpasswordvalid: false })
-                //console.warn("password is invalid ")
-            }
-        }
-        else if (type == 'email') {
-            this.setState({ email: text })
-            if (emailPattern.test(text)) {
-                this.setState({ emailvalid: true })
-                //console.warn("text is valid ")
-            }
-            else {
-                this.setState({ emailvalid: false })
-                //console.warn("password is invalid ")
-            }
-        }
-        else if (type == 'phoneno') {
-            this.setState({ phoneNo: text })
-            if (passreg.test(text)) {
-                this.setState({ phoneValid: true })
-                //console.warn("text is valid ")
-            }
-            else {
-                this.setState({ phoneValid: false })
-                //console.warn("password is invalid ")
-            }
-        }
-        //onChangeText = { value => this.setState({ email: value.trim() }) }
-        // if (field == this.state.firstName) {
-        //     this.setState({
-        //         name: text
-        //     })
-        // }
-        // else if (field == this.state.lastName) {
-        //     this.setState({
-        //         lastName:text
-        //     })
-        // }
-       //console.warn(e) 
-    }
-    submit() {
+    
+     submit() {
+        this.setState({ submitted: true });
         let collection = {}
         collection.first_name = this.state.firstName
         collection.last_name = this.state.lastName
@@ -124,13 +44,16 @@ export default class Registration extends Component {
         collection.email = this.state.email
         collection.phone_no= this.state.phoneNo
         collection.gender = this.state.phoneNo
-       console.warn(collection);
+        console.warn(collection);
+        if (collection) {
+            this.props.register(collection) 
+        }
 
         
-        var url = 'http://180.149.241.208:3022/register'
-        api.fetchapi(url, 'post', collection)
-            .then(res => Alert.alert(res))
-        .catch(err=>Alert.alert(err))
+       var url = 'http://180.149.241.208:3022/register'
+       // api.fetchapi(url, 'post', collection)
+           // .then(res => Alert.alert(res))
+        //.catch(err=>Alert.alert(err))
         // fetch(url, {
         //     method: 'POST', // or 'PUT'
         //     headers: {
@@ -149,33 +72,60 @@ export default class Registration extends Component {
     }
 
     
-    render() {
+     render() {
+        const { registering } = this.props;
+         //const { user, submitted } = this.state;
         console.log("props ffg",this.props)
         return (
             <ScrollView>
               <View style={styles.ResgisterScreen}>
-                  <Text style = {styles.register_neostore}> NeoSTORE </Text>
-                    <TextField placeholder="First Name" name="user" onChangeText={(text) => this.setState({ firstName: text })} onChange={(e) => this.updateValue(e, 'username')}
-                        validate={!this.state.firstNamevalid ? <Text>username invalid</Text> : null} />
-                   
-                    <TextField placeholder="Last Name" name="user" onChangeText={(text) => this.setState({ lastName: text, lastNamevalid:true})} onChange={(e) => updateValues(e, 'lastname','lastNamevalid')}
-                       validate={!this.state.lastNamevalid ? <Text>lastname invalid</Text> : null}/>
-                    <TextField placeholder="Password" name="lock" secureTextEntry onChange={(e) => this.updateValue(e, 'password')}
+                  <Text style = {styles.register_neostore}>NeoSTORE </Text>
+                    <TextField placeholder="First Name" name="user"
+                        onChangeText={(text) => this.setState({ firstName: text })}
+                        //onChange={(e) => this.updateValues(e, 'username')}
+                        validate={!this.state.firstNamevalid ? <Text>username invalid</Text>:null} />
+                    <TextField placeholder="Last Name" name="user" onChangeText={(text) => this.setState({ lastName: text, lastNamevalid: true })}
+                        //onChange={(e) => updateValues(e, 'lastname', 'lastNamevalid')}
+                       validate={!this.state.lastNamevalid ?<Text>lastname invalid</Text> : null}/>
+                    <TextField placeholder="Password" name="lock" secureTextEntry
+                        //onChange={(e) => this.updateValue(e, 'password')}
                         validate={!this.state.passwordvalid ? <Text>password invalid</Text> : null}/>
-                    <TextField placeholder="Conform Password" name="lock" secureTextEntry onChange={(e) => this.updateValue(e, 'confirmpassword')}
+                    <TextField placeholder="Conform Password" name="lock" secureTextEntry
+                        //onChange={(e) => this.updateValues(e, 'confirmpassword')}
                         validate={!this.state.confirmpasswordvalid ? <Text>confirm password invalid</Text> : null}/>
-                    <TextField placeholder="Email" name="envelope" onChange={(e) => this.updateValue(e, 'email')}
+                    <TextField placeholder="Email" name="envelope"
+                    //    onChange={(e) => this.updateValue(e, 'email')}
                         validate={!this.state.emailvalid ? <Text>email invalid</Text> : null}/>
                     <Gender/>
-                    <TextField placeholder="Phone number" name="mobile-phone" onChange={(e) => this.updateValue(e, 'phoneno')}
+                    <TextField placeholder="Phone number" name="mobile-phone"
+                        //onChange={(e) => this.updateValues(e, 'phoneno')}
                        validate={!this.state.phoneValid ? <Text>phone no  invalid</Text> : null}/>
-                    <Checkbox1/>
-                    <ButtonField text="Registration"
+                    <Checkbox1 />
+                    <View>
+                    <ButtonField text="Registration" 
                     //onPress={() => this.props.navigation.navigate('loginScreen')} 
                     onPress={()=> this.submit()}
-                    />
+                        />
+                    </View>
                </View>
             </ScrollView>
         )
     }
 }
+
+const mapStateToProps = State =>({
+    registering: State.registration.registering
+
+})
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+register : (data) => dispatch(register(data))
+    }
+}
+
+// const mapDispatchToProps = dispatch => ({
+//     login: (email, pass) => dispatch(actions.login({ email, pass }))
+// })
+
+export default connect(mapStateToProps, mapDispatchToProps)(Registration)

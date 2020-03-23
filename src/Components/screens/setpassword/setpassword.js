@@ -2,18 +2,19 @@ import React, { Component } from 'react'
 import { Text, View } from 'react-native'
 import TextField from '../../Reusable/textField/textField'
 import ButtonField from '../../Reusable/ButtonField/buttonField'
-import {styles} from  '../../../style/style' 
+import { globalstyles } from '../../../style/style' 
+import PasswordCon from '../../Reusable/Password/Password'
 
 export default class SetPassword extends Component {
     render() {
         return (
           
-            <View style={styles.Container}>
-                <Text style={styles.neostore_logo}>NeoSTORE</Text>
-                <Text style={styles.Containerhead}>Set Password</Text>
+            <View style={globalstyles.Container}>
+                <Text style={globalstyles.neostore_logo}>NeoSTORE</Text>
+                <Text style={globalstyles.Containerhead}>Set Password</Text>
                 <TextField placeholder="Enter OTP" name="user" />
-                <TextField placeholder="Enter new password" name="lock" secureTextEntry/>
-                <TextField placeholder="Enter  Password Again" name="lock" secureTextEntry/>
+                <PasswordCon placeholder='Enter new Password ' />
+                <PasswordCon placeholder='Enter Password  Again ' />
                 <ButtonField text="submit" onPress={() => this.props.navigation.navigate('loginScreen')} />
             </View>
             

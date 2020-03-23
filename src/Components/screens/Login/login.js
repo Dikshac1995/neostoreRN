@@ -14,6 +14,7 @@ import ButtonField from '../../Reusable/ButtonField/buttonField'
 import { styles } from './style'
 import { connect } from 'react-redux';
 import * as actions from '../../../Redux/Action/action'
+import PasswordCon from '../../Reusable/Password/Password'
 
 
 class LoginScreen extends Component {
@@ -74,9 +75,10 @@ class LoginScreen extends Component {
                 <View style={styles.login}>    
                     <Text style={styles.login_neostore}>NeoSTORE</Text>
                     <TextField placeholder="email id" name="user" onChange={(e) => this.updateValue(e, 'email')}
-                        validate={!this.state.emailValid ? <Text>email invalid</Text> : null}/>
-                    <TextField placeholder="Password" name="lock" secureTextEntry onChange={(e) => this.updateValue(e, 'password')}
-                        validate={!this.state.passValid ? <Text>password invalid</Text> : null}/>
+                        validate={!this.state.emailValid ? <Text>email invalid</Text> : null} />
+                    <PasswordCon placeholder='Password' />
+                    {/* <TextField placeholder="Password" name="lock" secureTextEntry onChange={(e) => this.updateValue(e, 'password')}
+                        validate={!this.state.passValid ? <Text>password invalid</Text> : null}/> */}
                     <ButtonField text="LOGIN"
                         onPress={() => this.login()}
                        // onPress={() => this.props.navigation.navigate('Register')}

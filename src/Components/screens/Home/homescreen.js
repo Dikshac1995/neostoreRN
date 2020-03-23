@@ -2,10 +2,11 @@ import React, { Component } from 'react'
 import { Text, View, TouchableOpacity, StyleSheet, ScrollView} from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome5';
 
-import { HeaderTitle } from '@react-navigation/stack';
+// import { ss } from '@react-navigation/stack';
 import SliderBox1 from '../../Reusable/sliderBox'
-import Card from '../../Reusable/card'
-import MyDrawer from '../../drawernav'
+
+// import Card from '../../Reusable/card'
+// import MyDrawer from '../../drawernav'
 
 
 
@@ -23,8 +24,8 @@ import MyDrawer from '../../drawernav'
                         console.log('counter :', this.props.count)
                         console.log('imageReducer :', this.props.image)
                         }
-                        }>
-                        <View style = {{opacity: 0.6,padding: 10}}>
+                    }>
+                <View style = {{opacity: 0.6,padding: 10}}>
                             <Icon name="bars" size={30} color="#fff" />
                         </View>
                     </TouchableOpacity>
@@ -34,7 +35,7 @@ import MyDrawer from '../../drawernav'
                 <View style= {{height:200}}>
                     <SliderBox1 />
                 </View>
-                <View style={{ display: 'flex', flexWrap: 'wrap' }}>
+                {/* <View style={{ display: 'flex', flexWrap: 'wrap' }}>
                     <View style={{ flexDirection: 'row', justifyContent:'center' }} >
                         <Card title="sofa" name="couch" {...this.props}  category_name="sofa" category_id="5cfe3c5aea821930af69281e"/>
                         <Card title="bed" name="bed" {...this.props} category_id="5cfe3c65ea821930af69281f"/>
@@ -45,8 +46,8 @@ import MyDrawer from '../../drawernav'
                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
                             <Card title="Almirah" name="dungeon"{...this.props} category_id="5d14c15101ae103e6e94fbe0" />
-                    </View>
-            </View>       
+                    </View> */}
+              {/* </View>      */}
                 </View>
         </ScrollView>
         )

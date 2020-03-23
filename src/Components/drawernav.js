@@ -8,11 +8,13 @@ import {
 import Homescreen from './screens/Home/homescreen'
 import LoginScreen from './screens/Login/login'
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import MyAccount from './screens/MyAccount/index'
 import { Text, View ,Image,TouchableOpacity,StyleSheet} from 'react-native'
 
  
 function CustomDrawerContent(props) {
   return (
+  
     <>
       {/* < Image source = {
         {
@@ -54,7 +56,15 @@ function CustomDrawerContent(props) {
         icon={() => <Icon name="map-marker-alt"/>}
         label="Store Locator"
         onPress={() => props.navigation.toggleDrawer()}
-      />
+        />
+        
+        <DrawerItem
+          icon={() => <Icon name='MyAccount' />}
+          label="MyAccount"
+          onPress={() => this.props.navigation.navigate('MyAccount')}
+        />
+
+
       </DrawerContentScrollView>
       </>
   );
@@ -66,8 +76,9 @@ export default class MyDrawer extends Component {
     render() {
         return (
             <Drawer.Navigator drawerContent={props => CustomDrawerContent(props)} drawerType='slide' backgroundColor='yellow' >
-                <Drawer.Screen name="Homescreen" component={Homescreen} />
-                <Drawer.Screen name="loginScreen" component={LoginScreen} />
+            <Drawer.Screen name="Homescreen" component={Homescreen} />
+            <Drawer.Screen name="loginScreen" component={LoginScreen} />
+            <Drawer.Screen  name ="MyAccount"  component={MyAccount}/> 
             </Drawer.Navigator>
         );
     }

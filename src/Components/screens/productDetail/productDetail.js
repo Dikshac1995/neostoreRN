@@ -7,6 +7,7 @@ import { styles } from './style'
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Button from '../../Reusable/ButtonField/buttonField'
 import { windowWidth, windowHeight } from '../../../Assets/Constant/constant'
+import Header from  '../../Reusable/header /header'
 // import ModalTester from '../../Reusable/ProductRateModel/productrate'
 
 
@@ -37,14 +38,14 @@ class productDetail extends Component {
         
     }
     render() {
-       
         console.log("PDwer", this.state.ProductDetailData)
         console.log("j", this.state.ProductDetailData.category_id)
 
         return (
-        (!this.state.ProductDetailData) ? <ActivityIndicator /> :
+            (!this.state.ProductDetailData) ? <ActivityIndicator /> :
+        <View>
+                    <Header name='arrow-left' text='productList' name='serach' />
         <View style={{ width: windowWidth, height: windowHeight }}>
-
             <ScrollView>
                 <View style={styles.productDeatailModule}>
                     <Text style={styles.product_name}>{this.state.ProductDetailData.product_name}</Text>
@@ -54,11 +55,11 @@ class productDetail extends Component {
                        <StarRating rating={this.state.ProductDetailData.product_rating} starSize={20} fullStarColor="orange" />
                     </View> 
                    <View style = {{backgroundColor:'pink',borderRadius:10}}>
-                       <View style={{ display: 'flex', flexDirection: 'row' ,justifyContent:'space-between',padding:10}}>
+                    <View style={{ display: 'flex', flexDirection: 'row' ,justifyContent:'space-between',padding:10}}>
                             <Text style={styles.product_cost}>Rs,{this.state.ProductDetailData.product_cost}</Text>
                             <Icon name="share-alt" size={30} color="#7f7f7f" />
-                       </View>
-                       <View style={{alignItems:'center'}}>
+                    </View>
+                    <View style={{alignItems:'center'}}>
                             <Image style={{ width: 200, height: 200}} source={{
                             uri: 'http://180.149.241.208:3022/' + this.state.productCategory.product_image
                             }} />
@@ -89,7 +90,8 @@ class productDetail extends Component {
                         <Button text="BUY_NOW" onPress={() => this.props.navigation.navigate('placeorder')}  style ={{backgroundColor:'red'}} />
                         <Button text="RATE" onPress={() => this.login()}  />
                     </View>
-        </View>
+                </View>
+            </View>
     )
     }
 }

@@ -10,19 +10,9 @@ import {
     Text,
     StatusBar,
 } from 'react-native';
-import {
-    NavigationContainer, DrawerActions
-} from '@react-navigation/native';
-import {
-    createStackNavigator
-} from '@react-navigation/stack';
-import {
-    Header,
-    LearnMoreLinks,
-    Colors,
-    DebugInstructions,
-    ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import {  NavigationContainer, DrawerActions} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
+import MyAccount from '../screens/MyAccount/index';
 import Homescreen from '../screens/Home/homescreen'
 import Splashscreen from '../screens/splashscreen'
 import LoginScreen from '../screens/Login/login'
@@ -33,6 +23,10 @@ import SetPassword from '../screens/setpassword/setpassword'
 import ProductList from '../screens/Productlist/product';
 import productDetail from '../screens/productDetail/productDetail'
 import Placeorder from '../screens/placeorder'
+import EditProfile from '../screens/EditProfile/editProfile'
+import ResetPassword from '../screens/ResePassword/resetPassword'
+import AddAddress from '../screens/Add_address/add_address';
+
 
 
 const Stack = createStackNavigator();
@@ -94,6 +88,41 @@ class Main extends Component {
                         }
                     }
                     } />
+
+                    <Stack.Screen name="MyAccount" component={MyAccount} options={{
+                        headerStyle: { backgroundColor: 'red' },
+                        headerTintColor: '#fff',
+                        headerTitleStyle: {
+                            fontWeight: 'bold',
+                        }
+                    }
+                    } />
+                    <Stack.Screen name='EditProfile' component={EditProfile} options={{
+                        headerStyle: { backgroundColor: 'red' },
+                        headerTintColor: '#fff',
+                        headerTitleStyle: {
+                            fontWeight: 'bold',
+                        }
+                    }
+                    } />
+                    <Stack.Screen name='ResetPassword' component={ResetPassword} options={{
+                        headerStyle: { backgroundColor: 'red' },
+                        headerTintColor: '#fff',
+                        headerTitleStyle: {
+                            fontWeight: 'bold',
+                        }
+                    }
+                    } />
+                    <Stack.Screen name='AddAddress' component={AddAddress} options={{
+                        headerStyle: { backgroundColor: 'red' },
+                        headerTintColor: '#fff',
+                        headerTitleStyle: {
+                            fontWeight: 'bold',
+                        }
+                    }
+                    } />
+
+        
                 </Stack.Navigator> 
              </NavigationContainer>  
         );
