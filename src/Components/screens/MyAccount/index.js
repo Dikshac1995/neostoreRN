@@ -12,7 +12,7 @@ export default class MyAccount extends Component {
             <ScrollView>
             <View>
                 <View>
-                    <Header name ="arrow-left'" text = " MyAccount" name ="search"></Header>
+                        <Header name1 = "arrow-left" text = " MyAccount" name2="search"></Header>
                 </View>
                     <View style={globalstyles.Container}>
                         {/* <Image

@@ -4,6 +4,7 @@ import { SliderBox } from "react-native-image-slider-box";
 import { connect } from 'react-redux';
 import { FetchImage } from '../../Redux/Action/productlist'
 import {getPeople} from '../../Redux/Action/listaction'
+import { ActivityIndicator } from 'react-native-paper';
 
 class SliderBox1 extends Component {
     
@@ -18,7 +19,8 @@ class SliderBox1 extends Component {
         const { data, loading } = this.props;
         
         if (this.props.loading) {
-            return (<Text>Loading...........</Text>)
+            return (<ActivityIndicator size={30}/>
+            )
             // return this.props.people.map((people) => {
             //     console.log('anv', people.category_name);
             //     <Text>{people.category_name}</Text>

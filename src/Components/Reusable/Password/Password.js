@@ -24,7 +24,7 @@ export default class PasswordCom extends Component {
             <View style={styles.Password}>
                 <Icon name='lock' size={30} color="#fff" style={styles.Icon} />
                 <View style={styles.Placeholder_text}>
-                 <TextInput  placeholder={this.props.placeholder}  secureTextEntry={this.state.password}
+                    <TextInput placeholder={this.props.placeholder} placeholderTextColor="#fff" secureTextEntry={this.state.password}
                         onChnageText={(e) => onChnage(e)} style ={{fontSize:20}} />
                     </View>
                 <View >

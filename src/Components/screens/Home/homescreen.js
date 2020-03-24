@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 // import { ss } from '@react-navigation/stack';
 import SliderBox1 from '../../Reusable/sliderBox'
 
-// import Card from '../../Reusable/card'
+import Card from '../../Reusable/card'
 // import MyDrawer from '../../drawernav'
 
 
@@ -25,17 +25,17 @@ import SliderBox1 from '../../Reusable/sliderBox'
                         console.log('imageReducer :', this.props.image)
                         }
                     }>
-                <View style = {{opacity: 0.6,padding: 10}}>
+                <View>
                             <Icon name="bars" size={30} color="#fff" />
                         </View>
                     </TouchableOpacity>
                     <Text style = {styles.headerTitle}>NeoSTORE</Text>
-                    <Icon name ="search" size = {30} color= '#fff'></Icon>
+                <Icon name ="search" size = {30} color= '#fff'></Icon>
               </View>
                 <View style= {{height:200}}>
                     <SliderBox1 />
                 </View>
-                {/* <View style={{ display: 'flex', flexWrap: 'wrap' }}>
+                <View style={{ display: 'flex', flexWrap: 'wrap' }}>
                     <View style={{ flexDirection: 'row', justifyContent:'center' }} >
                         <Card title="sofa" name="couch" {...this.props}  category_name="sofa" category_id="5cfe3c5aea821930af69281e"/>
                         <Card title="bed" name="bed" {...this.props} category_id="5cfe3c65ea821930af69281f"/>
@@ -46,8 +46,8 @@ import SliderBox1 from '../../Reusable/sliderBox'
                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
                             <Card title="Almirah" name="dungeon"{...this.props} category_id="5d14c15101ae103e6e94fbe0" />
-                    </View> */}
-              {/* </View>      */}
+                    </View> 
+              </View>
                 </View>
         </ScrollView>
         )
@@ -62,7 +62,9 @@ const styles= StyleSheet.create({
         justifyContent: 'space-between',
         flexDirection: 'row',
         backgroundColor: 'red',
-        padding:10
+        // padding: 10,
+        paddingVertical:15,
+        paddingHorizontal:15
     },
     headerTitle: {
         fontSize: 30,

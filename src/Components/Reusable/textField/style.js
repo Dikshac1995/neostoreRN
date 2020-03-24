@@ -12,6 +12,7 @@ export const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
         marginTop: 5,
+        padding:5
         //marginBottom: 10     
     },
     Icon: {

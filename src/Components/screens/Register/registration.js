@@ -8,7 +8,8 @@ import Checkbox1 from '../../Reusable/checkBox/checkbox'
 import updateValues from '../../../utils/validation'
 import { api } from '../../../utils/api'
 import { connect } from 'react-redux';
-import {register} from '../../../Redux/Action/action'
+import { register } from '../../../Redux/Action/action'
+import {globalstyles} from '../../../style/style'
 
  class Registration extends Component {
 
@@ -78,7 +79,7 @@ import {register} from '../../../Redux/Action/action'
         console.log("props ffg",this.props)
         return (
             <ScrollView>
-              <View style={styles.ResgisterScreen}>
+                <View style={globalstyles.Container}>
                   <Text style = {styles.register_neostore}>NeoSTORE </Text>
                     <TextField placeholder="First Name" name="user"
                         onChangeText={(text) => this.setState({ firstName: text })}

@@ -8,7 +8,7 @@ const windowHeight = Dimensions.get('window').height;
         flex: 1,
         justifyContent: 'center',
         backgroundColor: 'red',
-        paddingHorizontal: 15
+        paddingHorizontal: 30
     },
   
     neostore_logo: {

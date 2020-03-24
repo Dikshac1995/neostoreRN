@@ -6,6 +6,7 @@ import { globalstyles } from '../../../style/style'
 import Header from '../../Reusable/header /header'
 import { ScrollView } from 'react-native-gesture-handler'
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import MyDatePicker from '../../Reusable/datePicker'
 export default class EditProfile extends Component {
     render() {
         return (
@@ -26,7 +27,10 @@ export default class EditProfile extends Component {
                         <TextField placeholder="last name" name="user" />
                         <TextField placeholder='email Id' name="envelope" />
                         <TextField placeholder="Phone number" name="mobile-phone" />
-                        <TextField placeholder="DOB" name="calendar-alt" />
+                        {/* sss */}
+                         {/* <View style ={{borderColor:"white",borderWidth:2}}> */}
+                            <MyDatePicker />
+                         {/* </View> */}
 
                         <ButtonField text='submit'
                             //onPress={() => this.login()}

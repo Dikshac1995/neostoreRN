@@ -12,7 +12,7 @@ export const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
         marginTop: 5,
-        marginBottom: 10     
+        marginBottom: 5    
     },
     Icon: {
         paddingLeft: 10,
@@ -22,10 +22,10 @@ export const styles = StyleSheet.create({
       paddingLeft:20,
     },
     Placeholder_text: {
-        paddingTop: 10,
-        paddingRight: 10,
-        paddingBottom: 10,
-        paddingLeft: 10,
+        paddingTop: 5,
+        paddingRight: 5,
+        paddingBottom: 5,
+        paddingLeft: 5,
         color: '#424242',
         fontSize: 30,
         width: '70%',
