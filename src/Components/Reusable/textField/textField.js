@@ -18,8 +18,9 @@ export default class TextField extends Component {
                  style = {styles.Icon}/>
                     <TextInput style={styles.input_text} placeholder={this.props.placeholder} placeholderTextColor="white" secureTextEntry={this.props.secureTextEntry ? this.props.secureTextEntry : null}
                     //onBlur={() => { this.props.onBlur() }}
+                        value={this.props.value}
                 onChangeText={this.props.onChangeText ? (e) => this.props.onChangeText(e) : null}      
-                onBlur={this.props.onChange ? (e) => this.props.onChange(e) : null}
+                onBlur={this.props.onBlur? this.props.onBlur: null}
                     >
                 </TextInput>
                 </View>

@@ -1,30 +1,32 @@
 import React, { Component } from 'react'
 import { Text, View ,TouchableOpacity} from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {styles} from './style'
+import { styles } from './style'
+import Searchbar1 from  '../searchnar/searchbar'
+
+
 
 export default class Header extends Component {
+    press() {
+        <Searchbar1/>
+    }
     render() {
         return (
-        //    <View style={{backgroundColor:'red'}}> 
-        //     <View style={{ opacity: 0.6, padding: 10 }}>
-        //          <Icon name={this.props.name}/>
-        //     </View>
-        //     <Text>{this.props.text}</Text>
-        //         <Icon name ={this.props.serach}size={30} color='#fff'></Icon>
-        //     </View>
-            
-            <View style={styles.headerSection}>
-            <TouchableOpacity>
-                
+         <View style ={styles.header}>
+        <View style={styles.headerSection}>
+                <TouchableOpacity onPress={() => props.navigation.goBack()}>
+                 {/* onPress={() => this.props.navigation.navigate('productList', { category_id: this.props.category_id })}>                    */}
                     <Icon name={this.props.name1} size={30} color="#fff" />
-                
-            </TouchableOpacity>
+             </TouchableOpacity>
                 <Text style={styles.headerTitle}>{this.props.text}</Text>
-                <TouchableOpacity>
+                <TouchableOpacity onClick={() => this.press()}>
                     <Icon name={this.props.name2} size={30} color='#fff'></Icon>
-                </TouchableOpacity>
-              </View >
+                    
+            </TouchableOpacity>
+                </View >
+            </View>   
+           
+           
         )
     }
 }

@@ -1,7 +1,11 @@
 import { StyleSheet } from 'react-native'
 
 
- export const styles = StyleSheet.create({
+export const styles = StyleSheet.create({
+    header: {
+        borderBottomWidth: 2,
+     borderBottomColor:'white'
+     },
     headerSection: {
         display: 'flex',
         justifyContent: 'space-between',
@@ -9,7 +13,8 @@ import { StyleSheet } from 'react-native'
         backgroundColor: 'red',
         // padding: 10,
         paddingVertical: 15,
-        paddingHorizontal: 15
+         paddingHorizontal: 15,
+        
     },
     headerTitle: {
         fontSize: 30,

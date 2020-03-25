@@ -9,11 +9,11 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 export default class MyAccount extends Component {
     render() {
         return (
+            <View>
+               
             <ScrollView>
             <View>
-                <View>
-                        <Header name1 = "arrow-left" text = " MyAccount" name2="search"></Header>
-                </View>
+                 <Header name1="arrow-left" text=" MyAccount" name2="search"></Header>
                     <View style={globalstyles.Container}>
                         {/* <Image
                             source={require('./your-img.png')}
@@ -43,7 +43,8 @@ export default class MyAccount extends Component {
                         </View>
                     </TouchableOpacity>
                 </View>
-            </ScrollView>
+                </ScrollView>
+            </View>
         )
     }
 }
