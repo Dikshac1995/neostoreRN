@@ -17,7 +17,7 @@ import Homescreen from '../screens/Home/homescreen'
 import Splashscreen from '../screens/splashscreen'
 import LoginScreen from '../screens/Login/login'
 import Registration from '../screens/Register/registration'
-import MyDrawer from './drawernav';
+import MyDrawer from './drawerMain';
 import ForgotPassword from '../screens/ForgotPassword/forgotpassword';
 import SetPassword from '../screens/setpassword/setpassword'
 import ProductList from '../screens/Productlist/product';

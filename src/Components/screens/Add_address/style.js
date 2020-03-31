@@ -3,6 +3,10 @@ import {
 } from 'react-native'
 
 export const styles = StyleSheet.create({
+    Address_container: {
+        paddingHorizontal: 30,
+     backgroundColor:'red'   
+    },
     Address_TextField: {
         borderWidth: 2,
         borderColor: '#fff'  
@@ -11,7 +15,7 @@ export const styles = StyleSheet.create({
      marginTop :20    
     },
     Text_label:{
-        color: '#fff',
+    
         fontSize: 16,
         paddingTop: 10,
         

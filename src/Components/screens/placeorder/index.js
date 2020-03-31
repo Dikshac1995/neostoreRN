@@ -63,7 +63,7 @@ class Placeorder extends Component {
                         <Text style ={{fontSize:20,paddingBottom:10}}> Neostore Pune 444115 </Text>
                        <TouchableOpacity style={{ backgroundColor: 'red', borderRadius: 5, width :300,height: 50}}
 
-                     onPress={this.onPress}
+                     onPress={this.props.navigation.navigate('AddAddress')}
                   >
                     <Text style={{ justifyContent: "center", color: 'white', margin:10,paddingLeft:30,fontSize:20}}>Change or Add Address</Text>
                     </TouchableOpacity>

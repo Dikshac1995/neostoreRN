@@ -46,7 +46,7 @@ import validated from '../../../utils/validationWrapper'
         collection.first_name = this.state.firstName
         collection.last_name = this.state.lastName
         collection.pass = this.state.password
-        collection.confirmPass = this.state.comfirmPassword
+        collection.confirmPass = this.state.confirmPassword
         collection.email = this.state.email
         collection.phone_no= this.state.phoneNo
         collection.gender = this.state.phoneNo
@@ -111,10 +111,10 @@ import validated from '../../../utils/validationWrapper'
                             })
                         }}
                         validate={<Text>{this.state.passwordError}</Text>} />
-                    <PasswordCon placeholder=' confirm Password' onChangeText={value => this.setState({ confirmpassword: value.trim() })}
+                    <PasswordCon placeholder=' confirm Password' onChangeText={value => this.setState({ confirmPassword: value.trim() })}
                         onBlur={() => {
                             this.setState({
-                                confirmpasswordError: validation('confirmpassword', this.state.confirmpassword)
+                                confirmpasswordError: validation('confirmPassword', this.state.confirmPassword)
                             })
                         }}
                         validate={<Text>{this.state.confirmpasswordError}</Text>} />
@@ -161,8 +161,5 @@ register: (type) => dispatch(register(type))
     };
 }
 
-// const mapDispatchToProps = dispatch => ({
-//     login: (email, pass) => dispatch(actions.login({ email, pass }))
-// })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Registration)

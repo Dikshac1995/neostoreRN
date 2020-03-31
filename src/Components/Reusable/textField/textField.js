@@ -4,6 +4,8 @@ import {styles} from './style'
 // import icon from '../../../../Assets/icons/icons'
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+// import Icon from 'react-native-vector-icons/Feather';
+
 export default class TextField extends Component {
     constructor(props) {
         super(props)

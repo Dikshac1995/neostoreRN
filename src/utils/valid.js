@@ -18,7 +18,7 @@ export default function validation(type, text)
         }
         else
         {
-            return 'first name only contain alphabet'
+          return 'first name only contain alphabet'
         }
     }
     if (type == 'lastName') {

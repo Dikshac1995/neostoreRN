@@ -9,7 +9,7 @@ import {styles }from './style'
 export default class AddAddress extends Component {
     render() {
         return (
-            <View style={globalstyles.Container}>
+            <View style={styles.Address_container}>
                 <View style ={styles.Address_wrapper}>
                     <Text style ={styles.Text_label}> ADDRESS</Text>
                     <View style={styles.Address_TextField}>
@@ -25,7 +25,7 @@ export default class AddAddress extends Component {
                         <Text style={styles.Text_label}>CITY</Text>
                         <Text style={styles.Text_label}>STATE</Text>   
                     </View> 
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', width:200 }}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', width:200, }}>
                         <TextField />
                         <TextField />
                     </View>
