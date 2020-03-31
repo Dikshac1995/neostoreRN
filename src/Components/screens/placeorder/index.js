@@ -56,96 +56,78 @@ class Placeorder extends Component {
     render() {
         return (
             (!this.state.ProductDetailData) ? <ActivityIndicator /> :
-                <View style={{ paddingHorizontal: 10 }}>
-                    <ScrollView>
-                    <View style ={{height:150,display:'flex',justifyContent:'center',alignItems:'center'}}>
-                        <TouchableOpacity style={{ backgroundColor: 'red', borderRadius: 5, width :300,height: 50}}
+                
+                
+               <>
+                    <View style={{ height: 150, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                        <Text style ={{fontSize:20,paddingBottom:10}}> Neostore Pune 444115 </Text>
+                       <TouchableOpacity style={{ backgroundColor: 'red', borderRadius: 5, width :300,height: 50}}
 
-                            onPress={this.onPress}
-                        >
-                            <Text style={{ justifyContent: "center", color: 'white', margin:10,paddingLeft:30,fontSize:20}}>Change or Add Address</Text>
-                        </TouchableOpacity>
-                        {/* <Button1  text=" change or Add Address"
-                            onPress={() => this.add_address()}/> */}
+                     onPress={this.onPress}
+                  >
+                    <Text style={{ justifyContent: "center", color: 'white', margin:10,paddingLeft:30,fontSize:20}}>Change or Add Address</Text>
+                    </TouchableOpacity>
+    
                     </View>
                     <View
                         style={{
                             height: 1,
                             width: "100%",
                             backgroundColor: "#000",
-
                         }}
-                        />
-                        
+                    />
                     <View style={styles.productDetailSection1_wrapper}>
-                     <View style ={{width:200,height:100}}>
-                        <Text style={styles.product_name}>{this.state.ProductDetailData.product_name}</Text>
-                        <Text style={styles.categogy_name}>{this.state.productCategory.category_name}</Text>
+                         <View style ={{width:200,height:100}}>
+                    <Text style={styles.product_name}>{this.state.ProductDetailData.product_name}</Text>
+                       <Text style={styles.categogy_name}>{this.state.productCategory.category_name}</Text>
                     </View>
                     <View>
-                            <Image style={{ width: 100, height:100 }}
+                           <Image style={{ width: 100, height:100 }}
                                 source={{
                         uri: 'http://180.149.241.208:3022/' + this.state.productCategory.product_image
                      }} />
                         </View>
                     </View> 
-                    
+
                     <View style={styles.productDetailSection1_wrapper}>
-                        <View style ={{width:200}}>
-                                <Text style={styles.material_name}>{this.state.ProductDetailData.product_material}</Text>
-                                <QuantityPicker/>
-                         </View>
-                         <View >          
-                        <Text style ={{fontSize:20}}>Rs,{this.state.ProductDetailData.product_cost}</Text>
-                    </View>
-                </View>  
-                            
+                       <View style ={{width:200}}>
+                               <Text style={styles.material_name}>{this.state.ProductDetailData.product_material}</Text>
+                               <QuantityPicker/>
+                       </View>
+                        <View >          
+                       <Text style ={{fontSize:20}}>Rs,{this.state.ProductDetailData.product_cost}</Text>
+                   </View>
+                    </View>  
+
                     <View
                         style={{
                             height: 1,
                             width: "100%",
                             backgroundColor: "#000",
-                           
                         }}
                     />
-                    <View>
-                            <View >
-                        <Text style={{textDecorationLine:'underline',fontSize:25,paddingLeft:25,paddingTop:10}}>Price Detail</Text>
-                        <View style ={{display:'flex',flexDirection:'row',justifyContent:'space-evenly',paddingVertical:20}}>
-                            <Text style={{fontSize:20,width:250}}>Price</Text>
-                            <Text style={{ fontSize: 20 }}>{this.state.ProductDetailData.product_cost}</Text>
-                        </View>
+                    <View  style ={{margin:10}}>
+                  <Text style={{textDecorationLine:'underline',fontSize:25,paddingLeft:25,paddingTop:10}}>Price Detail</Text>
+              <View style ={{display:'flex',flexDirection:'row',justifyContent:'space-evenly',paddingVertical:20}}>
+                          <Text style={{fontSize:20,width:250}}>Price</Text>
+                       <Text style={{ fontSize: 20 }}>{this.state.ProductDetailData.product_cost}</Text>
+                     </View>
+                   </View>
+                    
+                   
+                <View style={styles.footer}>
+                    <View style={styles.footer_wrapper}>
+                            <Text style={styles.footerProduct_cost}>Rs,{this.state.ProductDetailData.product_cost}</Text>
+                            <TouchableOpacity style={styles.footerOrder_button}
+
+                            onPress={this.oderNow}
+                        >
+                                <Text style={styles.footerButton_text}>
+                                Order Now</Text>
+                        </TouchableOpacity>
                     </View>
-                    <View
-                        style={{
-                            height: 1,
-                            width: "100%",
-                            backgroundColor: "#000",
-
-                        }}
-                            />
-                           
-                        </View>
-                       </ScrollView> 
-
-                        <View style={{ display: 'flex', paddingTop: 20 }}>
-                            <View style={{ justifyContent: 'flex-end' }}>
-                                <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
-                                    <Text style={{ fontSize: 30 }}>Rs.{this.state.ProductDetailData.product_cost}</Text>
-                                    <TouchableOpacity style={{ backgroundColor: 'red', borderRadius: 5, width: 200, height: 50 }}
-
-                                        onPress={this.oderNow}
-                                    >
-                                    <Text style={{ justifyContent: "center", color: 'white', fontSize: 20, marginLeft: 50, marginTop: 10 }}>
-                                        Order Now</Text>
-                                    </TouchableOpacity>
-                                </View>
-                            </View>
-                        </View>
-                </View>
-                
-
-   
+                    </View>
+                </>
         )
     }
 }

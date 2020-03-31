@@ -23,25 +23,7 @@ export const styles = StyleSheet.create({
         
         
     },
-    productDetailSection2: {
-        paddingHorizontal: 30, marginBottom: 20
-    },
-    PDsection2_Price: {
-        display: 'flex', flexDirection: 'row', justifyContent: 'space-between', padding: 10
-    },
-    productDetailSection2_wapper: {
-
-        // backgroundColor: '#fff', 
-        borderWidth: 2,
-        borderRadius: 3,
-        borderColor: '#fff',
-        borderBottomWidth: 1,
-        shadowColor: 'white',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.9,
-        shadowRadius: 2,
-        elevation: 1,
-    },
+   
     product_name: {
         fontSize: StyleConstants.FONT_26,
         fontWeight: 'bold'
@@ -66,5 +48,26 @@ export const styles = StyleSheet.create({
         fontSize: StyleConstants.FONT_30,
         color: '#333333',
         width: 70
+    },
+    footer: {
+        flex: 1,
+        justifyContent: 'flex-end',
+        backgroundColor: 'white',
+       
+
+    },
+    footer_wrapper:{
+        display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 20,
+    
+    },
+    footerProduct_cost: {
+        padding: 20,
+        fontSize:20
+    },
+    footerOrder_button: {
+        backgroundColor: 'red', borderRadius: 5, width: 200, height: 50,margin:10
+    },
+    footerButton_text: {
+        color: 'white', fontSize: 20, padding: 10, paddingLeft: 50
     }
 });
