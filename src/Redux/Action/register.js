@@ -17,19 +17,19 @@ export function success(user)
         type: REGISTER_FAILURE,
         error
     }
-} 
-
-export function register(user) {
+}
+export const register = (user) => {
+   console.log(user)
      console.log('in registration')
     return  async dispatch => {
-        dispatch(request(user));
+        dispatch(request(true));
              return await fetch('http://180.149.241.208:3022/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-               user
+                  user
             })
         })
             .then((response) => {

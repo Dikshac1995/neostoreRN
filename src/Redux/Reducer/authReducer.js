@@ -1,9 +1,14 @@
-const INITIAL_STATE={
-  isLoggedIn:false,
-  isLoading:false,
-  userData:{},
-  error:undefined
-}
+
+import AsyncStorage from '@react-native-community/async-storage';
+let token =  AsyncStorage.getItem('token');
+const INITIAL_STATE = token ? { isLoading: false, isLoggedIn: true,token, userData: {},error:undefined} : {};
+
+// const INITIAL_STATE = {
+//   isLoggedIn:false,
+//   isLoading:false,
+//   userData:{},
+//   error:undefined
+// }
 
 export default function auth(state=INITIAL_STATE,action){
   console.log(action.type);
@@ -12,7 +17,8 @@ export default function auth(state=INITIAL_STATE,action){
       return{
         ...state,
         isLoading:true,
-        isLoggedIn:false
+        isLoggedIn: false,
+         token: action.token
       }
       break;
     case 'LOGIN_SUCCESS':
@@ -20,7 +26,8 @@ export default function auth(state=INITIAL_STATE,action){
         ...state,
         isLoading:false,
         isLoggedIn:true,
-        userData:action.userData,
+        userData: action.userData,
+        token: action.token,
         error:undefined
       }
       break;

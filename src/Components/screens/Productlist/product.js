@@ -47,7 +47,8 @@ class ProductList extends Component {
                     showsVerticalScrollIndicator={false}
                     renderItem={({ item }) =>
                         <View >
-                            <TouchableOpacity style={{ display: 'flex', flexDirection: 'row', padding: 0, alignItems: 'center' }} onPress={() => { this.props.navigation.navigate('productDetail',{product_id:item.product_id})}}>
+                            <TouchableOpacity style={{ display: 'flex', flexDirection: 'row', padding: 0, alignItems: 'center' }}
+                                onPress={() => { this.props.navigation.navigate('productDetail', { product_id: item.product_id }) }}>
                             <View>
                                 <Image style={{ width: 120, height: 100 }} source={{
                                 uri: 'http://180.149.241.208:3022/' + item.product_image}} />

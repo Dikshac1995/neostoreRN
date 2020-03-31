@@ -66,6 +66,30 @@ export const FetchProductDetail = (type) => {
     }
 }
 
+export const placeProductOrder = (type) => {
+    console.log("typeery", type)
+    console.log("ddd")
+    return async dispatch => {
+        console.log('dis')
+
+        try {
+            console.log("in tey")
+            const ProductList = await api.fetchapi('http://180.149.241.208:3022/' + type, 'get')
+            dispatch(getProduct(true))
+            console.log("in teydfdf")
+            const commonProduct = await ProductList.json();
+            console.log("jjjjhh", commonProduct)
+            dispatch(getProductSuccess(commonProduct))
+
+        } catch (error) {
+            console.log('Getting People Error---------', error);
+            dispatch(getProductFailuer(error))
+        }
+    }
+}
+
+
+
 
 export function changeCount(count) {
     return {

@@ -20,7 +20,8 @@ export default class TextField extends Component {
                     //onBlur={() => { this.props.onBlur() }}
                         value={this.props.value}
                 onChangeText={this.props.onChangeText ? (e) => this.props.onChangeText(e) : null}      
-                onBlur={this.props.onBlur? this.props.onBlur: null}
+                        onBlur={this.props.onBlur ? this.props.onBlur : null}
+                        maxLength={this.props.maxLength?this.props.maxLength:null}
                     >
                 </TextInput>
                 </View>

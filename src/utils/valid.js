@@ -1,46 +1,73 @@
-import React, { useState } from 'react'
-import {Text} from 'react-native'
+
 
 import { Alert } from "react-native";
 
 
 export default function validation(type, text)
-{ 
-    // const [error ] = useState('true') ;
-    // const  Error  = error 
+{   var password
     console.warn("hiii", type,text)
-    // console.warn("error",error)
     const regex = /^[A-Za-z]+$/;
     const passreg = /^[0-9]+$/;
+    const numregx = /^\d{10}$/
+    const emailPattern = /^([a-zA-Z])+([0-9a-zA-Z_\.\-])+\@+(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,5}$)$/;
+  
     if (type == 'firstName') {
-        // this.setState({ firstName: text })
-        // console.warn("firstname state", this.state.firstName)
+        if (regex.test(text))
+        {
+           return  true 
+        }
+        else
+        {
+            return 'first name only contain alphabet'
+        }
+    }
+    if (type == 'lastName') {
         if (regex.test(text)) {
-            // this.setState({ firstNamevalid: true })
-            console.warn("text is valid ")
-            return true 
+            return true
         }
         else {
-            // Alert.alert("InValid")
-            console.warn("text is Invalid ")
-            return ' first name only contain alphabet'
-            return  false
-            
-            
-            // this.setState({ firstNamevalid: false })
+            return 'last name only contain alphabet'
         }
     }
     else if (type == 'password') {
-        this.setState({ password: text })
+   
         if (passreg.test(text)) {
-            this.setState({ passwordvalid: true })
-            console.warn("text is valid ")
+            password = text 
+            console.warn('pass',password)
+            return ' '
         }
         else {
-            this.setState({ passwordvalid: false })
-            console.warn("password is invalid ")
+            return 'Password should be numeric '
         }
     }
+        
+    else if (type == 'confirmpassword') {
+             console.warn('a',password)
+        if (password == text)
+        {
+            return " "
+        }
+        else {
+            return  ' password Dont match '
+        }
+        }
+    else if (type == 'email') {
+        if (emailPattern.test(text)) {
+            return " "
+        }
+        else {
+            return 'email is Invalid'
+        }
+    }
+    else if (type == 'phoneNo') {
+        if (numregx.test(text)) {
+            return ' '
+        }
+        else {
+            return  'mobile no is Invalid'
+        }
+    }
+
 
 
 }

@@ -3,8 +3,19 @@ import { StyleSheet } from 'react-native'
 
 export const styles = StyleSheet.create({
     header: {
-        borderBottomWidth: 2,
-     borderBottomColor:'white'
+       
+        borderWidth: 1,
+        borderRadius: 2,
+        borderColor: '#990000',
+        borderBottomWidth: 1,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2,
+        elevation: 1,
+        // marginLeft: 5,
+        // marginRight: 5,
+        // marginTop: 10,
      },
     headerSection: {
         display: 'flex',
@@ -17,7 +28,7 @@ export const styles = StyleSheet.create({
         
     },
     headerTitle: {
-        fontSize: 30,
+        fontSize: 20,
         color: 'white'
 
     },

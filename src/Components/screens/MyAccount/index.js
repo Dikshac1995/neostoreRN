@@ -10,10 +10,13 @@ export default class MyAccount extends Component {
     render() {
         return (
             <View>
-               
+                <View>
+                    
+                    <Header name1="arrow-left" text=" MyAccount" name2="search" {...this.props}
+                       ></Header>
+                </View>
             <ScrollView>
             <View>
-                 <Header name1="arrow-left" text=" MyAccount" name2="search"></Header>
                     <View style={globalstyles.Container}>
                         {/* <Image
                             source={require('./your-img.png')}

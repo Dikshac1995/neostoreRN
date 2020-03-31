@@ -21,16 +21,24 @@ export default class PasswordCom extends Component {
     }
     render() {
         return (
+        <View>
             <View style={styles.Password}>
                 <Icon name='lock' size={30} color="#fff" style={styles.Icon} />
                 <View style={styles.Placeholder_text}>
                     <TextInput placeholder={this.props.placeholder} placeholderTextColor="#fff" secureTextEntry={this.state.password}
-                        onChnageText={(e) => onChnage(e)} style ={{fontSize:20}} />
+                            value={this.props.value}
+                            onChangeText={this.props.onChangeText ? (e) => this.props.onChangeText(e) : null}      style={{ fontSize: 20 }}
+                            onBlur={this.props.onBlur ? this.props.onBlur : null}
+                        />
                     </View>
                 <View >
                 <Icon name={this.state.icon} size={30} color ='#fff' style ={styles.eyeIcon} onPress={()=>this.changeIcon()}/>
                 </View>
+            </View>
+            <View>
+                <Text style={{ color: 'white', textAlign: 'center' }}>{this.props.validate ? this.props.validate : null}</Text>
                 </View>
+            </View>
                
         )
     }

@@ -1,4 +1,5 @@
 import axios from 'axios'; 
+import AsyncStorage from '@react-native-community/async-storage';
 export const api = {
     fetchapi: function (url, type, data, token) {
         if (type === 'post' || type === 'put') {
@@ -8,7 +9,7 @@ export const api = {
                     method: type,
                     headers: {
                         'Content-Type': 'application/json',
-                        // Authorization: token?'Bearer ' + localStorage.getItem('token'):null
+                        //Authorization: token?'Bearer ' + Storage.getItem('token'):null
                     },
                     data: data
                 }
@@ -21,7 +22,7 @@ export const api = {
                     method: type,
                     headers: {
                         'Content-Type': 'application/json',
-                        // Authorization: token?'Bearer ' + localStorage.getItem('token'):null
+                         Authorization: token?'Bearer ' + AsyncStorage.getItem('token'):null
                     },
                 }
             )

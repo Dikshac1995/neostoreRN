@@ -8,9 +8,10 @@ import Checkbox1 from '../../Reusable/checkBox/checkbox'
 import updateValues from '../../../utils/validation'
 import { api } from '../../../utils/api'
 import { connect } from 'react-redux';
-import { register } from '../../../Redux/Action/action'
+import { register }from '../../../Redux/Action/register'
 import { globalstyles } from '../../../style/style'
 import validation from '../../../utils/valid'
+import PasswordCon from '../../Reusable/Password/Password'
 import validated from '../../../utils/validationWrapper'
 
  class Registration extends Component {
@@ -26,47 +27,18 @@ import validated from '../../../utils/validationWrapper'
                 email: ' ',
                 phoneNo: ' ',
                 gender: 'male',
-                firstNamevalid: ' ',
-                lastNamevalid: true,
-                passwordvalid: ' ',
-                confirmpasswordvalid: true,
-                emailvalid: true,
-                phoneValid: true,
+                
+                firstNameError: ' ',
+                lastNameError: ' ',
+                passwordError: ' ',
+                confirmpasswordError: ' ',
+                emailError: ' ',
+                phoneError: ' ',
         
             submitted:false
         } 
     }
-     updateValue( type,text) {
-         console.warn(text,type)
-         const regex = /^[A-Za-z]+$/;
-         const passreg = /^[0-9]+$/;
-         if (type == 'firstName') {
-             this.setState({ firstName: text })
-             console.warn("firstname state", this.state.firstName)
-             if (regex.test(text)) {
-                //  this.setState({ firstNamevalid: true })
-                 console.warn("text is valid ")
-                 return true 
-             }
-             else {
-                 return false 
-                //  this.setState({ firstNamevalid: false })
-             }
-         }
-         else if (type == 'password') {
-             this.setState({ password: text })
-             if (passreg.test(text)) {
-                 this.setState({ passwordvalid: true })
-                 console.warn("text is valid ")
-             }
-             else {
-                 this.setState({ passwordvalid: false })
-                 console.warn("password is invalid ")
-             }
-         }
-        
-         
-     }
+     
     
      submit() {
         this.setState({ submitted: true });
@@ -118,41 +90,52 @@ import validated from '../../../utils/validationWrapper'
                         onChangeText={value => this.setState({ firstName: value.trim() })}
                         onBlur={() => {
                             this.setState({
-                                firstNamevalid: validation('firstName', this.state.firstName)
+                                firstNameError: validation('firstName', this.state.firstName)
                             })
                         }}
-                        validate={<Text>{this.state.firstNamevalid}</Text>}
-                        // onChangeText={(value) => this.updateValue(value, 'firstNmae')}
-                        
-                        // onChangeText={(e) => validation (e, 'username',this.state.firstNamevalid)}
-                    // validate={this.state.firstNamevalid ? null : <Text>username invalid</Text>}
-                    />
+                        validate={<Text>{this.state.firstNameError}</Text>}/>
 
                     <TextField placeholder="Last Name" name="user" onChangeText={(text) => this.setState({ lastName: text, lastNamevalid: true })}
-                        //onChange={(e) => updateValues(e, 'lastname', 'lastNamevalid')}
-                        validate={!this.state.lastNamevalid ? <Text>lastname invalid</Text> : null} />
-                    
-                    <TextField placeholder="Password" name="lock" secureTextEntry
-                        // onChangeText={(e) => this.updateValue(e, 'password')}
-                        // validate={!this.state.passwordvalid ? <Text>password invalid</Text> : null}
-                        onChangeText={value => this.setState({ password: value.trim() })}
+                        onChangeText={value => this.setState({ lastName: value.trim() })}
                         onBlur={() => {
                             this.setState({
-                                passwordvalid: validated('password', this.state.password)
+                                lastNameError: validation('lastName', this.state.lastName)
                             })
                         }}
-                        validate={this.state.emailvalid} 
-                    />
-                    <TextField placeholder="Conform Password" name="lock" secureTextEntry
-                        //onChange={(e) => this.updateValues(e, 'confirmpassword')}
-                        validate={!this.state.confirmpasswordvalid ? <Text>confirm password invalid</Text> : null}/>
+                        validate={<Text>{this.state.lastNameError}</Text>} />
+                        {/* //validate={!this.state.lastNamevalid ? <Text>lastname invalid</Text> : null} */}
+                    <PasswordCon placeholder='Password' onChangeText={value => this.setState({ password: value.trim() })}
+                        onBlur={() => {
+                            this.setState({
+                                passwordError: validation('password', this.state.password)
+                            })
+                        }}
+                        validate={<Text>{this.state.passwordError}</Text>} />
+                    <PasswordCon placeholder=' confirm Password' onChangeText={value => this.setState({ confirmpassword: value.trim() })}
+                        onBlur={() => {
+                            this.setState({
+                                confirmpasswordError: validation('confirmpassword', this.state.confirmpassword)
+                            })
+                        }}
+                        validate={<Text>{this.state.confirmpasswordError}</Text>} />
+                    
                     <TextField placeholder="Email" name="envelope"
-                    //    onChange={(e) => this.updateValue(e, 'email')}
-                        validate={!this.state.emailvalid ? <Text>email invalid</Text> : null}/>
+                    onChangeText={value => this.setState({ email: value.trim() })}
+                        onBlur={() => {
+                            this.setState({
+                               emailError: validation ('email', this.state.email)
+                            })
+                        }}
+                        validate={<Text>{this.state.emailError}</Text>} />
                     <Gender/>
-                    <TextField placeholder="Phone number" name="mobile-phone"
-                        //onChange={(e) => this.updateValues(e, 'phoneno')}
-                       validate={!this.state.phoneValid ? <Text>phone no  invalid</Text> : null}/>
+                    <TextField placeholder="Phone number" name="mobile-phone" maxLength={10}
+                        onChangeText={value => this.setState({ phoneNo: value.trim() })}
+                        onBlur={() => {
+                            this.setState({
+                                phoneError: validation('phoneNo', this.state.phoneNo)
+                            })
+                        }}
+                        validate={<Text>{this.state.phoneError}</Text>} />
                     <Checkbox1 />
                     <View>
                     <ButtonField text="Registration" 
@@ -171,10 +154,11 @@ const mapStateToProps = State =>({
 
 })
 
+
 const mapDispatchToProps = (dispatch) => {
     return {
-register : (data) => dispatch(register(data))
-    }
+register: (type) => dispatch(register(type))
+    };
 }
 
 // const mapDispatchToProps = dispatch => ({
