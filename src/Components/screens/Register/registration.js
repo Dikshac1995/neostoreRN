@@ -138,7 +138,7 @@ import validated from '../../../utils/validationWrapper'
                         validate={<Text>{this.state.phoneError}</Text>} />
                     <Checkbox1 />
                     <View>
-                    <ButtonField text="Registration" 
+                    <ButtonField text="Registration"  style={styles.registerButton}
                     //onPress={() => this.props.navigation.navigate('loginScreen')} 
                     onPress={()=> this.submit()}
                         />

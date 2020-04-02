@@ -119,6 +119,7 @@ class LoginScreen extends Component {
                         validate={!this.state.passValid ? <Text>password invalid</Text> : null}/> */}
                     <ButtonField text="LOGIN"
                         onPress={() => this.login()}
+                        style={styles.loginButton}
                        // onPress={() => this.props.navigation.navigate('Register')}
                     />
                     <TouchableOpacity onPress = {()=>this.props.navigation.navigate('ForgotPassword')}>

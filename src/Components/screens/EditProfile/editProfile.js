@@ -7,6 +7,7 @@ import Header from '../../Reusable/header /header'
 import { ScrollView } from 'react-native-gesture-handler'
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import MyDatePicker from '../../Reusable/datePicker'
+import {styles} from './styles'
 export default class EditProfile extends Component {
     render() {
         return (
@@ -32,7 +33,8 @@ export default class EditProfile extends Component {
                             <MyDatePicker />
                          {/* </View> */}
 
-                        <ButtonField text='submit'
+                        <ButtonField text='SUBMIT'
+                            style={styles.submit_button}
                             //onPress={() => this.login()}
                             onPress={() => this.props.navigation.navigate('Register')}
                         />

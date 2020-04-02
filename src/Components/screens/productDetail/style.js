@@ -2,6 +2,7 @@ import { StyleSheet } from 'react-native'
 import { StyleConstants } from '../../../Assets/Constant/constant'
 
 export const styles = StyleSheet.create({
+
     productDeatailSection1: {
         backgroundColor: "#fff",
         marginBottom: 20 
@@ -22,17 +23,17 @@ export const styles = StyleSheet.create({
         display: 'flex', flexDirection: 'row', justifyContent: 'space-between', padding: 10
     },
     productDetailSection2_wapper: {
-       
-        // backgroundColor: '#fff', 
-        borderWidth: 2,
-        borderRadius: 3,
+         padding:10,
+        backgroundColor: '#fff', 
+        // borderWidth: 2,
+        borderRadius: 15,
        borderColor: '#fff',
-        borderBottomWidth: 1,
-        shadowColor: 'white',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.9,
-        shadowRadius: 2,
-        elevation: 1,
+        // borderBottomWidth: 1,
+        // shadowColor: 'white',
+        // shadowOffset: { width: 0, height: 2 },
+        // shadowOpacity: 0.9,
+        // shadowRadius: 2,
+        elevation: 2,
     },
     product_name: {
         fontSize: StyleConstants.FONT_26,
@@ -58,5 +59,18 @@ export const styles = StyleSheet.create({
         fontSize: StyleConstants.FONT_30,
         color: '#333333',
         width:70
+    },
+    footer: {
+        display: 'flex', flexDirection: 'row', backgroundColor: '#fff', paddingBottom: 30,
+        marginBottom: 50, justifyContent: 'space-evenly'
+
+    },
+    buttonStyle: {
+        backgroundColor: 'red',
+        width:180,
+        fontSize: 20, 
+         color:'#fff',
+        borderRadius: 8,
+        textAlign:'center'
     }
 });

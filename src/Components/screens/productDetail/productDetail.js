@@ -130,12 +130,12 @@ class productDetail extends Component {
                                 
         </View>
         </ScrollView>
-                    <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly',paddingBottom:30,marginBottom:50}}>
-                        <Button text="BUY_NOW" onPress={() => this.Buynow() }  style ={{backgroundColor:'red'}} />
-                            <Button text="RATE" onPress={() => this.toggleModal(true) }  />
+                        <View style={styles.footer}>
+                        <Button text="BUY_NOW" onPress={() => this.Buynow() }  style ={styles.buttonStyle} />
+                            <Button text="RATE" onPress={() => this.toggleModal(true)} style={styles.buttonStyle}  />
                     </View>
                     </View>
-            <View style={styles1.container}>
+                        <View style={styles1.container}>
                         <Modal animationType={"slide"} transparent={true}
                             visible={this.state.modalVisible}
                             onRequestClose={() => this.toggleModal(false)}>

@@ -8,6 +8,7 @@ import { globalstyles } from '../../../style/style'
 // import Icon from 'react-native-vector-icons/FontAwesome5';
 import authHeader from '../../../Redux/helper/authHeader'
 import PasswordCon from '../../Reusable/Password/Password'
+import {styles} from './style'
 export default class ResetPassword extends Component {
     constructor(props) {
         super(props);
@@ -67,7 +68,8 @@ export default class ResetPassword extends Component {
                     <PasswordCon placeholder=' again enter Password '
                         onChangeText={value => this.setState({ confirmPass: value.trim() })}/>
                     <ButtonField text='submit'
-                            onPress={() => this.submit()}
+                        onPress={() => this.submit()}
+                        style={styles.submit_button}
                  //    onPress={() => this.props.navigation.navigate('AddAddress')}
                         />
 

@@ -4,6 +4,7 @@ import TextField from '../../Reusable/textField/textField'
 import ButtonField from '../../Reusable/ButtonField/buttonField'
 import { globalstyles } from '../../../style/style' 
 import PasswordCon from '../../Reusable/Password/Password'
+import { styles } from './styles'
 
 export default class SetPassword extends Component {
     render() {
@@ -15,7 +16,7 @@ export default class SetPassword extends Component {
                 <TextField placeholder="Enter OTP" name="trending-down" />
                 <PasswordCon placeholder='Enter new Password ' />
                 <PasswordCon placeholder='Enter Password  Again ' />
-                <ButtonField text="submit" onPress={() => this.props.navigation.navigate('loginScreen')} />
+                <ButtonField text="submit" onPress={() => this.props.navigation.navigate('loginScreen')} style={styles.submit_button}/>
             </View>
             
         )

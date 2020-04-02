@@ -4,20 +4,58 @@ import {
 
 export const styles = StyleSheet.create({
     Address_container: {
-        paddingHorizontal: 30,
-     backgroundColor:'red'   
+        flex:1
+      
     },
+    // fields: {
+       
+       
+    //     backgroundColor: 'pink',
+    //     paddingBottom:20
+    // },
     Address_TextField: {
-        borderWidth: 2,
-        borderColor: '#fff'  
+         elevation:5, 
+        backgroundColor: '#fff',
+        borderBottomWidth:1,
+        borderBottomColor:"#eee"
+       
     },
     Address_wrapper: {
-     marginTop :20    
+        // marginTop: 20,
+        paddingHorizontal: 20,   
+        // paddingTop: 20,
+        // paddingBottom:20
     },
     Text_label:{
     
-        fontSize: 16,
-        paddingTop: 10,
+        fontSize: 20,
+        paddingTop: 20,
+        paddingBottom:20
         
-    }
+    },
+    footer: {
+        flex: 1,
+        justifyContent: 'flex-end',
+        borderTopWidth: 2,
+        borderTopColor: '#eee',
+        elevation: 4,
+        backgroundColor: '#fff',
+        paddingTop:10
+       
+
+     },
+    addAddress_button: {
+        color: 'white',
+        fontSize: 20,
+        marginLeft: 10,
+        marginRight:10,
+        backgroundColor: 'red',
+        textAlign: 'center',
+        borderRadius: 8,
+        paddingTop:20,
+        paddingBottom: 20,
+    
+        
+        
+    },
 })

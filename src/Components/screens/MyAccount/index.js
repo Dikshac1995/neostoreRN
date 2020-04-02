@@ -6,6 +6,7 @@ import {globalstyles} from  '../../../style/style'
 import Header from '../../Reusable/header /header'
 import { ScrollView } from 'react-native-gesture-handler'
 import Icon from 'react-native-vector-icons/FontAwesome5';
+import{styles} from './style'
 export default class MyAccount extends Component {
     render() {
         return (
@@ -29,9 +30,10 @@ export default class MyAccount extends Component {
                 <TextField placeholder="last name" name="user" />
                 <TextField placeholder='email Id' name="envelope" />
                 <TextField placeholder="Phone number" name="mobile-phone"/>
-                <ButtonField text="Edit Profile"
+                <ButtonField text="EDIT PROFILE"
                     //onPress={() => this.login()}
-            onPress={() =>this.props.navigation.navigate('EditProfile')}
+                                onPress={() => this.props.navigation.navigate('EditProfile')}
+                                style={styles.edit_button}
                 />
             
                 

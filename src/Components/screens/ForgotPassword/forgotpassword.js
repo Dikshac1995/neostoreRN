@@ -3,6 +3,7 @@ import { Text, View } from 'react-native'
 import TextField from '../../Reusable/textField/textField'
 import ButtonField from '../../Reusable/ButtonField/buttonField'
 import {globalstyles} from  '../../../style/style' 
+import { styles } from './styles'
 export default class ForgotPassword extends Component {
     render() {
         return (
@@ -15,6 +16,7 @@ export default class ForgotPassword extends Component {
                     onPress = {
                         () => this.props.navigation.navigate('SetPassword')
                     }
+                    style={styles.submit_button}
                     />
                 
             </View>

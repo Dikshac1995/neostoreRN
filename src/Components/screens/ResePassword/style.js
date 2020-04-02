@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native'
 import { StyleConstants } from '../../../Assets/Constant/constant'
 
 export const styles = StyleSheet.create({
-    edit_button: {
+    submit_button: {
         color: 'red',
         fontSize: 30,
 

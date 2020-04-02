@@ -19,6 +19,17 @@ export const styles = StyleSheet.create({
         fontWeight: 'bold',
         textAlign: 'center'
     },
+    loginButton: {
+        color: 'red',
+        fontSize: 30,
+        
+      backgroundColor: 'white',
+        textAlign: 'center',
+        borderRadius: 8,
+        opacity: 0.8,
+       
+        
+    },
     forgot_link: {
         color: 'white',
         fontSize: 20,

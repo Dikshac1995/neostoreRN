@@ -21,6 +21,16 @@ export const styles = StyleSheet.create({
         fontWeight: 'bold',
         textAlign: 'center'
     },
+    registerButton: {
+        color: 'red',
+        fontSize: 30,
+
+        backgroundColor: 'white',
+        textAlign: 'center',
+        borderRadius: 8,
+        opacity: 0.7,
+
+    },
     // forgot_link: {
     //     color: 'white',
     //     fontSize: 20,

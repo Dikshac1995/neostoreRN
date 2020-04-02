@@ -7,12 +7,22 @@ import {
 import { styles } from './style'
 
 export default class ButtonField extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            sty: this.props.style || {},
+            isRound: this.props.isRound || false,
+            btnTxtStyle: this.props.btnTxtStyle || {},
+            smallBtn: this.props.smallBtn ? styles.smallBtn : {}
+        }
+    }
     render() {
+       // const { textStyles, buttonStyles, children } = this.props;
         return (
             <View>
                <TouchableOpacity style={styles.button1}>
                    <View>
-                        <Text style={styles.buttonText} onPress={()=>this.props.onPress()}> {this.props.text}</Text>
+                        <Text style={[this.props.style,styles.buttonText]} onPress={()=>this.props.onPress()}> {this.props.text}</Text>
                    </View> 
                    </TouchableOpacity>
             </View>

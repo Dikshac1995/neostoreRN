@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { styles } from './style'
 import  Button1 from '../../Reusable/ButtonField/buttonField'
 import QuantityPicker from '../../Reusable/dropDown/picker';
+import ButtonField from '../../Reusable/ButtonField/buttonField';
 class Placeorder extends Component {
     constructor(props) {
         super(props);
@@ -59,15 +60,17 @@ class Placeorder extends Component {
                 
                 
                <>
-                    <View style={{ height: 150, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <Text style ={{fontSize:20,paddingBottom:10}}> Neostore Pune 444115 </Text>
+                    <View style={{paddingHorizontal:20}} >
+                        <ButtonField text=" Change or Add Address" style={styles.addressButton}
+                            onPress={this.props.navigation.navigate('AddAddress')}/>
+                        {/* <Text style ={{fontSize:20,paddingBottom:10}}> Neostore Pune 444115 </Text>
                        <TouchableOpacity style={{ backgroundColor: 'red', borderRadius: 5, width :300,height: 50}}
 
                      onPress={this.props.navigation.navigate('AddAddress')}
                   >
                     <Text style={{ justifyContent: "center", color: 'white', margin:10,paddingLeft:30,fontSize:20}}>Change or Add Address</Text>
                     </TouchableOpacity>
-    
+     */}
                     </View>
                     <View
                         style={{
@@ -107,8 +110,8 @@ class Placeorder extends Component {
                         }}
                     />
                     <View  style ={{margin:10}}>
-                  <Text style={{textDecorationLine:'underline',fontSize:25,paddingLeft:25,paddingTop:10}}>Price Detail</Text>
-              <View style ={{display:'flex',flexDirection:'row',justifyContent:'space-evenly',paddingVertical:20}}>
+                  <Text style={styles.priceDetail}>Price Detail</Text>
+                        <View style={styles.priceDetailWrapper}>
                           <Text style={{fontSize:20,width:250}}>Price</Text>
                        <Text style={{ fontSize: 20 }}>{this.state.ProductDetailData.product_cost}</Text>
                      </View>
@@ -117,14 +120,10 @@ class Placeorder extends Component {
                    
                 <View style={styles.footer}>
                     <View style={styles.footer_wrapper}>
-                            <Text style={styles.footerProduct_cost}>Rs,{this.state.ProductDetailData.product_cost}</Text>
-                            <TouchableOpacity style={styles.footerOrder_button}
-
-                            onPress={this.oderNow}
-                        >
-                                <Text style={styles.footerButton_text}>
-                                Order Now</Text>
-                        </TouchableOpacity>
+                            <View style={{padding:10}}><Text style={styles.footerProduct_cost}>Rs.{this.state.ProductDetailData.product_cost}</Text>
+                            </View>
+                            <ButtonField text="ORDER NOW" style={styles.footerButton_text} />
+                           
                     </View>
                     </View>
                 </>
