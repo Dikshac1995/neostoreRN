@@ -22,6 +22,7 @@ class productDetail extends Component {
             productCategory: [],
             subImages_id: [],
             modalVisible: false,
+            starCount:' '
         };
     }
     toggleModal(visible) {
@@ -43,6 +44,12 @@ class productDetail extends Component {
         })
         
     }
+    onStarRatingPress(rating) {
+        this.setState({
+            starCount: rating
+        });
+    }
+
     async Buynow() {
         const { product_id } = this.props.route.params;
         let user = await AsyncStorage.getItem('token');
@@ -88,20 +95,24 @@ class productDetail extends Component {
                      <View style={styles.PDsection2_Price}>
                             <Text style={styles.product_cost}>Rs,{this.state.ProductDetailData.product_cost}</Text>
                             <Icon name="share-alt" size={30} color="#7f7f7f" />
-                    </View>
-                    <View style={{alignItems:'center'}}>
+                      </View>
+                    <View style={{position:'relative'}}>
+                         <View style={{alignItems:'center'}}>
                             <Image style={{ width: 200, height: 200}} source={{
-                            uri: 'http://180.149.241.208:3022/' + this.state.productCategory.product_image
+                             uri: 'http://180.149.241.208:3022/' + this.state.ProductDetailData.product_image
                             }} />
-                    </View>
-                     <View style ={{alignItems:'flex-end'}}>        
-                         <View style={{ display:'flex',backgroundColor: 'blue', borderRadius: 80, width: 60, height: 60 }}>
+                         </View>
+                        
+                                       
+                        <View style ={{alignItems:'flex-end',position:'absolute'}}>        
+                         <View style={{ display:'flex',backgroundColor: 'blue', borderRadius: 80, width: 60, height: 60,top:140 ,left:270}}>
                             <View style ={{alignItems:'center',paddingTop:10}}>
                                   <Icon name='shopping-cart' size={30} color="#fff" /> 
                             </View>
-                        </View>   
-                    </View>                     
-                    <View>
+                        </View>  
+                     </View> 
+                 </View>                        
+                 <View>
                          <FlatList data={this.state.subImages_id.product_subImages}
                             showsVerticalScrollIndicator={false}
                             horizontal={true}
@@ -129,38 +140,38 @@ class productDetail extends Component {
                 {/* Product Description end              */}
                                 
         </View>
-        </ScrollView>
-                        <View style={styles.footer}>
-                        <Button text="BUY_NOW" onPress={() => this.Buynow() }  style ={styles.buttonStyle} />
-                            <Button text="RATE" onPress={() => this.toggleModal(true)} style={styles.buttonStyle}  />
-                    </View>
-                    </View>
-                        <View style={styles1.container}>
-                        <Modal animationType={"slide"} transparent={true}
-                            visible={this.state.modalVisible}
-                            onRequestClose={() => this.toggleModal(false)}>
-
-                        <View style={styles1.modal}>
-                           
-                                <Text style={styles.product_name}>{this.state.ProductDetailData.product_name}</Text>
-                                <Text>{this.state.productCategory.category_name}</Text> 
-                                 <View style={{alignItems:'center',margin:20}}>
-                            <Image style={{ width: 200, height: 200}} source={{
-                            uri: 'http://180.149.241.208:3022/' + this.state.productCategory.product_image
-                            }} />
-                                </View>
-                                <StarRating starSize={30} fullStarColor="orange" />
-                            <TouchableHighlight onPress={() => {
-                                this.toggleModal(!this.state.modalVisible)
-                         }}>
-                             
-                        <View style ={{borderRadius:10,backgroundColor:'red',paddingBottom:10,marginTop:10,width:290}}>
-                              <Text style={styles1.text}>Rate-Now</Text></View>
-                            </TouchableHighlight>
-                        </View>
-                    </Modal>
-                    </View>
+         </ScrollView>
+         <View style={styles.footer}>
+            <Button text="BUY_NOW" onPress={() => this.Buynow() }  style ={styles.buttonStyle} />
+            <Button text="RATE" onPress={() => this.toggleModal(true)} style={styles.buttonStyle}  />
+        </View>
+     </View>
+         <View style={styles1.container}>
+            <Modal animationType={"slide"} transparent={true}
+                visible={this.state.modalVisible}
+                onRequestClose={() => this.toggleModal(false)}>
+             <View style={styles1.modal}>
+                <Text style={styles.product_name}>{this.state.ProductDetailData.product_name}</Text>
+                   <Text>{this.state.productCategory.category_name}</Text> 
+                   <View style={{alignItems:'center',margin:20}}>
+                     <Image style={{ width: 200, height: 200}} source={{
+                        uri: 'http://180.149.241.208:3022/' + this.state.productCategory.product_image
+                    }} />
+                  </View>
+                <StarRating starSize={30} fullStarColor="orange" disabled={false}
+                     maxStars={5}
+                     rating={this.state.starCount}
+                   selectedStar={(rating) => this.onStarRatingPress(rating)}/>
+                 <TouchableHighlight onPress={() => {
+                        this.toggleModal(!this.state.modalVisible)
+                 }}>
+                 <View style ={{borderRadius:10,backgroundColor:'red',paddingBottom:10,marginTop:10,width:290}}>
+                     <Text style={styles1.text}>Rate-Now</Text></View>
+                </TouchableHighlight>
             </View>
+        </Modal>
+     </View>
+    </View>
     )
     }
 }

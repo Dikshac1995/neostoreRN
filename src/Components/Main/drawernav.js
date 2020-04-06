@@ -17,7 +17,6 @@ import { NativeViewGestureHandler } from 'react-native-gesture-handler';
 
 
 
-
  
 
  export  default function CustomDrawerContent(props,LoggedIn ) {
@@ -55,12 +54,17 @@ import { NativeViewGestureHandler } from 'react-native-gesture-handler';
         </View>) :
         (
           <View style ={{alignItems:'center',marginTop:20,position:'relative'}}>
-            <View style={{ width: 140, height: 140, borderRadius: 400 / 2, backgroundColor: '#03DAC6' }} />
+            <View style={{
+              width: 140, height: 140, borderRadius: 400 / 2,
+              //backgroundColor: '#03DAC6'
+              backgroundColor:'#eee'
+            }}
+            />
             <View style ={{position:'absolute',top:20}}>
               <Icon name="user-circle" size={100} color="#fff"  />
             </View>
             <View style={{ position: 'absolute', top: 80, right:60 }}>
-              <Icon name="camera" size={40} color='#0ff'  />
+              <Icon name="camera" size={40} color='#0ee'  />
             </View>
             {/* <Image
               source={{ uri: 'https://raw.githubusercontent.com/AboutReact/sampleresource/master/old_logo.png' }}
@@ -71,7 +75,7 @@ import { NativeViewGestureHandler } from 'react-native-gesture-handler';
         )}
       <DrawerContentScrollView {...props} style={{ backgroundColor: '#fff' }} >
         
-        <DrawerItemList {...props} />
+       
         {!LoggedIn ? (
           <DrawerItem
             icon={() => <Icon name="user-friends" size={30} />}
@@ -91,6 +95,7 @@ import { NativeViewGestureHandler } from 'react-native-gesture-handler';
               labelStyle={{ color: '#000', fontSize: 20 }}
               onPress={() => props.navigation.navigate('Mycard')}
             />)}
+        <DrawerItemList {...props} />
       <DrawerItem
           icon={() => <Icon name="couch" size={30}/>}
           label="Sofa"

@@ -32,8 +32,8 @@ export default function validation(type, text)
     else if (type == 'password') {
    
         if (passreg.test(text)) {
-            password = text 
-            console.warn('pass',password)
+            password = text
+            console.warn('pass', password)
             return ' '
         }
         else {
@@ -42,15 +42,14 @@ export default function validation(type, text)
     }
         
     else if (type == 'confirmpassword') {
-             console.warn('a',password)
-        if (password == text)
-        {
+        console.warn('a', password)
+        if (password == text) {
             return " "
         }
         else {
-            return  ' password Dont match '
+            return ' password Dont match '
         }
-        }
+    }
     else if (type == 'email') {
         if (emailPattern.test(text)) {
             return " "
@@ -64,9 +63,70 @@ export default function validation(type, text)
             return ' '
         }
         else {
-            return  'mobile no is Invalid'
+            return 'mobile no is Invalid'
         }
     }
+    else if (type == 'Address') {
+        if (text.length < 5) {
+            Alert.alert('Address must be larger')
+            return false
+        } else {
+            return true
+            
+        }
+    }
+    else if (type == 'Landmark') {
+        if (text == ' ') {
+            Alert.alert('landMark is required')
+            return false
+        }
+        else {
+            return true
+        }
+    }
+   
+    else if (type == 'City') {
+        console.warn(" #####",text)
+        if (text == '  ') {
+            Alert.alert('City is required s')
+            return false 
+        }
+        else {
+            return true
+        }
+    }
+    else if (type == 'pinCode') {
+        if (text == ' ' && text.length<6) {
+            Alert.alert('pin code is required')
+            return false
+        }
+        else {
+            return true
+        }
+    }
+    else if (type == 'state') {
+        if (text == ' ' ) {
+            Alert.alert('state is required')
+            return false
+        }
+        else {
+            return true
+        }
+    }
+
+    else if (type == 'country') {
+        if (text == ' ') {
+            Alert.alert('country is required')
+            return false
+        }
+        else {
+            return true
+        }
+    }
+
+
+
+
 
 
 

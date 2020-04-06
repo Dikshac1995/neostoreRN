@@ -2,6 +2,9 @@ import {
     StyleSheet
 } from 'react-native'
 
+import {
+    StyleConstants
+} from  '../../../Assets/Constant/constant'
 export const styles = StyleSheet.create({
     Password: {
         display: 'flex',
@@ -18,6 +21,10 @@ export const styles = StyleSheet.create({
         paddingLeft: 10,
 
     },
+    inputText: {
+        fontSize: StyleConstants.FONT_20,
+        color:'#fff'
+    },
     eyeIcon:{
       paddingLeft:20,
     },
@@ -27,7 +34,10 @@ export const styles = StyleSheet.create({
         paddingBottom: 5,
         paddingLeft: 5,
         color: '#424242',
-        fontSize: 30,
+        fontSize: StyleConstants.FONT_30,
         width: '70%',
     },
+    validText: {
+        color: 'white', textAlign: 'center' 
+    }
 })

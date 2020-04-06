@@ -10,6 +10,9 @@ import { Text, View, Image, TouchableOpacity, StyleSheet, Alert } from 'react-na
 import AsyncStorage from '@react-native-community/async-storage';
 import { NativeViewGestureHandler } from 'react-native-gesture-handler';
 import CustomDrawerContent from './drawernav'
+import ActionBar from './acivity'
+import AddressList from '../screens/AddressList'
+
 
 const Drawer = createDrawerNavigator();
 
@@ -40,9 +43,9 @@ export default class MyDrawer extends Component {
 
             <Drawer.Navigator drawerContent={props => CustomDrawerContent(props, this.state.LoggedIn)} drawerType='slide'  >
 
-                <Drawer.Screen name="Homescreen" component={Homescreen} />
+                <Drawer.Screen name="Homescreen" component={Homescreen} /> 
                 <Drawer.Screen name="loginScreen" component={LoginScreen} />
-                <Drawer.Screen name="MyAccount" component={MyAccount} />
+                <Drawer.Screen name='Adddress List ' component={AddressList} />
             </Drawer.Navigator>
         );
     }

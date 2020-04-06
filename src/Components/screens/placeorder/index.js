@@ -62,7 +62,7 @@ class Placeorder extends Component {
                <>
                     <View style={{paddingHorizontal:20}} >
                         <ButtonField text=" Change or Add Address" style={styles.addressButton}
-                            onPress={this.props.navigation.navigate('AddAddress')}/>
+                            onPress={()=>this.props.navigation.navigate('AddAddress')}/>
                         {/* <Text style ={{fontSize:20,paddingBottom:10}}> Neostore Pune 444115 </Text>
                        <TouchableOpacity style={{ backgroundColor: 'red', borderRadius: 5, width :300,height: 50}}
 
@@ -87,7 +87,7 @@ class Placeorder extends Component {
                     <View>
                            <Image style={{ width: 100, height:100 }}
                                 source={{
-                        uri: 'http://180.149.241.208:3022/' + this.state.productCategory.product_image
+                        uri: 'http://180.149.241.208:3022/' + this.state.ProductDetailData.product_image
                      }} />
                         </View>
                     </View> 
@@ -98,7 +98,7 @@ class Placeorder extends Component {
                                <QuantityPicker/>
                        </View>
                         <View >          
-                       <Text style ={{fontSize:20}}>Rs,{this.state.ProductDetailData.product_cost}</Text>
+                       <Text style ={{fontSize:20}}>Rs.{this.state.ProductDetailData.product_cost}</Text>
                    </View>
                     </View>  
 

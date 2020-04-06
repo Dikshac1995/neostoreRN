@@ -27,7 +27,7 @@ export default class PasswordCom extends Component {
                 <View style={styles.Placeholder_text}>
                     <TextInput placeholder={this.props.placeholder} placeholderTextColor="#fff" secureTextEntry={this.state.password}
                             value={this.props.value}
-                            onChangeText={this.props.onChangeText ? (e) => this.props.onChangeText(e) : null}      style={{ fontSize: 20 }}
+                            onChangeText={this.props.onChangeText ? (e) => this.props.onChangeText(e) : null} style={styles.inputText}
                             onBlur={this.props.onBlur ? this.props.onBlur : null}
                         />
                     </View>
@@ -36,9 +36,9 @@ export default class PasswordCom extends Component {
                 </View>
             </View>
             <View>
-                <Text style={{ color: 'white', textAlign: 'center' }}>{this.props.validate ? this.props.validate : null}</Text>
-                </View>
-            </View>
+                <Text style={styles.validText}>{this.props.validate ? this.props.validate : null}</Text>
+             </View>
+        </View>
                
         )
     }

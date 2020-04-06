@@ -3,7 +3,7 @@ import React, {
 } from 'react'
 import {
     View,
-    Text
+    Text, TouchableOpacity
 } from 'react-native';
 import {
     Checkbox
@@ -28,8 +28,10 @@ export default class Checkbox1 extends Component {
                         checked: !checked
                     });
                 }
-            }/>
-                <Text style={styles.terms}>  i agree terms and conditions </Text>
+                    } />
+                  <Text style ={styles.text}> I agree </Text>
+                 <Text style={styles.terms}> terms and conditions </Text>
+            
                 </View>
         );
     }

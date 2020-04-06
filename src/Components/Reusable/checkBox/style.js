@@ -12,10 +12,14 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent:'center'
     },
-
+    text: {
+        color: '#fff',
+        fontSize: StyleConstants.FONT_20,
+      },
     terms: {
         color: 'white',
         fontSize: StyleConstants.FONT_20,
-        alignItems: 'flex-end'
+        alignItems: 'flex-end',
+        textDecorationLine:"underline",
     },
 });

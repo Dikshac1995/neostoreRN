@@ -28,6 +28,7 @@ import ResetPassword from '../screens/ResePassword/resetPassword'
 import AddAddress from '../screens/Add_address/add_address';
 import Map from '../Map'
 import Mycard from '../screens/MyCardScreen/Mycard'
+import AddressList from '../screens/AddressList'
 
 
 const Stack = createStackNavigator();
@@ -37,7 +38,7 @@ class Main extends Component {
         return (
             <NavigationContainer>
                 <Stack.Navigator >
-                    {/* <Stack.Screen name="homescreen" component={Homescreen} options={{headerShown: false }}/>  */}
+                     {/* <Stack.Screen name="homescreen" component={Homescreen} options={{headerShown: false }}/>  */}
                     <Stack.Screen name="MyDrawer" component={MyDrawer} options={{ headerShown: false }}/>
                     <Stack.Screen name="loginScreen" component={LoginScreen}  />
                     <Stack.Screen name="Register" component={Registration}
@@ -125,6 +126,14 @@ class Main extends Component {
                     } />
                    
                     <Stack.Screen name='Mycard' component={Mycard} options={{
+                        headerStyle: { backgroundColor: 'red' },
+                        headerTintColor: '#fff',
+                        headerTitleStyle: {
+                            fontWeight: 'bold',
+                        }
+                    }
+                    } />
+                    <Stack.Screen name='Adddress List ' component={AddressList} options={{
                         headerStyle: { backgroundColor: 'red' },
                         headerTintColor: '#fff',
                         headerTitleStyle: {
