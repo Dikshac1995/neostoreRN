@@ -17,8 +17,8 @@ export default class ForgotPassword extends Component {
         return (
             <View style={globalstyles.Container}>
               
-                    <Text style={globalstyles.neostore_logo}>NeoSTORE</Text>
-                    <Text style={globalstyles.Containerhead}>Forgot Password ?</Text>
+                <Text style={globalstyles.neostore_logo}>NeoSTORE</Text>
+                <Text style={globalstyles.Containerhead}>Forgot Password ?</Text>
                 <TextField placeholder="Enter Userid" name="user"
                     onChangeText={value => this.setState({ userId: value.trim() })}
                     onBlur={() => {
@@ -27,12 +27,11 @@ export default class ForgotPassword extends Component {
                         })
                     }}
                     validate={<Text>{this.state.userId_err}</Text>} />
-                    < ButtonField text = "submit"
-                    onPress = {
-                        () => this.props.navigation.navigate('SetPassword')
-                    }
+                
+                <ButtonField text = "submit"
+                    onPress = {() => this.props.navigation.navigate('SetPassword')}
                     style={styles.submit_button}
-                    />
+                />
                 
             </View>
         )

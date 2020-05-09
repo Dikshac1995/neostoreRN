@@ -113,52 +113,49 @@ export default class AddAddress extends Component {
              <View  style ={{display:'flex',flexDirection:'row',justifyContent:'space-between'}}>
                 <View style={{ width: 170 }}>
                      <Text style={styles.Text_label}> CITY</Text>
-                    <View style={styles.Address_TextField}>
-                                <TextInput onChangeText={value => this.setState({ City: value.trim() })}
-                                    onBlur={() => {
-                                        this.setState({
-                                            address_err: validation('City', this.state.City)
-                                        })
-                                    }} />
+                     <View style={styles.Address_TextField}>
+                         <TextInput onChangeText={value => this.setState({ City: value.trim() })}
+                            onBlur={() => {this.setState({address_err: validation('City', this.state.City)})
+                        }} />
                     </View>
                </View>
              <View style={{ width: 170 }}>
-                            <Text style={styles.Text_label}> STATE</Text>
+                    <Text style={styles.Text_label}> STATE</Text>
                     <View style={styles.Address_TextField}>
-                                <TextInput onChangeText={value => this.setState({ state: value.trim() })}
-                                    onBlur={() => {
-                                        this.setState({
-                                            address_err: validation('state', this.state.state)
-                                        })
-                                    }}/>
+                         <TextInput onChangeText={value => this.setState({ state: value.trim() })}
+                            onBlur={() => {
+                             this.setState({
+                             address_err: validation('state', this.state.state)
+                            })
+                        }}/>
                     </View>
-                 </View>
-             </View> 
+            </View>
+     </View> 
 
-                    <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                        <View style={{ width: 170 }}>
-                            <Text style={styles.Text_label}> ZIP CODE</Text>
-                            <View style={styles.Address_TextField}>
-                                <TextInput onChangeText={value => this.setState({ pinCode: value.trim() })}
-                                    onBlur={() => {
-                                        this.setState({
-                                            address_err: validation('pinCode', this.state.pinCode)
-                                        })
-                                    }}/>
-                            </View>
-                        </View>
-                        <View style={{ width: 170 }}>
-                            <Text style={styles.Text_label}> COUNTRY</Text>
-                            <View style={styles.Address_TextField}>
-                                <TextInput onChangeText={value => this.setState({ country: value.trim() })}
-                                    onBlur={() => {
-                                        this.setState({
-                                            address_err: validation('country', this.state.country)
-                                        })
-                                    }}/>
-                            </View>
-                        </View>  
-                    </View>
+    <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+        <View style={{ width: 170 }}>
+            <Text style={styles.Text_label}> ZIP CODE</Text>
+                 <View style={styles.Address_TextField}>
+                    <TextInput onChangeText={value => this.setState({ pinCode: value.trim() })}
+                        onBlur={() => {
+                        this.setState({
+                        address_err: validation('pinCode', this.state.pinCode)
+                        })
+                    }}/>
+                </View>
+        </View>
+         <View style={{ width: 170 }}>
+            <Text style={styles.Text_label}> COUNTRY</Text>
+                 <View style={styles.Address_TextField}>
+                    <TextInput onChangeText={value => this.setState({ country: value.trim() })}
+                        onBlur={() => {
+                        this.setState({
+                         address_err: validation('country', this.state.country)
+                         })
+                     }}/>
+                 </View>
+         </View>  
+</View>
                    
                     
 

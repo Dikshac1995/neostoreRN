@@ -21,6 +21,7 @@ export default class TextField extends Component {
                     <TextInput style={styles.input_text} placeholder={this.props.placeholder} placeholderTextColor="white" secureTextEntry={this.props.secureTextEntry ? this.props.secureTextEntry : null}
                     //onBlur={() => { this.props.onBlur() }}
                         value={this.props.value}
+                        //  autoFocus={true} selection={{start:0, end:0}}
                 onChangeText={this.props.onChangeText ? (e) => this.props.onChangeText(e) : null}      
                         onBlur={this.props.onBlur ? this.props.onBlur : null}
                         maxLength={this.props.maxLength?this.props.maxLength:null}

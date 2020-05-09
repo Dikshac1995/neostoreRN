@@ -60,11 +60,16 @@ export const styles = StyleSheet.create({
         color: '#333333',
         width:70
     },
+    cardIcon: {
+        
+    },
+    
     footer: {
         display: 'flex', flexDirection: 'row', backgroundColor: '#fff', paddingBottom: 30,
         marginBottom: 50, justifyContent: 'space-evenly'
 
     },
+
     buttonStyle: {
         backgroundColor: 'red',
         width:180,
@@ -72,5 +77,43 @@ export const styles = StyleSheet.create({
          color:'#fff',
         borderRadius: 8,
         textAlign:'center'
+    },
+
+     container: {
+        width: 50,
+        height: 50,
+
+        //     alignItems: 'center',
+        //  backgroundColor: 'red',
+        padding: 10
+    },
+    modal: {
+        // height:60,
+        borderRadius: 10,
+        marginLeft: 30,
+        marginRight: 30,
+        marginBottom: 30,
+        marginTop: 180,
+        flex: 1,
+        alignItems: 'center',
+        backgroundColor: '#fff',
+        padding: 10,
+
+        borderWidth: 3,
+
+        borderColor: '#fff',
+        borderTopWidth: 2,
+        borderBottomWidth: 1,
+        shadowColor: 'white',
+        shadowOffset: { width: 7, height: 5 },
+        shadowOpacity: 0.8,
+        shadowRadius: 2,
+        elevation: 6,
+    },
+    text: {
+        color: '#fff',
+        marginTop: 10,
+        marginLeft: 70,
+        fontSize: 30
     }
 });

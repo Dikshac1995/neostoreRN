@@ -16,6 +16,8 @@ import { styles } from './style'
 import { connect } from 'react-redux';
 import * as actions from '../../../Redux/Action/action'
 import PasswordCon from '../../Reusable/Password/Password'
+import validation from '../../../utils/valid'
+
 
 
 class LoginScreen extends Component {
@@ -24,55 +26,52 @@ class LoginScreen extends Component {
         this.state = {
             email: '',
             pass: '',
-            emailValid: true ,
-            passValid:true,
+            emailValid: ' ' ,
+            passValid:' ',
         }
     }
     navigate = () => {
        navigation.navigate('registrationScreen')
     }
-    updateValue(type, text) {
-        console.warn(type,text)
-        const emailPattern = /^([a-zA-Z])+([0-9a-zA-Z_\.\-])+\@+(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,5}$)$/;
-        const passreg = /^[0-9]+$/;
-        if (type == 'email') {
-            // this.setState({ email: text })
-            if (emailPattern.test(text)) {
-                return true
-                // this.setState({ emailValid: true })
-                //console.warn("text is valid ")
-            }
-            else {
-                return  false
-            //     this.setState({ emailValid: false })
-            }
-        }
-        if (type == 'password') {
-            // this.setState({ pass: text })
-            if (passreg.test(text)) {
-                return  true 
-                // this.setState({ passValid: true })
-                //console.warn("text is valid ")
-            }
-            else {
-                return false
-                // this.setState({ passValid: false })
-                //console.warn("password is invalid ")
-            }
-        }
-    }
+    // updateValue(type, text) {
+    //     console.warn(type,text)
+    //     const emailPattern = /^([a-zA-Z])+([0-9a-zA-Z_\.\-])+\@+(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,5}$)$/;
+    //     const passreg = /^[0-9]+$/;
+    //     if (type == 'email') {
+    //         // this.setState({ email: text })
+    //         if (emailPattern.test(text)) {
+    //             return true
+    //             // this.setState({ emailValid: true })
+    //             //console.warn("text is valid ")
+    //         }
+    //         else {
+    //             return  false
+    //         //     this.setState({ emailValid: false })
+    //         }
+    //     }
+    //     if (type == 'password') {
+    //         // this.setState({ pass: text                                                                                fffffffffff })
+    //         if (passreg.test(text)) {s
+    //             return  true 
+    //             // this.setState({ passValid: true })
+    //             //console.warn("text is valid ")
+    //         }
+    //         else {
+    //             return false
+    //             // this.setState({ passValid: false })
+    //             //console.warn("password is invalid ")
+    //         }
+    //     }
+    // }
       async login() {
         const value =  await AsyncStorage.getItem('token')
-        console.log("-->", value)
-        console.log(this.props.isLoggedIn,"88888888888888888888888")
-      
-        console.warn("--------", this.state.emailValid, this.state.passValid)
-            if (!this.state.emailvalid && !this.state.passValid) {
-                Alert.alert(" fill the detail ")
+           console.warn("--------", this.state.emailValid, this.state.passValid)
+            if ((!this.state.email)&& (!this.state.pass)&&(this.state.emailValid)&& (this.state.passValid)) {
+                Alert.alert(" fill the required detail ")
             }
             else {
                 this.props.login(this.state.email, this.state.pass).then(() => {
-                    if (this.props.error) {
+                    if (this.props.error) { 
                         console.log('================',this.props.isLoggedIn)
                         console.log(this.props.error)
                         Alert.alert(this.props.error)
@@ -100,21 +99,22 @@ class LoginScreen extends Component {
             <View style={styles.LoginScreen1}>
                 <View style={styles.login}>    
                     <Text style={styles.login_neostore}>NeoSTORE</Text>
-                    <TextField placeholder="email id" name="user" onChangeText={value => this.setState({ email: value.trim() })}
+                    <TextField placeholder="Email" name="envelope"
+                        onChangeText={value => this.setState({ email: value.trim() })}
                         onBlur={() => {
                             this.setState({
-                                emailValid: this.updateValue('email', this.state.email)
-                                
+                                emailValid: validation('email', this.state.email)
                             })
                         }}
-                        validate={!this.state.emailValid ? <Text>email invalid</Text> : null} />
-                    <PasswordCon placeholder='Password' onChangeText={value => this.setState({ pass: value.trim() })}
+                        validate={<Text>{this.state.emailValid}</Text>} />
+                    <PasswordCon placeholder='Password'
+                        onChangeText={value => this.setState({ pass: value.trim() })}
                         onBlur={() => {
                             this.setState({
-                                passValid:this.updateValue('password', this.state.pass)
+                                passValid: validation('password', this.state.pass)
                             })
                         }}
-                        validate={!this.state.passValid ? <Text> password invalid </Text> : null} />
+                        validate={<Text>{this.state.passValid}</Text>} />
                     {/* <TextField placeholder="Password" name="lock" secureTextEntry onChange={(e) => this.updateValue(e, 'password')}
                         validate={!this.state.passValid ? <Text>password invalid</Text> : null}/> */}
                     <ButtonField text="LOGIN"

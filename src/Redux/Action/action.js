@@ -31,10 +31,10 @@ export function login(data) {
   }else{
     return async dispatch => {
       dispatch(isLoading(true));
+      console.log('inloding')
       return await fetch('http://180.149.241.208:3022/login', {
         method: 'POST',
         headers: {
-        
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
@@ -43,6 +43,7 @@ export function login(data) {
         })
       })
         .then((response) => {
+          console.log(response);
           if (response.status === 200) {
             dispatch(isLoading(false))
             response.json().then(async (responseJSON) => {
@@ -62,6 +63,7 @@ export function login(data) {
                 // console.log("responseJSON",responseJSON);
                 dispatch(isLoading(false))
                 dispatch(loginFailed(responseJSON.message))
+                console.log('login failed')
               })
             }
           }

@@ -16,7 +16,7 @@ export default class MyDatePicker extends Component {
     return (
       <View style={styles.container}>
         <DatePicker
-          style={{ width: 250 }}
+          style={{ width: 250,color:'#fff'}}
           date={this.state.date} //initial date from state
           mode="date" //The enum of date, datetime and time
           placeholder="select date"
@@ -58,7 +58,8 @@ const styles = StyleSheet.create({
         // justifyContent: 'center',
         borderWidth: 2,
         borderColor: '#fff',
-        padding: 4,
+    padding: 4,
+        
 
     }
 })

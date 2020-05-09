@@ -86,7 +86,7 @@ import validated from '../../../utils/validationWrapper'
             <ScrollView>
                 <View style={globalstyles.Container}>
                   <Text style = {styles.register_neostore}>NeoSTORE </Text>
-                    <TextField placeholder="First Name" name="user"
+                    <TextField placeholder="First Name" name="user" 
                         onChangeText={value => this.setState({ firstName: value.trim() })}
                         onBlur={() => {
                             this.setState({
@@ -104,14 +104,16 @@ import validated from '../../../utils/validationWrapper'
                         }}
                         validate={<Text>{this.state.lastNameError}</Text>} />
                         {/* //validate={!this.state.lastNamevalid ? <Text>lastname invalid</Text> : null} */}
-                    <PasswordCon placeholder='Password' onChangeText={value => this.setState({ password: value.trim() })}
+                    <PasswordCon placeholder='Password'
+                        onChangeText={value => this.setState({ password: value.trim() })}
                         onBlur={() => {
                             this.setState({
                                 passwordError: validation('password', this.state.password)
                             })
                         }}
                         validate={<Text>{this.state.passwordError}</Text>} />
-                    <PasswordCon placeholder=' confirm Password' onChangeText={value => this.setState({ confirmPassword: value.trim() })}
+                    <PasswordCon placeholder=' confirm Password'
+                        onChangeText={value => this.setState({ confirmPassword: value.trim() })}
                         onBlur={() => {
                             this.setState({
                                 confirmpasswordError: validation('confirmPassword', this.state.confirmPassword)
@@ -150,8 +152,8 @@ import validated from '../../../utils/validationWrapper'
 }
 
 const mapStateToProps = State =>({
-    registering: State.registration.registering
-
+    registering: State.registration.registering,
+     state:State
 })
 
 

@@ -10,13 +10,14 @@ import{styles} from './style'
 export default class MyAccount extends Component {
     render() {
         return (
-            <View>
-                <View>
+            <>
+               
+                {/* <View> */}
                     
                     <Header name1="arrow-left" text=" MyAccount" name2="search" {...this.props}
-                       ></Header>
-                </View>
-            <ScrollView>
+                        onPress={() => this.props.navigation.goBack()}></Header>
+                {/* </View> */}
+                <ScrollView>
             <View>
                     <View style={globalstyles.Container}>
                         {/* <Image
@@ -43,13 +44,13 @@ export default class MyAccount extends Component {
                     <TouchableOpacity onPress={() =>this.props.navigation.navigate('ResetPassword')}>
                         <View style={{ backgroundColor: 'white', height: 50}}>
                             <Text style={{
-                                textAlign: 'center', paddingTop: 10, fontSize:20
+                                textAlign: 'center', paddingTop: 10, fontSize:20,paddingBottom:20
                     }} >Reset Password</Text>
                         </View>
                     </TouchableOpacity>
                 </View>
                 </ScrollView>
-            </View>
+            </>
         )
     }
 }

@@ -37,7 +37,7 @@ export const getPeople = () => {
         try {
             console.log("in tey")
             //Have it first fetch data from our starwars url.
-            // const starWarsPromise = await fetch('http://180.149.241.208:3022/getAllCategories');
+            //const res = await fetch('http://180.149.241.208:3022/getAllCategories');
             const res = await api.fetchapi('http://180.149.241.208:3022/getAllCategories', 'get')
             dispatch(fetchData(true))
             const people = await res.json();

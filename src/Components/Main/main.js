@@ -9,6 +9,7 @@ import {
     View,
     Text,
     StatusBar,
+    Button,TextInput
 } from 'react-native';
 import {  NavigationContainer, DrawerActions} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -29,18 +30,47 @@ import AddAddress from '../screens/Add_address/add_address';
 import Map from '../Map'
 import Mycard from '../screens/MyCardScreen/Mycard'
 import AddressList from '../screens/AddressList'
+import Icon from 'react-native-vector-icons/FontAwesome';
+import * as Animatable from 'react-native-animatable';
+import Header from '../Reusable/header /header'
+import SliderBox from '../Reusable/sliderBox'
+import Searchitem from '../Reusable/searchnar/searchbar'
+import Search from '../Reusable/searchnar/search'
+import Share1 from '../Reusable/share/share'
 
 
 const Stack = createStackNavigator();
 
 class Main extends Component {
+    Searchbar() {
+        <Animatable.View animation="slideInRight" duration={500}>
+            <View style={{ width: 300, borderRadius: 30 }}>
+               <TextInput placeholder='search' />
+            </View> 
+        </Animatable.View>
+        
+    }
     render() {
         return (
             <NavigationContainer>
-                <Stack.Navigator >
-                     {/* <Stack.Screen name="homescreen" component={Homescreen} options={{headerShown: false }}/>  */}
-                    <Stack.Screen name="MyDrawer" component={MyDrawer} options={{ headerShown: false }}/>
-                    <Stack.Screen name="loginScreen" component={LoginScreen}  />
+                <Stack.Navigator initialRouteName='MyDrawer' >
+                    <Stack.Screen name="homescreen" component={Homescreen} options={{ headerShown: false }} /> 
+                    <Stack.Screen name="Header" component={Header} options={{ headerShown: false }} /> 
+                    <Stack.Screen name="MyDrawer" component={MyDrawer} options={{ headerShown: false }} />
+                    <Stack.Screen name="SliderBox" component={SliderBox} options={{ headerShown: false }} />
+                    <Stack.Screen name="searchitem" component={Searchitem} options={{ headerShown: false }} />
+                    <Stack.Screen name="search" component={Search} options={{ headerShown: false }} />
+                    <Stack.Screen name="share" component={Share1} options={{ headerShown: false }} />
+
+                    <Stack.Screen name="loginScreen" component={LoginScreen}
+                        options={{
+                            headerStyle: { backgroundColor: 'red' },
+                            headerTintColor: '#fff',
+                            headerTitleStyle: {
+                                fontWeight: 'bold',
+                            }
+                        }
+                        }/>
                     <Stack.Screen name="Register" component={Registration}
                         options = { {headerStyle: {backgroundColor: 'red'},
                                 headerTintColor: '#fff',
@@ -67,19 +97,22 @@ class Main extends Component {
                     }
                     }/>
                     <Stack.Screen name="productList" component={ProductList} options={{
-                        headerStyle: { backgroundColor: 'red' },
-                        headerTintColor: '#fff',
-                        headerTitleStyle: {
-                            fontWeight: 'bold',
-                        }
+                        headerShown: false
+
+                        // headerStyle: { backgroundColor: 'red' },
+                        // headerTintColor: '#fff',
+                        // headerTitleStyle: {
+                        //     fontWeight: 'bold',
+                        // }
                     }
                     } />
                     <Stack.Screen name="productDetail" component={productDetail} options={{
-                        headerStyle: { backgroundColor: 'red' },
-                        headerTintColor: '#fff',
-                        headerTitleStyle: {
-                            fontWeight: 'bold',
-                        }
+                        headerShown: false
+                        // headerStyle: { backgroundColor: 'red' },
+                        // headerTintColor: '#fff',
+                        // headerTitleStyle: {
+                        //     fontWeight: 'bold',
+                        // }
                     }
                     } />
                     <Stack.Screen name="oder summary" component={Placeorder} options={{
@@ -127,10 +160,17 @@ class Main extends Component {
                    
                     <Stack.Screen name='Mycard' component={Mycard} options={{
                         headerStyle: { backgroundColor: 'red' },
-                        headerTintColor: '#fff',
+                        headerTintColor: '#fff', 
                         headerTitleStyle: {
                             fontWeight: 'bold',
-                        }
+                        },
+                        // headerRight: () => (
+                        //    <Icon name = "search" size={30}
+                        //         onPress={() => this.Searchbar()}
+                              
+                        //         color="#fff"
+                        //     />
+                        // ),
                     }
                     } />
                     <Stack.Screen name='Adddress List ' component={AddressList} options={{

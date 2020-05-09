@@ -1,5 +1,8 @@
 import { FETCH_PRODUCT, FETCH_PRODUCT_SUCCESS, FETECH_PRODUCT_FAILUER } from '../Constants/constant'
-import {api}  from '../../utils/api'
+import { api } from '../../utils/api'
+import AsyncStorage from '@react-native-community/async-storage';
+
+
 export const getProduct = () => {
     return {
         type: FETCH_PRODUCT,
@@ -54,8 +57,12 @@ export const FetchProductDetail = (type) => {
             console.log("in tey")
             const ProductList = await api.fetchapi('http://180.149.241.208:3022/' + type, 'get')
             dispatch(getProduct(true))
-            console.log("in teydfdf")
+            console.log("in teydfdf",ProductList)
             const commonProduct = await ProductList.json();
+            await AsyncStorage.setItem('datad', JSON.stringify(commonProduct))
+            const value = await AsyncStorage.getItem('datad');
+            var obj = JSON.parse(value);
+            console.log("Async",obj)
             console.log("jjjjhh", commonProduct)
             dispatch(getProductSuccess(commonProduct))
 

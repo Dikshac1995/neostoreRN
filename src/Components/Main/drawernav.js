@@ -49,8 +49,8 @@ import { NativeViewGestureHandler } from 'react-native-gesture-handler';
     <>
      {!LoggedIn?(
       <View style ={{alignItems:'center',paddingTop:20}}>
-        <Icon name="neos" size={80} /> 
-        <Text style={{fontSize:30,fontWeight:'bold'}}>Neostore</Text>
+        <Icon name="neos" size={80} color='white' /> 
+        <Text style={{fontSize:30,fontWeight:'bold', color :'white'}}>Neostore</Text>
         </View>) :
         (
           <View style ={{alignItems:'center',marginTop:20,position:'relative'}}>
@@ -73,79 +73,113 @@ import { NativeViewGestureHandler } from 'react-native-gesture-handler';
             <Text style ={{fontSize:20}}>diksha30@gmail.com</Text>
           </View>
         )}
-      <DrawerContentScrollView {...props} style={{ backgroundColor: '#fff' }} >
+      <DrawerContentScrollView {...props} style={{ backgroundColor: 'black', activeBackgroundColor:'white'}} 
+      >
         
        
-        {!LoggedIn ? (
+        {/* {!LoggedIn ? ( */}
+          <>
           <DrawerItem
-            icon={() => <Icon name="user-friends" size={30} />}
+            icon={() => <Icon name="user-friends" size={30} color='#fff' />}
             label="Account"
-            labelStyle={{ color: '#000', fontSize: 20 }}
+            labelStyle={{ color: '#fff', fontSize: 20 }}
             onPress={() =>
               <View>
                 <Text>User-Login</Text>
               </View>
+            
             }
+            activeBackgroundColor='#eee'
+            icon={() => <Icon name="user" size={30} color='#fff' ></Icon>
+            }
+            accessibilityLabel="1"
+            label1="1"
+            label1Style={{ color: '#fff', fontSize: 20 }}
+            // {
+            //   <View>
+            //     <Text>1</Text>
+            //   </View>
+            // }
+            />
+          <DrawerItem
+              icon={() => <Icon name="user-alt" size={25}   color='#fff'/>}
+              label="User-Login"
+              labelStyle={{ color: '#fff', fontSize: 20 }}
+              onPress={() => props.navigation.navigate('loginScreen')}
+              
 
-          />) : (
+            />
+            <DrawerItem
+              icon={() => <Icon name="user-plus" size={25} color ='#fff' />}
+              label="User-Registration"
+              labelStyle={{ color: '#fff', fontSize: 20 }}
+              onPress={() => props.navigation.navigate('Register')
+                
+              }
+
+            />
+            </>
+        {/* ) : ( */}
 
             <DrawerItem
-              icon={() => <Icon name="shopping-cart" size={30} />}
+              icon={() => <Icon name="shopping-cart" size={30}  color='#fff'/>}
               label="MyCart"
-              labelStyle={{ color: '#000', fontSize: 20 }}
+              labelStyle={{ color: '#fff', fontSize: 20 }}
+              
               onPress={() => props.navigation.navigate('Mycard')}
-            />)}
+        />
+            {/* )} */}
         <DrawerItemList {...props} />
       <DrawerItem
-          icon={() => <Icon name="couch" size={30}/>}
+          icon={() => <Icon name="couch" size={30} color ='#fff'/>}
           label="Sofa"
-          labelStyle={{ color: '#000',fontSize:20 }}
-          onPress={() => props.navigation.navigate('productList', { category_id :"5cfe3c5aea821930af69281e" })}
+          labelStyle={{ color: '#fff',fontSize:20 }}
+          onPress={() => props.navigation.navigate('productList', { category_id: "5cfe3c5aea821930af69281e", category_name:"sofa" })}
       />
       <DrawerItem
-          icon={() => <Icon name="bed" size={30}/>}
+          icon={() => <Icon name="bed" size={30} color='#fff'/>}
           label="Bed"
-          labelStyle={{ color: '#000', fontSize: 20 }}
-          onPress={() => props.navigation.navigate('productList', { category_id: "5cfe3c65ea821930af69281f" })}
+          labelStyle={{ color: '#fff', fontSize: 20 }}
+          onPress={() => props.navigation.navigate('productList', { category_id: "5cfe3c65ea821930af69281f", category_name:"Bed" })}
       />
       <DrawerItem
-        icon={() => <Icon name="chair" size={30} />}
+        icon={() => <Icon name="chair" size={30} color='#fff' />}
           label="chair"
-          labelStyle={{ color: '#000', fontSize: 20 , marginLeft:10}}
-          onPress={() => props.navigation.navigate('productList', { category_id: "5cfe3c6fea821930af692820" })}
+          labelStyle={{ color: '#fff', fontSize: 20 , marginLeft:10}}
+          onPress={() => props.navigation.navigate('productList', { category_id: "5cfe3c6fea821930af692820", category_name:"chair"})}
       />
       <DrawerItem
-          icon={() => <Icon name="table" size={30}/>}
+          icon={() => <Icon name="table" size={30} color='#fff'/>}
           label="Table"
-          labelStyle={{ color: '#000', fontSize: 20 ,marginLeft:10}}
-          onPress={() => props.navigation.navigate('productList', { category_id: "5cfe3c79ea821930af692821" })}
+          labelStyle={{ color: '#fff', fontSize: 20 ,marginLeft:10}}
+          onPress={() => props.navigation.navigate('productList', { category_id: "5cfe3c79ea821930af692821", category_name:"Table" })}
       />
       <DrawerItem
         icon = {
-            () => <Icon name="dungeon" size={30}/>
+            () => <Icon name="dungeon" size={30} color='#fff'/>
         }
           label="Almirah"
-          labelStyle={{ color: '#000', fontSize: 20 ,marginLeft:10}}
-          onPress={() => props.navigation.navigate('productList', { category_id: "5d14c15101ae103e6e94fbe0" })}
+          labelStyle={{ color: '#fff', fontSize: 20 ,marginLeft:10}}
+          onPress={() => props.navigation.navigate('productList', { category_id: "5d14c15101ae103e6e94fbe0", category_name:"Almirah" })}
       />
       <DrawerItem
-          icon={() => <Icon name="map-marker-alt" size={30}/>}
+          icon={() => <Icon name="map-marker-alt" size={30} color='#fff'/>}
           label="Store Locator"
-          labelStyle={{ color: '#000', fontSize: 20 , marginLeft:12}}
+          labelStyle={{ color: '#fff', fontSize: 20 , marginLeft:12}}
         onPress={() => props.navigation.navigate('Map')}
         />
         
         <DrawerItem
-          icon={() => <Icon name='user-friends' size={30}/>}
+          icon={() => <Icon name='user-friends' size={30} color ='#fff'/>}
           label="MyAccount"
-          labelStyle={{ color: '#000', fontSize: 20 ,marginLeft:10}}
+          labelStyle={{ color: '#fff', fontSize: 20 ,marginLeft:10}}
           onPress={() => props.navigation.navigate('MyAccount')}
         />
         {LoggedIn ? (
           <DrawerItem
-            icon={() => <Icon name='user-slash' size={30} />}
+            icon={() => <Icon name='user-slash' size={30}  color='#fff'/>}
             label="Sign Out"
-            labelStyle={{ color: '#000', fontSize: 20, marginLeft: 10 }}
+            labelStyle={{ color: '#fff', fontSize: 20, marginLeft: 10 }}
             onPress={() =>
               Alert.alert(
                 'Log out',
@@ -155,7 +189,7 @@ import { NativeViewGestureHandler } from 'react-native-gesture-handler';
                   {
                     text: 'Confirm', onPress: () => {
                       AsyncStorage.clear();
-                      props.navigation.navigate('loginScreen')
+                      props.navigation.navigate('homescreen')
                     }
                   },
                 ],

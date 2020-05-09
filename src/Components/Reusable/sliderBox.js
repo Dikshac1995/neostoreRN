@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet,Image } from 'react-native'
+import { Text, View, StyleSheet,Image, Alert } from 'react-native'
 import { SliderBox } from "react-native-image-slider-box";
 import { connect } from 'react-redux';
 import { FetchImage } from '../../Redux/Action/productlist'
@@ -12,6 +12,17 @@ class SliderBox1 extends Component {
         //Dispatch your dispatcher
         this.props.getPeople();
 
+    }
+    onpress(index) {
+        if (index == 0) {
+       this.props.navigation.navigate('Mycard')
+            // Alert.alert('index0')
+        }
+      else  if (index == 1) {
+            Alert.alert('index 1')
+        }
+
+        
     }
    
     getData() {
@@ -31,7 +42,20 @@ class SliderBox1 extends Component {
              img = this.props.data.map((people) => people.product_image);
             var images = img.map((a) => 'http://180.149.241.208:3022/'.concat(a))
             console.log("ncc", images)
-              return   < SliderBox autoplay circleLoop images = {images} />
+            return < SliderBox autoplay circleLoop DotColor="#90A4AE"  inactiveDotColor="red"
+                onCurrentImagePressed={index => this.onpress(index)
+                    // console.warn(`image ${index} pressed`)
+            //    index == 0? this.props.navigation.navigate('Mycard'):null}
+                }
+                images={images}
+                dotStyle={{
+                    width: 10,
+                    height: 10,
+                    borderRadius: 10,
+                    marginHorizontal: 2,
+                    padding: 0,
+                    margin: 0
+                }}/>
            // return images
             //return this.props.people.map((people) => {
                 console.log('anv', people.product_image);

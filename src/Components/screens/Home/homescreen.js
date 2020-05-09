@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import { Text, View, TouchableOpacity, StyleSheet, ScrollView} from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome5';
-
+import Header from '../../Reusable/header /header'
 // import { ss } from '@react-navigation/stack';
 import SliderBox1 from '../../Reusable/sliderBox'
 
 import Card from '../../Reusable/card'
-// import MyDrawer from '../../drawernav'
+import MyDrawer from '../../Main/drawerMain'
 
 
 
@@ -14,42 +14,49 @@ import Card from '../../Reusable/card'
      
     render() {
         return (
-           <ScrollView>
-        <View>
-            <View style={styles.headerSection}>
-                <TouchableOpacity onPress={() => {
-                        this.props.navigation.openDrawer()
-                        //this.props.navigation.navigate('Register')
-                        console.log('counter :', this.props)
-                        console.log('counter :', this.props.count)
-                        console.log('imageReducer :', this.props.image)
-                        }
-                    }>
-                <View>
+            <View>
+                {/* <Header name1="bars" text=" NeoSTORE " name2="search" 
+                /> */}
+                <View style={styles.headerSection}>
+                    <TouchableOpacity 
+                        // onPress={() =>  this.props.navigation.navigate('MyDrawer') 
+                        // onPress={() => this.props.navigate('MyDrawer')
+                  onPress = {() => this.props.navigation.openDrawer()
+                //  onPress={()=>this.props.navigation.navigate('Register')
+                   // console.log('counter :', this.props)
+                   // console.log('counter :', this.props.count)
+                   // console.log('imageReducer :', this.props.image)
+               
+               }>
+                        <View>
                             <Icon name="bars" size={30} color="#fff" />
                         </View>
                     </TouchableOpacity>
-                    <Text style = {styles.headerTitle}>NeoSTORE</Text>
-                <Icon name ="search" size = {30} color= '#fff'></Icon>
-              </View>
+                    <Text style={styles.headerTitle}>NeoSTORE</Text>
+                    <Icon name="search" size={30} color='#fff'></Icon>
+                </View>
+            <ScrollView>
+        <View>
+           
                 <View style= {{height:200}}>
                     <SliderBox1 />
                 </View>
                 <View style={{ display: 'flex', flexWrap: 'wrap' }}>
                     <View style={{ flexDirection: 'row', justifyContent:'center' }} >
-                        <Card title="sofa" name="couch" {...this.props}  category_name="sofa" category_id="5cfe3c5aea821930af69281e"/>
-                        <Card title="bed" name="bed" {...this.props} category_id="5cfe3c65ea821930af69281f"/>
-                </View>
+                         <Card name="couch" title="sofa" {...this.props}  category_name="sofa" category_id="5cfe3c5aea821930af69281e"/>
+                         <Card title="bed" name="bed" {...this.props} category_id="5cfe3c65ea821930af69281f" category_name="Bed"/>
+                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-                        <Card title="chair" name="chair" {...this.props} category_id="5cfe3c6fea821930af692820"/>
-                        <Card title="Table" name="table"{...this.props} category_id="5cfe3c79ea821930af692821"/>
+                        <Card title="chair" name="chair" {...this.props} category_id="5cfe3c6fea821930af692820" category_name="chair"/>
+                        <Card title="Table" name="table"{...this.props} category_id="5cfe3c79ea821930af692821" category_name="Table"/>
                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-                            <Card title="Almirah" name="dungeon"{...this.props} category_id="5d14c15101ae103e6e94fbe0" />
+                                <Card title="Almirah" name="dungeon"{...this.props} category_id="5d14c15101ae103e6e94fbe0" category_name="Almirah" />
                     </View> 
               </View>
                 </View>
-        </ScrollView>
+                </ScrollView>
+            </View>
         )
     }
 }
