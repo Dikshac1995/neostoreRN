@@ -69,58 +69,61 @@ export default function validation(type, text)
     else if (type == 'Address') {
         if (text.length < 5) {
             Alert.alert('Address must be larger')
-            return false
-        } else {
             return true
+        } else {
+            return false
             
         }
     }
     else if (type == 'Landmark') {
         if (text == ' ') {
             Alert.alert('landMark is required')
-            return false
+            return true
         }
         else {
-            return true
+            return false
         }
     }
    
     else if (type == 'City') {
-        console.warn(" #####",text)
-        if (text == '  ') {
-            Alert.alert('City is required s')
-            return false 
-        }
-        else {
+        console.warn(" #####", text)
+        if (text == '') {
+            // console.warn('@@@')
+            Alert.alert(' cityis required')
             return true
         }
+        else {
+            // Alert.alert('ok')
+            return false
+        }
+        
     }
     else if (type == 'pinCode') {
         if (text == ' ' && text.length<6) {
             Alert.alert('pin code is required')
-            return false
+            return true
         }
         else {
-            return true
+            return false
         }
     }
     else if (type == 'state') {
         if (text == ' ' ) {
             Alert.alert('state is required')
-            return false
+            return true
         }
         else {
-            return true
+            return false
         }
     }
 
     else if (type == 'country') {
         if (text == ' ') {
             Alert.alert('country is required')
-            return false
+            return true
         }
         else {
-            return true
+            return false
         }
     }
 

@@ -3,7 +3,7 @@ import React, {
 } from 'react'
 import {
     View,
-    Text, TouchableOpacity
+    Text, TouchableOpacity, Alert
 } from 'react-native';
 import {
     Checkbox
@@ -30,7 +30,7 @@ export default class Checkbox1 extends Component {
                 }
                     } />
                   <Text style ={styles.text}> I agree </Text>
-                 <Text style={styles.terms}> terms and conditions </Text>
+                 <Text style={styles.terms} onPress={()=>Alert.alert('hi')}> terms and conditions </Text>
             
                 </View>
         );

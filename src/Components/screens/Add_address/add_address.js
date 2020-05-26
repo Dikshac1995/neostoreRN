@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View ,Button, Alert} from 'react-native'
+import { Text, View ,Button, Alert,ScrollView} from 'react-native'
 import { TextInput } from 'react-native-gesture-handler'
 import {globalstyles} from '../../../style/style'
 import TextField from '../../Reusable/textField/textField'
@@ -8,6 +8,8 @@ import { styles } from './style'
 import AsyncStorage from '@react-native-community/async-storage';
 import authHeader from '../../../Redux/helper/authHeader'
 import validation from '../../../utils/valid'
+import { tokenHard } from '../../../Assets/Constant/constant'
+import {api } from '../../../utils/api'
 
 
 export default class AddAddress extends Component {
@@ -31,59 +33,84 @@ export default class AddAddress extends Component {
         }
     }
     AddAddress() {
-        let collection = {}
-        collection.address = this.state.address
-        collection.pincode = this.state.pinCode
-        collection.city = this.state.city
-        collection.state = this.state.state
-        collection.country = this.state.country
+        let collection1 = {}
+        collection1.u_address = this.state.address
+        collection1.pincode = this.state.pinCode
+        collection1.city = this.state.City
+        collection1.state = this.state.state
+        collection1.country = this.state.country
         
         
-        console.warn(collection);
+        console.warn(collection1);
         let error = {}
         error.address_err = this.state.address_err
+        var url = 'http://180.149.241.208:3022/address'
+       
+        fetch(url, {
+            method: 'POST', // or 'PUT'
+            headers: {
+                "accept": "application/json",
+                'Content-Type': 'application/x-www-form-urlencoded/json',
+                Authorization: tokenHard? 'Bearer ' + tokenHard : null
+
+                // Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzQ4LCJpYXQiOjE1ODU5ODI1Njd9.Mpv9w9yfgh2pc784V9IJQYGvXT-mK3ge7JHVdzhEWJs"
+
+            },
+            body: JSON.stringify(collection1),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log('Success:', data);
+                Alert.alert(" address added successfully")
+            })
+            .catch((error) => {
+                console.log('Error:', error);
+            });
         console.warn(error)
         
-        if (collection && !error) {
-            Alert.alert('filled')
-            console.log(authHeader)
-            var url = 'http://180.149.241.208:3022/address'
-            api.fetchapi(url, 'post', collection)
-                .then(res => Alert.alert(res))
-                .catch(err => Alert.alert(err))
-                fetch(url, {
-                    method: 'POST', // or 'PUT'
-                    headers: {
-                        'Content-Type': 'application/json',
-                        ...authHeader,
-                       // Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzQ4LCJpYXQiOjE1ODU4NDg2ODN9._haZuVTP_lRWl4bNyouhe - oAuDulp7mzBYWwHsxmUQE
-                    //Authorization: token ? 'Bearer ' + AsyncStorage.getItem('token') : null
-                    },
-                    body: JSON.stringify(collection),
-                })
-                    .then((response) => response.json())
-                    .then((data) => {
-                        if (data.suceess) {
-                            console.log('Success:', data);
-                            Alert.alert(" data send successfully ")
-                        }
-                        else {
-                            Alert.alert(" data send unsuccessfully ")
+        // if (collection && error== false) {
+            // Alert.alert('filled')
+            // console.log(authHeader)
+        // var url = 'http://180.149.241.208:3022/address'
+        // console.log(url)
+        //     // api.fetchapi(url, 'post', collection)
+        //     //     .then(res => Alert.alert(res))
+        //     //     .catch(err => Alert.alert(err))
+        //         fetch(url, {
+        //             method: 'POST', // or 'PUT'
+        //             headers: {
+        //                 'Content-Type': 'application/json',
+        //                 // ...authHeader,"
+        //                 Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzQ4LCJpYXQiOjE1ODU5ODI1Njd9.Mpv9w9yfgh2pc784V9IJQYGvXT-mK3ge7JHVdzhEWJs"
+        //                // Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzQ4LCJpYXQiOjE1ODU4NDg2ODN9._haZuVTP_lRWl4bNyouhe - oAuDulp7mzBYWwHsxmUQE
+        //             //Authorization: token ? 'Bearer ' + AsyncStorage.getItem('token') : null
+        //             },
+        //             body: JSON.stringify(collection),
+        //         })
+        //             .then((response) => response.json())
+        //             .then((data) => {
+        //                 if (data.suceess) {
+        //                     console.log('Success:', data);
+        //                     Alert.alert(" data send successfully ")
+        //                 }
+        //                 else {
+        //                     Alert.alert(" data send unsuccessfully ")
                     
 
-                        }
-                    })
-                    .catch((error) => {
-                        console.log('Error:', error);
-                    });
+        //                 }
+        //             })
+        //             .catch((error) => {
+        //                 console.log('Error:', error);
+        //             });
         
 
-        } else {
-            Alert.alert(' fill the all data ')
-        }
+        // } else {
+        //     Alert.alert(' fill the all data ')
+        // }
     }
     render() {
         return (
+            <ScrollView>
             <View style={styles.Address_container}>
                 <View style={styles.Address_wrapper}>
                     <View style={styles.fields}>
@@ -197,7 +224,8 @@ export default class AddAddress extends Component {
                             onPress={() => this.AddAddress()} />
                     </View>
                 </View>
-            </View>
+                </View>
+            </ScrollView>
         )
     }
 }

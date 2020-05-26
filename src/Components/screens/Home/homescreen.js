@@ -51,7 +51,7 @@ import MyDrawer from '../../Main/drawerMain'
                         <Card title="Table" name="table"{...this.props} category_id="5cfe3c79ea821930af692821" category_name="Table"/>
                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-                                <Card title="Almirah" name="dungeon"{...this.props} category_id="5d14c15101ae103e6e94fbe0" category_name="Almirah" />
+                         <Card title="Almirah" name="dungeon"{...this.props} category_id="5d14c15101ae103e6e94fbe0" category_name="Almirah" />
                     </View> 
               </View>
                 </View>

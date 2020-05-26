@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { Text, View ,TouchableOpacity, Alert} from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome';
+import AntIcon from 'react-native-vector-icons/AntDesign';
+
 import { styles } from './style'
 import Searchbar1 from  '../searchnar/searchbar'
 import { ScrollView } from 'react-native-gesture-handler';
@@ -39,7 +41,7 @@ export default class Header extends Component {
                         {/* onPress={
                     () => this.props.navigatation.navigate('Homescreen')}> */}
                  {/* onPress={() => this.props.navigation.navigate('productList', { category_id: this.props.category_id })}>                    */}
-                    <Icon name={this.props.name1} size={30} color="#fff" />
+                    <AntIcon name={this.props.name1} size={30} color="#fff" />
              </TouchableOpacity>
                     <Text  style={styles.headerTitle} numberOfLines={1} ellipsizeMode='head'>{
                         //  ((text).length > 20) ?

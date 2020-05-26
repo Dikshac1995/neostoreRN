@@ -2,9 +2,18 @@
 import MapView, { PROVIDER_GOOGLE} from 'react-native-maps'; // remove PROVIDER_GOOGLE import if not using Google Maps
 import { StyleSheet } from 'react-native'
 import React from "react";
-import { View, Text } from "react-native";
-import { Marker } from 'react-native-maps';
+import { View, Text,Share } from "react-native";
+import Icon from 'react-native-vector-icons/FontAwesome5';
+import { Dimensions } from 'react-native';
 
+import { Marker } from 'react-native-maps';
+import { ScrollView } from 'react-native-gesture-handler';
+
+const screen = Dimensions.get('window');
+
+const ASPECT_RATIO = screen.width / screen.height;
+const LATITUDE_DELTA = 0.0922;
+const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 
 
@@ -76,10 +85,13 @@ export default class Map extends React.Component {
         this.refs.map.fitToElements(true);
     }
     
+    
     render() {
         const { marker } = this.props;
         return (
+           <ScrollView>
             <View style={styles.container}>
+                
                 <MapView
                     provider={PROVIDER_GOOGLE} // remove if not usinsg Google Maps
                     style={styles.map}
@@ -92,7 +104,8 @@ export default class Map extends React.Component {
                         latitude: 18.58,
                         longitude: 73.7374,
                         latitudeDelta: 0.0922,
-                        longitudeDelta: 0.0421,
+                        // longitudeDelta: 0.0421,
+                        longitudeDelta:LONGITUDE_DELTA
                     }}
                     // annotations={markers}
                 >
@@ -132,7 +145,12 @@ export default class Map extends React.Component {
                         />
                  */}
                 {/* </MapView> */}
-            </View>
+               
+                </View>
+                <View style={{backgroundColor:'#00f',padding:10,marginTop:10}}>
+                   <Text>Store</Text>
+                </View>
+             </ScrollView>
         );
     }
 }
@@ -140,8 +158,8 @@ export default class Map extends React.Component {
 const styles = StyleSheet.create({
     container: {
         ...StyleSheet.absoluteFillObject,
-        height:'100%',
-        width: 400,
+        height:screen.height-100,
+        width: screen.width,
         justifyContent: 'flex-end',
         alignItems: 'center',
     },

@@ -13,6 +13,9 @@ import { globalstyles } from '../../../style/style'
 import validation from '../../../utils/valid'
 import PasswordCon from '../../Reusable/Password/Password'
 import validated from '../../../utils/validationWrapper'
+import {
+    Checkbox,RadioButton
+} from 'react-native-paper';
 
  class Registration extends Component {
 
@@ -35,7 +38,10 @@ import validated from '../../../utils/validationWrapper'
                 emailError: ' ',
                 phoneError: ' ',
         
-            submitted:false
+            submitted: false,
+            checked: false,
+        
+            radioCheck: 'first',
         } 
     }
      
@@ -79,7 +85,8 @@ import validated from '../../../utils/validationWrapper'
 
     
      render() {
-        const { registering } = this.props;
+         const { registering } = this.props;
+         const { radioCheck} = this.state;
          //const { user, submitted } = this.state;
         console.log("props ffg",this.props)
         return (
@@ -129,8 +136,25 @@ import validated from '../../../utils/validationWrapper'
                             })
                         }}
                         validate={<Text>{this.state.emailError}</Text>} />
-                    <Gender/>
+                    {/* <Gender /> */}
+                    <View style={styles.GenderField}>
+                        <Text style={styles.Gender}> Gender </Text>
+                        <RadioButton value="first"
+                            status={radioCheck === 'first' ? 'checked' : 'unchecked'}
+                            onPress={() => {
+                                this.setState({
+                                    radioCheck: 'first'
+                                });
+                            }} />
+                        <Text style={
+                            styles.GenderName
+                        }> Male </Text>
+                        <RadioButton value="second" status={radioCheck === 'second' ? 'checked' : 'unchecked'}
+                            onPress={() => { this.setState({ radioCheck: 'second' }); }} />
+                        <Text style={styles.GenderName}> Female </Text>
+                    </View>
                     <TextField placeholder="Phone number" name="mobile-phone" maxLength={10}
+                        keyboardType={"number-pad"}
                         onChangeText={value => this.setState({ phoneNo: value.trim() })}
                         onBlur={() => {
                             this.setState({
@@ -138,7 +162,21 @@ import validated from '../../../utils/validationWrapper'
                             })
                         }}
                         validate={<Text>{this.state.phoneError}</Text>} />
-                    <Checkbox1 />
+                    {/* <Checkbox1 /> */}
+                    <View style={styles.checkboxField}>
+                    <Checkbox status={
+                        this.state.checked ? 'checked' : 'unchecked'
+                    }
+                        onPress={
+                            () => {
+                                this.setState({
+                                    checked: !this.state.checked
+                                });
+                            }
+                            } />
+                        <Text style={styles.text}> I agree </Text>
+                        <Text style={styles.terms} onPress={() => Alert.alert('hi')}> terms and conditions </Text>
+                    </View>
                     <View>
                     <ButtonField text="Registration"  style={styles.registerButton}
                     //onPress={() => this.props.navigation.navigate('loginScreen')} 

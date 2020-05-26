@@ -31,6 +31,38 @@ export const styles = StyleSheet.create({
         opacity: 0.7,
 
     },
+    GenderField: {
+        display: 'flex',
+        flexDirection: 'row',
+        // justifyContent:'space-between'
+    },
+    Gender: {
+        color: 'white',
+        fontSize: StyleConstants.FONT_20,
+        fontWeight: 'bold',
+        alignItems: 'flex-end'
+    },
+    GenderName: {
+        color: 'white',
+        fontSize: StyleConstants.FONT_20,
+
+    },
+
+    checkboxField: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'center'
+    },
+    text: {
+        color: '#fff',
+        fontSize: StyleConstants.FONT_20,
+    },
+    terms: {
+        color: 'white',
+        fontSize: StyleConstants.FONT_20,
+        alignItems: 'flex-end',
+        textDecorationLine: "underline",
+    }
     // forgot_link: {
     //     color: 'white',
     //     fontSize: 20,

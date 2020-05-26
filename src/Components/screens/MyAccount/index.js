@@ -14,7 +14,7 @@ export default class MyAccount extends Component {
                
                 {/* <View> */}
                     
-                    <Header name1="arrow-left" text=" MyAccount" name2="search" {...this.props}
+                    <Header name1="arrowleft" text=" MyAccount" name2="search" {...this.props}
                         onPress={() => this.props.navigation.goBack()}></Header>
                 {/* </View> */}
                 <ScrollView>

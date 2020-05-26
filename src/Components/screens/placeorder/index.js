@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, Image, ScrollView, FlatList, TouchableOpacity,Button} from 'react-native'
+import { Text, View, Image, ScrollView, FlatList, TouchableOpacity,Button,Picker} from 'react-native'
 import { FetchProductDetail } from '../../../Redux/Action/productlist'
 import { connect } from 'react-redux';
 import { styles } from './style'
@@ -16,7 +16,7 @@ class Placeorder extends Component {
             productCategory: [],
             subImages_id: [],
             modalVisible: false,
-            
+            selectedValue:"1",
         };
     }
   
@@ -95,8 +95,21 @@ class Placeorder extends Component {
                     <View style={styles.productDetailSection1_wrapper}>
                        <View style ={{width:200}}>
                                <Text style={styles.material_name}>{this.state.ProductDetailData.product_material}</Text>
-                               <QuantityPicker/>
-                       </View>
+                            {/* <QuantityPicker/> */}
+                            <Picker
+                                selectedValue={this.state.selectedValue}
+                                style={{ width: 100 }}
+                                onValueChange={(itemValue, itemIndex) => this.setState({ selectedValue: itemValue })}
+                            >
+                                <Picker.Item label="1 " value="1" />
+                                <Picker.Item label="2" value="2" />
+                                <Picker.Item label="3" value="3" />
+                                <Picker.Item label="4 " value="4" />
+                                <Picker.Item label="5 " value="5" />
+
+                            </Picker>
+                        </View>
+                       
                         <View >          
                        <Text style ={{fontSize:20}}>Rs.{this.state.ProductDetailData.product_cost}</Text>
                    </View>
@@ -113,14 +126,14 @@ class Placeorder extends Component {
                   <Text style={styles.priceDetail}>Price Detail</Text>
                         <View style={styles.priceDetailWrapper}>
                           <Text style={{fontSize:20,width:250}}>Price</Text>
-                       <Text style={{ fontSize: 20 }}>{this.state.ProductDetailData.product_cost}</Text>
+                       <Text style={{ fontSize: 20 }}>{this.state.ProductDetailData.product_cost*this.state.selectedValue}</Text>
                      </View>
                    </View>
-                    
+
                    
                 <View style={styles.footer}>
                     <View style={styles.footer_wrapper}>
-                            <View style={{padding:10}}><Text style={styles.footerProduct_cost}>Rs.{this.state.ProductDetailData.product_cost}</Text>
+                            <View style={{padding:10}}><Text style={styles.footerProduct_cost}>Rs.{this.state.ProductDetailData.product_cost*this.state.selectedValue}</Text>
                             </View>
                             <ButtonField text="ORDER NOW" style={styles.footerButton_text} />
                            

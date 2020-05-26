@@ -18,11 +18,12 @@ class ProductList extends Component {
     }
     showToastWithGravityAndOffset = () => {
         ToastAndroid.showWithGravityAndOffset(
-            " 5 of 8 ",
+            " 8 of 40 ",
             ToastAndroid.LONG,
             ToastAndroid.BOTTOM,
             25,
             50,
+            
             
         );
     };
@@ -45,6 +46,16 @@ class ProductList extends Component {
             />
         );
     }
+
+    renderFooter = () => {
+        //it will show indicator at the bottom of the list when data is loading otherwise it returns null
+        if (!this.state.loading) return null;
+        return (
+            <ActivityIndicator
+                style={{ color: '#000' }}
+            />
+        );
+    };
    
 
     render() {
@@ -56,7 +67,7 @@ class ProductList extends Component {
         return (
           
             <>
-                <Header name1='arrow-left' text={category_name} name2='search'
+                <Header name1='arrowleft' text={category_name} name2='search'
                     onPress={() => this.props.navigation.goBack()}
                     onClick={() => this.props.navigation.navigate('searchitem')}
 
@@ -92,7 +103,8 @@ class ProductList extends Component {
                                         </TouchableOpacity>
                                     </View>}
                                 onScroll={() => this.showToastWithGravityAndOffset()}
-                                ItemSeparatorComponent={this.FlatListItemSeparator} />
+                                ItemSeparatorComponent={this.FlatListItemSeparator}
+                                ListFooterComponent={this.renderFooter.bind(this)}/>
                         </View>}
                 </View>
   </>

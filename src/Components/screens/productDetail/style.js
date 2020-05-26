@@ -69,7 +69,15 @@ export const styles = StyleSheet.create({
         marginBottom: 50, justifyContent: 'space-evenly'
 
     },
-
+    rate_button: {
+        backgroundColor: '#7f7f7f',
+        width: 180,
+        fontSize: 20,
+        color: '#fff',
+        borderRadius: 8,
+        textAlign: 'center'
+    },
+   
     buttonStyle: {
         backgroundColor: 'red',
         width:180,

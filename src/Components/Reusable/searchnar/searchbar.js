@@ -61,7 +61,7 @@ export default class SerachItem extends React.Component {
             .then(data =>{
                 this.setState({
                     searchBarFocused: false,
-                   searchResult: data.product_details,
+                     searchResult: data.product_details,
                });
            })
             .catch(error => {
