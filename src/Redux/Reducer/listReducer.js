@@ -12,7 +12,7 @@ const initialState = {
 }
 
 
-export const GET_COROSAL_IMAGE = 'gET_COROSAL_IMAGE';
+export const GET_COROSAL_IMAGE = 'GET_COROSAL_IMAGE';
 
 export const GET_COROSAL_IMAGE_FULFILLED = 'GET_COROSAL_IMAGE_FULFILLED';
 

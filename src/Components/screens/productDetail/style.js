@@ -5,29 +5,29 @@ export const styles = StyleSheet.create({
 
     productDeatailSection1: {
         backgroundColor: "#fff",
-        marginBottom: 20 
+        marginBottom: 20
         // padding:20,
         // paddingTop:30,
         // // paddingHorizontal: 20,
         // paddingBottom:10
-        
+
     },
-    productDetailSection1_wrapper:{
+    productDetailSection1_wrapper: {
         paddingHorizontal: 20,
         paddingVertical: 10
     },
     productDetailSection2: {
-        paddingHorizontal: 30, marginBottom: 20  
+        paddingHorizontal: 30, marginBottom: 20
     },
     PDsection2_Price: {
         display: 'flex', flexDirection: 'row', justifyContent: 'space-between', padding: 10
     },
     productDetailSection2_wapper: {
-         padding:10,
-        backgroundColor: '#fff', 
+        padding: 10,
+        backgroundColor: '#fff',
         // borderWidth: 2,
         borderRadius: 15,
-       borderColor: '#fff',
+        borderColor: '#fff',
         // borderBottomWidth: 1,
         // shadowColor: 'white',
         // shadowOffset: { width: 0, height: 2 },
@@ -41,7 +41,7 @@ export const styles = StyleSheet.create({
     },
     categogy_name: {
         fontSize: StyleConstants.FONT_26,
-        color:'#4f4f4f'
+        color: '#4f4f4f'
     },
     material_name: {
         fontSize: StyleConstants.FONT_23,
@@ -49,24 +49,24 @@ export const styles = StyleSheet.create({
     },
     product_cost: {
         color: 'red',
-         fontSize: StyleConstants.FONT_23,
+        fontSize: StyleConstants.FONT_23,
     },
     Product_description_title: {
         fontSize: StyleConstants.FONT_30,
-        color:'#111111'
+        color: '#111111'
     },
     Product_description: {
         fontSize: StyleConstants.FONT_30,
         color: '#333333',
-        width:70
+        width: 70
     },
     cardIcon: {
-        
+
     },
-    
+
     footer: {
         display: 'flex', flexDirection: 'row', backgroundColor: '#fff', paddingBottom: 30,
-        marginBottom: 50, justifyContent: 'space-evenly'
+        marginBottom: 50, justifyContent: 'space-evenly',
 
     },
     rate_button: {
@@ -77,17 +77,17 @@ export const styles = StyleSheet.create({
         borderRadius: 8,
         textAlign: 'center'
     },
-   
+
     buttonStyle: {
         backgroundColor: 'red',
-        width:180,
-        fontSize: 20, 
-         color:'#fff',
+        width: 180,
+        fontSize: 20,
+        color: '#fff',
         borderRadius: 8,
-        textAlign:'center'
+        textAlign: 'center'
     },
 
-     container: {
+    container: {
         width: 50,
         height: 50,
 

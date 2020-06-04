@@ -61,7 +61,8 @@ class ProductList extends Component {
     render() {
         const { category_name } = this.props.route.params;
         console.warn(category_name)
-        const { data} = this.props;
+        const { data } = this.props;
+        console.log(' .........',data)
         console.log("hello", data.product_details);
         const ProductDetail = data.product_details;
         return (
@@ -85,9 +86,10 @@ class ProductList extends Component {
                                             onPress={() => { this.props.navigation.navigate('productDetail', { product_id: item.product_id }) }}
                                           >
                                             <View>
-                                                <Image style={{ width: 120, height: 100 }} source={{
-                                                    uri: 'http://180.149.241.208:3022/' + item.product_image
-                                                }} />
+                                                {!item.product_image ? <ActivityIndicator size='large' /> :
+                                                    <Image style={{ width: 120, height: 100 }} source={{
+                                                        uri: 'http://180.149.241.208:3022/' + item.product_image
+                                                    }} />}
                                             </View>
                                             <View style={{ padding: 20, width: 250 }}>
                                                 <Text style={{ fontSize: 15, fontWeight: 'bold' }}>{((item.product_name).length > 20) ?

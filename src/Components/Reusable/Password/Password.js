@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
-import { Text, View, TextInput, } from 'react-native'
-// import { styles } from './style'
+import { Text, View, TextInput, ColorPropType, } from 'react-native'
+ import { _color } from '../../../Assets/Constant/constant'
 // import icon from '../../../../Assets/icons/icons'
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { styles } from './style'
@@ -25,7 +25,7 @@ export default class PasswordCom extends Component {
             <View style={styles.Password}>
                 <Icon name='lock' size={30} color="#fff" style={styles.Icon} />
                 <View style={styles.Placeholder_text}>
-                    <TextInput placeholder={this.props.placeholder} placeholderTextColor="#fff" secureTextEntry={this.state.password}
+                        <TextInput underlineColorAndroid = "transparent"   placeholder={this.props.placeholder} placeholderTextColor= {_color.placeholderColor} secureTextEntry={this.state.password}
                             value={this.props.value}
                             onChangeText={this.props.onChangeText ? (e) => this.props.onChangeText(e) : null} style={styles.inputText}
                             onBlur={this.props.onBlur ? this.props.onBlur : null}

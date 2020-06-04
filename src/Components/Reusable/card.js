@@ -20,15 +20,28 @@ export default class Card extends Component {
                         category_id: this.props.category_id,
                         category_name:this.props.category_name
                     })}>
-                    <>
-                        <View style={style.CardContents}>
-                            <Text style={style.card_name}>
-                             {this.props.title}
-                            </Text></View>
-                        <View
-                        style={style.CardContentRC}
-                        ><Icon name={this.props.name} size={50}
-                    color="#fff" /></View></>
+                        
+                        {this.props.position1 ? (
+                            <>
+                            <View style={style.CardContents}>
+                                <Text style={style.card_name}>
+                                    {this.props.title}
+                                </Text>
+                            </View>
+                            <View style={style.CardContentRC}>
+                                <Icon name={this.props.name} size={60} color="#fff" />
+                            </View></>
+                        ) : (<>
+                            <View style={style.CardContents}>
+                                    <Icon name={this.props.name} size={60} color="#fff" /> 
+                            </View>
+                            <View style={style.CardContentRC}>
+                                    
+                                    <Text style={style.card_name}>
+                                        {this.props.title}
+                                    </Text>
+                            </View></>)}
+                            
                     </TouchableOpacity>
                 </View>
             </View>
@@ -49,11 +62,14 @@ export const style = StyleSheet.create({
        alignItems:'flex-start'
     },
     CardContentRC: {
-      alignItems:'flex-end'
+        alignItems: 'flex-end',
+        justifyContent: 'flex-end',
+        marginTop:25
     },
     card_name: {
         color: 'white',
         fontSize: 30,
+        fontWeight:'bold'
         
     },
     icons: {

@@ -1,13 +1,15 @@
 
-import MapView, { PROVIDER_GOOGLE} from 'react-native-maps'; // remove PROVIDER_GOOGLE import if not using Google Maps
+import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'; // remove PROVIDER_GOOGLE import if not using Google Maps
 import { StyleSheet } from 'react-native'
 import React from "react";
-import { View, Text,Share } from "react-native";
+import { View, Text, Share } from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Dimensions } from 'react-native';
 
 import { Marker } from 'react-native-maps';
 import { ScrollView } from 'react-native-gesture-handler';
+import Header from '../../Components/Reusable/header /header'
+
 
 const screen = Dimensions.get('window');
 
@@ -19,11 +21,12 @@ const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 export default class Map extends React.Component {
 
-  
+
 
     constructor(props) {
         super(props)
         this.state = {
+            extended: false,
             markers: [{
                 title: 'Neostore-pimpri',
                 coordinates: {
@@ -64,60 +67,64 @@ export default class Map extends React.Component {
                     latitude: 18.5914,
                     longitude: 73.739
                 },
+            },
+            {
+                title: 'Neostore-BlueRidge',
+                coordinates: {
+                    latitude: 18.58,
+                    longitude: 73.7374
                 },
-                {
-                    title: 'Neostore-BlueRidge',
-                    coordinates: {
-                        latitude: 18.58,
-                        longitude: 73.7374
-                    },
+            },
+            {
+                title: 'Neostore-warje',
+                coordinates: {
+                    latitude: 18.4709,
+                    longitude: 73.8889,
                 },
-                {
-                    title: 'Neostore-warje',
-                    coordinates: {
-                        latitude: 18.4709,
-                        longitude: 73.8889,
-                    },
             }]
         }
     }
     componentDidMount() {
         this.refs.map.fitToElements(true);
     }
-    
-    
+
+
     render() {
         const { marker } = this.props;
         return (
-           <ScrollView>
-            <View style={styles.container}>
-                
-                <MapView
-                    provider={PROVIDER_GOOGLE} // remove if not usinsg Google Maps
-                    style={styles.map}
-                    ref="map"
-                    // fitToElements
-                    zoomEnabled={true}
-                    showsUserLocation={true}
-                    followUserLocation={true}
-                    initialRegion={{
-                        latitude: 18.58,
-                        longitude: 73.7374,
-                        latitudeDelta: 0.0922,
-                        // longitudeDelta: 0.0421,
-                        longitudeDelta:LONGITUDE_DELTA
-                    }}
+            <ScrollView>
+                <Header name1='arrowleft' text='store Location ' name2='search'
+                    onPress={() => this.props.navigation.goBack()}
+                    onClick={() => this.props.navigation.navigate('share')}
+                />
+                <View style={styles.container}>
+
+                    <MapView
+                        provider={PROVIDER_GOOGLE} // remove if not usinsg Google Maps
+                        style={styles.map}
+                        ref="map"
+                        // fitToElements
+                        zoomEnabled={true}
+                        showsUserLocation={true}
+                        followUserLocation={true}
+                        initialRegion={{
+                            latitude: 18.58,
+                            longitude: 73.7374,
+                            latitudeDelta: 0.0922,
+                            // longitudeDelta: 0.0421,
+                            longitudeDelta: LONGITUDE_DELTA
+                        }}
                     // annotations={markers}
-                >
-                    {this.state.markers.map(marker => (
-                    <MapView.Marker
-                        coordinate={marker.coordinates}
-                            title={marker.title}
-                            
-                        /> 
-                    )
-               )}
-                    {/* <Marker coordinate={{ latitude: 18.6187, longitude: 73.8037}}
+                    >
+                        {this.state.markers.map(marker => (
+                            <MapView.Marker
+                                coordinate={marker.coordinates}
+                                title={marker.title}
+
+                            />
+                        )
+                        )}
+                        {/* <Marker coordinate={{ latitude: 18.6187, longitude: 73.8037}}
                         pinColor={"purple"} // any color
                         title={"Neostor"}
                         description={"e-Shop"} /> 
@@ -125,9 +132,9 @@ export default class Map extends React.Component {
                         pinColor={"red"} // any color
                         title={"Neostor"}
                         description={"e-Shop"} /> */}
-                   
-                </MapView>
-                {/* <MapView
+
+                    </MapView>
+                    {/* <MapView
                     provider={PROVIDER_GOOGLE} // remove if not using Google Maps
                     style={styles.map}
                     region={{
@@ -137,20 +144,20 @@ export default class Map extends React.Component {
                         longitudeDelta: 0.0121,
                     }}
                 > */}
-                   
-                        {/* <Marker
+
+                    {/* <Marker
                         coordinate={marker.coordinate}
                             title='neostore'
                             description= 'ecoomrse shop'
                         />
                  */}
-                {/* </MapView> */}
-               
+                    {/* </MapView> */}
+
                 </View>
-                <View style={{backgroundColor:'#00f',padding:10,marginTop:10}}>
-                   <Text>Store</Text>
+                <View style={{ backgroundColor: '#e0e', padding: 10, marginTop: 550, height: 40 }}>
+                    <Text>Store</Text>
                 </View>
-             </ScrollView>
+            </ScrollView>
         );
     }
 }
@@ -158,7 +165,7 @@ export default class Map extends React.Component {
 const styles = StyleSheet.create({
     container: {
         ...StyleSheet.absoluteFillObject,
-        height:screen.height-100,
+        height: screen.height - 100,
         width: screen.width,
         justifyContent: 'flex-end',
         alignItems: 'center',

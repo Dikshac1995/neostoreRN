@@ -1,244 +1,253 @@
 import React, { useEffect, useState } from 'react';
 import { Component } from 'react';
 import {
-    createDrawerNavigator,
-    DrawerContentScrollView,
-    DrawerItemList,
-    DrawerItem,
+  createDrawerNavigator,
+  DrawerContentScrollView,
+  DrawerItemList,
+  DrawerItem,
 } from '@react-navigation/drawer';
 import Homescreen from '../screens/Home/homescreen'
 import LoginScreen from '../screens/Login/login'
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import MyAccount from '../screens/MyAccount/index'
 import Mycard from '../screens/MyCardScreen/Mycard'
-import { Text, View, Image, TouchableOpacity, StyleSheet, Alert, LayoutAnimation,UIManager,Platform} from 'react-native'
+import { Text, View, Image, ScrollView, TouchableOpacity, StyleSheet, Alert, LayoutAnimation, UIManager, Platform } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage';
 import { NativeViewGestureHandler } from 'react-native-gesture-handler';
+import { Avatar } from 'react-native-elements';
 
 
- 
 
-export default function CustomDrawerContent(props, LoggedIn) {
-  // const [expanded, setExpanded] = useState(false);
 
-  
-  console.log("DDDDDDDDDDDDDDDDD", props)
-  console.log('@@11@@',LoggedIn)
-  // console.log(LoggedIn)
-  // getData = async () => {
-  //   try {
-  //     const value = JSON.parse(await AsyncStorage.getItem('token'));
 
-  //     if (value !== null) {
-  //       setLoggedIn(!LoggedIn)
-  //     }
-  //   } catch (e) {
-  //     // error reading value
-  //     console.log(e);
-  //   }
-  // };
-  // useEffect(() => {
-  //   // Update the document title using the browser API
-  //   this.getData();
-  //   setInterval(this.getData, 5000);
-  
-  // });
-  
-  
-  return (
-  
-    <>
-      
-     {!LoggedIn?(
-      <View style ={{alignItems:'center',paddingTop:20}}>
-        <Icon name="neos" size={80} color='white' /> 
-          <Text style={{ fontSize: 30, fontWeight: 'bold', color: 'white' }}>Neostore</Text>
-          <View style={{ position:'relative',backgroundColor: 'blue', borderRadius: 20,width:40,height:40}}>
-            <Text style={{ color: '#fff', marginLeft: 15,marginTop:10 }}> 1</Text>     
-          </View>
-         
-        </View>) :
-        (
-          <View style ={{alignItems:'center',marginTop:20,position:'relative'}}>
-            <View style={{
-              width: 140, height: 140, borderRadius: 400 / 2,
-              //backgroundColor: '#03DAC6'
-              backgroundColor:'#eee'
-            }}
-            />
-            <View style ={{position:'absolute',top:20}}>
-              <Icon name="user-circle" size={100} color="#fff"  />
-            </View>
-            <View style={{ position: 'absolute', top: 80, right:60 }}>
-              <Icon name="camera" size={40} color='#0ee'  />
-            </View>
-            {/* <Image
-              source={{ uri: 'https://raw.githubusercontent.com/AboutReact/sampleresource/master/old_logo.png' }}
-              style={{ width: 100, height: 100, borderRadius: 400 / 2,backgroundColor:'yellow' }}
-            /> */}
-            <Text style={{ fontSize: 20 }}>diksha30@gmail.com</Text>
-            
-            
-          </View>
+export default class CustomDrawerContent extends Component {
 
-          
-        )}
-      <DrawerContentScrollView {...props} style={{
-        backgroundColor: 'black', activeBackgroundColor: 'white',
-       
-      }} 
-      >
-        
-       
-        {!LoggedIn ? (
-          <>
+  constructor(props) {
+    super(props);
+    this.state = {
+      expanded: false,
+      LoggedIn: true,
+      token: '',
+      data: {},
+      img: {
+        uri: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg'
+      }
+    };
+    if (Platform.OS === 'android') {
+      UIManager.setLayoutAnimationEnabledExperimental(true);
+    }
+  }
+
+  toggleExpand = () => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    this.setState({ expanded: !this.state.expanded })
+  }
+
+  render(props) {
+    return (
+      <>
+        <ScrollView>
+          {!this.state.LoggedIn ?
+            (
+              <View style={styles.header}>
+                <View style={styles.logoContainer}>
+                  <Icon name="neos" size={80} color='white' />
+                  <Text style={styles.logoText}>NEOSTOR</Text>
+                </View>
+
+                <View style={styles.parent_drawer}>
+                  <Icon name='users' size={30} color='#fff' />
+                  <Text style={styles.parent_drawerLabel}>Account</Text>
+                  <Icon name={this.state.expanded ? 'arrow-up' : 'arrow-down'}
+                    size={20} color='#fff' onPress={() => this.toggleExpand()} />
+                </View>
+
+                {this.state.expanded ?
+                  <View>
+                    <View style={styles.child_drawer}>
+                      <Icon name='user-alt' size={25} color='#fff'
+                        onPress={() => this.props.navigation.navigate('loginScreen')} />
+                      <Text style={styles.child_drawerLabel}> User-Login </Text>
+                    </View>
+
+                    <View style={styles.child_drawer}>
+                      <Icon name='user-plus' size={25} color='#fff'
+                        onPress={() => this.props.navigation.navigate('Register')} />
+                      <Text style={styles.child_drawerLabel}> User-Registration</Text>
+                    </View>
+                  </View> : null}
+
+              </View>
+            ) : (
+              <View style={{ alignItems: 'center', marginTop: 20 }}>
+
+                <Avatar
+                  size="xlarge"
+                  rounded
+                  showAccessory
+
+                  icon={{ name: 'user-circle', type: 'font-awesome' }}
+                  onPress={() => Alert.alert("Works!")}
+                  activeOpacity={0.7}
+
+                // source={
+                // this.state.img
+
+                />
+
+                <Text style={{ fontSize: 20, color: '#e91b1a' }}>diksha30@gmail.com</Text>
+
+
+                <View style={styles.parent_drawer}>
+                  <View style={{ paddingLeft: 35, paddingRight: 10 }}>
+                    <Icon name='shopping-cart' size={30} color='#fff' onPress={() => this.props.navigation.navigate('Mycard')} />
+                  </View>
+                  <Text style={styles.parent_drawerLabel
+                  }>My Card </Text>
+                  <View style=
+                    {{ backgroundColor: 'red', borderRadius: 100, width: 40, height: 40, marginRight: 40 }}>
+                    <Text style={{ color: '#fff', paddingLeft: 15, paddingTop: 10 }}>0</Text>
+                  </View>
+
+                </View>
+
+
+              </View>
+
+
+            )}
+          <DrawerContentScrollView {...props} style={{
+            backgroundColor: 'black', activeBackgroundColor: 'white',
+
+          }}
+          >
+
             <DrawerItem
-              icon={() => <Icon name="user-freind" size={30} color='#fff' />}
-              label="Account"
-              labelStyle={{ color: '#fff', fontSize: 20, borderStartColor: 'red', fontWeight: 'bold' }}
-              onPress={() => {
-                Alert.alert('hello')
-              }}
-          
-            
-            
-              activeBackgroundColor='#eee'
-              icon={() => <Icon name="users" size={30} color='#fff' ></Icon>
+              icon={() => <Icon name="couch" size={30} color='#fff' />}
+              label="Sofa"
+              labelStyle={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}
+              onPress={() => this.props.navigation.navigate('productList', { category_id: "5cfe3c5aea821930af69281e", category_name: "sofa" })}
+            />
+            <DrawerItem
+              icon={() => <Icon name="bed" size={30} color='#fff' />}
+              label="Bed"
+              labelStyle={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}
+              onPress={() => this.props.navigation.navigate('productList', { category_id: "5cfe3c65ea821930af69281f", category_name: "Bed" })}
+            />
+            <DrawerItem
+              icon={() => <Icon name="chair" size={30} color='#fff' />}
+              label="chair"
+              labelStyle={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}
+              onPress={() => this.props.navigation.navigate('productList', { category_id: "5cfe3c6fea821930af692820", category_name: "chair" })}
+            />
+            <DrawerItem
+              icon={() => <Icon name="table" size={30} color='#fff' />}
+              label="Table"
+              labelStyle={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}
+              onPress={() => this.props.navigation.navigate('productList', { category_id: "5cfe3c79ea821930af692821", category_name: "Table" })}
+            />
+            <DrawerItem
+              icon={
+                () => <Icon name="dungeon" size={30} color='#fff' />
               }
-              accessibilityLabel="1"
-              label1="1"
-              label1Style={{ color: '#fff', fontSize: 20, fontWeight: 'bold'}}
-            // {
-            //   <View>
-            //     <Text>1</Text>
-            //   </View>
-            // }
+              label="Almirah"
+              labelStyle={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}
+              onPress={() => this.props.navigation.navigate('productList', { category_id: "5d14c15101ae103e6e94fbe0", category_name: "Almirah" })}
             />
-          
             <DrawerItem
-              icon={() => <Icon name="user-alt" size={25} color='#fff' />}
-              label="User-Login"
-              labelStyle={{ color: '#fff', fontSize: 20 ,fontWeight:'bold'}}
-              onPress={() => props.navigation.navigate('loginScreen')}
-              
+              icon={() => <Icon name="map-marker-alt" size={30} color='#fff' />}
+              label="Store Locator"
+              labelStyle={{ color: '#fff', fontSize: 20, marginLeft: 12, fontWeight: 'bold' }}
+              onPress={() => this.props.navigation.navigate('Map')}
+            />
 
-            />
             <DrawerItem
-              icon={() => <Icon name="user-plus" size={25} color='#fff' />}
-              label="User-Registration"
-              labelStyle={{ color: '#fff', fontSize: 20, fontWeight: 'bold'}}
-              onPress={() => props.navigation.navigate('lazyLoading')
-                
-              }
-              
- 
+              icon={() => <Icon name="map-marker-alt" size={30} color='#fff' />}
+              label="Store Lactor "
+              labelStyle={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}
+              onPress={() => this.props.navigation.navigate('storeLocator')}
             />
-           
-          
-          </>) : (
-      
-            <DrawerItem
-              icon={() => <Icon name="shopping-cart" size={30}  color='#fff'/>}
-              label="MyCart" 
-              labelStyle={{ color: '#fff', fontSize: 20, fontWeight: 'bold'}}
-              
-                         onPress={() => props.navigation.navigate('Mycard')}
-        />)}
-            {/* )} */}
-        {/* <DrawerItemList {...props} /> */}
-      <DrawerItem
-          icon={() => <Icon name="couch" size={30} color ='#fff'/>}
-          label="Sofa"
-          labelStyle={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}
-          onPress={() => props.navigation.navigate('productList', { category_id: "5cfe3c5aea821930af69281e", category_name:"sofa" })}
-      />
-      <DrawerItem
-          icon={() => <Icon name="bed" size={30} color='#fff'/>}
-          label="Bed"
-          labelStyle={{ color: '#fff', fontSize: 20, fontWeight: 'bold'}}
-          onPress={() => props.navigation.navigate('productList', { category_id: "5cfe3c65ea821930af69281f", category_name:"Bed" })}
-      />
-      <DrawerItem
-        icon={() => <Icon name="chair" size={30} color='#fff' />}
-          label="chair"
-          labelStyle={{ color: '#fff', fontSize: 20, fontWeight: 'bold'}}
-          onPress={() => props.navigation.navigate('productList', { category_id: "5cfe3c6fea821930af692820", category_name:"chair"})}
-      />
-      <DrawerItem
-          icon={() => <Icon name="table" size={30} color='#fff'/>}
-          label="Table"
-          labelStyle={{ color: '#fff', fontSize: 20, fontWeight: 'bold'}}
-          onPress={() => props.navigation.navigate('productList', { category_id: "5cfe3c79ea821930af692821", category_name:"Table" })}
-      />
-      <DrawerItem
-        icon = {
-            () => <Icon name="dungeon" size={30} color='#fff'/>
-        }
-          label="Almirah"
-          labelStyle={{ color: '#fff', fontSize: 20, fontWeight: 'bold'}}
-          onPress={() => props.navigation.navigate('productList', { category_id: "5d14c15101ae103e6e94fbe0", category_name:"Almirah" })}
-      />
-      <DrawerItem
-          icon={() => <Icon name="map-marker-alt" size={30} color='#fff'/>}
-          label="Store Locator"
-          labelStyle={{ color: '#fff', fontSize: 20, marginLeft: 12, fontWeight: 'bold'}}
-        onPress={() => props.navigation.navigate('Map')}
-        />
 
-        <DrawerItem
-          icon={() => <Icon name="map-marker-alt" size={30} color='#fff' />}
-          label="Store "
-          labelStyle={{ color: '#fff', fontSize: 20, marginLeft: 12, fontWeight: 'bold' }}
-          onPress={() => props.navigation.navigate('storeLocator')}
-        />
-        
-        <DrawerItem
-          icon={() => <Icon name='user-friends' size={30} color ='#fff'/>}
-          label="MyAccount"
-          labelStyle={{ color: '#fff', fontSize: 20, marginLeft: 10, fontWeight: 'bold'}}
-          onPress={() => props.navigation.navigate('MyAccount')}
-        />
-        {LoggedIn ? (
-          <DrawerItem
-            icon={() => <Icon name='user-slash' size={30}  color='#fff'/>}
-            label="Sign Out"
-            labelStyle={{ color: '#fff', fontSize: 20, marginLeft: 10, fontWeight: 'bold'}}
-            onPress={() =>
-              Alert.alert(
-                'Log out',
-                'Do you want to logout?',
-                [
-                  { text: 'Cancel', onPress: () => { return null } },
-                  {
-                    text: 'Confirm', onPress: () => {
-                      AsyncStorage.clear();
-                      props.navigation.navigate('homescreen')
-                    }
-                  },
-                ],
-                { cancelable: false }
-              )
-            }>
-          
-          </DrawerItem>) : (null)}
-      </DrawerContentScrollView>
+            <DrawerItem
+              icon={() => <Icon name='user-friends' size={30} color='#fff' />}
+              label="MyAccount"
+              labelStyle={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}
+              onPress={() => this.props.navigation.navigate('MyAccount')}
+            />
+
+            <DrawerItem
+              icon={() => <Icon name='user-friends' size={30} color='#fff' />}
+              label="AddressList"
+              labelStyle={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}
+              onPress={() => this.props.navigation.navigate('AddAddress')}
+            />
+            {this.state.LoggedIn ? (
+              <DrawerItem
+                icon={() => <Icon name='user-slash' size={30} color='#fff' />}
+                label="Sign Out"
+                labelStyle={{ color: '#fff', fontSize: 20, marginLeft: 10, fontWeight: 'bold' }}
+                onPress={() =>
+                  Alert.alert(
+                    'Log out',
+                    'Do you want to logout?',
+                    [
+                      { text: 'Cancel', onPress: () => { return null } },
+                      {
+                        text: 'Confirm', onPress: () => {
+                          AsyncStorage.clear();
+                          this.props.navigation.navigate('homescreen')
+                        }
+                      },
+                    ],
+                    { cancelable: false }
+                  )
+                }>
+
+              </DrawerItem>) : (null)}
+          </DrawerContentScrollView>
+        </ScrollView>
       </>
-  );
+    );
+  }
+
+
 }
-const toggleExpand=true;
-toggleEffect = (toggleExpand) => {
+const styles = StyleSheet.create({
+  header: {
+    paddingTop: 20,
+    paddingHorizontal: 20
+  },
+  logoContainer: {
+    alignItems: 'center',
+    paddingBottom: 30
+  },
+  logoText: {
+    fontSize: 40,
+    fontWeight: 'bold',
+    color: '#fe3f3f'
+  },
+  parent_drawer: {
+    display: 'flex', flexDirection: 'row', marginTop: 20
 
-  // Alert.alert('Hello')
-  LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-  return (
-    toggleExpand=true)
-  // <DrawerItem
-  //   icon={() => <Icon name="user-plus" size={25} color='#fff' />}
-  //   label="User-Registration"
-  //   labelStyle={{ color: '#fff', fontSize: 20 }}
-  //   onPress={() => props.navigation.navigate('Register')
+  },
+  parent_drawerLabel: {
 
-  //   }
+    fontSize: 20,
+    color: '#fff',
+    fontWeight: 'bold',
+    marginLeft: 20,
+    marginRight: 100
+  },
+  child_drawer:
+  {
+    display: 'flex',
+    flexDirection: 'row',
+    paddingLeft: 30,
+    paddingTop: 10
+  },
+  child_drawerLabel: {
+    color: '#fff', fontSize: 20, marginLeft: 30, fontWeight: 'bold'
+  },
 
-  // />)
-}
+
+})

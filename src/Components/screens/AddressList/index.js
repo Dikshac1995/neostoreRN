@@ -16,11 +16,11 @@ export default class index extends Component {
                     onPress={() => this.props.navigation.goBack()} />
                 <Text style={styles.headText}> Shipping Address </Text>
                 <Animatable.View animation="slideInRight" duration={500}>
-                    <View style={{width:300,borderRadius:30}}>
-                        
+                    <View style={{ width: 300, borderRadius: 30 }}>
+
                         <TextInput placeholder='search' />
                     </View>
-                {/* <Searchbar
+                    {/* <Searchbar
                     placeholder="Search"
                 // onChangeText={query => { this.setState({ firstQuery: query }); }}
                 // value={firstQuery}
@@ -29,10 +29,10 @@ export default class index extends Component {
                 <View style={styles.footer}>
                     <TouchableOpacity style={styles._button} onPress={this.oderNow}>
                         <Text style={styles._buttonText}>
-                        SAVE ADDRESS</Text>
-                     </TouchableOpacity>
-                 </View>
-           </>
+                            SAVE ADDRESS</Text>
+                    </TouchableOpacity>
+                </View>
+            </>
         )
     }
 }

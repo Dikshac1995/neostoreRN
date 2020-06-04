@@ -4,6 +4,8 @@ import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import { List } from 'react-native-paper';
 import FaIcon from 'react-native-vector-icons/FontAwesome5';
 import { ScrollView } from 'react-native-gesture-handler';
+import Header from '../../Components/Reusable/header /header'
+
 
 const screen = Dimensions.get('window');
 
@@ -34,12 +36,17 @@ export class StoreLocator extends Component {
     render() {
         return (
             <ScrollView>
-
-                <View style={{ flex: 1, marginTop: 500 }}>
+                <Header name1='arrowleft' text='store Location ' name2='search'
+                    onPress={() => this.props.navigation.goBack()}
+                    onClick={() => this.props.navigation.navigate('share')}
+                />
+                <View style={{ flex: 1, marginTop: 500 ,height:400}}>
                     <List.Accordion
-                        title="Store List"
+                        title="Stores"
                         titleStyle={{ fontSize: 20 }}
-                        left={props => <List.Icon {...props} icon="folder" />}>
+                        left={props => <List.Icon {...props} icon="folder" />}
+                        right={props => <List.Icon {...props} icon="share" />}>
+                        
                         <List.Item
                             onPress={() => {
                                 this.setState({
@@ -47,8 +54,22 @@ export class StoreLocator extends Component {
                                     longitude: 73.7385973893106,
                                 });
                             }}
-                            left={() => <List.Icon icon="map-marker" />}
-                            title="Neosoft Technologies pune"
+                            left={() => <List.Icon icon="map-marker" color ='red' />}
+                            title="Unititled Layer"
+                            right={() => <List.Icon icon="map-marker" color='red' />}
+
+                           
+                        />
+                        <List.Item
+                            onPress={() => {
+                                this.setState({
+                                    latitude: 18.57899549913118,
+                                    longitude: 73.7385973893106,
+                                });
+                            }}
+                            left={() => <List.Icon icon="map-marker" color ='red' />}
+                            title="pune-Neosoft Technologies "
+                            style={{marginLeft:30}}
                         />
                         <List.Item
                             onPress={() => {
@@ -57,8 +78,9 @@ export class StoreLocator extends Component {
                                     longitude: 72.828343,
                                 });
                             }}
-                            left={() => <List.Icon icon="map-marker" />}
-                            title="Neosoft Technologies mumbai"
+                            left={() => <List.Icon icon="map-marker"  color ='red'/>}
+                            title="Mumbai-Neosoft Technologies "
+                            style={{ marginLeft: 30 }}
                         />
                         <List.Item
                             onPress={() => {
@@ -67,8 +89,9 @@ export class StoreLocator extends Component {
                                     longitude: 73.008734,
                                 });
                             }}
-                            left={() => <List.Icon icon="map-marker" />}
-                            title="Neosoft Technologies Rabale"
+                            left={() => <List.Icon icon="map-marker" color='red'/>}
+                            title="Rabale-Neosoft Technologies"
+                            style={{ marginLeft: 30 }}
                         />
                         <List.Item
                             onPress={() => {
@@ -77,8 +100,9 @@ export class StoreLocator extends Component {
                                     longitude: 72.843736,
                                 });
                             }}
-                            left={() => <List.Icon icon="map-marker" />}
-                            title="Neosoft Technologies Head Office"
+                            left={() => <List.Icon icon="map-marker" color='red' />}
+                            title="Neosoft Office"
+                            style={{ marginLeft: 30 }}
                         />
                     </List.Accordion>
                 </View>
@@ -99,6 +123,7 @@ export class StoreLocator extends Component {
                                 longitude: this.state.longitude,
                             }}
                             description="Location"
+                            title='Neostore'
                         />
                     </MapView>
                 </View>
@@ -114,6 +139,7 @@ const styles = StyleSheet.create({
         height: 500,
         width: screen.width,
         flex: 1,
+       marginTop:70
     },
     map: {
         ...StyleSheet.absoluteFillObject,

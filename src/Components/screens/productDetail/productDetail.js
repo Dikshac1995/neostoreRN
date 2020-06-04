@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import {
     Text, View, Image, ScrollView, FlatList,
-    TouchableOpacity, Modal, StyleSheet,Dimensions,
+    TouchableOpacity, Modal, StyleSheet, Dimensions,
     TouchableHighlight, ActivityIndicator, Alert, Share
 } from 'react-native'
 import { connect } from 'react-redux';
@@ -18,7 +18,11 @@ import share from '../../Reusable/share'
 import Search from '../../Reusable/searchnar/search'
 import { ThemeProvider } from 'react-native-paper';
 import images from '../../Reusable/share/image';
-import ImageViwer from 'react-native-image-pan-zoom';
+import Share1 from 'react-native-share';
+
+
+
+
 
 import ImageViewer from 'react-native-image-zoom-viewer';
 
@@ -27,10 +31,24 @@ import ImageViewer from 'react-native-image-zoom-viewer';
 // import  Model  from '../../Reusable/ProductRateModel/productrates'
 // import ModalTester from '../../Reusable/ProductRateModel/productrate'
 
+const shareOptions = {
+    title: 'Share via',
+    message: 'some message',
+    url: 'some share url',
+    // social: Share.Social.EMAIL,
+    // social: Share.Social.FACEBOOK,
+    urls: [images.image1],
+    dilogTitle: 'data'
+    ,      // country code + phone number
+    filename: 'test', // only for base64 file in Android
+};
 
+const card_dataItem = []
 class productDetail extends Component {
     constructor(props) {
         super(props);
+
+
         this.state = {
             // isLoading:true,
             ProductDetailData: [],
@@ -39,12 +57,13 @@ class productDetail extends Component {
             modalVisible: false,
             starCount: 0,
             modalShow: false,
-            
+
             product_id: '',
-            product_image:' '
+            product_image: ' ',
 
         };
     }
+
     toggleModal(visible) {
         this.setState({ modalVisible: visible });
     }
@@ -54,12 +73,12 @@ class productDetail extends Component {
 
     componentWillMount() {
         const { product_id } = this.props.route.params;
-         console.log("categoryId", product_id)
+        console.log("categoryId", product_id)
         let type = 'getProductByProdId/' + product_id
         console.log('type1', type)
         this.props.FetchProductDetail(type);
         const { data } = this.props;
-        console.log("data3",this.props.data)
+        console.log("data3", this.props.data)
         var subImages_id = data.product_details[0].subImages_id
         this.setState({
             ProductDetailData: data.product_details[0],
@@ -67,8 +86,9 @@ class productDetail extends Component {
             subImages_id: data.product_details[0].subImages_id,
             product_id: product_id,
             product_image: data.product_details[0].product_image,
+            cardData: data.product_details[0]
         })
-        
+
     }
     onStarRatingPress(rating) {
         this.setState({
@@ -84,23 +104,23 @@ class productDetail extends Component {
             product_id: this.state.product_id,
             product_rating: this.state.starCount,
         };
-        console.log('data',data)
+        console.log('data', data)
         var url = 'http://180.149.241.208:3022/updateProductRatingProdId'
-   console.log("in fet")
-        fetch(url,{
+
+        fetch(url, {
             method: 'PUT', // or 'PUT'
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(data),
-            
-        }) 
+
+        })
             .then((response) => response.json())
             .then((data) => {
                 console.log('Success:', data);
                 if (data.status_code == 200) {
                     Alert.alert('thank you for rating our product');
-                    
+
                 }
                 else {
                     Alert.alert(data.message)
@@ -111,16 +131,27 @@ class productDetail extends Component {
             });
 
     }
-    
-    addToCard() {
+
+    addToCard(data) {
+        console.log(';;;;;', data)
+
+
+        // console.log("????????", this.state.cardData)
         Alert.alert(
-             'ADD to card ',
+            'ADD to card ',
             'Do you want to  Add this to Mycard',
             [
                 {
                     text: 'OK', onPress: () => {
-                        this.storeData()
-                        this.props.navigation.navigate('Mycard', { data: this.state.ProductDetailData })
+                        // this.setState({ cardData: { ...this.state.cardData, data } })
+                        card_dataItem.push(data)
+                        console.log('~~~', card_dataItem)
+                        this.storeData(data)
+                        // this.recivedData()
+                        this.props.navigation.navigate('Mycard',
+                            // { data: this.state.ProductDetailData }
+                        )
+                        console.log("????????", this.state.cardData)
                     }
                 },
                 {
@@ -133,13 +164,25 @@ class productDetail extends Component {
         )
     }
     storeData = async () => {
+        const values = this.state.ProductDetailData
+        // const value = data
+        console.log('7777')
         try {
-            await AsyncStorage.setItem('MycardData', this.state,ProductDetailData);
+            await AsyncStorage.setItem('MycardData', JSON.stringify(values));
+            // await AsyncStorage.multiMerge('MycardData', JSON.stringify(value))
         } catch (error) {
             // Error saving data
         }
     };
-
+    recivedData = async () => {
+        try {
+            let user = await AsyncStorage.getItem('MycardData');
+            console.log(' ,,,', user);
+        }
+        catch (error) {
+            alert(error)
+        }
+    }
 
     async Buynow() {
         const { product_id } = this.props.route.params;
@@ -148,8 +191,8 @@ class productDetail extends Component {
         console.log(user)
         if (user) {
             // this.props.navigation.navigate('placeorder')
-            this.props.navigation.navigate('oder summary', { product_id:product_id }) 
-        
+            this.props.navigation.navigate('oder summary', { product_id: product_id })
+
         }
         else {
             Alert.alert(
@@ -159,14 +202,14 @@ class productDetail extends Component {
                     { text: 'No', onPress: () => { return null } },
                     {
                         text: 'YES', onPress: () => {
-                        this.props.navigation.navigate('loginScreen')
+                            this.props.navigation.navigate('loginScreen')
                         }
                     },
                 ],
                 { cancelable: false }
             )
         }
-        
+
     }
 
     onShare = async () => {
@@ -174,12 +217,12 @@ class productDetail extends Component {
             const result = await Share.share({
                 message:
                     'React Native ',
-                title: 'Neistire latest product',
+                title: 'Neostore latest product',
                 // url: 'www.google.com',
-               url: 'https://www.itl.cat/wallview/hbTxJw_download-wallpaper-love-nature-wallpaper-hd-for-mobile/'
-                // urls: [images.image1, images.image2],
+                //    url: 'https://www.itl.cat/wallview/hbTxJw_download-wallpaper-love-nature-wallpaper-hd-for-mobile/'
+                urls: [images.image1, images.image2],
 
-            },);
+            });
 
             if (result.action === Share.sharedAction) {
                 if (result.activityType) {
@@ -196,27 +239,28 @@ class productDetail extends Component {
     };
     onClickSubImage(imageid) {
         console.warn(imageid);
-        this.setState({product_image:imageid})
+        this.setState({ product_image: imageid })
         // console.log(imageid)
     }
 
-    
+
     render() {
-        console.log("pr-image",this.state.product_image)
+        console.log("pr-image", this.state.product_image)
         console.log("PDwer", this.state.ProductDetailData)
         console.log("j", this.state.ProductDetailData.category_id)
         const Product_name = this.state.ProductDetailData.product_name
-        console.log(Product_name,"productname")
+        console.log(Product_name, "productname")
         return (
-            
-           
-        <View>
-                    <Header name1='arrowleft' text={this.state.ProductDetailData.product_name} name2='search'
-                        onPress={() => this.props.navigation.goBack()}
-                        onClick={() => this.props.navigation.navigate('share')}
-                    />
+
+
+            <View>
+                <Header name1='arrowleft' text={this.state.ProductDetailData.product_name} name2='search'
+                    onPress={() => this.props.navigation.goBack()}
+                    // onClick={() => this.props.navigation.navigate('share')}
+                    onClick={() => this.props.navigation.navigate('searchitem')}
+                />
                 <View style={{ width: windowWidth, height: windowHeight }}>
-                    {(!Product_name) ? <ActivityIndicator  size='large' /> :
+                    {(!this.state.ProductDetailData) ? <ActivityIndicator size='large' /> :
                         <ScrollView>
                             <View style={styles.productDeatailModule}>
                                 {/* ProductDetailInfo Section*/}
@@ -231,15 +275,18 @@ class productDetail extends Component {
                                     </View>
                                 </View>
                                 {/* Product detail Info Section end                */}
-                                
+
                                 {/* Product Detail section 2 start  */}
-                                                    
+
                                 <View style={styles.productDetailSection2}>
                                     <View style={styles.productDetailSection2_wapper}>
                                         <View style={styles.PDsection2_Price}>
                                             <Text style={styles.product_cost}>Rs,{this.state.ProductDetailData.product_cost}</Text>
-                                            {/* <Icon name="share-alt" size={30} color="#7f7f7f" onPress={() => this.showModal(true) }/> */}
-                                            <Icon name="share-alt" size={30} color="#7f7f7f" onPress={() => this.onShare()} />
+
+                                            <Icon name="share-alt" size={30} color="#7f7f7f"
+                                                onPress={() => Share1.open(shareOptions)}
+                                            // {() => this.onShare()}
+                                            />
 
                                         </View>
                                         <View style={{ position: 'relative' }}>
@@ -250,8 +297,8 @@ class productDetail extends Component {
                                                     }} />
                                                 </TouchableOpacity>
                                             </View>
-                        
-                                       
+
+
                                             <View style={{ alignItems: 'flex-end', position: 'absolute' }}>
                                                 <View style={{ display: 'flex', backgroundColor: 'blue', borderRadius: 80, width: 60, height: 60, top: 140, left: 270 }}>
                                                     <View style={{ alignItems: 'center', paddingTop: 10 }}>
@@ -291,61 +338,61 @@ class productDetail extends Component {
                                         </Text>
                                     </View>
                                 </View>
-                                
+
                                 {/* Product Description end              */}
-                                
+
                             </View>
                         </ScrollView>}
-         <View style={styles.footer}>
-            <Button text="BUY_NOW" onPress={() => this.Buynow() }  style ={styles.buttonStyle} />
-            <Button text="RATE" onPress={() => this.toggleModal(true)} style={styles.rate_button}  />
-        </View>
-     </View>
-         <View style={styles.container}>
-            <Modal animationType={"slide"} transparent={true}
-                visible={this.state.modalVisible}
-                onRequestClose={() => this.toggleModal(false)}>
-             <View style={styles.modal}>
-                                <Text style={styles.product_name}>
-                                    {/* {this.state.ProductDetailData.product_name} */}
-                                    {Product_name}
-                                    {/* {(((Product_name).length) > 20) ?
+                    <View style={styles.footer}>
+                        <Button text="BUY_NOW" onPress={() => this.Buynow()} style={styles.buttonStyle} />
+                        <Button text="RATE" onPress={() => this.toggleModal(true)} style={styles.rate_button} />
+                    </View>
+                </View>
+                <View style={styles.container}>
+                    <Modal animationType={"slide"} transparent={true}
+                        visible={this.state.modalVisible}
+                        onRequestClose={() => this.toggleModal(false)}>
+                        <View style={styles.modal}>
+                            <Text style={styles.product_name}>
+                                {/* {this.state.ProductDetailData.product_name} */}
+                                {Product_name}
+                                {/* {(((Product_name).length) > 20) ?
                                         (((Product_name).substring(0, 20 - 3)) + '...') :
                                         Product_name} */}
-                                </Text>
-                   <Text>{this.state.productCategory.category_name}</Text> 
-                   <View style={{alignItems:'center',margin:20}}>
-                     <Image style={{ width: 200, height: 200}} source={{
-                        uri: 'http://180.149.241.208:3022/' + this.state.productCategory.product_image
-                    }} />
-                  </View>
-                <StarRating starSize={30} fullStarColor="orange" disabled={false}
-                     maxStars={5}
-                     rating={this.state.starCount}
-                   selectedStar={(rating) => this.onStarRatingPress(rating)}/>
-                 <TouchableHighlight onPress={() => {
-                                    // this.toggleModal(!this.state.modalVisible)
-                                    this.updateRating();
-             }}>
-                 <View style ={{borderRadius:10,backgroundColor:'red',paddingBottom:10,marginTop:10,width:290}}>
-                     <Text style={styles.text}>Rate-Now</Text></View>
-                </TouchableHighlight>
+                            </Text>
+                            <Text>{this.state.productCategory.category_name}</Text>
+                            <View style={{ alignItems: 'center', margin: 20 }}>
+                                <Image style={{ width: 200, height: 200 }} source={{
+                                    uri: 'http://180.149.241.208:3022/' + this.state.productCategory.product_image
+                                }} />
+                            </View>
+                            <StarRating starSize={30} fullStarColor="orange" disabled={false}
+                                maxStars={5}
+                                rating={this.state.starCount}
+                                selectedStar={(rating) => this.onStarRatingPress(rating)} />
+                            <TouchableHighlight onPress={() => {
+                                // this.toggleModal(!this.state.modalVisible)
+                                this.updateRating();
+                            }}>
+                                <View style={{ borderRadius: 10, backgroundColor: 'red', paddingBottom: 10, marginTop: 10, width: 290 }}>
+                                    <Text style={styles.text}>Rate-Now</Text></View>
+                            </TouchableHighlight>
+                        </View>
+                    </Modal>
+                </View>
+                <View >
+                    <Modal visible={this.state.modalShow} transparent={true} onRequestClose={() => this.showZoomModal(false)}>
+
+                        <ImageViewer imageUrls={
+                            [{
+                                url: 'http://180.149.241.208:3022/' + this.state.product_image
+                            }]} />
+
+
+                    </Modal>
+                </View>
             </View>
-        </Modal>
-                    </View>
-                    <View >
-                        <Modal visible={this.state.modalShow} transparent={true} onRequestClose={() => this.showZoomModal(false)}>
-                           
-                            <ImageViewer imageUrls={
-                                [{
-                                    url: 'http://180.149.241.208:3022/' + this.state.product_image
-                                }]}  /> 
-                            
-                            
-                        </Modal>
-                    </View>
-    </View>
-    )
+        )
     }
 }
 const mapStateToProps = state => ({

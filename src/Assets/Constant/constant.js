@@ -14,11 +14,12 @@ export const StyleConstants = {
     FONT_32: 32,
     FONT_30: 30,
 }
-export const color = {
+export const _color = {
     color_subheading: '#4f4f4f',
     filled_starColor: '#FFBA00',
     startColor: '#7F7F7F',
-     des_paraColor:'#33333'
+    des_paraColor: '#33333',
+     placeholderColor:'rgba(255,255,255,0.8)'
 }
  export const tokenHard ='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzQ4LCJpYXQiOjE1ODU5ODI1Njd9.Mpv9w9yfgh2pc784V9IJQYGvXT-mK3ge7JHVdzhEWJs'
  export const windowWidth = Dimensions.get('window').width;

@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import { Text, View ,Button, Alert,ScrollView} from 'react-native'
+import { Text, View, Button, Alert, ScrollView } from 'react-native'
 import { TextInput } from 'react-native-gesture-handler'
-import {globalstyles} from '../../../style/style'
+import { globalstyles } from '../../../style/style'
 import TextField from '../../Reusable/textField/textField'
 import ButtonField from '../../Reusable/ButtonField/buttonField'
 import { styles } from './style'
@@ -9,7 +9,9 @@ import AsyncStorage from '@react-native-community/async-storage';
 import authHeader from '../../../Redux/helper/authHeader'
 import validation from '../../../utils/valid'
 import { tokenHard } from '../../../Assets/Constant/constant'
-import {api } from '../../../utils/api'
+import { api } from '../../../utils/api'
+import Header from '../../Reusable/header /header'
+
 
 
 export default class AddAddress extends Component {
@@ -18,18 +20,20 @@ export default class AddAddress extends Component {
         this.state = {
             address: '',
             LANDMARK: ' ',
-            City:'',
+            City: '',
             state: ' ',
-            pinCode: ' ',
+            zipCode: ' ',
             country: ' ',
-            
+
+
             address_err: false,
-            landmark_err: ' ',
-            city_err: ' ',
-            state_err: ' ',
-            pinCode_err: ' ',
-            country_err:' '
-            
+            landmark_err: false,
+            city_err: false,
+            state_err: false,
+            zip_err: false,
+            country_err: false,
+            ButtonDisable: false,
+
         }
     }
     AddAddress() {
@@ -39,19 +43,19 @@ export default class AddAddress extends Component {
         collection1.city = this.state.City
         collection1.state = this.state.state
         collection1.country = this.state.country
-        
-        
+
+
         console.warn(collection1);
         let error = {}
         error.address_err = this.state.address_err
         var url = 'http://180.149.241.208:3022/address'
-       
+
         fetch(url, {
             method: 'POST', // or 'PUT'
             headers: {
                 "accept": "application/json",
                 'Content-Type': 'application/x-www-form-urlencoded/json',
-                Authorization: tokenHard? 'Bearer ' + tokenHard : null
+                Authorization: tokenHard ? 'Bearer ' + tokenHard : null
 
                 // Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzQ4LCJpYXQiOjE1ODU5ODI1Njd9.Mpv9w9yfgh2pc784V9IJQYGvXT-mK3ge7JHVdzhEWJs"
 
@@ -67,10 +71,10 @@ export default class AddAddress extends Component {
                 console.log('Error:', error);
             });
         console.warn(error)
-        
+
         // if (collection && error== false) {
-            // Alert.alert('filled')
-            // console.log(authHeader)
+        // Alert.alert('filled')
+        // console.log(authHeader)
         // var url = 'http://180.149.241.208:3022/address'
         // console.log(url)
         //     // api.fetchapi(url, 'post', collection)
@@ -95,14 +99,14 @@ export default class AddAddress extends Component {
         //                 }
         //                 else {
         //                     Alert.alert(" data send unsuccessfully ")
-                    
+
 
         //                 }
         //             })
         //             .catch((error) => {
         //                 console.log('Error:', error);
         //             });
-        
+
 
         // } else {
         //     Alert.alert(' fill the all data ')
@@ -111,119 +115,107 @@ export default class AddAddress extends Component {
     render() {
         return (
             <ScrollView>
-            <View style={styles.Address_container}>
-                <View style={styles.Address_wrapper}>
-                    <View style={styles.fields}>
-                    <Text style={styles.Text_label}> ADDRESS</Text>
-                    <View style={styles.Address_TextField}>
-                        <TextInput multiline={true}
-                         numberOfLines={4}
-                                onChangeText={value => this.setState({ address: value.trim() })}
+                <Header name1='arrowleft' text='Add Address ' name2='search'
+                    onPress={() => this.props.navigation.goBack()}
+                    onClick={() => this.props.navigation.navigate('share')}
+                />
+                <View style={styles.Address_container}>
+                    <View style={styles.Address_wrapper}>
+                        <View style={styles.fields}>
+                            <Text style={styles.Text_label}> ADDRESS</Text>
+                            <View style={styles.Address_TextField}>
+                                <TextInput multiline={true}
+                                    numberOfLines={4}
+                                    onChangeText={value => this.setState({ address: value.trim() })}
+                                    onBlur={() => {
+                                        this.setState((state) => ({
+                                            address_err: validation('Address', this.state.address),
+                                            ButtonDisable: state.ButtonDisable + this.state.address_err
+                                        }))
+                                    }
+
+
+                                    } />
+                                {this.state.address_err ? <Text>hi</Text> : null}
+                                {console.log(true + false, " ............")}
+                            </View>
+                        </View>
+
+                        <Text style={styles.Text_label}> LANDMARK</Text>
+                        <View style={styles.Address_TextField}>
+                            <TextInput onChangeText={value => this.setState({ LANDMARK: value.trim() })}
                                 onBlur={() => {
                                     this.setState({
-                                        address_err: validation('Address', this.state.address)
+                                        landmark_err: validation('Landmark', this.state.LANDMARK),
+                                        ButtonDisable: this.state.landmark_err
                                     })
-                                }}></TextInput> 
-                    </View>
-                    </View>
+                                }} />
+                        </View>
 
-                    <Text style={styles.Text_label}> LANDMARK</Text>
-                    <View style={styles.Address_TextField}>
-                        <TextInput onChangeText={value => this.setState({ LANDMARK: value.trim() })}
-                            onBlur={() => {
-                                this.setState({
-                                    address_err: validation('Landmark', this.state.LANDMARK)
-                                })
-                            }}/>
-                    </View>
-             
-             <View  style ={{display:'flex',flexDirection:'row',justifyContent:'space-between'}}>
-                <View style={{ width: 170 }}>
-                     <Text style={styles.Text_label}> CITY</Text>
-                     <View style={styles.Address_TextField}>
-                         <TextInput onChangeText={value => this.setState({ City: value.trim() })}
-                            onBlur={() => {this.setState({address_err: validation('City', this.state.City)})
-                        }} />
-                    </View>
-               </View>
-             <View style={{ width: 170 }}>
-                    <Text style={styles.Text_label}> STATE</Text>
-                    <View style={styles.Address_TextField}>
-                         <TextInput onChangeText={value => this.setState({ state: value.trim() })}
-                            onBlur={() => {
-                             this.setState({
-                             address_err: validation('state', this.state.state)
-                            })
-                        }}/>
-                    </View>
-            </View>
-     </View> 
+                        <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                            <View style={{ width: 170 }}>
+                                <Text style={styles.Text_label}> CITY</Text>
+                                <View style={styles.Address_TextField}>
+                                    <TextInput onChangeText={value => this.setState({ City: value.trim() })}
+                                        onBlur={() => {
+                                            this.setState({ city_err: validation('City', this.state.City) })
+                                        }} />
+                                </View>
+                            </View>
+                            <View style={{ width: 170 }}>
+                                <Text style={styles.Text_label}> STATE</Text>
+                                <View style={styles.Address_TextField}>
+                                    <TextInput onChangeText={value => this.setState({ state: value.trim() })}
+                                        onBlur={() => {
+                                            this.setState({
+                                                state_err: validation('state', this.state.state),
+                                                ButtonDisable: this.state.address_err
+                                            })
+                                        }} />
+                                </View>
+                            </View>
+                        </View>
 
-    <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-        <View style={{ width: 170 }}>
-            <Text style={styles.Text_label}> ZIP CODE</Text>
-                 <View style={styles.Address_TextField}>
-                    <TextInput onChangeText={value => this.setState({ pinCode: value.trim() })}
-                        onBlur={() => {
-                        this.setState({
-                        address_err: validation('pinCode', this.state.pinCode)
-                        })
-                    }}/>
-                </View>
-        </View>
-         <View style={{ width: 170 }}>
-            <Text style={styles.Text_label}> COUNTRY</Text>
-                 <View style={styles.Address_TextField}>
-                    <TextInput onChangeText={value => this.setState({ country: value.trim() })}
-                        onBlur={() => {
-                        this.setState({
-                         address_err: validation('country', this.state.country)
-                         })
-                     }}/>
-                 </View>
-         </View>  
-</View>
-                   
-                    
+                        <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                            <View style={{ width: 170 }}>
+                                <Text style={styles.Text_label}> ZIP CODE</Text>
+                                <View style={styles.Address_TextField}>
+                                    <TextInput onChangeText={value => this.setState({ zipCode: value.trim() })}
+                                        onBlur={() => {
+                                            this.setState({
+                                                zip_err: validation('pinCode', this.state.zipCode)
+                                            })
+                                        }} />
+                                </View>
+                            </View>
+                            <View style={{ width: 170 }}>
+                                <Text style={styles.Text_label}> COUNTRY</Text>
+                                <View style={styles.Address_TextField}>
+                                    <TextInput onChangeText={value => this.setState({ country: value.trim() })}
+                                        onBlur={() => {
+                                            this.setState({
+                                                country_err: validation('country', this.state.country)
+                                            })
+                                        }} />
+                                </View>
+                            </View>
+                        </View>
 
 
 
 
-                    {/* <Text style ={styles.Text_label}> ADDRESS</Text>
-                    <View style={styles.Address_TextField}>
-                        <TextInput multiline={true}
-                        numberOfLines={4}></TextInput>
+                        {console.log(this.state.address_err.addErr, " $$$")}
+
+                        {/* {this.state.address_err == false ? this.setState({ ButtonDisable: false }) : null}           */}
+                        {console.log(this.state.ButtonDisable, " 444$$$")}
+
                     </View>
-                    <View>
-                        <Text style={styles.Text_label}>LANDMARK</Text>
-                        <TextField />
+                    <View style={styles.footer}>
+                        <View>
+                            <ButtonField text='SAVE ADDRESS' style={styles.addAddress_button}
+                                disbled={this.state.ButtonDisable} onPress={() => this.AddAddress()} />
+                        </View>
                     </View>
-                <View style ={{display:'flex'}}>
-                    <View style={{ flexDirection: 'row',justifyContent:'space-between',width:300,backgroundColor:'white'}}>
-                        <Text style={styles.Text_label}>CITY</Text>
-                        <Text style={styles.Text_label}>STATE</Text>   
-                    </View> 
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', flexWrap:"wrap",width:200}}>
-                        <TextField width ='100' />
-                        <TextField />
-                    </View>
-                    <View style={{ flexDirection: 'row',justifyContent:'space-evenly' }}>
-                        <Text style={styles.Text_label}>ZIP CODE</Text>
-                        <Text style={styles.Text_label}>COUNTRY</Text>
-                        
-                    </View>
-                    <View style={{ flexDirection: 'row', width: 200}}>
-                            <TextInput />
-                        </View> 
-                </View> */}
-                   
-                </View>
-                <View style={styles.footer}>
-                    <View>
-                        <ButtonField text='SAVE ADDRESS' style={styles.addAddress_button}
-                            onPress={() => this.AddAddress()} />
-                    </View>
-                </View>
                 </View>
             </ScrollView>
         )

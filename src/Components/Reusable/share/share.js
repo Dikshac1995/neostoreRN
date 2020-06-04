@@ -12,13 +12,13 @@ const shareOptions = {
     url: 'some share url',
     // social: Share.Social.EMAIL,
     // social: Share.Social.FACEBOOK,
-    urls: [images.image1, images.image2],
-   dilogTitle: 'data'
-,      // country code + phone number
+    urls: [images.image1],
+    dilogTitle: 'data'
+    ,      // country code + phone number
     filename: 'test', // only for base64 file in Android
 };
 
-    // Share.shareSingle(shareOptions);
+// Share.shareSingle(shareOptions);
 
 
 export default class share extends Component {
@@ -26,7 +26,7 @@ export default class share extends Component {
         return (
             <View>
                 <Text> textInComponent </Text>
-                <Icon name="share-alt" size={30} color="#7f7f7f"  onPress={()=>Share.open(shareOptions)} />
+                <Icon name="share-alt" size={30} color="#7f7f7f" onPress={() => Share.open(shareOptions)} />
 
             </View>
         )

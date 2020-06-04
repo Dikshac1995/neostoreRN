@@ -71,23 +71,29 @@ class Main extends Component {
                             headerTintColor: '#fff',
                             headerTitleStyle: {
                                 fontWeight: 'bold',
+                                marginLeft: 70,
+                                fontSize: 25,
                             }
                         }
                         }/>
-                    {/* <Stack.Screen name="Register" component={Registration}
+                    <Stack.Screen name="Register" component={Registration}
                         options = { {headerStyle: {backgroundColor: 'red'},
                                 headerTintColor: '#fff',
                                 headerTitleStyle: {
                                     fontWeight: 'bold',
+                                    marginLeft: 70,
+                                    fontSize:25,
                                 }
                             }
                         }
-                    /> */}
+                    />
                     <Stack.Screen name="ForgotPassword" component={ForgotPassword} options={{
                         headerStyle: { backgroundColor: 'red' },
                         headerTintColor: '#fff',
                         headerTitleStyle: {
                             fontWeight: 'bold',
+                            marginLeft: 70,
+                            fontSize: 25,
                         }
                     }
                     }/>
@@ -96,6 +102,8 @@ class Main extends Component {
                         headerTintColor: '#fff',
                         headerTitleStyle: {
                             fontWeight: 'bold',
+                            marginLeft: 70,
+                            fontSize: 25,
                         }
                     }
                     }/>
@@ -123,6 +131,8 @@ class Main extends Component {
                         headerTintColor: '#fff',
                         headerTitleStyle: {
                             fontWeight: 'bold',
+                            marginLeft: 70,
+                            fontSize: 25,
                         }
                     }
                     } />
@@ -139,44 +149,35 @@ class Main extends Component {
                     <Stack.Screen name='EditProfile' component={EditProfile} options={{
                         headerStyle: { backgroundColor: 'red' },
                         headerTintColor: '#fff',
+                        headerTitle:'Edit Profile',
                         headerTitleStyle: {
                             fontWeight: 'bold',
+                            marginLeft: 70,
+                            fontSize:25
                         }
                     }
                     } />
                     <Stack.Screen name='ResetPassword' component={ResetPassword} options={{
                         headerStyle: { backgroundColor: 'red' },
                         headerTintColor: '#fff',
+                        headerTitle: ' Reset password',
                         headerTitleStyle: {
                             fontWeight: 'bold',
+                            marginLeft: 50,
+                            fontSize:25
                         }
                     }
                     } />
                     <Stack.Screen name='AddAddress' component={AddAddress} options={{
-                        headerStyle: { backgroundColor: 'red' },
-                        headerTintColor: '#fff',
-                        headerTitleStyle: {
-                            fontWeight: 'bold',
-                        }
-                    }
-                    } />
+                     headerShown:false
+                    }} />
                    
                     <Stack.Screen name='Mycard' component={Mycard} options={{
-                        headerStyle: { backgroundColor: 'red' },
-                        headerTintColor: '#fff', 
-                        headerTitleStyle: {
-                            fontWeight: 'bold',
-                        },
-                        // headerRight: () => (
-                        //    <Icon name = "search" size={30}
-                        //         onPress={() => this.Searchbar()}
-                              
-                        //         color="#fff"
-                        //     />
-                        // ),
+                        headerShown: false
+
                     }
                     } />
-                    <Stack.Screen name='Adddress List ' component={AddressList} options={{
+                    <Stack.Screen name='Addresslist ' component={AddressList} options={{
                         headerStyle: { backgroundColor: 'red' },
                         headerTintColor: '#fff',
                         headerTitleStyle: {
@@ -185,20 +186,18 @@ class Main extends Component {
                     }
                     } />
                     <Stack.Screen name='Map' component={Map} options={{
-                        headerStyle: { backgroundColor: 'red' },
-                        headerTintColor: '#fff',
-                        headerTitleStyle: {
-                            fontWeight: 'bold',
-                        }
+                        headerShown:false
+                       
                     }
                     } />
 
                     <Stack.Screen name='storeLocator' component={StoreLocator} options={{
-                        headerStyle: { backgroundColor: 'red' },
-                        headerTintColor: '#fff',
-                        headerTitleStyle: {
-                            fontWeight: 'bold',
-                        }
+                        headerShown:false
+                        // headerStyle: { backgroundColor: 'red' },
+                        // headerTintColor: '#fff',
+                        // headerTitleStyle: {
+                        //     fontWeight: 'bold',
+                        // }
                     }
                     } />
 

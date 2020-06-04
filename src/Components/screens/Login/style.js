@@ -32,21 +32,22 @@ export const styles = StyleSheet.create({
     },
     forgot_link: {
         color: 'white',
-        fontSize: 20,
-        // fontWeight: 'bold',
+        fontSize: 25,
+        fontWeight: 'bold',
         textAlign: 'center'
 
     },
     
     Account: {
         flexDirection: 'row',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        marginBottom:20
     },
     Account_Text: {
         padding: 10,
         color: 'white',
-        fontSize: 20,
+        fontSize: 18,
         fontWeight: 'bold',
-
+        marginLeft:30
     }
 });

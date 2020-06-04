@@ -44,8 +44,8 @@ export default class Header extends Component {
                     <AntIcon name={this.props.name1} size={30} color="#fff" />
              </TouchableOpacity>
                     <Text  style={styles.headerTitle} numberOfLines={1} ellipsizeMode='head'>{
-                        //  ((text).length > 20) ?
-                        // (((text).substring(0, 20- 3)) + '...') :
+                        ((text).length > 20) ?
+                        (((text).substring(0, 20- 3)) + '...') :
                         text}
                     </Text>
                 <TouchableOpacity >

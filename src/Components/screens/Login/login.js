@@ -127,10 +127,10 @@ class LoginScreen extends Component {
                      </TouchableOpacity>    
                 </View>  
                 <View style={styles.Account}>
-                    <Text style={styles.Account_Text}>DONT HAVE AN ACCOUNT</Text>
+                    <Text style={styles.Account_Text}>DON'T HAVE AN ACCOUNT?</Text>
                     <TouchableOpacity onPress = {() => this.props.navigation.navigate('Register')}>
-                        <View style = {{backgroundColor: 'black',opacity: 0.6,padding: 10}}>
-                            <Icon name="plus" size={20} color="#fff" />
+                        <View style = {{backgroundColor: 'black',opacity: 0.6,padding: 8,marginRight:15}}>
+                            <Icon name="plus" size={40} color="#fff" />
                         </View>
                     </TouchableOpacity>
                 </View> 

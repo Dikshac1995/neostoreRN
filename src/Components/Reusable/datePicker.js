@@ -9,14 +9,14 @@ export default class MyDatePicker extends Component {
   constructor(props) {
     super(props);
     //set value in state for initial date
-    this.state = { date:'15/03/2020' };
+    this.state = { date:'13/05/2011' };
   }
 
   render() {
     return (
       <View style={styles.container}>
         <DatePicker
-          style={{ width: 250,color:'#fff'}}
+          style={{ width: 250,color:'#fff',fontSize:50}}
           date={this.state.date} //initial date from state
           mode="date" //The enum of date, datetime and time
           placeholder="select date"
@@ -36,12 +36,15 @@ export default class MyDatePicker extends Component {
             },
             dateInput: {
                 marginLeft: 5,
-                marginRight:100,
-                color:'white',
-                // borderColor: 'red',
+                marginRight:80,
+                paddingLeft:10,
                 borderWidth:0
                
             },
+            dateText: {
+              color: '#fff',
+              fontSize:20
+            }
           }}
           onDateChange={date => {
             this.setState({ date: date });
@@ -58,7 +61,9 @@ const styles = StyleSheet.create({
         // justifyContent: 'center',
         borderWidth: 2,
         borderColor: '#fff',
-    padding: 4,
+    padding: 5,
+    color: '#fff',
+    
         
 
     }

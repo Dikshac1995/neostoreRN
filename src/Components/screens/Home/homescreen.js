@@ -19,22 +19,20 @@ import MyDrawer from '../../Main/drawerMain'
                 /> */}
                 <View style={styles.headerSection}>
                     <TouchableOpacity 
-                        // onPress={() =>  this.props.navigation.navigate('MyDrawer') 
-                        // onPress={() => this.props.navigate('MyDrawer')
-                  onPress = {() => this.props.navigation.openDrawer()
-                //  onPress={()=>this.props.navigation.navigate('Register')
-                   // console.log('counter :', this.props)
-                   // console.log('counter :', this.props.count)
-                   // console.log('imageReducer :', this.props.image)
-               
-               }>
+                            onPress = {() => this.props.navigation.openDrawer()}>
                         <View>
-                            <Icon name="bars" size={30} color="#fff" />
-                        </View>
+                             <Icon name="bars" size={30} color="#fff" />
+                         </View>
                     </TouchableOpacity>
-                    <Text style={styles.headerTitle}>NeoSTORE</Text>
-                    <Icon name="search" size={30} color='#fff'></Icon>
+                         <Text style={styles.headerTitle}>NeoSTORE</Text>
+                         <Icon name="search" size={30} color='#fff'
+                        onPress={() => this.props.navigation.navigate('searchitem')}></Icon>
                 </View>
+                {/* <Header name1='' text='NeoStore' name2='search'
+                    onPress={() => this.props.navigation.openDrawer()}
+                    // onClick={() => this.props.navigation.navigate('share')}
+                    onClick={() => this.props.navigation.navigate('searchitem')}
+                /> */}
             <ScrollView>
         <View>
            
@@ -43,15 +41,15 @@ import MyDrawer from '../../Main/drawerMain'
                 </View>
                 <View style={{ display: 'flex', flexWrap: 'wrap' }}>
                     <View style={{ flexDirection: 'row', justifyContent:'center' }} >
-                         <Card name="couch" title="sofa" {...this.props}  category_name="sofa" category_id="5cfe3c5aea821930af69281e"/>
-                         <Card title="bed" name="bed" {...this.props} category_id="5cfe3c65ea821930af69281f" category_name="Bed"/>
+                         <Card name="couch" title="Sofa" position1 {...this.props}  category_name="sofa" category_id="5cfe3c5aea821930af69281e"/>
+                         <Card title="Bed" name="bed"   {...this.props} category_id="5cfe3c65ea821930af69281f" category_name="Bed"/>
                      </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-                        <Card title="chair" name="chair" {...this.props} category_id="5cfe3c6fea821930af692820" category_name="chair"/>
+                        <Card title="Chair" name="chair" position1 {...this.props} category_id="5cfe3c6fea821930af692820" category_name="chair"/>
                         <Card title="Table" name="table"{...this.props} category_id="5cfe3c79ea821930af692821" category_name="Table"/>
                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
-                         <Card title="Almirah" name="dungeon"{...this.props} category_id="5d14c15101ae103e6e94fbe0" category_name="Almirah" />
+                         <Card title="Almirah" name="dungeon"  position1 {...this.props} category_id="5d14c15101ae103e6e94fbe0" category_name="Almirah" />
                     </View> 
               </View>
                 </View>

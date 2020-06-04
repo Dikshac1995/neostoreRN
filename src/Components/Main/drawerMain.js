@@ -15,6 +15,7 @@ import AddressList from '../screens/AddressList'
 import Root  from './functionstack'
 import Registration from '../screens/Register/registration';
 import lazyLoading from '../screens/flatlistLazy/lazyloading'
+import Sidebar from './slider'
 
 
 const Drawer = createDrawerNavigator();
@@ -26,9 +27,7 @@ export default class MyDrawer extends Component {
             LoggedIn: false,
 
             expanded: false,
-            data: {
-                key :["user-login","user-registration"]
-            }
+            
         }
     }
 
@@ -55,21 +54,12 @@ export default class MyDrawer extends Component {
     render() {
         return (
 
-            <Drawer.Navigator drawerContent={props => CustomDrawerContent(props, this.state.LoggedIn)} 
+            <Drawer.Navigator drawerContent={props => {
+                return <CustomDrawerContent {...props} />;
+            }}
                 drawerType='slide'
-                // drawerContentOptions={{
-                    
-                // activeTintColor: 'red', 
-                // itemStyle: { margin: 10 },
-                //     // inactiveTintColor: 'red',
-                //  activeBackgroundColor: '#eee',
-                //     // inactiveBackgroundColor: 'rgba(0,0,0,0)',
-                //     // width:200,
-                // backgroundColor:'black'
-                   
-                // }}
                 drawerStyle={{
-                 backgroundColor: 'black',
+                    backgroundColor: 'black',
                     width: 320,
                     activeBackgroundColor: '#eee',
                     inactiveBackgroundColor: 'black'
@@ -78,17 +68,11 @@ export default class MyDrawer extends Component {
                 {!this.state.LoggedIn ?
                     <Drawer.Screen name="Homescreen" component={Homescreen} labelStyle={{ color: 'black', fontSize: 30, backgroundColor: 'transparent' }}
                         options={{
-                            
-                         drawerLabel: 'Account',
-                            // backgroundColor: 'black',
+                            drawerLabel: 'Account',
                             drawerIcon: () => <Icon name="users" size={25} color='red'
-                                onPress={() => this.toggleExpand()}
-                   
-                               
-
-                                
-                            />
-                        }} />
+                                               onPress={() => this.toggleExpand()}/>
+                        }}
+                    />
                     // //  {/* <Drawer.Screen name="Root" component={Root} /> */}
                 
                     // {/* <Drawer.Screen name="loginScreen" component={LoginScreen}
@@ -109,8 +93,9 @@ export default class MyDrawer extends Component {
                     //         />
                     //     }} />  */}
                         
-                    : <Drawer.Screen name='Adddress List ' component={AddressList}
-                    />}
+                    : null}
+                    {/* <Drawer.Screen name='Adddresslist' component={AddressList}
+                    />} */}
                 
                 
                     {this.state.expanded &&

@@ -1,0 +1,20 @@
+{
+    "first_name": " ",
+    "last_name": " ",
+    "pass": " ",
+    "confirmPass": " ",
+    "email": " ",
+    "phone_no": " ",
+    " gender": " ",
+    "age": 20,
+    "AddAddress": {
+        "Address": " ",
+        "City": " ",
+        " State": " ",
+        " Country": " ",
+        " pin_code": " "
+
+
+    }
+
+}
