@@ -1,9 +1,9 @@
 import { REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAILURE } from '../Constants/constant'
 
 const INITIAL_STATE = {
-    registering:true
+    registering: true
 }
-export default function registration(state = INITIAL_STATE , action) {
+export default function registration(state = INITIAL_STATE, action) {
     switch (action.type) {
         case REGISTER_REQUEST:
             return {
@@ -11,7 +11,7 @@ export default function registration(state = INITIAL_STATE , action) {
             };
         case REGISTER_SUCCESS:
             return {
-
+                data: action.data
             };
         case REGISTER_FAILURE:
             return {

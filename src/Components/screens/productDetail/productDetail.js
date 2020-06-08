@@ -43,7 +43,7 @@ const shareOptions = {
     filename: 'test', // only for base64 file in Android
 };
 
-const card_dataItem = []
+const myCardItem = []
 class productDetail extends Component {
     constructor(props) {
         super(props);
@@ -143,13 +143,14 @@ class productDetail extends Component {
             [
                 {
                     text: 'OK', onPress: () => {
-                        // this.setState({ cardData: { ...this.state.cardData, data } })
-                        card_dataItem.push(data)
-                        console.log('~~~', card_dataItem)
-                        this.storeData(data)
+
+                        myCardItem.push(data)
+                        console.log('~~~', myCardItem)
+                        // this.recivedData()
+                        this.storeData(myCardItem)
                         // this.recivedData()
                         this.props.navigation.navigate('Mycard',
-                            // { data: this.state.ProductDetailData }
+                            { data: this.state.ProductDetailData }
                         )
                         console.log("????????", this.state.cardData)
                     }
@@ -163,10 +164,10 @@ class productDetail extends Component {
             { cancelable: false }
         )
     }
-    storeData = async () => {
+    storeData = async (data) => {
         const values = this.state.ProductDetailData
-        // const value = data
-        console.log('7777')
+        const value = data
+        console.log('7777', value)
         try {
             await AsyncStorage.setItem('MycardData', JSON.stringify(values));
             // await AsyncStorage.multiMerge('MycardData', JSON.stringify(value))
@@ -174,15 +175,33 @@ class productDetail extends Component {
             // Error saving data
         }
     };
-    recivedData = async () => {
-        try {
-            let user = await AsyncStorage.getItem('MycardData');
-            console.log(' ,,,', user);
-        }
-        catch (error) {
-            alert(error)
-        }
-    }
+    // recivedData = async () => {
+
+    //     try {
+    //         let user = JSON.parse(await AsyncStorage.getItem('MycardData'));
+    //         console.log('!!! ,,,user', user);
+    //         if (user.length == 0) {
+    //             this.storeData()
+    //             console.log('hiii')
+
+    //             // await AsyncStorage.setItem('MycardData', JSON.stringify(myCardItem1));
+    //         }
+    //         else {
+    //             myCardItem1.concat(user)
+    //             console.log(">>", myCardItem1)
+    //             await AsyncStorage.setItem('MycardData', JSON.stringify(myCardItem1));
+    //         }
+
+    //         let user1 = JSON.parse(await AsyncStorage.getItem('MycardData'));
+    //         console.log("Data1", user1)
+
+    //         console.log(card_dataItem, "carddata")
+    //         // this.storeData(card_dataItem)
+    //     }
+    //     catch (error) {
+    //         alert(error)
+    //     }
+    // }
 
     async Buynow() {
         const { product_id } = this.props.route.params;
@@ -245,9 +264,7 @@ class productDetail extends Component {
 
 
     render() {
-        console.log("pr-image", this.state.product_image)
-        console.log("PDwer", this.state.ProductDetailData)
-        console.log("j", this.state.ProductDetailData.category_id)
+
         const Product_name = this.state.ProductDetailData.product_name
         console.log(Product_name, "productname")
         return (
@@ -303,7 +320,7 @@ class productDetail extends Component {
                                                 <View style={{ display: 'flex', backgroundColor: 'blue', borderRadius: 80, width: 60, height: 60, top: 140, left: 270 }}>
                                                     <View style={{ alignItems: 'center', paddingTop: 10 }}>
                                                         <Icon name='shopping-cart' size={30} color="#fff"
-                                                            onPress={() => this.addToCard()}
+                                                            onPress={() => this.addToCard(this.state.ProductDetailData)}
                                                         // this.props.navigation.navigate('Mycard')}
                                                         />
                                                     </View>

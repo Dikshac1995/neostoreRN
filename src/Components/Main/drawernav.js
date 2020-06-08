@@ -26,8 +26,8 @@ export default class CustomDrawerContent extends Component {
     super(props);
     this.state = {
       expanded: false,
-      LoggedIn: true,
-      token: '',
+      LoggedIn: false,
+      // token: '',
       data: {},
       img: {
         uri: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg'
@@ -36,6 +36,20 @@ export default class CustomDrawerContent extends Component {
     if (Platform.OS === 'android') {
       UIManager.setLayoutAnimationEnabledExperimental(true);
     }
+  }
+  async getToken() {
+    let token = await AsyncStorage.getItem('token');
+    console.log('****************', token)
+    if (token !== null) {
+      this.setState({ LoggedIn: true })
+      console.log("!!!!!!!!!!!!!!!!!!!!!!!!!", this.state.LoggedIn)
+    }
+
+  }
+  componentDidMount() {
+
+    this.getToken()
+
   }
 
   toggleExpand = () => {
@@ -80,45 +94,30 @@ export default class CustomDrawerContent extends Component {
               </View>
             ) : (
               <View style={{ alignItems: 'center', marginTop: 20 }}>
-
                 <Avatar
                   size="xlarge"
                   rounded
                   showAccessory
-
                   icon={{ name: 'user-circle', type: 'font-awesome' }}
                   onPress={() => Alert.alert("Works!")}
                   activeOpacity={0.7}
-
-                // source={
-                // this.state.img
-
                 />
-
                 <Text style={{ fontSize: 20, color: '#e91b1a' }}>diksha30@gmail.com</Text>
-
-
                 <View style={styles.parent_drawer}>
                   <View style={{ paddingLeft: 35, paddingRight: 10 }}>
-                    <Icon name='shopping-cart' size={30} color='#fff' onPress={() => this.props.navigation.navigate('Mycard')} />
+                    <Icon name='shopping-cart' size={30} color='#fff'
+                      onPress={() => this.props.navigation.navigate('Mycard', { data: 0 })} />
                   </View>
-                  <Text style={styles.parent_drawerLabel
-                  }>My Card </Text>
+                  <Text style={styles.parent_drawerLabel}>My Card </Text>
                   <View style=
                     {{ backgroundColor: 'red', borderRadius: 100, width: 40, height: 40, marginRight: 40 }}>
                     <Text style={{ color: '#fff', paddingLeft: 15, paddingTop: 10 }}>0</Text>
                   </View>
-
                 </View>
-
-
               </View>
-
-
             )}
           <DrawerContentScrollView {...props} style={{
             backgroundColor: 'black', activeBackgroundColor: 'white',
-
           }}
           >
 
@@ -181,9 +180,15 @@ export default class CustomDrawerContent extends Component {
               labelStyle={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}
               onPress={() => this.props.navigation.navigate('AddAddress')}
             />
+            <DrawerItem
+              icon={() => <Icon name='user-friends' size={30} color='#fff' />}
+              label="AddressList"
+              labelStyle={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}
+              onPress={() => this.props.navigation.navigate('Addresslist')}
+            />
             {this.state.LoggedIn ? (
               <DrawerItem
-                icon={() => <Icon name='user-slash' size={30} color='#fff' />}
+                icon={() => <Icon name='sign-out-alt' size={30} color='#fff' />}
                 label="Sign Out"
                 labelStyle={{ color: '#fff', fontSize: 20, marginLeft: 10, fontWeight: 'bold' }}
                 onPress={() =>

@@ -7,7 +7,7 @@ import {
     TextInput,
     TouchableHighlight,
     TouchableOpacity,
-    Image,Button, Alert
+    Image, Button, Alert
 } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import TextField from '../../Reusable/textField/textField'
@@ -26,12 +26,17 @@ class LoginScreen extends Component {
         this.state = {
             email: '',
             pass: '',
-            emailValid: ' ' ,
-            passValid:' ',
+            emailValid: ' ',
+            passValid: ' ',
         }
     }
+    componentDidMount() {
+        const { isLoggedIn, userData, error } = this.props
+        console.log('componentDid', userData)
+
+    }
     navigate = () => {
-       navigation.navigate('registrationScreen')
+        navigation.navigate('registrationScreen')
     }
     // updateValue(type, text) {
     //     console.warn(type,text)
@@ -63,41 +68,50 @@ class LoginScreen extends Component {
     //         }
     //     }
     // }
-      async login() {
-        const value =  await AsyncStorage.getItem('token')
-           console.warn("--------", this.state.emailValid, this.state.passValid)
-            if ((!this.state.email)&& (!this.state.pass)&&(this.state.emailValid)&& (this.state.passValid)) {
-                Alert.alert(" fill the required detail ")
-            }
-            else {
-                this.props.login(this.state.email, this.state.pass).then(() => {
-                    if (this.props.error) { 
-                        console.log('================',this.props.isLoggedIn)
-                        console.log(this.props.error)
-                        Alert.alert(this.props.error)
+    async login() {
+        const { userData, error, isLoggedIn } = this.props
+        const value = await AsyncStorage.getItem('token')
+        console.warn("--------", this.state.emailValid, this.state.passValid)
+        if ((!this.state.email) && (!this.state.pass) && (this.state.emailValid) && (this.state.passValid)) {
+            Alert.alert(" fill the required detail ")
+        }
+        else {
+            this.props.login(this.state.email, this.state.pass).then(() => {
+                if (this.props.error) {
+
+                    console.log(this.props.error)
+                    Alert.alert(this.props.error)
+                }
+                else {
+                    console.log('================', this.props.isLoggedIn)
+                    console.log('login data', this.props.userData)
+                    console.log('login successfully')
+                    console.log(userData.success)
+                    Alert.alert(userData.message)
+                    if (userData.sucess == false) {
+                        console.log("userdata.success")
                     }
-                    else {
-                        console.log('================', this.props.isLoggedIn)
-                        console.log('login successfully')
-                        Alert.alert('login successfully')
-                        this.props.navigation.navigate('Homescreen')
-                        //    Alert.alert(this.props.userData.user.name + ' user successfully logged in ')
-                    }
-            
-                })
-            }
-        
-    
-        
+
+                    this.props.navigation.navigate('Homescreen')
+
+                    //    Alert.alert(this.props.userData.user.name + ' user successfully logged in ')
+                }
+
+            })
+        }
+
+
+
     }
     render() {
 
         const { isLoggedIn, userData, error } = this.props
-        console.log('token',this.props.token)
-        console.log('00000',isLoggedIn,userData,error)
+        console.log('token', this.props.token)
+        console.log('00000', isLoggedIn, userData, error)
         return (
             <View style={styles.LoginScreen1}>
-                <View style={styles.login}>    
+                <View style={styles.login}>
+
                     <Text style={styles.login_neostore}>NeoSTORE</Text>
                     <TextField placeholder="Email" name="envelope"
                         onChangeText={value => this.setState({ email: value.trim() })}
@@ -120,21 +134,21 @@ class LoginScreen extends Component {
                     <ButtonField text="LOGIN"
                         onPress={() => this.login()}
                         style={styles.loginButton}
-                       // onPress={() => this.props.navigation.navigate('Register')}
+                    // onPress={() => this.props.navigation.navigate('Register')}
                     />
-                    <TouchableOpacity onPress = {()=>this.props.navigation.navigate('ForgotPassword')}>
-                        <Text style = {styles.forgot_link}>Forgot Password ?</Text>
-                     </TouchableOpacity>    
-                </View>  
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('ForgotPassword')}>
+                        <Text style={styles.forgot_link}>Forgot Password ?</Text>
+                    </TouchableOpacity>
+                </View>
                 <View style={styles.Account}>
                     <Text style={styles.Account_Text}>DON'T HAVE AN ACCOUNT?</Text>
-                    <TouchableOpacity onPress = {() => this.props.navigation.navigate('Register')}>
-                        <View style = {{backgroundColor: 'black',opacity: 0.6,padding: 8,marginRight:15}}>
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('Register')}>
+                        <View style={{ backgroundColor: 'black', opacity: 0.6, padding: 8, marginRight: 15 }}>
                             <Icon name="plus" size={40} color="#fff" />
                         </View>
                     </TouchableOpacity>
-                </View> 
-                
+                </View>
+
             </View>
         );
     }
@@ -143,12 +157,12 @@ const mapStateToProps = state => ({
     isLoggedIn: state.auth.isLoggedIn,
     isLoading: state.auth.isLoading,
     userData: state.auth.userData,
-    token:state.auth.token,
+    token: state.auth.token,
     error: state.auth.error
 })
 
 const mapDispatchToProps = dispatch => ({
-    login: (email, pass) => dispatch(actions.login({ email, pass}))
+    login: (email, pass) => dispatch(actions.login({ email, pass }))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen)

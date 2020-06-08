@@ -1,23 +1,23 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import { Alert } from 'react-native';
 export function isLoading(bool) {
-  return{
-    type:'LOGIN_ATTEMPT',
-    isLoading:bool
+  return {
+    type: 'LOGIN_ATTEMPT',
+    isLoading: bool
   }
 }
 
-export function loginSuccess(userData,token){
-  return{
-    type:'LOGIN_SUCCESS',
+export function loginSuccess(userData, token) {
+  return {
+    type: 'LOGIN_SUCCESS',
     userData,
     token
   }
 }
 
-export function loginFailed(error){
-  return{
-    type:'LOGIN_FAILED',
+export function loginFailed(error) {
+  return {
+    type: 'LOGIN_FAILED',
     error
   }
 };
@@ -28,7 +28,7 @@ export function login(data) {
   console.log("data", data)
   if (data == ' ') {
     return Alert.alert('fill the proper data ss')
-  }else{
+  } else {
     return async dispatch => {
       dispatch(isLoading(true));
       console.log('inloding')
@@ -43,32 +43,24 @@ export function login(data) {
         })
       })
         .then((response) => {
-          console.log(response);
-          if (response.status === 200) {
-            dispatch(isLoading(false))
-            response.json().then(async (responseJSON) => {
-              console.log("responseJSON", responseJSON);
-              await AsyncStorage.setItem('token', responseJSON.token)
-              dispatch(loginSuccess(responseJSON, responseJSON.token))
-       
-              
-           
-              const value = await AsyncStorage.getItem('token')
-              console.log("-->", value)
-            })
-          }
-          else {
-            if (response.satus === 404) {
-              response.json().then((responseJSON) => {
-                // console.log("responseJSON",responseJSON);
-                dispatch(isLoading(false))
-                dispatch(loginFailed(responseJSON.message))
-                console.log('login failed')
-              })
-            }
-          }
+          console.log(response, " resp");
+          console.log("giiijj")
+
+          dispatch(isLoading(false))
+          response.json().then(async (responseJSON) => {
+            console.log("responseJSON", responseJSON);
+            await AsyncStorage.setItem('token', responseJSON.token)
+            dispatch(loginSuccess(responseJSON, responseJSON.token))
+
+
+
+            const value = await AsyncStorage.getItem('token')
+            console.log("-->", value)
+          })
+
+
         })
-  
+
         .catch((error) => {
           console.log("error", error);
           dispatch(isLoading(false))
@@ -76,7 +68,7 @@ export function login(data) {
         })
     }
   }
- 
-  
+
+
 }
 

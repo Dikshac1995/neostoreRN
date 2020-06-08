@@ -6,18 +6,18 @@ import AsyncStorage from '@react-native-community/async-storage';
 export const getProduct = () => {
     return {
         type: FETCH_PRODUCT,
-        
-    
+
+
     }
 }
 export const getProductSuccess = data => {
     return {
         type: FETCH_PRODUCT_SUCCESS,
-        payload:data
+        payload: data
     }
 }
 export const getProductFailuer = () => {
-    console.log('');
+
     return {
         type: FETECH_PRODUCT_FAILUER
     }
@@ -27,20 +27,20 @@ export const getProductFailuer = () => {
 
 
 export const FetchProductList = (type) => {
-    console.log("typeery",type)
+    console.log("typeery", type)
     console.log("ddd")
     return async dispatch => {
         console.log('dis')
-      
+
         try {
             console.log("in tey")
-            const ProductList = await api.fetchapi('http://180.149.241.208:3022/'+type, 'get')
+            const ProductList = await api.fetchapi('http://180.149.241.208:3022/' + type, 'get')
             dispatch(getProduct(true))
             console.log("in teydfdf")
             const commonProduct = await ProductList.json();
             console.log("jjjjhh", commonProduct)
             dispatch(getProductSuccess(commonProduct))
-           
+
         } catch (error) {
             console.log('Getting People Error---------', error);
             dispatch(getProductFailuer(error))
@@ -58,12 +58,12 @@ export const FetchProductDetail = (type) => {
             console.log("in tey")
             const ProductList = await api.fetchapi('http://180.149.241.208:3022/' + type, 'get')
             dispatch(getProduct(true))
-            console.log("in teydfdf",ProductList)
+            console.log("in teydfdf", ProductList)
             const commonProduct = await ProductList.json();
             await AsyncStorage.setItem('datad', JSON.stringify(commonProduct))
             const value = await AsyncStorage.getItem('datad');
             var obj = JSON.parse(value);
-            console.log("Async",obj)
+            console.log("Async", obj)
             console.log("jjjjhh", commonProduct)
             dispatch(getProductSuccess(commonProduct))
 

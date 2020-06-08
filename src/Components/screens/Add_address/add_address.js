@@ -33,84 +33,50 @@ export default class AddAddress extends Component {
             zip_err: false,
             country_err: false,
             ButtonDisable: false,
+            token: ' '
 
         }
     }
+    componentDidMount() {
+        this.getToken()
+
+    }
+
+    async getToken() {
+
+        let token = await AsyncStorage.getItem('token');
+        this.setState({ token: token })
+    }
+
     AddAddress() {
         let collection1 = {}
-        collection1.u_address = this.state.address
-        collection1.pincode = this.state.pinCode
+        collection1.address = this.state.address
+        collection1.pincode = this.state.zipCode
         collection1.city = this.state.City
         collection1.state = this.state.state
         collection1.country = this.state.country
-
-
-        console.warn(collection1);
         let error = {}
         error.address_err = this.state.address_err
         var url = 'http://180.149.241.208:3022/address'
 
-        fetch(url, {
-            method: 'POST', // or 'PUT'
-            headers: {
-                "accept": "application/json",
-                'Content-Type': 'application/x-www-form-urlencoded/json',
-                Authorization: tokenHard ? 'Bearer ' + tokenHard : null
+        api.fetchapi(url, 'post',
+            JSON.stringify(collection1), this.state.token)
 
-                // Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzQ4LCJpYXQiOjE1ODU5ODI1Njd9.Mpv9w9yfgh2pc784V9IJQYGvXT-mK3ge7JHVdzhEWJs"
-
-            },
-            body: JSON.stringify(collection1),
-        })
             .then((response) => response.json())
             .then((data) => {
                 console.log('Success:', data);
-                Alert.alert(" address added successfully")
+                if (data.success === 'true') {
+                    Alert.alert(" address added successfully")
+                }
+                else {
+                    Alert.alert('fill the mentioned data ')
+                }
             })
             .catch((error) => {
                 console.log('Error:', error);
             });
         console.warn(error)
 
-        // if (collection && error== false) {
-        // Alert.alert('filled')
-        // console.log(authHeader)
-        // var url = 'http://180.149.241.208:3022/address'
-        // console.log(url)
-        //     // api.fetchapi(url, 'post', collection)
-        //     //     .then(res => Alert.alert(res))
-        //     //     .catch(err => Alert.alert(err))
-        //         fetch(url, {
-        //             method: 'POST', // or 'PUT'
-        //             headers: {
-        //                 'Content-Type': 'application/json',
-        //                 // ...authHeader,"
-        //                 Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzQ4LCJpYXQiOjE1ODU5ODI1Njd9.Mpv9w9yfgh2pc784V9IJQYGvXT-mK3ge7JHVdzhEWJs"
-        //                // Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzQ4LCJpYXQiOjE1ODU4NDg2ODN9._haZuVTP_lRWl4bNyouhe - oAuDulp7mzBYWwHsxmUQE
-        //             //Authorization: token ? 'Bearer ' + AsyncStorage.getItem('token') : null
-        //             },
-        //             body: JSON.stringify(collection),
-        //         })
-        //             .then((response) => response.json())
-        //             .then((data) => {
-        //                 if (data.suceess) {
-        //                     console.log('Success:', data);
-        //                     Alert.alert(" data send successfully ")
-        //                 }
-        //                 else {
-        //                     Alert.alert(" data send unsuccessfully ")
-
-
-        //                 }
-        //             })
-        //             .catch((error) => {
-        //                 console.log('Error:', error);
-        //             });
-
-
-        // } else {
-        //     Alert.alert(' fill the all data ')
-        // }
     }
     render() {
         return (

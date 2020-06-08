@@ -3,22 +3,20 @@
 import { Alert } from "react-native";
 
 
-export default function validation(type, text)
-{   var password
-    console.warn("hiii", type,text)
+export default function validation(type, text, pass) {
+    var password
+    console.warn("hiii", type, text, pass)
     const regex = /^[A-Za-z]+$/;
     const passreg = /^[0-9]+$/;
     const numregx = /^\d{10}$/
     const emailPattern = /^([a-zA-Z])+([0-9a-zA-Z_\.\-])+\@+(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,5}$)$/;
-  
+
     if (type == 'firstName') {
-        if (regex.test(text))
-        {
-           return  true 
+        if (regex.test(text)) {
+            return true
         }
-        else
-        {
-          return 'first name only contain alphabet'
+        else {
+            return 'first name only contain alphabet'
         }
     }
     if (type == 'lastName') {
@@ -30,7 +28,7 @@ export default function validation(type, text)
         }
     }
     else if (type == 'password') {
-   
+
         if (passreg.test(text)) {
             password = text
             console.warn('pass', password)
@@ -40,14 +38,14 @@ export default function validation(type, text)
             return 'Password should be numeric '
         }
     }
-        
+
     else if (type == 'confirmpassword') {
         console.warn('a', password)
-        if (password == text) {
+        if (pass == text) {
             return " "
         }
         else {
-            return ' password Dont match '
+            return ' password Does not  match '
         }
     }
     else if (type == 'email') {
@@ -72,7 +70,7 @@ export default function validation(type, text)
             return true
         } else {
             return false
-            
+
         }
     }
     else if (type == 'Landmark') {
@@ -84,7 +82,7 @@ export default function validation(type, text)
             return false
         }
     }
-   
+
     else if (type == 'City') {
         console.warn(" #####", text)
         if (text == '') {
@@ -96,10 +94,10 @@ export default function validation(type, text)
             // Alert.alert('ok')
             return false
         }
-        
+
     }
     else if (type == 'pinCode') {
-        if (text == ' ' && text.length<6) {
+        if (text == ' ' && text.length < 6) {
             Alert.alert('pin code is required')
             return true
         }
@@ -108,7 +106,7 @@ export default function validation(type, text)
         }
     }
     else if (type == 'state') {
-        if (text == ' ' ) {
+        if (text == ' ') {
             Alert.alert('state is required')
             return true
         }

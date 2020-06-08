@@ -18,6 +18,24 @@ export const styles = StyleSheet.create({
         borderWidth: 2,
         borderColor: '#fff',
         padding: 5,
-       
-    }
+
+    },
+    GenderField: {
+        display: 'flex',
+        flexDirection: 'row',
+        paddingTop: 10
+        // justifyContent:'space-between'
+    },
+    Gender: {
+        color: 'white',
+        fontSize: StyleConstants.FONT_20,
+        fontWeight: 'bold',
+        alignItems: 'flex-end',
+
+    },
+    GenderName: {
+        color: 'white',
+        fontSize: StyleConstants.FONT_20,
+
+    },
 })

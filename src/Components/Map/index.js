@@ -2,13 +2,15 @@
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'; // remove PROVIDER_GOOGLE import if not using Google Maps
 import { StyleSheet } from 'react-native'
 import React from "react";
-import { View, Text, Share } from "react-native";
+import { View, Text, Share, Button, TouchableOpacity } from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Dimensions } from 'react-native';
 
 import { Marker } from 'react-native-maps';
 import { ScrollView } from 'react-native-gesture-handler';
 import Header from '../../Components/Reusable/header /header'
+import { IconButton, Colors } from 'react-native-paper';
+// import { Button } from 'react-native-elements';
 
 
 const screen = Dimensions.get('window');
@@ -97,13 +99,51 @@ export default class Map extends React.Component {
                     onPress={() => this.props.navigation.goBack()}
                     onClick={() => this.props.navigation.navigate('share')}
                 />
+                <View style={{ flexDirection: 'row', flex: 1 }}>
+                    <View style={{ paddingTop: 10, flex: 1 }}>
+
+                        <Button
+                            title="======"
+                            color="#841584"
+                            accessibilityLabel="Learn more about this purple button"
+
+                        />
+                    </View>
+                    {/* <View style={{ paddingTop: 10, flex: 1 }}> */}
+
+
+
+                    {/* <Button
+                            title="Store"
+                            color="#841584"
+                            accessibilityLabel="Learn more about this purple button"
+
+                        />
+                    </View>
+                    <View style={{ paddingTop: 10, flex: 1 }}>
+
+
+
+                        <Button
+                            title="share"
+                            color="#841584"
+                            accessibilityLabel="Learn more about this purple button"
+
+                        />
+                    </View> */}
+                </View>
                 <View style={styles.container}>
+
 
                     <MapView
                         provider={PROVIDER_GOOGLE} // remove if not usinsg Google Maps
                         style={styles.map}
                         ref="map"
-                        // fitToElements
+                        // onLayout={() => this + Refmap.fitToCoordinates(this.state.markers,
+                        //     { edgePadding: { top: 50, right: 10, bottom: 10, left: 10 }, animated: false })}
+
+
+
                         zoomEnabled={true}
                         showsUserLocation={true}
                         followUserLocation={true}
@@ -154,9 +194,7 @@ export default class Map extends React.Component {
                     {/* </MapView> */}
 
                 </View>
-                <View style={{ backgroundColor: '#e0e', padding: 10, marginTop: 550, height: 40 }}>
-                    <Text>Store</Text>
-                </View>
+                <View style={{ marginTop: 600 }} />
             </ScrollView>
         );
     }
@@ -165,17 +203,19 @@ export default class Map extends React.Component {
 const styles = StyleSheet.create({
     container: {
         ...StyleSheet.absoluteFillObject,
-        height: screen.height - 100,
-        width: screen.width,
-        justifyContent: 'flex-end',
-        alignItems: 'center',
+        height: '100%'
+        // height: screen.height,
+        // width: screen.width,
+        // justifyContent: 'flex-end',
+        // alignItems: 'center',
     },
     map: {
-        ...StyleSheet.absoluteFillObject,
+        // ...StyleSheet.absoluteFillObject,
+        flex: 1
     },
 });
 
-// var bounds = new google.maps.LatLngBound();
+                // var bounds = new google.maps.LatLngBound();
 // for (i = 0; i < LatLngs.length; i++){
 //     position = new google.maps.LatLngs(LatLngs[i][0], LatLngs[i], [1]);
 //     marker = new google.maps.Marker({
