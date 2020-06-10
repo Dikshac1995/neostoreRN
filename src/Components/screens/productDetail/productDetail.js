@@ -223,7 +223,7 @@ class productDetail extends Component {
         console.log('7777', value)
         try {
             await AsyncStorage.setItem('MycardData', JSON.stringify(values));
-            // await AsyncStorage.multiMerge('MycardData', JSON.stringify(value))
+
         } catch (error) {
             console.log(error)
         }

@@ -111,7 +111,8 @@ class ProductList extends Component {
                                     </View>}
                                 onScroll={() => this.showToastWithGravityAndOffset()}
                                 ItemSeparatorComponent={this.FlatListItemSeparator}
-                                ListFooterComponent={this.renderFooter.bind(this)} />
+                                ListFooterComponent={this.renderFooter.bind(this)}
+                                keyExtractor={item => item.id} />
                         </View>}
                 </View>
             </>

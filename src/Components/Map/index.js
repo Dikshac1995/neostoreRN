@@ -30,6 +30,16 @@ export default class Map extends React.Component {
         super(props)
         this.state = {
             extended: false,
+            latitude: 18.5789,
+            longitude: 73.7385,
+            latitudeDelta: LATITUDE_DELTA,
+            longitudeDelta: LONGITUDE_DELTA,
+
+            // latitude: 18.57899549913118,
+            // longitude: 73.7385973893106,
+            // latitudeDelta: 0.04864195044303443,
+            // longitudeDelta: 0.040142817690068,
+
             markers: [{
                 title: 'Neostore-pimpri',
                 coordinates: {
@@ -134,13 +144,15 @@ export default class Map extends React.Component {
                             zoomEnabled={true}
                             showsUserLocation={true}
                             followUserLocation={true}
-                            initialRegion={{
-                                latitude: 18.58,
-                                longitude: 73.7374,
-                                latitudeDelta: 0.0922,
-                                // longitudeDelta: 0.0421,
-                                longitudeDelta: LONGITUDE_DELTA
-                            }}
+                            initialRegion={
+                                this.state.region
+
+
+                                // latitude: this.state.region.latitude,
+                                // longitude: this.state.longitude,
+                                // latitudeDelta: this.state.latitudeDelta,
+                                // longitudeDelta: this.state.region.longitudeDelta
+                            }
                         // annotations={markers}
                         >
                             {this.state.markers.map(marker => (
@@ -151,7 +163,14 @@ export default class Map extends React.Component {
                                 />
                             )
                             )}
-
+                            {/* <Marker
+                                coordinate={{
+                                    latitude: this.state.latitude,
+                                    longitude: this.state.longitude,
+                                }}
+                                description="Location"
+                                title='Neostore'
+                            /> */}
 
                         </MapView>)
                         :
@@ -163,10 +182,19 @@ export default class Map extends React.Component {
                             <FlatList
                                 data={this.state.markers}
                                 renderItem={({ item }) =>
-                                    <TouchableOpacity style={{ display: 'flex', flexDirection: 'row', padding: 10, marginLeft: 55 }}>
+                                    <TouchableOpacity style={{ display: 'flex', flexDirection: 'row', padding: 10, marginLeft: 55 }}
+                                        onPress={() => {
+                                            this.setState({
+                                                extended: false,
+                                                latitude: item.coordinates.latitude,
+                                                longitude: item.coordinates.longitude,
+
+                                            });
+                                        }}>
                                         <Icon name="map-marker" color='red' size={20} />
                                         <Text style={{ fontSize: 20, marginLeft: 10 }}>{item.title}</Text>
                                     </TouchableOpacity>}
+                                keyExtractor={item => item.id}
                             />
 
                         </View>)
