@@ -22,6 +22,17 @@ export default class Myorder extends Component {
         }
 
     }
+    FlatListItemSeparator = () => {
+        return (
+            <View
+                style={{
+                    height: 1,
+                    width: "100%",
+                    backgroundColor: "#000",
+                }}
+            />
+        );
+    }
     render() {
 
         return (

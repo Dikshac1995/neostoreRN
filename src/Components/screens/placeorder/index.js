@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, Image, ScrollView, FlatList, Picker } from 'react-native'
+import { Text, View, Image, ScrollView, FlatList, Picker, TouchableOpacity } from 'react-native'
 import { FetchProductDetail } from '../../../Redux/Action/productlist'
 import { connect } from 'react-redux';
 import { styles } from './style'
@@ -14,7 +14,7 @@ class Placeorder extends Component {
         super(props);
         this.state = {
             quantity: ' ',
-            // isLoading:true,
+            productData: [],
             ProductDetailData: [],
             productCategory: [],
             subImages_id: [],
@@ -54,6 +54,7 @@ class Placeorder extends Component {
         this.setState({
             Address: customer_details.customer_address[0],
             customer_details: customer_details.customer_details,
+            productData: value
         })
     }
     add_address() {
@@ -78,15 +79,16 @@ class Placeorder extends Component {
         console.log("cust add", this.state.Address)
         const customerData = this.state.customer_details
         const Address = this.state.Address
+        console.log('datadik', this.state.productData)
+
 
         return (
             (!this.state.ProductDetailData) ? <ActivityIndicator /> :
 
-
                 <>
 
-                    // shipping Address section start 
-                    <View style={{ paddingHorizontal: 20 }} >
+                    {/* shipping Address section start  */}
+                    <View style={{ paddingHorizontal: 20, height: '30%' }} >
                         {this.state.Address == ' ' ? null :
                             <View style={styles.Address}>
                                 <Text style={styles.address_text}> {customerData.first_name}  {customerData.last_name}</Text>
@@ -108,7 +110,7 @@ class Placeorder extends Component {
                     </View>
 
 
-                    //product section start 
+                    {/* product section start  */}
                     <View
                         style={{
                             height: 1,
@@ -116,7 +118,7 @@ class Placeorder extends Component {
                             backgroundColor: "#000",
                         }}
                     />
-                    <View style={styles.productDetailSection1_wrapper}>
+                    {/* <View style={styles.productDetailSection1_wrapper}>
                         <View style={{ width: 200, height: 100 }}>
                             <Text style={styles.product_name}>{this.state.ProductDetailData.product_name}</Text>
                             <Text style={styles.categogy_name}>{this.state.productCategory.category_name}</Text>
@@ -127,12 +129,13 @@ class Placeorder extends Component {
                                     uri: 'http://180.149.241.208:3022/' + this.state.ProductDetailData.product_image
                                 }} />
                         </View>
-                    </View>
+                    </View> */}
 
-                    <View style={styles.productDetailSection1_wrapper}>
+                    {/* <View style={styles.productDetailSection1_wrapper}>
                         <View style={{ width: 200 }}>
+
                             <Text style={styles.material_name}>{this.state.ProductDetailData.product_material}</Text>
-                            {/* <QuantityPicker/> */}
+                           
                             <Picker
                                 selectedValue={this.state.selectedValue}
                                 style={{ width: 100 }}
@@ -145,15 +148,19 @@ class Placeorder extends Component {
                                 <Picker.Item label="5 " value="5" />
 
                             </Picker>
+
+
                         </View>
 
                         <View >
                             <Text style={{ fontSize: 20 }}>Rs.{this.state.ProductDetailData.product_cost}</Text>
                         </View>
-                    </View>
+
+                    </View> */}
 
 
-                    // footer section 
+
+
                     <View
                         style={{
                             height: 1,
@@ -161,21 +168,74 @@ class Placeorder extends Component {
                             backgroundColor: "#000",
                         }}
                     />
-                    <View style={{ margin: 10, height: 100 }}>
-                        <Text style={styles.priceDetail}>Price Detail</Text>
-                        <View style={styles.priceDetailWrapper}>
-                            <Text style={{ fontSize: 20, width: 250 }}>Price</Text>
-                            <Text style={{ fontSize: 20 }}>{this.state.ProductDetailData.product_cost * this.state.selectedValue}</Text>
-                        </View>
+                    <View style={{ height: "40%" }}>
+                        <FlatList data={this.state.productData}
+                            showsVerticalScrollIndicator={false}
+                            renderItem={({ item }) =>
+
+                                <View >
+                                    <TouchableOpacity style={{ padding: 20 }}
+                                        onPress={() => this.removeProduct(data.indexOf(item))}
+                                    >
+
+                                        <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
+                                            <View style={{ width: '50%' }}>
+                                                <Text style={{ fontSize: 25, fontWeight: 'bold' }}>{item.product_name}</Text>
+                                            </View>
+                                            <Image style={{ width: 140, height: 100 }} source={{
+                                                uri: 'http://180.149.241.208:3022/' + item.product_image
+                                            }} />
+                                        </View>
+                                        <View style={{ display: 'flex', paddingTop: 10, flexDirection: 'row', justifyContent: 'space-between' }}>
+
+                                            <View style={{ width: '50%' }}>
+                                                <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{item.product_material}</Text>
+
+                                            </View>
+                                            <View>
+                                                <Text style={{ textAlign: 'right', fontSize: 20, fontWeight: 'bold' }}>Rs.{item.product_cost}</Text>
+                                            </View>
+
+                                        </View>
+                                        <View>
+                                            <Picker
+                                                selectedValue={this.state.selectedValue}
+                                                style={{ width: 100 }}
+                                                onValueChange={(itemValue, itemIndex) => this.setState({ selectedValue: itemValue })}
+                                            >
+                                                <Picker.Item label="1 " value="1" />
+                                                <Picker.Item label="2" value="2" />
+                                                <Picker.Item label="3" value="3" />
+                                                <Picker.Item label="4 " value="4" />
+                                                <Picker.Item label="5 " value="5" />
+
+                                            </Picker>
+                                        </View>
+
+                                    </TouchableOpacity>
+                                </View>}
+
+                            ItemSeparatorComponent={this.FlatListItemSeparator} />
                     </View>
 
-
-                    <View style={styles.footer}>
-                        <View style={styles.footer_wrapper}>
-                            <View style={{ padding: 10 }}><Text style={styles.footerProduct_cost}>Rs.{this.state.ProductDetailData.product_cost * this.state.selectedValue}</Text>
+                    {/* sfooter section  */}
+                    <View style={{ height: '30%' }}>
+                        <View style={{ height: 100 }}>
+                            <Text style={styles.priceDetail}>Price Detail</Text>
+                            <View style={styles.priceDetailWrapper}>
+                                <Text style={{ fontSize: 20, width: 250 }}>Price</Text>
+                                <Text style={{ fontSize: 20 }}>{this.state.ProductDetailData.product_cost * this.state.selectedValue}</Text>
                             </View>
-                            <ButtonField text="ORDER NOW" style={styles.footerButton_text} />
+                        </View>
 
+
+                        <View style={styles.footer}>
+                            <View style={styles.footer_wrapper}>
+                                <View style={{ padding: 10 }}><Text style={styles.footerProduct_cost}>Rs.{this.state.ProductDetailData.product_cost * this.state.selectedValue}</Text>
+                                </View>
+                                <ButtonField text="ORDER NOW" style={styles.footerButton_text} />
+
+                            </View>
                         </View>
                     </View>
                 </>

@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
         fontSize: 20,
         color: '#fff',
         borderRadius: 8,
-        padding: 10,
+        // padding: 10,
 
         textAlign: 'center'
 
@@ -32,7 +32,7 @@ export const styles = StyleSheet.create({
 
     },
     Address: {
-        paddingTop: 15, paddingHorizontal: 10
+        paddingTop: 10, paddingHorizontal: 10
     },
     address_text: {
         fontWeight: 'bold',
@@ -66,10 +66,12 @@ export const styles = StyleSheet.create({
         width: 70
     },
     priceDetail: {
-        textDecorationLine: 'underline', fontSize: 30, paddingLeft: 25, paddingTop: 10
+        textDecorationLine: 'underline', fontSize: 20, paddingLeft: 25,
     },
     priceDetailWrapper: {
-        display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', paddingVertical: 20
+        display: 'flex', flexDirection: 'row',
+        justifyContent: 'space-evenly', padding: 10,
+
     },
     footer: {
         flex: 1,
@@ -77,7 +79,7 @@ export const styles = StyleSheet.create({
         borderTopWidth: 2,
         borderTopColor: '#eee',
         elevation: 4,
-        backgroundColor: '#fff'
+        backgroundColor: '#fff',
 
 
 
