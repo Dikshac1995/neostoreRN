@@ -40,13 +40,13 @@ export class StoreLocator extends Component {
                     onPress={() => this.props.navigation.goBack()}
                     onClick={() => this.props.navigation.navigate('share')}
                 />
-                <View style={{ flex: 1, marginTop: 500 ,height:400}}>
+                <View style={{ flex: 1, marginTop: 500, height: 400 }}>
                     <List.Accordion
                         title="Stores"
                         titleStyle={{ fontSize: 20 }}
                         left={props => <List.Icon {...props} icon="folder" />}
                         right={props => <List.Icon {...props} icon="share" />}>
-                        
+
                         <List.Item
                             onPress={() => {
                                 this.setState({
@@ -54,11 +54,11 @@ export class StoreLocator extends Component {
                                     longitude: 73.7385973893106,
                                 });
                             }}
-                            left={() => <List.Icon icon="map-marker" color ='red' />}
+                            left={() => <List.Icon icon="map-marker" color='red' />}
                             title="Unititled Layer"
                             right={() => <List.Icon icon="map-marker" color='red' />}
 
-                           
+
                         />
                         <List.Item
                             onPress={() => {
@@ -67,9 +67,9 @@ export class StoreLocator extends Component {
                                     longitude: 73.7385973893106,
                                 });
                             }}
-                            left={() => <List.Icon icon="map-marker" color ='red' />}
+                            left={() => <List.Icon icon="map-marker" color='red' />}
                             title="pune-Neosoft Technologies "
-                            style={{marginLeft:30}}
+                            style={{ marginLeft: 30 }}
                         />
                         <List.Item
                             onPress={() => {
@@ -78,7 +78,7 @@ export class StoreLocator extends Component {
                                     longitude: 72.828343,
                                 });
                             }}
-                            left={() => <List.Icon icon="map-marker"  color ='red'/>}
+                            left={() => <List.Icon icon="map-marker" color='red' />}
                             title="Mumbai-Neosoft Technologies "
                             style={{ marginLeft: 30 }}
                         />
@@ -89,7 +89,7 @@ export class StoreLocator extends Component {
                                     longitude: 73.008734,
                                 });
                             }}
-                            left={() => <List.Icon icon="map-marker" color='red'/>}
+                            left={() => <List.Icon icon="map-marker" color='red' />}
                             title="Rabale-Neosoft Technologies"
                             style={{ marginLeft: 30 }}
                         />
@@ -107,7 +107,7 @@ export class StoreLocator extends Component {
                     </List.Accordion>
                 </View>
                 <View style={styles.container}>
-                    
+
                     <MapView
                         provider={PROVIDER_GOOGLE}
                         region={{
@@ -127,7 +127,7 @@ export class StoreLocator extends Component {
                         />
                     </MapView>
                 </View>
-               
+
             </ScrollView>
         );
     }
@@ -139,7 +139,7 @@ const styles = StyleSheet.create({
         height: 500,
         width: screen.width,
         flex: 1,
-       marginTop:70
+        marginTop: 70
     },
     map: {
         ...StyleSheet.absoluteFillObject,

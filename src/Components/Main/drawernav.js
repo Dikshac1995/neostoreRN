@@ -28,7 +28,7 @@ export default class CustomDrawerContent extends Component {
       expanded: false,
       LoggedIn: false,
       // token: '',
-      data: {},
+      userdata: [],
       img: {
         uri: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg'
       }
@@ -39,9 +39,11 @@ export default class CustomDrawerContent extends Component {
   }
   async getToken() {
     let token = await AsyncStorage.getItem('token');
+    const customer_details = JSON.parse(await AsyncStorage.getItem('customerDetail'))
+
     console.log('****************', token)
     if (token !== null) {
-      this.setState({ LoggedIn: true })
+      this.setState({ LoggedIn: true, userdata: customer_details.customer_details })
       console.log("!!!!!!!!!!!!!!!!!!!!!!!!!", this.state.LoggedIn)
     }
 
@@ -58,6 +60,8 @@ export default class CustomDrawerContent extends Component {
   }
 
   render(props) {
+    console.log("data", this.state.userdata)
+    const cust_data = this.state.userdata
     return (
       <>
         <ScrollView>
@@ -102,7 +106,8 @@ export default class CustomDrawerContent extends Component {
                   onPress={() => Alert.alert("Works!")}
                   activeOpacity={0.7}
                 />
-                <Text style={{ fontSize: 20, color: '#e91b1a' }}>diksha30@gmail.com</Text>
+                <Text style={{ fontSize: 20, color: '#fff' }}>{cust_data.first_name}  {cust_data.last_name}</Text>
+                <Text style={{ fontSize: 20, color: '#e91b1a' }}>{cust_data.email}</Text>
                 <View style={styles.parent_drawer}>
                   <View style={{ paddingLeft: 35, paddingRight: 10 }}>
                     <Icon name='shopping-cart' size={30} color='#fff'
@@ -166,49 +171,47 @@ export default class CustomDrawerContent extends Component {
               labelStyle={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}
               onPress={() => this.props.navigation.navigate('storeLocator')}
             />
-
-            <DrawerItem
-              icon={() => <Icon name='user-friends' size={30} color='#fff' />}
-              label="MyAccount"
-              labelStyle={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}
-              onPress={() => this.props.navigation.navigate('MyAccount')}
-            />
-
-            <DrawerItem
-              icon={() => <Icon name='user-friends' size={30} color='#fff' />}
-              label="AddressList"
-              labelStyle={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}
-              onPress={() => this.props.navigation.navigate('AddAddress')}
-            />
-            <DrawerItem
-              icon={() => <Icon name='user-friends' size={30} color='#fff' />}
-              label="AddressList"
-              labelStyle={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}
-              onPress={() => this.props.navigation.navigate('Addresslist')}
-            />
             {this.state.LoggedIn ? (
-              <DrawerItem
-                icon={() => <Icon name='sign-out-alt' size={30} color='#fff' />}
-                label="Sign Out"
-                labelStyle={{ color: '#fff', fontSize: 20, marginLeft: 10, fontWeight: 'bold' }}
-                onPress={() =>
-                  Alert.alert(
-                    'Log out',
-                    'Do you want to logout?',
-                    [
-                      { text: 'Cancel', onPress: () => { return null } },
-                      {
-                        text: 'Confirm', onPress: () => {
-                          AsyncStorage.clear();
-                          this.props.navigation.navigate('homescreen')
-                        }
-                      },
-                    ],
-                    { cancelable: false }
-                  )
-                }>
+              <>
+                <DrawerItem
+                  icon={() => <Icon name='user-friends' size={30} color='#fff' />}
+                  label="MyAccount"
+                  labelStyle={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}
+                  onPress={() => this.props.navigation.navigate('MyAccount')}
+                />
 
-              </DrawerItem>) : (null)}
+                <DrawerItem
+                  icon={() => <Icon name='user-friends' size={30} color='#fff' />}
+                  label="AddressList"
+                  labelStyle={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}
+                  onPress={() => this.props.navigation.navigate('AddAddress')}
+                />
+
+
+                <DrawerItem
+                  icon={() => <Icon name='sign-out-alt' size={30} color='#fff' />}
+                  label="Sign Out"
+                  labelStyle={{ color: '#fff', fontSize: 20, marginLeft: 10, fontWeight: 'bold' }}
+                  onPress={() =>
+                    Alert.alert(
+                      'Log out',
+                      'Do you want to logout?',
+                      [
+                        { text: 'Cancel', onPress: () => { return null } },
+                        {
+                          text: 'Confirm', onPress: () => {
+                            AsyncStorage.clear();
+                            this.props.navigation.navigate('homescreen')
+                          }
+                        },
+                      ],
+                      { cancelable: false }
+                    )
+                  }>
+
+                </DrawerItem>
+              </>) : (null)}
+
           </DrawerContentScrollView>
         </ScrollView>
       </>

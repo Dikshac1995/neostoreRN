@@ -2,14 +2,15 @@
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'; // remove PROVIDER_GOOGLE import if not using Google Maps
 import { StyleSheet } from 'react-native'
 import React from "react";
-import { View, Text, Share, Button, TouchableOpacity } from "react-native";
+import { View, Text, Share, Button, TouchableOpacity, FlatList } from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { Dimensions } from 'react-native';
 
 import { Marker } from 'react-native-maps';
 import { ScrollView } from 'react-native-gesture-handler';
-import Header from '../../Components/Reusable/header /header'
-import { IconButton, Colors } from 'react-native-paper';
+import Headerc from '../../Components/Reusable/header /header'
+import { Header, Left, Body, Right, CheckBox, } from 'native-base';
+
 // import { Button } from 'react-native-elements';
 
 
@@ -56,161 +57,144 @@ export default class Map extends React.Component {
                     longitude: 73.8713
                 },
             },
-            {
-                title: 'Neostore-kerve',
-                coordinates: {
-                    latitude: 18.4883,
-                    longitude: 73.8193
-                },
-            },
-            {
-                title: 'Neostore-Hinwadi-chouk',
-                coordinates: {
-                    latitude: 18.5914,
-                    longitude: 73.739
-                },
-            },
-            {
-                title: 'Neostore-BlueRidge',
-                coordinates: {
-                    latitude: 18.58,
-                    longitude: 73.7374
-                },
-            },
-            {
-                title: 'Neostore-warje',
-                coordinates: {
-                    latitude: 18.4709,
-                    longitude: 73.8889,
-                },
-            }]
+                // {
+                //     title: 'Neostore-kerve',
+                //     coordinates: {
+                //         latitude: 18.4883,
+                //         longitude: 73.8193
+                //     },
+                // },
+                // {
+                //     title: 'Neostore-Hinwadi-chouk',
+                //     coordinates: {
+                //         latitude: 18.5914,
+                //         longitude: 73.739
+                //     },
+                // },
+                // {
+                //     title: 'Neostore-BlueRidge',
+                //     coordinates: {
+                //         latitude: 18.58,
+                //         longitude: 73.7374
+                //     },
+                // },
+                // {
+                //     title: 'Neostore-warje',
+                //     coordinates: {
+                //         latitude: 18.4709,
+                //         longitude: 73.8889,
+                //     },}
+            ]
         }
     }
     componentDidMount() {
         this.refs.map.fitToElements(true);
     }
+    dummyStore() {
+        this.setState({
+            extended: !this.state.extended
+        })
 
+    }
 
     render() {
         const { marker } = this.props;
         return (
-            <ScrollView>
-                <Header name1='arrowleft' text='store Location ' name2='search'
+            <>
+                <Headerc name1='arrowleft' text='store Location ' name2='search'
                     onPress={() => this.props.navigation.goBack()}
                     onClick={() => this.props.navigation.navigate('share')}
                 />
-                <View style={{ flexDirection: 'row', flex: 1 }}>
-                    <View style={{ paddingTop: 10, flex: 1 }}>
 
-                        <Button
-                            title="======"
-                            color="#841584"
-                            accessibilityLabel="Learn more about this purple button"
-
+                <Header style={{ backgroundColor: '#841584' }}>
+                    <Left>
+                        <Icon name={this.state.extended ? 'sign-in-alt' : 'sign-out-alt'} size={25} color="#fff"
+                            onPress={() => { this.dummyStore() }}
                         />
-                    </View>
-                    {/* <View style={{ paddingTop: 10, flex: 1 }}> */}
+                    </Left>
+                    <Body>
+                        <Text numberOfLines={1} style={{ fontSize: 20, color: "#fff" }}> Stores </Text>
+                    </Body>
+                    <Right>
+                        <Icon name='share-alt' size={25} color="#fff" />
+                    </Right>
+                </Header>
 
 
 
-                    {/* <Button
-                            title="Store"
-                            color="#841584"
-                            accessibilityLabel="Learn more about this purple button"
-
-                        />
-                    </View>
-                    <View style={{ paddingTop: 10, flex: 1 }}>
-
-
-
-                        <Button
-                            title="share"
-                            color="#841584"
-                            accessibilityLabel="Learn more about this purple button"
-
-                        />
-                    </View> */}
-                </View>
                 <View style={styles.container}>
+                    {!this.state.extended ?
 
 
-                    <MapView
-                        provider={PROVIDER_GOOGLE} // remove if not usinsg Google Maps
-                        style={styles.map}
-                        ref="map"
-                        // onLayout={() => this + Refmap.fitToCoordinates(this.state.markers,
-                        //     { edgePadding: { top: 50, right: 10, bottom: 10, left: 10 }, animated: false })}
+                        (<MapView
+                            provider={PROVIDER_GOOGLE} // remove if not usinsg Google Maps
+                            style={styles.map}
+                            ref="map"
+
+                            zoomEnabled={true}
+                            showsUserLocation={true}
+                            followUserLocation={true}
+                            initialRegion={{
+                                latitude: 18.58,
+                                longitude: 73.7374,
+                                latitudeDelta: 0.0922,
+                                // longitudeDelta: 0.0421,
+                                longitudeDelta: LONGITUDE_DELTA
+                            }}
+                        // annotations={markers}
+                        >
+                            {this.state.markers.map(marker => (
+                                <MapView.Marker
+                                    coordinate={marker.coordinates}
+                                    title={marker.title}
+
+                                />
+                            )
+                            )}
 
 
-
-                        zoomEnabled={true}
-                        showsUserLocation={true}
-                        followUserLocation={true}
-                        initialRegion={{
-                            latitude: 18.58,
-                            longitude: 73.7374,
-                            latitudeDelta: 0.0922,
-                            // longitudeDelta: 0.0421,
-                            longitudeDelta: LONGITUDE_DELTA
-                        }}
-                    // annotations={markers}
-                    >
-                        {this.state.markers.map(marker => (
-                            <MapView.Marker
-                                coordinate={marker.coordinates}
-                                title={marker.title}
-
+                        </MapView>)
+                        :
+                        (<View>
+                            <View style={{ display: 'flex', flexDirection: 'row' }}>
+                                <CheckBox checked={true} />
+                                <Text style={{ fontSize: 20, paddingLeft: 20 }}>Utitiled Layer</Text>
+                            </View>
+                            <FlatList
+                                data={this.state.markers}
+                                renderItem={({ item }) =>
+                                    <TouchableOpacity style={{ display: 'flex', flexDirection: 'row', padding: 10, marginLeft: 55 }}>
+                                        <Icon name="map-marker" color='red' size={20} />
+                                        <Text style={{ fontSize: 20, marginLeft: 10 }}>{item.title}</Text>
+                                    </TouchableOpacity>}
                             />
-                        )
-                        )}
-                        {/* <Marker coordinate={{ latitude: 18.6187, longitude: 73.8037}}
-                        pinColor={"purple"} // any color
-                        title={"Neostor"}
-                        description={"e-Shop"} /> 
-                    <Marker coordinate={{ latitude: 18.516726, longitude: 73.856255}}
-                        pinColor={"red"} // any color
-                        title={"Neostor"}
-                        description={"e-Shop"} /> */}
 
-                    </MapView>
-                    {/* <MapView
-                    provider={PROVIDER_GOOGLE} // remove if not using Google Maps
-                    style={styles.map}
-                    region={{
-                        latitude: 37.78825,
-                        longitude: -122.4324,
-                        latitudeDelta: 0.015,
-                        longitudeDelta: 0.0121,
-                    }}
-                > */}
+                        </View>)
 
-                    {/* <Marker
-                        coordinate={marker.coordinate}
-                            title='neostore'
-                            description= 'ecoomrse shop'
-                        />
-                 */}
-                    {/* </MapView> */}
+                    }
+
 
                 </View>
+
+
                 <View style={{ marginTop: 600 }} />
-            </ScrollView>
+            </>
         );
     }
 }
 
 const styles = StyleSheet.create({
     container: {
-        ...StyleSheet.absoluteFillObject,
-        height: '100%'
-        // height: screen.height,
+        // ...StyleSheet.absoluteFillObject,
+        // height: '100%'
+        marginTop: 20,
+        height: screen.height - 140,
         // width: screen.width,
         // justifyContent: 'flex-end',
         // alignItems: 'center',
     },
     map: {
-        // ...StyleSheet.absoluteFillObject,
+        ...StyleSheet.absoluteFillObject,
         flex: 1
     },
 });

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, Image, FlatList ,ActivityIndicator,ToastAndroid} from 'react-native'
+import { Text, View, Image, FlatList, ActivityIndicator, ToastAndroid } from 'react-native'
 import StarRating from 'react-native-star-rating';
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { windowWidth } from '../../../Assets/Constant/constant'
@@ -23,17 +23,17 @@ class ProductList extends Component {
             ToastAndroid.BOTTOM,
             25,
             50,
-            
-            
+
+
         );
     };
     componentDidMount() {
-        const { category_id} = this.props.route.params;
+        const { category_id } = this.props.route.params;
         console.log("categoryId", category_id)
         let type = 'commonProducts?category_id=' + category_id + '&pageNo=1&perPage=8'
-        console.log('type1',type)
+        console.log('type1', type)
         this.props.FetchProductList(type);
-       }
+    }
 
     FlatListItemSeparator = () => {
         return (
@@ -56,35 +56,40 @@ class ProductList extends Component {
             />
         );
     };
-   
+    onPressItem(id) {
+        { this.props.navigation.navigate('productDetail', { product_id: id }) }
+    }
+
 
     render() {
         const { category_name } = this.props.route.params;
         console.warn(category_name)
         const { data } = this.props;
-        console.log(' .........',data)
+        console.log(' .........', data)
         console.log("hello", data.product_details);
         const ProductDetail = data.product_details;
         return (
-          
+
             <>
                 <Header name1='arrowleft' text={category_name} name2='search'
                     onPress={() => this.props.navigation.goBack()}
                     onClick={() => this.props.navigation.navigate('searchitem')}
 
                 />
-            <View>
-                    {(!ProductDetail) ? <ActivityIndicator size='large'/> :
-               
+                <View>
+                    {(!ProductDetail) ? <ActivityIndicator size='large' /> :
+
                         <View style={{ marginHorizontal: 20 }}>
-                   
+
                             <FlatList data={ProductDetail}
                                 showsVerticalScrollIndicator={false}
                                 renderItem={({ item }) =>
                                     <View >
                                         <TouchableOpacity style={{ display: 'flex', flexDirection: 'row', padding: 0, alignItems: 'center' }}
-                                            onPress={() => { this.props.navigation.navigate('productDetail', { product_id: item.product_id }) }}
-                                          >
+                                            onPress={() => this.onPressItem(item.product_id)
+                                                // { this.props.navigation.navigate('productDetail', { product_id: item.product_id }) }
+                                            }
+                                        >
                                             <View>
                                                 {!item.product_image ? <ActivityIndicator size='large' /> :
                                                     <Image style={{ width: 120, height: 100 }} source={{
@@ -93,7 +98,7 @@ class ProductList extends Component {
                                             </View>
                                             <View style={{ padding: 20, width: 250 }}>
                                                 <Text style={{ fontSize: 15, fontWeight: 'bold' }}>{((item.product_name).length > 20) ?
-                                                    (((item.product_name).substring(0, 20- 3)) + '...') :
+                                                    (((item.product_name).substring(0, 20 - 3)) + '...') :
                                                     item.product_name}
                                                 </Text>
                                                 <Text style={{ fontSize: 15 }}>{item.product_material}</Text>
@@ -106,11 +111,11 @@ class ProductList extends Component {
                                     </View>}
                                 onScroll={() => this.showToastWithGravityAndOffset()}
                                 ItemSeparatorComponent={this.FlatListItemSeparator}
-                                ListFooterComponent={this.renderFooter.bind(this)}/>
+                                ListFooterComponent={this.renderFooter.bind(this)} />
                         </View>}
                 </View>
-  </>
-    
+            </>
+
 
         )
     }

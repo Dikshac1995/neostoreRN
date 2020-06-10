@@ -9,20 +9,20 @@ export default class MyDatePicker extends Component {
   constructor(props) {
     super(props);
     //set value in state for initial date
-    this.state = { date:'13/05/2011' };
+    this.state = { date: '13/05/2011' };
   }
 
   render() {
     return (
       <View style={styles.container}>
         <DatePicker
-          style={{ width: 250,color:'#fff',fontSize:50}}
+          style={{ width: 250, color: '#fff', fontSize: 50 }}
           date={this.state.date} //initial date from state
           mode="date" //The enum of date, datetime and time
           placeholder="select date"
           format="DD/MM/YYYY"
           minDate="01-01-1990"
-                // maxDate="30-10-2020"
+          // maxDate="30-10-2020"
           maxDate={new Date()}
           confirmBtnText="Confirm"
           cancelBtnText="Cancel"
@@ -31,19 +31,19 @@ export default class MyDatePicker extends Component {
               position: 'absolute',
               left: 0,
               top: 4,
-                  marginLeft: 5,
-                 
+              marginLeft: 5,
+
             },
             dateInput: {
-                marginLeft: 5,
-                marginRight:80,
-                paddingLeft:10,
-                borderWidth:0
-               
+              marginLeft: 5,
+              marginRight: 80,
+              paddingLeft: 10,
+              borderWidth: 0
+
             },
             dateText: {
               color: '#fff',
-              fontSize:20
+              fontSize: 20
             }
           }}
           onDateChange={date => {
@@ -55,16 +55,16 @@ export default class MyDatePicker extends Component {
   }
 }
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        // alignItems: 'center',
-        // justifyContent: 'center',
-        borderWidth: 2,
-        borderColor: '#fff',
+  container: {
+    flex: 1,
+    // alignItems: 'center',
+    // justifyContent: 'center',
+    borderWidth: 2,
+    borderColor: '#fff',
     padding: 5,
     color: '#fff',
-    
-        
 
-    }
+
+
+  }
 })

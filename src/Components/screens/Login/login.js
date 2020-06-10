@@ -38,36 +38,7 @@ class LoginScreen extends Component {
     navigate = () => {
         navigation.navigate('registrationScreen')
     }
-    // updateValue(type, text) {
-    //     console.warn(type,text)
-    //     const emailPattern = /^([a-zA-Z])+([0-9a-zA-Z_\.\-])+\@+(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,5}$)$/;
-    //     const passreg = /^[0-9]+$/;
-    //     if (type == 'email') {
-    //         // this.setState({ email: text })
-    //         if (emailPattern.test(text)) {
-    //             return true
-    //             // this.setState({ emailValid: true })
-    //             //console.warn("text is valid ")
-    //         }
-    //         else {
-    //             return  false
-    //         //     this.setState({ emailValid: false })
-    //         }
-    //     }
-    //     if (type == 'password') {
-    //         // this.setState({ pass: text                                                                                fffffffffff })
-    //         if (passreg.test(text)) {s
-    //             return  true 
-    //             // this.setState({ passValid: true })
-    //             //console.warn("text is valid ")
-    //         }
-    //         else {
-    //             return false
-    //             // this.setState({ passValid: false })
-    //             //console.warn("password is invalid ")
-    //         }
-    //     }
-    // }
+
     async login() {
         const { userData, error, isLoggedIn } = this.props
         const value = await AsyncStorage.getItem('token')
@@ -76,11 +47,13 @@ class LoginScreen extends Component {
             Alert.alert(" fill the required detail ")
         }
         else {
-            this.props.login(this.state.email, this.state.pass).then(() => {
-                if (this.props.error) {
+            this.props.login(this.state.email, this.state.pass).then(async () => {
+                const error = await this.props.error
+                if (error) {
 
                     console.log(this.props.error)
-                    Alert.alert(this.props.error)
+                    Alert.alert(error)
+                    this.props.navigation.navigate('Register')
                 }
                 else {
                     console.log('================', this.props.isLoggedIn)
@@ -90,6 +63,7 @@ class LoginScreen extends Component {
                     Alert.alert(userData.message)
                     if (userData.sucess == false) {
                         console.log("userdata.success")
+
                     }
 
                     this.props.navigation.navigate('Homescreen')

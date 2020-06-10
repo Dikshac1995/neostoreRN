@@ -60,6 +60,7 @@ class productDetail extends Component {
 
             product_id: '',
             product_image: ' ',
+            token: ' '
 
         };
     }
@@ -70,25 +71,61 @@ class productDetail extends Component {
     showZoomModal(visible) {
         this.setState({ modalShow: visible });
     }
+    componentDidMount() {
 
-    componentWillMount() {
+        // this.getStoredData()
         const { product_id } = this.props.route.params;
-        console.log("categoryId", product_id)
-        let type = 'getProductByProdId/' + product_id
+        // console.log("categoryId", product_id)
+        const type = 'getProductByProdId/' + product_id
         console.log('type1', type)
         this.props.FetchProductDetail(type);
-        const { data } = this.props;
-        console.log("data3", this.props.data)
+        const { data, userData } = this.props;
+        console.log(this.props.data, "Prductdata")
+        console.log(" user data in place order ", userData)
         var subImages_id = data.product_details[0].subImages_id
         this.setState({
             ProductDetailData: data.product_details[0],
             productCategory: data.product_details[0].category_id,
             subImages_id: data.product_details[0].subImages_id,
-            product_id: product_id,
             product_image: data.product_details[0].product_image,
-            cardData: data.product_details[0]
+
         })
 
+    }
+
+    // componentWillMount() {
+    //     console.log("hiiiiiiii")
+    //     this.gettoken()
+    //     const { product_id } = this.props.route.params;
+    //     console.log("categoryId", product_id)
+    //     let type = 'getProductByProdId/' + product_id
+    //     console.log('type1', type)
+    //     this.props.FetchProductDetail(type);
+    //     const { data } = this.props;
+    //     console.log("data3", this.props.data)
+    //     var subImages_id = data.product_details[0].subImages_id
+    //     this.setState({
+    //         ProductDetailData: data.product_details[0],
+    //         productCategory: data.product_details[0].category_id,
+    //         subImages_id: data.product_details[0].subImages_id,
+    //         product_id: product_id,
+    //         // product_image: data.product_details[0].product_image,
+
+    //     })
+
+    // }
+
+    componentDidUpdate(prevProps) {
+        console.warn("prevProps", prevProps)
+        if (this.props.data !== prevProps.data) {
+            this.setState({
+                product_image: this.props.data.product_details[0].product_image,
+            });
+        }
+    }
+    async gettoken() {
+        const token = await AsyncStorage.getItem('token');
+        this.setState({ token: token })
     }
     onStarRatingPress(rating) {
         this.setState({
@@ -134,35 +171,51 @@ class productDetail extends Component {
 
     addToCard(data) {
         console.log(';;;;;', data)
+        if (!this.state.token == " ") {
 
+            Alert.alert(
+                'ADD to card ',
+                'Do you want to  Add this to Mycard',
+                [
+                    {
+                        text: 'OK', onPress: () => {
 
-        // console.log("????????", this.state.cardData)
-        Alert.alert(
-            'ADD to card ',
-            'Do you want to  Add this to Mycard',
-            [
-                {
-                    text: 'OK', onPress: () => {
+                            myCardItem.push(data)
+                            console.log('~~~', myCardItem)
+                            // this.recivedData()
+                            this.storeData(myCardItem)
+                            // this.recivedData()
+                            this.props.navigation.navigate('Mycard',
+                                { data: this.state.ProductDetailData }
+                            )
+                            console.log("????????", this.state.cardData)
+                        }
+                    },
+                    {
+                        text: 'cancle', onPress: () => {
+                            return null
+                        }
+                    },
+                ],
+                { cancelable: false }
+            )
+        }
+        else {
+            Alert.alert(
+                'for Add  any product  to cart you need to login ',
+                'Do you want to Login?',
+                [
+                    { text: 'No', onPress: () => { return null } },
+                    {
+                        text: 'YES', onPress: () => {
+                            this.props.navigation.navigate('loginScreen')
+                        }
+                    },
+                ],
+                { cancelable: false }
+            )
 
-                        myCardItem.push(data)
-                        console.log('~~~', myCardItem)
-                        // this.recivedData()
-                        this.storeData(myCardItem)
-                        // this.recivedData()
-                        this.props.navigation.navigate('Mycard',
-                            { data: this.state.ProductDetailData }
-                        )
-                        console.log("????????", this.state.cardData)
-                    }
-                },
-                {
-                    text: 'cancle', onPress: () => {
-                        return null
-                    }
-                },
-            ],
-            { cancelable: false }
-        )
+        }
     }
     storeData = async (data) => {
         const values = this.state.ProductDetailData
@@ -172,46 +225,15 @@ class productDetail extends Component {
             await AsyncStorage.setItem('MycardData', JSON.stringify(values));
             // await AsyncStorage.multiMerge('MycardData', JSON.stringify(value))
         } catch (error) {
-            // Error saving data
+            console.log(error)
         }
     };
-    // recivedData = async () => {
 
-    //     try {
-    //         let user = JSON.parse(await AsyncStorage.getItem('MycardData'));
-    //         console.log('!!! ,,,user', user);
-    //         if (user.length == 0) {
-    //             this.storeData()
-    //             console.log('hiii')
-
-    //             // await AsyncStorage.setItem('MycardData', JSON.stringify(myCardItem1));
-    //         }
-    //         else {
-    //             myCardItem1.concat(user)
-    //             console.log(">>", myCardItem1)
-    //             await AsyncStorage.setItem('MycardData', JSON.stringify(myCardItem1));
-    //         }
-
-    //         let user1 = JSON.parse(await AsyncStorage.getItem('MycardData'));
-    //         console.log("Data1", user1)
-
-    //         console.log(card_dataItem, "carddata")
-    //         // this.storeData(card_dataItem)
-    //     }
-    //     catch (error) {
-    //         alert(error)
-    //     }
-    // }
 
     async Buynow() {
         const { product_id } = this.props.route.params;
-        // let user = await AsyncStorage.getItem('token');
-        let user = tokenHard;
-        console.log(user)
-        if (user) {
-            // this.props.navigation.navigate('placeorder')
+        if (!this.state.token == " ") {
             this.props.navigation.navigate('oder summary', { product_id: product_id })
-
         }
         else {
             Alert.alert(
@@ -371,7 +393,7 @@ class productDetail extends Component {
                         onRequestClose={() => this.toggleModal(false)}>
                         <View style={styles.modal}>
                             <Text style={styles.product_name}>
-                                {/* {this.state.ProductDetailData.product_name} */}
+
                                 {Product_name}
                                 {/* {(((Product_name).length) > 20) ?
                                         (((Product_name).substring(0, 20 - 3)) + '...') :

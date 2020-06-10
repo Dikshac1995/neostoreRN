@@ -49,13 +49,21 @@ export function login(data) {
           dispatch(isLoading(false))
           response.json().then(async (responseJSON) => {
             console.log("responseJSON", responseJSON);
-            await AsyncStorage.setItem('token', responseJSON.token)
-            dispatch(loginSuccess(responseJSON, responseJSON.token))
-
+            if (responseJSON.success) {
+              await AsyncStorage.setItem('token', responseJSON.token)
+              const customerDetail = responseJSON
+              await AsyncStorage.setItem("customerDetail", JSON.stringify(customerDetail))
+              dispatch(loginSuccess(responseJSON, responseJSON.token))
+            }
+            else {
+              dispatch(loginFailed(responseJSON.message))
+            }
 
 
             const value = await AsyncStorage.getItem('token')
+            const value1 = await AsyncStorage.getItem('customerDetail')
             console.log("-->", value)
+            console.log("-->", value1)
           })
 
 

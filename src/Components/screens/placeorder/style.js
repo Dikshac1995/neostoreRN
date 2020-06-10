@@ -2,16 +2,16 @@ import { StyleSheet } from 'react-native'
 import { StyleConstants } from '../../../Assets/Constant/constant'
 
 export const styles = StyleSheet.create({
-   
+
     addressButton: {
         backgroundColor: 'red',
         fontSize: 20,
         color: '#fff',
         borderRadius: 8,
         padding: 10,
-        
-        textAlign:'center'
-        
+
+        textAlign: 'center'
+
     },
     productDeatailSection1: {
         backgroundColor: "#fff",
@@ -23,25 +23,30 @@ export const styles = StyleSheet.create({
 
     },
     productDetailSection1_wrapper: {
-        // paddingHorizontal: 20,
-        display :'flex',
+
+        display: 'flex',
         flexDirection: 'row',
-        justifyContent:'space-evenly',
+        justifyContent: 'space-evenly',
         paddingVertical: 20,
-        // width: 220,
-        // padding: 20,
-        // backgroundColor:'red'
-        
-        
+        height: 100
+
     },
-   
+    Address: {
+        paddingTop: 15, paddingHorizontal: 10
+    },
+    address_text: {
+        fontWeight: 'bold',
+        fontSize: 20,
+
+    },
+
     product_name: {
         fontSize: StyleConstants.FONT_26,
         fontWeight: 'bold'
     },
     categogy_name: {
         fontSize: StyleConstants.FONT_26,
-        
+
     },
     material_name: {
         fontSize: StyleConstants.FONT_23,
@@ -60,11 +65,11 @@ export const styles = StyleSheet.create({
         color: '#333333',
         width: 70
     },
-    priceDetail:{
+    priceDetail: {
         textDecorationLine: 'underline', fontSize: 30, paddingLeft: 25, paddingTop: 10
     },
     priceDetailWrapper: {
-       display:'flex',flexDirection:'row',justifyContent:'space-evenly',paddingVertical:20 
+        display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', paddingVertical: 20
     },
     footer: {
         flex: 1,
@@ -72,32 +77,32 @@ export const styles = StyleSheet.create({
         borderTopWidth: 2,
         borderTopColor: '#eee',
         elevation: 4,
-        backgroundColor:'#fff'
-        
-       
+        backgroundColor: '#fff'
+
+
 
     },
-    footer_wrapper:{
+    footer_wrapper: {
         display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 20,
-          
+
     },
     footerProduct_cost: {
         paddingTop: 30,
         fontSize: 25,
-        fontWeight:'bold'
-    
+        fontWeight: 'bold'
+
     },
-    
+
     footerButton_text: {
         color: 'white',
-        fontSize: 20, 
+        fontSize: 20,
         backgroundColor: 'red',
         textAlign: 'center',
         borderRadius: 8,
         width: 180,
         paddingTop: 20,
-        paddingBottom:20
-        
-        
+        paddingBottom: 20
+
+
     }
 });

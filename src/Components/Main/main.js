@@ -2,20 +2,11 @@ import React, {
     Component
 }
     from 'react';
-import {
-    SafeAreaView,
-    StyleSheet,
-    ScrollView,
-    View,
-    Text,
-    StatusBar,
-    Button, TextInput
-} from 'react-native';
+
 import { NavigationContainer, DrawerActions } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import MyAccount from '../screens/MyAccount/index';
 import Homescreen from '../screens/Home/homescreen'
-import Splashscreen from '../screens/splashscreen'
 import LoginScreen from '../screens/Login/login'
 import Registration from '../screens/Register/registration'
 import MyDrawer from './drawerMain';
@@ -29,7 +20,7 @@ import ResetPassword from '../screens/ResePassword/resetPassword'
 import AddAddress from '../screens/Add_address/add_address';
 import Map from '../Map'
 import Mycard from '../screens/MyCardScreen/Mycard'
-import AddressList from '../screens/AddressList/index'
+import Addresses from '../screens/Address_list/add_list'
 import Searchitem from '../Reusable/searchnar/searchbar'
 import Search from '../Reusable/searchnar/search'
 import Share1 from '../Reusable/share/share'
@@ -145,18 +136,14 @@ class Main extends Component {
                     <Stack.Screen name='AddAddress' component={AddAddress} options={{
                         headerShown: false
                     }} />
+                    <Stack.Screen name='address' component={Addresses} options={{
+                        headerShown: false
+                    }} />
 
                     <Stack.Screen name='Mycard' component={Mycard} options={{
                         headerShown: false
                     }} />
-                    <Stack.Screen name='Addresslist ' component={AddressList} options={{
-                        headerStyle: { backgroundColor: 'red' },
-                        headerTintColor: '#fff',
-                        headerTitleStyle: {
-                            fontWeight: 'bold',
-                        }
-                    }
-                    } />
+
                     <Stack.Screen name='Map' component={Map} options={{
                         headerShown: false
                     }} />

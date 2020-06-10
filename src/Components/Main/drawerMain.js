@@ -67,7 +67,6 @@ export default class MyDrawer extends Component {
                 />
 
 
-
             </Drawer.Navigator>
         );
     }

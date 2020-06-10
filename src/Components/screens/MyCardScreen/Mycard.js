@@ -126,7 +126,7 @@ export default class Mycard extends Component {
                     onPress={() => this.props.navigation.goBack()}
                     onClick={() => this.props.navigation.navigate('share')}
                 />
-                <View style={{ marginHorizontal: 20, marginTop: 10 }}>
+                <View style={{ marginHorizontal: 20, marginTop: 10, height: 500 }}>
 
                     <FlatList data={data}
                         showsVerticalScrollIndicator={false}
@@ -155,28 +155,31 @@ export default class Mycard extends Component {
                 </View>
 
 
-                <View style={{
+                {/* <View style={{
                     flex: 1,
                     justifyContent: 'flex-end',
                     backgroundColor: 'white',
-                    paddingTop: 420
+                    paddingTop: 420,
+                    height: 10
+
+                }}> */}
+                <View style={{
+                    display: 'flex', flexDirection: 'row', justifyContent: 'space-between',
+                    paddingHorizontal: 20, marginBottom: 5, paddingTop: 10, backgroundColor: '#fff', height: 80
                 }}>
-                    <View style={{
-                        display: 'flex', flexDirection: 'row', justifyContent: 'space-between',
-                        paddingHorizontal: 20, marginBottom: 10
-                    }}>
-                        <View><Text> Rs, 4000</Text></View>
-                        <TouchableOpacity style={{ backgroundColor: 'red', borderRadius: 5, width: 200, height: 50 }}
+                    <View ><Text style={{ fontSize: 20, fontWeight: 'bold' }}> Rs, 4000</Text></View>
 
-                            onPress={this.oderNow}
-                        >
-                            <Text style={{ justifyContent: "center", color: 'white', fontSize: 20, marginLeft: 50, marginTop: 10 }}>
-                                Order Now</Text>
-                        </TouchableOpacity>
-                    </View>
+                    <TouchableOpacity style={{ backgroundColor: 'red', borderRadius: 5, width: 200, height: 50 }}
 
+                        onPress={this.oderNow}
+                    >
+                        <Text style={{ justifyContent: "center", color: 'white', fontSize: 20, marginLeft: 50, marginTop: 10 }}>
+                            Order Now</Text>
+                    </TouchableOpacity>
                 </View>
-            </View>
+
+            </View >
+            // </View >
 
         )
     }
