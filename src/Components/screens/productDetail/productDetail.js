@@ -222,7 +222,7 @@ class productDetail extends Component {
         const value = data
         console.log('7777', value)
         try {
-            await AsyncStorage.setItem('MycardData', JSON.stringify(values));
+            await AsyncStorage.setItem('MycardData', JSON.stringify(value));
 
         } catch (error) {
             console.log(error)

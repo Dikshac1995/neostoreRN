@@ -11,7 +11,9 @@ export default class Mycard extends Component {
         super(props);
         this.state = {
             myCardItem: [],
-            data: []
+            data: [],
+            cost: '',
+            finalCost: ' '
         }
 
     }
@@ -25,6 +27,26 @@ export default class Mycard extends Component {
         // this.setState({ myCardItem:data })
         console.log(this.state.data, 'ddddjjjj')
         this.retrieveData()
+
+
+    }
+
+    async  orderNow() {
+        console.log(this.state.myCardItem, "@@@@")
+        console.log('Hi', this.state.myCardItem)
+        const values = this.state.myCardItem
+
+        console.log('7777', values)
+        try {
+            await AsyncStorage.setItem('myOrder', JSON.stringify(values));
+            const value = JSON.parse(await AsyncStorage.getItem('myOrder'));
+            console.log("place order", value)
+
+        } catch (error) {
+            console.log(error)
+        }
+
+
 
     }
     FlatListItemSeparator = () => {
@@ -54,13 +76,7 @@ export default class Mycard extends Component {
                         console.log(this.state.myCardItem, "@@@@")
 
 
-                        // card_dataItem.push(data)
-                        // console.log('~~~', card_dataItem)
-                        // this.storeData(card_dataItem)
-                        // // this.recivedData()
-                        // this.props.navigation.navigate('Mycard',
-                        //     // { data: this.state.ProductDetailData }
-                        // )
+
                         console.log("????????")
                     }
                 },
@@ -93,13 +109,24 @@ export default class Mycard extends Component {
             console.log('   ', this.state.myCardItem)
             let newProduct = JSON.parse(existingProduct);
             console.log("&&", newProduct)
+            var cost = newProduct.map(res => res.product_cost)
+            console.log("cost ", cost)
+            console.log(
+                cost.reduce((a, b) => a + b, 0)
+            )
 
-            if (newProduct) {
-                myCardProduct.push(newProduct)
-            }
+            var sum = cost.reduce(function (a, b) { return a + b; }, 0);
+            console.log("sum", sum)
+            // if (newProduct) {
+            //     myCardProduct.push(newProduct)
+            // }
 
-            console.log("myCardProduct", myCardProduct)
-            this.setState({ myCardItem: myCardProduct })
+            // console.log("myCardProduct", myCardProduct)
+            this.setState({
+                myCardItem: newProduct,
+                cost: cost,
+                finalCost: sum
+            })
             console.log('AAAAAAAAAAAAAAAAAAAa', this.state.myCardItem)
 
 
@@ -118,6 +145,12 @@ export default class Mycard extends Component {
         // const { data } = this.props.route.params;
 
         const data = this.state.myCardItem
+        const cost = this.state.cost
+
+
+        console.log("cost", this.state.cost)
+        console.log("fcost", this.state.finalCost)
+
 
         console.log("   fish", data)
         return (
@@ -167,11 +200,11 @@ export default class Mycard extends Component {
                     display: 'flex', flexDirection: 'row', justifyContent: 'space-between',
                     paddingHorizontal: 20, marginBottom: 5, paddingTop: 10, backgroundColor: '#fff', height: 80
                 }}>
-                    <View ><Text style={{ fontSize: 20, fontWeight: 'bold' }}> Rs, 4000</Text></View>
+                    <View ><Text style={{ fontSize: 20, fontWeight: 'bold' }}>Rs, {this.state.finalCost}</Text></View>
 
                     <TouchableOpacity style={{ backgroundColor: 'red', borderRadius: 5, width: 200, height: 50 }}
 
-                        onPress={this.oderNow}
+                        onPress={() => { this.orderNow() }}
                     >
                         <Text style={{ justifyContent: "center", color: 'white', fontSize: 20, marginLeft: 50, marginTop: 10 }}>
                             Order Now</Text>

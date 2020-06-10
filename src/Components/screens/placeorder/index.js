@@ -47,6 +47,9 @@ class Placeorder extends Component {
     }
     async getStoredData() {
         const customer_details = JSON.parse(await AsyncStorage.getItem('customerDetail'))
+        const value = JSON.parse(await AsyncStorage.getItem('myOrder'));
+        console.log("my cart order", value)
+
         console.log("cust_detail", customer_details)
         this.setState({
             Address: customer_details.customer_address[0],
@@ -81,6 +84,8 @@ class Placeorder extends Component {
 
 
                 <>
+
+                    // shipping Address section start 
                     <View style={{ paddingHorizontal: 20 }} >
                         {this.state.Address == ' ' ? null :
                             <View style={styles.Address}>
@@ -101,6 +106,9 @@ class Placeorder extends Component {
                         />
 
                     </View>
+
+
+                    //product section start 
                     <View
                         style={{
                             height: 1,
@@ -144,6 +152,8 @@ class Placeorder extends Component {
                         </View>
                     </View>
 
+
+                    // footer section 
                     <View
                         style={{
                             height: 1,
