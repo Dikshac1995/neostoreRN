@@ -182,7 +182,7 @@ class productDetail extends Component {
 
                             myCardItem.push(data)
                             console.log('~~~', myCardItem)
-                            // this.recivedData()
+
                             this.storeData(myCardItem)
                             // this.recivedData()
                             this.props.navigation.navigate('Mycard',
