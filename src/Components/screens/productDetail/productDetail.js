@@ -115,14 +115,14 @@ class productDetail extends Component {
 
     // }
 
-    componentDidUpdate(prevProps) {
-        console.warn("prevProps", prevProps)
-        if (this.props.data !== prevProps.data) {
-            this.setState({
-                product_image: this.props.data.product_details[0].product_image,
-            });
-        }
-    }
+    // componentDidUpdate(prevProps) {
+    //     console.log("prevProps", prevProps)
+    //     if (this.props.data !== prevProps.data) {
+    //         this.setState({
+    //             product_image: this.props.data.product_details[0].product_image,
+    //         });
+    //     }
+    // }
     async gettoken() {
         const token = await AsyncStorage.getItem('token');
         this.setState({ token: token })
