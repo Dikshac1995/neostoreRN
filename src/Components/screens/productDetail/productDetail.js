@@ -236,7 +236,7 @@ class productDetail extends Component {
         console.log("token", this.state.token)
         const { product_id } = this.props.route.params;
         if (!this.state.token) {
-            this.props.navigation.navigate('oder summary', { product_id: product_id })
+            this.props.navigation.navigate('oder summary', { product_id: product_id, Product: this.state.ProductDetailData })
         }
         else {
             Alert.alert(

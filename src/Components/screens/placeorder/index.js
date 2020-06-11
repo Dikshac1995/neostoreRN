@@ -9,6 +9,8 @@ import ButtonField from '../../Reusable/ButtonField/buttonField';
 import AsyncStorage from '@react-native-community/async-storage';
 
 
+const arr = [];
+
 class Placeorder extends Component {
     constructor(props) {
         super(props);
@@ -28,8 +30,17 @@ class Placeorder extends Component {
     componentDidMount() {
 
         this.getStoredData()
-        const { product_id } = this.props.route.params;
-        // console.log("categoryId", product_id)
+        const { product_id, Product } = this.props.route.params;
+
+        // arr = [...this.state.productData]
+        if (!Product == " ") {
+            arr.push(Product)
+            console.log(arr, "1234")
+        } else {
+            console.log('data')
+        }
+
+        console.log("categoryId", Product)
         let type = 'getProductByProdId/' + product_id
         console.log('type1', type)
         this.props.FetchProductDetail(type);
@@ -41,8 +52,9 @@ class Placeorder extends Component {
             ProductDetailData: data.product_details[0],
             productCategory: data.product_details[0].category_id,
             subImages_id: data.product_details[0].subImages_id,
+            productData: arr
+        });
 
-        })
 
     }
     async getStoredData() {
@@ -51,10 +63,16 @@ class Placeorder extends Component {
         console.log("my cart order", value)
 
         console.log("cust_detail", customer_details)
+
+
+        arr.push(value)
+        console.log(arr, "12345")
+
+
         this.setState({
             Address: customer_details.customer_address[0],
             customer_details: customer_details.customer_details,
-            productData: value
+            productData: arr
         })
     }
     add_address() {
@@ -76,9 +94,12 @@ class Placeorder extends Component {
         );
     }
     render() {
+        const { product_id, Product } = this.props.route.params;
+        console.log(Product, "abc")
         console.log("cust add", this.state.Address)
         const customerData = this.state.customer_details
         const Address = this.state.Address
+        console.log("data from detail module ", this.state.ProductDetailData)
         console.log('datadik', this.state.productData)
 
 
