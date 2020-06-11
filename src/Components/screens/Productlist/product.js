@@ -12,8 +12,8 @@ class ProductList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            // isLoading:true,
-            ProductData: []
+            isLoading: true,
+            ProductList: []
         };
     }
     showToastWithGravityAndOffset = () => {
@@ -33,6 +33,23 @@ class ProductList extends Component {
         let type = 'commonProducts?category_id=' + category_id + '&pageNo=1&perPage=8'
         console.log('type1', type)
         this.props.FetchProductList(type);
+        const { data } = this.props;
+        console.log("data in productList", data)
+        this.setState({
+            loading: false,
+            ProductList: data.product_details
+        })
+
+
+    }
+    componentDidUpdate(prevProps) {
+        console.log("did", prevProps)
+        if (this.props.data.product_details !== prevProps.data.product_details) {
+            this.setState({
+                loading: false,
+                ProductList: this.props.data.product_details
+            });
+        }
     }
 
     FlatListItemSeparator = () => {
@@ -63,25 +80,21 @@ class ProductList extends Component {
 
     render() {
         const { category_name } = this.props.route.params;
-        console.warn(category_name)
+        console.log('product in state ', this.state.ProductData)
         const { data } = this.props;
         console.log(' .........', data)
         console.log("hello", data.product_details);
         const ProductDetail = data.product_details;
         return (
-
             <>
                 <Header name1='arrowleft' text={category_name} name2='search'
                     onPress={() => this.props.navigation.goBack()}
                     onClick={() => this.props.navigation.navigate('searchitem')}
-
                 />
                 <View>
-                    {(!ProductDetail) ? <ActivityIndicator size='large' /> :
-
+                    {(this.state.loading) ? <ActivityIndicator size='large' /> :
                         <View style={{ marginHorizontal: 20 }}>
-
-                            <FlatList data={ProductDetail}
+                            <FlatList data={this.state.ProductList}
                                 showsVerticalScrollIndicator={false}
                                 renderItem={({ item }) =>
                                     <View >
@@ -116,8 +129,6 @@ class ProductList extends Component {
                         </View>}
                 </View>
             </>
-
-
         )
     }
 }

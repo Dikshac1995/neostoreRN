@@ -119,8 +119,7 @@ export default class Map extends React.Component {
                 <Header style={{ backgroundColor: '#841584' }}>
                     <Left>
                         <Icon name={this.state.extended ? 'sign-in-alt' : 'sign-out-alt'} size={25} color="#fff"
-                            onPress={() => { this.dummyStore() }}
-                        />
+                            onPress={() => { this.dummyStore() }} />
                     </Left>
                     <Body>
                         <Text numberOfLines={1} style={{ fontSize: 20, color: "#fff" }}> Stores </Text>
@@ -130,12 +129,8 @@ export default class Map extends React.Component {
                     </Right>
                 </Header>
 
-
-
                 <View style={styles.container}>
                     {!this.state.extended ?
-
-
                         (<MapView
                             provider={PROVIDER_GOOGLE} // remove if not usinsg Google Maps
                             style={styles.map}
@@ -144,15 +139,12 @@ export default class Map extends React.Component {
                             zoomEnabled={true}
                             showsUserLocation={true}
                             followUserLocation={true}
-                            initialRegion={
-                                this.state.region
-
-
-                                // latitude: this.state.region.latitude,
-                                // longitude: this.state.longitude,
-                                // latitudeDelta: this.state.latitudeDelta,
-                                // longitudeDelta: this.state.region.longitudeDelta
-                            }
+                            initialRegion={{
+                                latitude: this.state.latitude,
+                                longitude: this.state.longitude,
+                                latitudeDelta: this.state.latitudeDelta,
+                                longitudeDelta: this.state.longitudeDelta
+                            }}
                         // annotations={markers}
                         >
                             {this.state.markers.map(marker => (
@@ -163,15 +155,6 @@ export default class Map extends React.Component {
                                 />
                             )
                             )}
-                            {/* <Marker
-                                coordinate={{
-                                    latitude: this.state.latitude,
-                                    longitude: this.state.longitude,
-                                }}
-                                description="Location"
-                                title='Neostore'
-                            /> */}
-
                         </MapView>)
                         :
                         (<View>
@@ -194,17 +177,10 @@ export default class Map extends React.Component {
                                         <Icon name="map-marker" color='red' size={20} />
                                         <Text style={{ fontSize: 20, marginLeft: 10 }}>{item.title}</Text>
                                     </TouchableOpacity>}
-                                keyExtractor={item => item.id}
-                            />
-
+                                keyExtractor={item => item.id} />
                         </View>)
-
                     }
-
-
                 </View>
-
-
                 <View style={{ marginTop: 600 }} />
             </>
         );
@@ -227,32 +203,3 @@ const styles = StyleSheet.create({
     },
 });
 
-                // var bounds = new google.maps.LatLngBound();
-// for (i = 0; i < LatLngs.length; i++){
-//     position = new google.maps.LatLngs(LatLngs[i][0], LatLngs[i], [1]);
-//     marker = new google.maps.Marker({
-//         position: position,
-//         map: map
-//     });
-//     bounds.extend(position)
-// } map.fitBounds(bounds);
-
-// import React from "react";
-// import { View, Text } from "react-native";
-// import MapView from "react-native-maps";
-// export default class Map extends React.Component {
-//     render() {
-//         return (
-//             <View style={{ flex: 1 }}>
-//                 <MapView
-//                     style={{ flex: 1 }}
-//                     initialRegion={{
-//                         latitude: 37.78825,
-//                         longitude: -122.4324,
-//                         latitudeDelta: 0.0922,
-//                         longitudeDelta: 0.0421
-//                     }}></MapView>
-//             </View>
-//         );
-//     }
-// }

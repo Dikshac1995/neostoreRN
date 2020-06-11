@@ -1,14 +1,6 @@
 import React, { Component } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
-import {
-    View,
-    Text,
-    StyleSheet,
-    TextInput,
-    TouchableHighlight,
-    TouchableOpacity,
-    Image, Button, Alert
-} from 'react-native';
+import { View, Text, TouchableOpacity, Alert } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import TextField from '../../Reusable/textField/textField'
 import ButtonField from '../../Reusable/ButtonField/buttonField'
@@ -65,7 +57,6 @@ class LoginScreen extends Component {
                         console.log("userdata.success")
 
                     }
-
                     this.props.navigation.navigate('Homescreen')
 
                     //    Alert.alert(this.props.userData.user.name + ' user successfully logged in ')
@@ -103,17 +94,15 @@ class LoginScreen extends Component {
                             })
                         }}
                         validate={<Text>{this.state.passValid}</Text>} />
-                    {/* <TextField placeholder="Password" name="lock" secureTextEntry onChange={(e) => this.updateValue(e, 'password')}
-                        validate={!this.state.passValid ? <Text>password invalid</Text> : null}/> */}
                     <ButtonField text="LOGIN"
                         onPress={() => this.login()}
                         style={styles.loginButton}
-                    // onPress={() => this.props.navigation.navigate('Register')}
                     />
                     <TouchableOpacity onPress={() => this.props.navigation.navigate('ForgotPassword')}>
                         <Text style={styles.forgot_link}>Forgot Password ?</Text>
                     </TouchableOpacity>
                 </View>
+
                 <View style={styles.Account}>
                     <Text style={styles.Account_Text}>DON'T HAVE AN ACCOUNT?</Text>
                     <TouchableOpacity onPress={() => this.props.navigation.navigate('Register')}>
