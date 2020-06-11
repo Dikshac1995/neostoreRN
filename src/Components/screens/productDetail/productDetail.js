@@ -60,7 +60,7 @@ class productDetail extends Component {
 
             product_id: '',
             product_image: ' ',
-            token: ' '
+            token: false
 
         };
     }
@@ -125,7 +125,9 @@ class productDetail extends Component {
     // }
     async gettoken() {
         const token = await AsyncStorage.getItem('token');
-        this.setState({ token: token })
+        if (!token == " ") {
+            this.setState({ token: true })
+        }
     }
     onStarRatingPress(rating) {
         this.setState({
@@ -171,7 +173,7 @@ class productDetail extends Component {
 
     addToCard(data) {
         console.log(';;;;;', data)
-        if (!this.state.token == " ") {
+        if (!this.state.token) {
 
             Alert.alert(
                 'ADD to card ',
@@ -231,8 +233,9 @@ class productDetail extends Component {
 
 
     async Buynow() {
+        console.log("token", this.state.token)
         const { product_id } = this.props.route.params;
-        if (!this.state.token == " ") {
+        if (!this.state.token) {
             this.props.navigation.navigate('oder summary', { product_id: product_id })
         }
         else {

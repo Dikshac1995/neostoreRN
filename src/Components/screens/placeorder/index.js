@@ -214,13 +214,13 @@ class Placeorder extends Component {
 
                                     </TouchableOpacity>
                                 </View>}
-
+                            keyExtractor={item => item.id}
                             ItemSeparatorComponent={this.FlatListItemSeparator} />
                     </View>
 
                     {/* sfooter section  */}
                     <View style={{ height: '30%' }}>
-                        <View style={{ height: 100 }}>
+                        <View style={{ height: 100, backgroundColor: 'pink', marginBottom: 10 }}>
                             <Text style={styles.priceDetail}>Price Detail</Text>
                             <View style={styles.priceDetailWrapper}>
                                 <Text style={{ fontSize: 20, width: 250 }}>Price</Text>

@@ -67,10 +67,13 @@ export const styles = StyleSheet.create({
     },
     priceDetail: {
         textDecorationLine: 'underline', fontSize: 20, paddingLeft: 25,
+        backgroundColor: 'pink'
+
     },
     priceDetailWrapper: {
         display: 'flex', flexDirection: 'row',
         justifyContent: 'space-evenly', padding: 10,
+
 
     },
     footer: {
@@ -79,19 +82,26 @@ export const styles = StyleSheet.create({
         borderTopWidth: 2,
         borderTopColor: '#eee',
         elevation: 4,
-        backgroundColor: '#fff',
+
+
+
 
 
 
     },
     footer_wrapper: {
-        display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 20,
+        display: 'flex', flexDirection: 'row',
+        justifyContent: 'space-between', paddingHorizontal: 20,
+
+        backgroundColor: "#fff",
+
 
     },
     footerProduct_cost: {
         paddingTop: 30,
         fontSize: 25,
         fontWeight: 'bold'
+
 
     },
 
@@ -104,6 +114,7 @@ export const styles = StyleSheet.create({
         width: 180,
         paddingTop: 20,
         paddingBottom: 20
+
 
 
     }
