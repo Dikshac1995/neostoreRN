@@ -31,7 +31,6 @@ class Placeorder extends Component {
 
         this.getStoredData()
         const { product_id, Product } = this.props.route.params;
-
         // arr = [...this.state.productData]
         if (!Product == " ") {
             arr.push(Product)
@@ -52,7 +51,7 @@ class Placeorder extends Component {
             ProductDetailData: data.product_details[0],
             productCategory: data.product_details[0].category_id,
             subImages_id: data.product_details[0].subImages_id,
-            productData: arr
+            // productData: arr
         });
 
 
@@ -72,7 +71,7 @@ class Placeorder extends Component {
         this.setState({
             Address: customer_details.customer_address[0],
             customer_details: customer_details.customer_details,
-            productData: arr
+            productData: value
         })
     }
     add_address() {
