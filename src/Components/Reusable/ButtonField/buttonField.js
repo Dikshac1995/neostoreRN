@@ -17,18 +17,18 @@ export default class ButtonField extends Component {
         }
     }
     render() {
-       // const { textStyles, buttonStyles, children } = this.props;
+        // const { textStyles, buttonStyles, children } = this.props;
         return (
             <View>
                 <TouchableOpacity disabled={this.props.disbled} style={this.props.disbled == true ?
                     [styles.button1, { opacity: 0.5 }] : styles.button1}
                 >
-                   <View>
+                    <View>
                         <Text style={[this.props.style, styles.buttonText]}
-                            
+
                             onPress={() => this.props.onPress()}> {this.props.text}</Text>
-                   </View> 
-                   </TouchableOpacity>
+                    </View>
+                </TouchableOpacity>
             </View>
         )
     }

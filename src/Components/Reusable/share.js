@@ -10,20 +10,20 @@ import {
 class share extends Component {
     constructor(props) {
         super(props);
-       this.state = {
+        this.state = {
             modalVisible: props
-            
+
         };
     }
-   
 
-     setModalVisible = (visible) => {
+
+    setModalVisible = (visible) => {
         this.setState({ modalVisible: visible });
     }
-  
+
 
     render() {
-        console.warn('heello',this.state.modalVisible)
+        console.warn('heello', this.state.modalVisible)
         const { modalVisible } = this.state;
         return (
             <View style={styles.centeredView}>
@@ -33,8 +33,7 @@ class share extends Component {
                     visible={modalVisible}
                     onRequestClose={() => {
                         Alert.alert("Modal has been closed.");
-                    }}
-                >
+                    }}>
                     <View style={styles.centeredView}>
                         <View style={styles.modalView}>
                             <Text style={styles.modalText}>Hello World!</Text>
@@ -51,14 +50,7 @@ class share extends Component {
                     </View>
                 </Modal>
 
-                {/* <TouchableHighlight
-                    style={styles.openButton}
-                    onPress={() => {
-                        this.setModalVisible(true);
-                    }}
-                >
-                    <Text style={styles.textStyle}>Show Modal</Text>
-                </TouchableHighlight> */}
+
             </View>
         );
     }

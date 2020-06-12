@@ -74,10 +74,6 @@ export default class Mycard extends Component {
                         await AsyncStorage.setItem('MycardData', JSON.stringify(this.state.myCardItem))
                         this.setState({ myCardItem: JSON.parse(await AsyncStorage.getItem('MycardData')) })
                         console.log(this.state.myCardItem, "@@@@")
-
-
-
-                        console.log("????????")
                     }
                 },
                 {
@@ -91,18 +87,9 @@ export default class Mycard extends Component {
 
     }
 
-    // storeData = async () => {
-    //     try {
-    //         await AsyncStorage.setItem('MycardData', this.props.route.parsms);
-    //     } catch (error) {
-    //         // Error saving data
-    //     }
-    // };
+
 
     retrieveData = async () => {
-
-
-        // console.log("$$$####^^^^",products)
         try {
             const existingProduct = await AsyncStorage.getItem('MycardData')
             console.log('...', existingProduct)
@@ -117,11 +104,7 @@ export default class Mycard extends Component {
 
             var sum = cost.reduce(function (a, b) { return a + b; }, 0);
             console.log("sum", sum)
-            // if (newProduct) {
-            //     myCardProduct.push(newProduct)
-            // }
 
-            // console.log("myCardProduct", myCardProduct)
             this.setState({
                 myCardItem: newProduct,
                 cost: cost,
@@ -129,29 +112,14 @@ export default class Mycard extends Component {
             })
             console.log('AAAAAAAAAAAAAAAAAAAa', this.state.myCardItem)
 
-
-            // if (value !== null) {
-            //     // We have data!!
-            //     console.log("dikshs", value);
-            //     this.setState({ myCardItem: value })
-            //     console.log('//',this.state.myCardItem)
-            // }
         } catch (error) {
             // Error retrieving data
         }
     };
 
     render() {
-        // const { data } = this.props.route.params;
 
         const data = this.state.myCardItem
-        const cost = this.state.cost
-
-
-        console.log("cost", this.state.cost)
-        console.log("fcost", this.state.finalCost)
-
-
         console.log("   fish", data)
         return (
             <View>
@@ -164,12 +132,10 @@ export default class Mycard extends Component {
                     <FlatList data={data}
                         showsVerticalScrollIndicator={false}
                         renderItem={({ item }) =>
-
                             <View >
                                 <TouchableOpacity style={{ display: 'flex', flexDirection: 'row', padding: 0, alignItems: 'center' }}
                                     // onPress={() => { this.props.navigation.navigate('productDetail', { product_id: item.product_id }) }}
-                                    onPress={() => this.removeProduct(data.indexOf(item))}
-                                >
+                                    onPress={() => this.removeProduct(data.indexOf(item))}>
                                     <View>
                                         <Image style={{ width: 120, height: 100 }} source={{
                                             uri: 'http://180.149.241.208:3022/' + item.product_image
@@ -178,7 +144,6 @@ export default class Mycard extends Component {
                                     <View style={{ padding: 20, width: 250 }}>
                                         <Text style={{ fontSize: 15, fontWeight: 'bold' }}>{item.product_name}</Text>
                                         <Text style={{ fontSize: 15 }}>({item.product_material})</Text>
-
                                         <Text style={{ textAlign: 'right', fontSize: 15, fontWeight: 'bold' }}>Rs.{item.product_cost}</Text>
                                     </View>
                                 </TouchableOpacity>
@@ -187,15 +152,6 @@ export default class Mycard extends Component {
                         ItemSeparatorComponent={this.FlatListItemSeparator} />
                 </View>
 
-
-                {/* <View style={{
-                    flex: 1,
-                    justifyContent: 'flex-end',
-                    backgroundColor: 'white',
-                    paddingTop: 420,
-                    height: 10
-
-                }}> */}
                 <View style={{
                     display: 'flex', flexDirection: 'row', justifyContent: 'space-between',
                     paddingHorizontal: 20, marginBottom: 5, paddingTop: 10, backgroundColor: '#fff', height: 80

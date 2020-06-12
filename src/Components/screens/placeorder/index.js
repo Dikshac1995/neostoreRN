@@ -7,6 +7,7 @@ import Button1 from '../../Reusable/ButtonField/buttonField'
 import QuantityPicker from '../../Reusable/dropDown/picker';
 import ButtonField from '../../Reusable/ButtonField/buttonField';
 import AsyncStorage from '@react-native-community/async-storage';
+import Header from '../../Reusable/header /header'
 
 
 const arr = [];
@@ -28,7 +29,6 @@ class Placeorder extends Component {
     }
 
     componentDidMount() {
-
         this.getStoredData()
         const { product_id, Product } = this.props.route.params;
         // arr = [...this.state.productData]
@@ -38,36 +38,13 @@ class Placeorder extends Component {
         } else {
             console.log('data')
         }
-
-        console.log("categoryId", Product)
-        let type = 'getProductByProdId/' + product_id
-        console.log('type1', type)
-        this.props.FetchProductDetail(type);
-        const { data, userData } = this.props;
-        console.log(this.props.data, "Prductdata")
-        console.log(" user data in place order ", userData)
-        var subImages_id = data.product_details[0].subImages_id
-        this.setState({
-            ProductDetailData: data.product_details[0],
-            productCategory: data.product_details[0].category_id,
-            subImages_id: data.product_details[0].subImages_id,
-            // productData: arr
-        });
-
-
     }
     async getStoredData() {
+        const { product_id, Product } = this.props.route.params;
         const customer_details = JSON.parse(await AsyncStorage.getItem('customerDetail'))
         const value = JSON.parse(await AsyncStorage.getItem('myOrder'));
-        console.log("my cart order", value)
-
-        console.log("cust_detail", customer_details)
-
-
-        arr.push(value)
-        console.log(arr, "12345")
-
-
+        const value1 = value.concat(Product)
+        console.log(value1, "12345")
         this.setState({
             Address: customer_details.customer_address[0],
             customer_details: customer_details.customer_details,
@@ -100,13 +77,9 @@ class Placeorder extends Component {
         const Address = this.state.Address
         console.log("data from detail module ", this.state.ProductDetailData)
         console.log('datadik', this.state.productData)
-
-
         return (
             (!this.state.ProductDetailData) ? <ActivityIndicator /> :
-
                 <>
-
                     {/* shipping Address section start  */}
                     <View style={{ paddingHorizontal: 20, height: '30%' }} >
                         {this.state.Address == ' ' ? null :
@@ -126,10 +99,7 @@ class Placeorder extends Component {
                             }
                             }
                         />
-
                     </View>
-
-
                     {/* product section start  */}
                     <View
                         style={{
@@ -138,49 +108,6 @@ class Placeorder extends Component {
                             backgroundColor: "#000",
                         }}
                     />
-                    {/* <View style={styles.productDetailSection1_wrapper}>
-                        <View style={{ width: 200, height: 100 }}>
-                            <Text style={styles.product_name}>{this.state.ProductDetailData.product_name}</Text>
-                            <Text style={styles.categogy_name}>{this.state.productCategory.category_name}</Text>
-                        </View>
-                        <View>
-                            <Image style={{ width: 100, height: 100 }}
-                                source={{
-                                    uri: 'http://180.149.241.208:3022/' + this.state.ProductDetailData.product_image
-                                }} />
-                        </View>
-                    </View> */}
-
-                    {/* <View style={styles.productDetailSection1_wrapper}>
-                        <View style={{ width: 200 }}>
-
-                            <Text style={styles.material_name}>{this.state.ProductDetailData.product_material}</Text>
-                           
-                            <Picker
-                                selectedValue={this.state.selectedValue}
-                                style={{ width: 100 }}
-                                onValueChange={(itemValue, itemIndex) => this.setState({ selectedValue: itemValue })}
-                            >
-                                <Picker.Item label="1 " value="1" />
-                                <Picker.Item label="2" value="2" />
-                                <Picker.Item label="3" value="3" />
-                                <Picker.Item label="4 " value="4" />
-                                <Picker.Item label="5 " value="5" />
-
-                            </Picker>
-
-
-                        </View>
-
-                        <View >
-                            <Text style={{ fontSize: 20 }}>Rs.{this.state.ProductDetailData.product_cost}</Text>
-                        </View>
-
-                    </View> */}
-
-
-
-
                     <View
                         style={{
                             height: 1,
@@ -192,12 +119,8 @@ class Placeorder extends Component {
                         <FlatList data={this.state.productData}
                             showsVerticalScrollIndicator={false}
                             renderItem={({ item }) =>
-
-                                <View >
-                                    <TouchableOpacity style={{ padding: 20 }}
-                                        onPress={() => this.removeProduct(data.indexOf(item))}
-                                    >
-
+                                <View>
+                                    <TouchableOpacity style={{ padding: 20 }} >
                                         <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
                                             <View style={{ width: '50%' }}>
                                                 <Text style={{ fontSize: 25, fontWeight: 'bold' }}>{item.product_name}</Text>
@@ -207,15 +130,12 @@ class Placeorder extends Component {
                                             }} />
                                         </View>
                                         <View style={{ display: 'flex', paddingTop: 10, flexDirection: 'row', justifyContent: 'space-between' }}>
-
                                             <View style={{ width: '50%' }}>
                                                 <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{item.product_material}</Text>
-
                                             </View>
                                             <View>
                                                 <Text style={{ textAlign: 'right', fontSize: 20, fontWeight: 'bold' }}>Rs.{item.product_cost}</Text>
                                             </View>
-
                                         </View>
                                         <View>
                                             <Picker
@@ -240,7 +160,7 @@ class Placeorder extends Component {
 
                     {/* sfooter section  */}
                     <View style={{ height: '30%' }}>
-                        <View style={{ height: 100, backgroundColor: 'pink', marginBottom: 10 }}>
+                        <View style={{ height: 100, marginBottom: 10 }}>
                             <Text style={styles.priceDetail}>Price Detail</Text>
                             <View style={styles.priceDetailWrapper}>
                                 <Text style={{ fontSize: 20, width: 250 }}>Price</Text>
@@ -264,18 +184,5 @@ class Placeorder extends Component {
 }
 
 
-const mapStateToProps = state => ({
-    data: state.productListReducer.data,
-    isFetching: state.productListReducer.isFetching,
-    state: state,
-    isLoggedIn: state.auth.isLoggedIn,
-    isLoading: state.auth.isLoading,
-    userData: state.auth.userData,
-});
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        FetchProductDetail: (type) => dispatch(FetchProductDetail(type))
-    };
-}
-export default connect(mapStateToProps, mapDispatchToProps)(Placeorder)
+export default Placeorder;

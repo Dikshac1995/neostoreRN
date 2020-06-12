@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Searchbar } from 'react-native-paper';
 import * as Animatable from 'react-native-animatable';
-import { Text, View, TextInput, Keyboard, FlatList, TouchableOpacity, Image } from 'react-native'
+import { Text, View, TextInput, Keyboard, FlatList, TouchableOpacity, Image, Alert } from 'react-native'
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 // import { FlatList } from 'react-native-gesture-handler';
@@ -39,15 +39,22 @@ export default class SerachItem extends React.Component {
     search(field, text) {
         console.warn(field, text)
         const url = 'http://180.149.241.208:3022/getProductBySearchText/'
-
-
+        var text = text.charAt(0).toUpperCase();
+        // const textData = text.toUpperCase();
+        console.log(text)
         fetch(url + text)
             .then(res => res.json())//response type
             .then(data => {
-                this.setState({
-                    searchBarFocused: false,
-                    searchResult: data.product_details,
-                });
+                if (data.success) {
+                    this.setState({
+                        searchBarFocused: false,
+                        searchResult: data.product_details,
+                    });
+                    console.log('dataa', data)
+                }
+                else {
+                    Alert.alert(data.message)
+                }
             })
             .catch(error => {
                 console.log(error);
@@ -69,21 +76,21 @@ export default class SerachItem extends React.Component {
             />
         );
     }
-    SearchFilterFunction(text) {
-        //passing the inserted text in textinput
-        const newData = this.arrayholder.filter(function (item) {
-            //applying filter for the inserted text in search bar
-            const itemData = item.product_name ? item.product_name.toUpperCase() : ''.toUpperCase();
-            const textData = text.toUpperCase();
-            return itemData.indexOf(textData) > -1;
-        });
-        this.setState({
-            //setting the filtered newData on datasource
-            //After setting the data it will automatically re-render the view
-            dataSource: newData,
-            text: text,
-        });
-    }
+    // SearchFilterFunction(text) {
+    //     //passing the inserted text in textinput
+    //     const newData = this.arrayholder.filter(function (item) {
+    //         //applying filter for the inserted text in search bar
+    //         const itemData = item.product_name ? item.product_name.toUpperCase() : ''.toUpperCase();
+    //         const textData = text.toUpperCase();
+    //         return itemData.indexOf(textData) > -1;
+    //     });
+    //     this.setState({
+    //         //setting the filtered newData on datasource
+    //         //After setting the data it will automatically re-render the view
+    //         dataSource: newData,
+    //         text: text,
+    //     });
+    // }
 
     render() {
         console.log('in serach bar');
@@ -96,7 +103,7 @@ export default class SerachItem extends React.Component {
                     <Animatable.View animation="slideInRight" duration={500} style={{ height: 50, backgroundColor: '#fff', flexDirection: 'row', padding: 5, alignItems: 'center' }}>
                         <Animatable.View animation={this.state.searchBarFocused ? 'fadeInLeft' : 'fadeInRight'} duration={500} style={{ height: 50, backgroundColor: '#fff', flexDirection: 'row', padding: 5, alignItems: 'center' }}>
 
-                            <Icon name={this.state.searchBarFocused ? 'arrow-left' : 'search'} size={25}
+                            <Icon name={this.state.searchBarFocused ? 'search' : 'arrow-left'} size={25}
                                 onPress={() => { 'arrow-left' ? this.props.navigation.goBack() : null }} />
                         </Animatable.View>
 

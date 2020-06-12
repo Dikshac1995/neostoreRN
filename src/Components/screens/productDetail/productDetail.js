@@ -1,36 +1,24 @@
 import React, { Component } from 'react'
 import {
     Text, View, Image, ScrollView, FlatList,
-    TouchableOpacity, Modal, StyleSheet, Dimensions,
+    TouchableOpacity, Modal, Dimensions,
     TouchableHighlight, ActivityIndicator, Alert, Share
 } from 'react-native'
-import { connect } from 'react-redux';
-import { FetchProductDetail } from '../../../Redux/Action/productlist'
 import StarRating from 'react-native-star-rating';
 import { styles } from './style'
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { Card } from 'react-native-elements';
 import Button from '../../Reusable/ButtonField/buttonField'
 import { windowWidth, windowHeight, tokenHard } from '../../../Assets/Constant/constant'
 import Header from '../../Reusable/header /header'
 import AsyncStorage from '@react-native-community/async-storage';
-import share from '../../Reusable/share'
 import Search from '../../Reusable/searchnar/search'
 import { ThemeProvider } from 'react-native-paper';
 import images from '../../Reusable/share/image';
 import Share1 from 'react-native-share';
-
-
-
-
-
 import ImageViewer from 'react-native-image-zoom-viewer';
 import { api } from '../../../utils/api'
 
-// import {tokenHard} from '../../../Assets/Constant'
 
-// import  Model  from '../../Reusable/ProductRateModel/productrates'
-// import ModalTester from '../../Reusable/ProductRateModel/productrate'
 
 const shareOptions = {
     title: 'Share via',
@@ -39,12 +27,12 @@ const shareOptions = {
     // social: Share.Social.EMAIL,
     // social: Share.Social.FACEBOOK,
     urls: [images.image1],
-    dilogTitle: 'data'
-    ,      // country code + phone number
+    dilogTitle: 'data',
+
     filename: 'test', // only for base64 file in Android
 };
 
-const myCardItem = []
+const myCardItem = [] // for storing data 
 class productDetail extends Component {
     constructor(props) {
         super(props);
@@ -59,7 +47,7 @@ class productDetail extends Component {
             starCount: 0,
             modalShow: false,
 
-            product_id: '',
+            product_id: 0,
             product_image: ' ',
             token: false,
             token_id: ' '
@@ -76,7 +64,7 @@ class productDetail extends Component {
     componentDidMount() {
         this.gettoken()
         const { product_id } = this.props.route.params;
-        // console.log("categoryId", product_id)
+        console.log("categoryId", product_id)
         const type = 'getProductByProdId/' + product_id
 
         api.fetchapi('http://180.149.241.208:3022/' + type, 'get')
@@ -94,16 +82,6 @@ class productDetail extends Component {
             })
     }
 
-
-
-    // componentDidUpdate(prevProps) {
-    //     console.log("prevProps", prevProps)
-    //     if (this.props.data !== prevProps.data) {
-    //         this.setState({
-    //             product_image: this.props.data.product_details[0].product_image,
-    //         });
-    //     }
-    // }
     async gettoken() {
         console.log("ingettoken")
         const token = await AsyncStorage.getItem('token');
@@ -120,22 +98,26 @@ class productDetail extends Component {
         });
     }
 
-
     updateRating() {
         if (this.state.token) {
+
+            console.log('product_id', this.state.product_id)
             const data = {
                 product_id: this.state.product_id,
-                product_rating: this.state.starCount,
+
             };
             console.log('data', data)
             const url = 'http://180.149.241.208:3022/updateProductRatingProdId'
-            api.fetchapi(url, 'put', JSON.stringify(data), this.state.token_id)
+            api.fetchapi(url, 'put', data, this.state.token_id)
+
                 // fetch(url, {
-                //     method: 'PUT', // or 'PUT'
+                //     method: 'put', // or 'PUT'
                 //     headers: {
-                //         'Content-Type': 'application/json',
+                //         'Content-Type': "application/json",
+                //         // 'Content-Type': 'application/x-www-form-urlencoded',
+                //         Authorization: token ? 'Bearer ' + token : null
                 //     },
-                //     body: JSON.stringify(data),
+                //     body: { "product_id": "5cfe3f0fb4db0f338946eabd" }
 
                 // })
                 .then((response) => response.json())
@@ -143,7 +125,7 @@ class productDetail extends Component {
                     console.log('Success:', data);
                     if (data.status_code == 200) {
                         Alert.alert('thank you for rating our product');
-
+                        this.setState({ modalVisible: false });
                     }
                     else {
                         Alert.alert(data.message)
@@ -153,13 +135,10 @@ class productDetail extends Component {
                     console.log('Error:', error);
                 });
         }
-
         else {
             Alert.alert(' for the update product you have to login ');
             this.setState({ modalVisible: false });
         }
-
-
     }
 
     addToCard(data) {
@@ -275,14 +254,14 @@ class productDetail extends Component {
     onClickSubImage(imageid) {
         console.warn(imageid);
         this.setState({ product_image: imageid })
-        // console.log(imageid)
+
     }
 
 
     render() {
         console.log(this.state.token_id)
         console.log("pd", this.state.ProductDetailData)
-        console.log('load', this.state.isLoading)
+        console.log('load', this.state.ProductDetailData.product_rating)
 
 
         const Product_name = this.state.ProductDetailData.product_name
@@ -313,7 +292,7 @@ class productDetail extends Component {
                                         </View>
                                     </View>
                                 </View>
-                                {/* Product detail Info Section end                */}
+                                {/* Product detail Info Section end */}
 
                                 {/* Product Detail section 2 start  */}
 

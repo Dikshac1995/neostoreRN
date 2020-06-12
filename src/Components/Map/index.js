@@ -35,10 +35,6 @@ export default class Map extends React.Component {
             latitudeDelta: LATITUDE_DELTA,
             longitudeDelta: LONGITUDE_DELTA,
 
-            // latitude: 18.57899549913118,
-            // longitude: 73.7385973893106,
-            // latitudeDelta: 0.04864195044303443,
-            // longitudeDelta: 0.040142817690068,
 
             markers: [{
                 title: 'Neostore-pimpri',

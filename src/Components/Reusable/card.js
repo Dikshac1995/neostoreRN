@@ -4,77 +4,80 @@ import Icon from 'react-native-vector-icons/FontAwesome5';
 import { globalstyles } from '../../style/style'
 // import { styles } from '../../Reusable/textField/style';
 // import bedIcon from 'react-native-vector-icons/Ionicons';
-export default class Card extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            style: this.props.style || {},
-        }
-    }
-    render() {
-        console.log('id', this.props.category_id)
-        return (
-            <View style={globalstyles.card}>
-               <View style={style.cards}>
-                    <TouchableOpacity onPress={() => this.props.navigation.navigate('productList', {
-                        category_id: this.props.category_id,
-                        category_name:this.props.category_name
-                    })}>
-                        
-                        {this.props.position1 ? (
-                            <>
+// export default class Card extends Component {
+//     constructor(props) {
+//         super(props)
+//         this.state = {
+//             style: this.props.style || {},
+//         }
+//     }
+//     render() {
+
+function Card(props) {
+    console.log('id', props.category_id)
+    return (
+        <View style={globalstyles.card}>
+            <View style={style.cards}>
+                <TouchableOpacity onPress={() => props.navigation.navigate('productList', {
+                    category_id: props.category_id,
+                    category_name: props.category_name
+                })}>
+
+                    {props.position1 ? (
+                        <>
                             <View style={style.CardContents}>
                                 <Text style={style.card_name}>
-                                    {this.props.title}
+                                    {props.title}
                                 </Text>
                             </View>
                             <View style={style.CardContentRC}>
-                                <Icon name={this.props.name} size={60} color="#fff" />
+                                <Icon name={props.name} size={60} color="#fff" />
                             </View></>
-                        ) : (<>
-                            <View style={style.CardContents}>
-                                    <Icon name={this.props.name} size={60} color="#fff" /> 
-                            </View>
-                            <View style={style.CardContentRC}>
-                                    
-                                    <Text style={style.card_name}>
-                                        {this.props.title}
-                                    </Text>
-                            </View></>)}
-                            
-                    </TouchableOpacity>
-                </View>
+                    ) : (<>
+                        <View style={style.CardContents}>
+                            <Icon name={props.name} size={60} color="#fff" />
+                        </View>
+                        <View style={style.CardContentRC}>
+
+                            <Text style={style.card_name}>
+                                {props.title}
+                            </Text>
+                        </View></>)}
+
+                </TouchableOpacity>
             </View>
-        )
-    }
+        </View>
+    )
 }
+
 
 export const style = StyleSheet.create({
     cards: {
         backgroundColor: 'red',
         height: 150,
         padding: 10,
-        margin:15,
-        borderRadius:5
-        
+        margin: 15,
+        borderRadius: 5
+
     },
     CardContents: {
-       alignItems:'flex-start'
+        alignItems: 'flex-start'
     },
     CardContentRC: {
         alignItems: 'flex-end',
         justifyContent: 'flex-end',
-        marginTop:25
+        marginTop: 25
     },
     card_name: {
         color: 'white',
         fontSize: 30,
-        fontWeight:'bold'
-        
+        fontWeight: 'bold'
+
     },
     icons: {
         color: 'white',
-        
-  }
-    
+
+    }
+
 })
+export default Card 

@@ -3,26 +3,20 @@ import { Text, View, ScrollView, Alert } from 'react-native'
 import TextField from '../../Reusable/textField/textField'
 import ButtonField from '../../Reusable/ButtonField/buttonField'
 import { styles } from './style'
-import Gender from '../../Reusable/Radiobutton/gender'
-import Checkbox1 from '../../Reusable/checkBox/checkbox'
-import updateValues from '../../../utils/validation'
 import { api } from '../../../utils/api'
 import { connect } from 'react-redux';
 import { register } from '../../../Redux/Action/register'
 import { globalstyles } from '../../../style/style'
 import validation from '../../../utils/valid'
 import PasswordCon from '../../Reusable/Password/Password'
-import validated from '../../../utils/validationWrapper'
-import {
-    Checkbox, RadioButton
-} from 'react-native-paper';
+import { Checkbox, RadioButton } from 'react-native-paper';
+
+
 
 class Registration extends Component {
-
     constructor(props) {
         super(props)
         this.state = {
-
             firstName: '',
             lastName: '',
             password: '',
@@ -50,8 +44,7 @@ class Registration extends Component {
         this.setState({ submitted: true });
         if ((!this.state.firstName) && (!this.state.lastName) && (!this.state.password)
             && (!this.state.confirmPassword)
-            // && (!this.state.email)
-            // && (!this.state.phoneNo)
+
             && (!this.state.checked)
         ) {
 
@@ -77,37 +70,13 @@ class Registration extends Component {
             console.warn('hi')
             this.props.register(collection)
         }
-
-
-
-        var url = 'http://180.149.241.208:3022/register'
-        // api.fetchapi(url, 'post', collection)
-        // .then(res => Alert.alert(res))
-        //.catch(err=>Alert.alert(err))
-        // fetch(url, {
-        //     method: 'POST', // or 'PUT'
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //     },
-        //     body: JSON.stringify(collection),
-        // })
-        //     .then((response) => response.json())
-        //     .then((data) => {
-        //         console.log('Success:', data);
-        //         Alert.alert("you are registered successfully")
-        //     })
-        //     .catch((error) => {
-        //         console.log('Error:', error);
-        //     });
     }
 
 
     render() {
-
         const { register } = this.props;
         const { radioCheck } = this.state;
-        //const { user, submitted } = this.state;
-        console.log("props ffg", register)
+
         return (
             <ScrollView>
                 <View style={globalstyles.Container}>
@@ -129,7 +98,7 @@ class Registration extends Component {
                             })
                         }}
                         validate={<Text>{this.state.lastNameError}</Text>} />
-                    {/* //validate={!this.state.lastNamevalid ? <Text>lastname invalid</Text> : null} */}
+
                     <PasswordCon placeholder='Password'
                         onChangeText={value => this.setState({ password: value.trim() })}
                         onBlur={() => {
@@ -138,6 +107,7 @@ class Registration extends Component {
                             })
                         }}
                         validate={<Text>{this.state.passwordError}</Text>} />
+
                     <PasswordCon placeholder=' confirm Password'
                         onChangeText={value => this.setState({ confirmPassword: value.trim() })}
                         onBlur={() => {
@@ -166,13 +136,12 @@ class Registration extends Component {
                                     gender: 'male'
                                 });
                             }} />
-                        <Text style={
-                            styles.GenderName
-                        }> Male </Text>
+                        <Text style={styles.GenderName}> Male </Text>
                         <RadioButton value="second" status={radioCheck === 'second' ? 'checked' : 'unchecked'}
                             onPress={() => { this.setState({ radioCheck: 'second', gender: 'female' }); }} />
                         <Text style={styles.GenderName}> Female </Text>
                     </View>
+
                     <TextField placeholder="Phone number" name="mobile-phone" maxLength={10}
                         keyboardType={"number-pad"}
                         onChangeText={value => this.setState({ phoneNo: value.trim() })}
@@ -182,24 +151,19 @@ class Registration extends Component {
                             })
                         }}
                         validate={<Text>{this.state.phoneError}</Text>} />
+
                     {/* <Checkbox1 /> */}
                     <View style={styles.checkboxField}>
-                        <Checkbox status={
-                            this.state.checked ? 'checked' : 'unchecked'
-                        }
-                            onPress={
-                                () => {
-                                    this.setState({
-                                        checked: !this.state.checked
-                                    });
-                                }
-                            } />
+                        <Checkbox status={this.state.checked ? 'checked' : 'unchecked'}
+                            onPress={() => {
+                                this.setState({ checked: !this.state.checked });
+                            }} />
                         <Text style={styles.text}> I agree </Text>
                         <Text style={styles.terms} onPress={() => Alert.alert('hi')}> terms and conditions </Text>
                     </View>
+
                     <View>
                         <ButtonField text="Registration" style={styles.registerButton}
-                            //onPress={() => this.props.navigation.navigate('loginScreen')} 
                             onPress={() => this.submit()}
                         />
                     </View>
