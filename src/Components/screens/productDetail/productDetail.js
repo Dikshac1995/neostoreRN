@@ -25,6 +25,7 @@ import Share1 from 'react-native-share';
 
 
 import ImageViewer from 'react-native-image-zoom-viewer';
+import { api } from '../../../utils/api'
 
 // import {tokenHard} from '../../../Assets/Constant'
 
@@ -50,7 +51,7 @@ class productDetail extends Component {
 
 
         this.state = {
-            // isLoading:true,
+            isLoading: true,
             ProductDetailData: [],
             productCategory: [],
             subImages_id: [],
@@ -60,7 +61,8 @@ class productDetail extends Component {
 
             product_id: '',
             product_image: ' ',
-            token: false
+            token: false,
+            token_id: ' '
 
         };
     }
@@ -72,48 +74,27 @@ class productDetail extends Component {
         this.setState({ modalShow: visible });
     }
     componentDidMount() {
-
-        // this.getStoredData()
+        this.gettoken()
         const { product_id } = this.props.route.params;
         // console.log("categoryId", product_id)
         const type = 'getProductByProdId/' + product_id
-        console.log('type1', type)
-        this.props.FetchProductDetail(type);
-        const { data, userData } = this.props;
-        console.log(this.props.data, "Prductdata")
-        console.log(" user data in place order ", userData)
-        var subImages_id = data.product_details[0].subImages_id
-        this.setState({
-            ProductDetailData: data.product_details[0],
-            productCategory: data.product_details[0].category_id,
-            subImages_id: data.product_details[0].subImages_id,
-            product_image: data.product_details[0].product_image,
 
-        })
+        api.fetchapi('http://180.149.241.208:3022/' + type, 'get')
+            .then((response) => response.json()).then((data) => {
+                console.log('Success:', data.product_details);
 
+                this.setState({
+                    isLoading: false,
+                    ProductDetailData: data.product_details[0],
+                    subImages_id: data.product_details[0].subImages_id,
+                    product_image: data.product_details[0].product_image,
+                    product_id: data.product_details[0].product_id,
+                })
+
+            })
     }
 
-    // componentWillMount() {
-    //     console.log("hiiiiiiii")
-    //     this.gettoken()
-    //     const { product_id } = this.props.route.params;
-    //     console.log("categoryId", product_id)
-    //     let type = 'getProductByProdId/' + product_id
-    //     console.log('type1', type)
-    //     this.props.FetchProductDetail(type);
-    //     const { data } = this.props;
-    //     console.log("data3", this.props.data)
-    //     var subImages_id = data.product_details[0].subImages_id
-    //     this.setState({
-    //         ProductDetailData: data.product_details[0],
-    //         productCategory: data.product_details[0].category_id,
-    //         subImages_id: data.product_details[0].subImages_id,
-    //         product_id: product_id,
-    //         // product_image: data.product_details[0].product_image,
 
-    //     })
-
-    // }
 
     // componentDidUpdate(prevProps) {
     //     console.log("prevProps", prevProps)
@@ -124,9 +105,13 @@ class productDetail extends Component {
     //     }
     // }
     async gettoken() {
+        console.log("ingettoken")
         const token = await AsyncStorage.getItem('token');
         if (!token == " ") {
-            this.setState({ token: true })
+            this.setState({
+                token: true,
+                token_id: token
+            })
         }
     }
     onStarRatingPress(rating) {
@@ -137,37 +122,43 @@ class productDetail extends Component {
 
 
     updateRating() {
-        // const { token } = this.state;
-        // console.log('update rating', token);
-        const data = {
-            product_id: this.state.product_id,
-            product_rating: this.state.starCount,
-        };
-        console.log('data', data)
-        var url = 'http://180.149.241.208:3022/updateProductRatingProdId'
+        if (this.state.token) {
+            const data = {
+                product_id: this.state.product_id,
+                product_rating: this.state.starCount,
+            };
+            console.log('data', data)
+            const url = 'http://180.149.241.208:3022/updateProductRatingProdId'
+            api.fetchapi(url, 'put', JSON.stringify(data), this.state.token_id)
+                // fetch(url, {
+                //     method: 'PUT', // or 'PUT'
+                //     headers: {
+                //         'Content-Type': 'application/json',
+                //     },
+                //     body: JSON.stringify(data),
 
-        fetch(url, {
-            method: 'PUT', // or 'PUT'
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
+                // })
+                .then((response) => response.json())
+                .then((data) => {
+                    console.log('Success:', data);
+                    if (data.status_code == 200) {
+                        Alert.alert('thank you for rating our product');
 
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                console.log('Success:', data);
-                if (data.status_code == 200) {
-                    Alert.alert('thank you for rating our product');
+                    }
+                    else {
+                        Alert.alert(data.message)
+                    } this.setState({ modalVisible: false });
+                })
+                .catch((error) => {
+                    console.log('Error:', error);
+                });
+        }
 
-                }
-                else {
-                    Alert.alert(data.message)
-                } this.setState({ modalVisible: false });
-            })
-            .catch((error) => {
-                console.log('Error:', error);
-            });
+        else {
+            Alert.alert(' for the update product you have to login ');
+            this.setState({ modalVisible: false });
+        }
+
 
     }
 
@@ -289,20 +280,26 @@ class productDetail extends Component {
 
 
     render() {
+        console.log(this.state.token_id)
+        console.log("pd", this.state.ProductDetailData)
+        console.log('load', this.state.isLoading)
+
 
         const Product_name = this.state.ProductDetailData.product_name
+        // "this.state.ProductDetailData.product_name
         console.log(Product_name, "productname")
         return (
 
 
             <View>
-                <Header name1='arrowleft' text={this.state.ProductDetailData.product_name} name2='search'
+                <Header name1='arrowleft' text={Product_name} name2='search'
                     onPress={() => this.props.navigation.goBack()}
                     // onClick={() => this.props.navigation.navigate('share')}
                     onClick={() => this.props.navigation.navigate('searchitem')}
                 />
-                <View style={{ width: windowWidth, height: windowHeight }}>
-                    {(!this.state.ProductDetailData) ? <ActivityIndicator size='large' /> :
+                {(this.state.isLoading) ? <ActivityIndicator size='large' /> :
+                    <View style={{ width: windowWidth, height: windowHeight }}>
+
                         <ScrollView>
                             <View style={styles.productDeatailModule}>
                                 {/* ProductDetailInfo Section*/}
@@ -360,14 +357,14 @@ class productDetail extends Component {
                                                     <View>
                                                         <TouchableOpacity style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', padding: 10 }} onPress=
                                                             // {() => { this.props.navigation.navigate('productDetail', { product_id: item.product_id }) }}
-                                                            {() => this.onClickSubImage(item)}
-                                                        >
+                                                            {() => this.onClickSubImage(item)}>
                                                             <View style={{ borderWidth: 2, borderColor: 'grey' }}>
                                                                 <Image style={{ width: 90, height: 100 }}
                                                                     source={{ uri: 'http://180.149.241.208:3022/' + item }} />
                                                             </View>
                                                         </TouchableOpacity>
-                                                    </View>} />
+                                                    </View>}
+                                            />
                                         </View>
                                     </View>
                                 </View>
@@ -384,12 +381,13 @@ class productDetail extends Component {
                                 {/* Product Description end              */}
 
                             </View>
-                        </ScrollView>}
-                    <View style={styles.footer}>
-                        <Button text="BUY_NOW" onPress={() => this.Buynow()} style={styles.buttonStyle} />
-                        <Button text="RATE" onPress={() => this.toggleModal(true)} style={styles.rate_button} />
-                    </View>
-                </View>
+                        </ScrollView>
+                        <View style={styles.footer}>
+                            <Button text="BUY_NOW" onPress={() => this.Buynow()} style={styles.buttonStyle} />
+                            <Button text="RATE" onPress={() => this.toggleModal(true)} style={styles.rate_button} />
+                        </View>
+                    </View>}
+
                 <View style={styles.container}>
                     <Modal animationType={"slide"} transparent={true}
                         visible={this.state.modalVisible}
@@ -405,7 +403,8 @@ class productDetail extends Component {
                             <Text>{this.state.productCategory.category_name}</Text>
                             <View style={{ alignItems: 'center', margin: 20 }}>
                                 <Image style={{ width: 200, height: 200 }} source={{
-                                    uri: 'http://180.149.241.208:3022/' + this.state.productCategory.product_image
+                                    uri: 'http://180.149.241.208:3022/' +
+                                        this.state.ProductDetailData.product_image
                                 }} />
                             </View>
                             <StarRating starSize={30} fullStarColor="orange" disabled={false}
@@ -437,17 +436,6 @@ class productDetail extends Component {
         )
     }
 }
-const mapStateToProps = state => ({
-    data: state.productListReducer.data,
-    isFetching: state.productListReducer.isFetching,
-    state: state,
-});
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        FetchProductDetail: (type) => dispatch(FetchProductDetail(type))
-    };
-}
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(productDetail)
+export default productDetail
