@@ -36,8 +36,6 @@ export default class Myorder extends Component {
     render() {
 
         return (
-
-
             <View style={{ display: 'flex', justifyContent: 'flex-end' }}>
                 <Text> textInComponent </Text>
                 <View style={{ justifyContent: 'center', backgroundColor: 'red' }}>

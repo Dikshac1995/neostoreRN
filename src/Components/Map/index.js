@@ -8,8 +8,9 @@ import { Dimensions } from 'react-native';
 
 import { Marker } from 'react-native-maps';
 import { ScrollView } from 'react-native-gesture-handler';
-import Headerc from '../../Components/Reusable/header /header'
+import Headerc from '../Reusable/header /header'
 import { Header, Left, Body, Right, CheckBox, } from 'native-base';
+import share from '../Reusable/share/share';
 
 // import { Button } from 'react-native-elements';
 
@@ -121,7 +122,7 @@ export default class Map extends React.Component {
                         <Text numberOfLines={1} style={{ fontSize: 20, color: "#fff" }}> Stores </Text>
                     </Body>
                     <Right>
-                        <Icon name='share-alt' size={25} color="#fff" />
+                        <Icon name='share-alt' size={25} color="#fff" onPress={() => share(' ', 'location')} />
                     </Right>
                 </Header>
 
@@ -131,7 +132,6 @@ export default class Map extends React.Component {
                             provider={PROVIDER_GOOGLE} // remove if not usinsg Google Maps
                             style={styles.map}
                             ref="map"
-
                             zoomEnabled={true}
                             showsUserLocation={true}
                             followUserLocation={true}

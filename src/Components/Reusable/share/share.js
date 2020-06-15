@@ -2,44 +2,33 @@
 import React, { Component } from 'react'
 import { Text, View } from 'react-native'
 import Share from 'react-native-share';
-import Icon from 'react-native-vector-icons/FontAwesome5';
-import images from './image';
+import { api } from '../../../utils/api'
 
 
-const shareOptions = {
-    title: 'Share via',
-    message: 'some message',
-    url: 'some share url',
-    // social: Share.Social.EMAIL,
-    // social: Share.Social.FACEBOOK,
-    urls: [images.image1],
-    dilogTitle: 'data'
-    ,      // country code + phone number
-    filename: 'test', // only for base64 file in Android
-};
-
-// Share.shareSingle(shareOptions);
 
 
-export default class share extends Component {
-    render() {
-        return (
-            <View>
-                <Text> textInComponent </Text>
-                <Icon name="share-alt" size={30} color="#7f7f7f" onPress={() => Share.open(shareOptions)} />
+function share(image, title) {
+    image = api.baseUrl + image
+    console.log(image)
+    let shareOptions = {
+        title: 'Share via',
+        message: title,
+        url: 'data:image/png;base64', image,
+        dilogTitle: 'data',
+        filename: 'test', // only for base64 file in Android
+    };
+    Share.open(shareOptions)
+        .then(res => {
+            console.log(res);
+        })
+        .catch(err => {
+            err && console.log(err);
+        });
 
-            </View>
-        )
-    }
 }
 
 
-
-
-
-
-
-
+export default share
 
 
 

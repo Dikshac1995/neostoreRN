@@ -21,11 +21,9 @@ export default class ButtonField extends Component {
         return (
             <View>
                 <TouchableOpacity disabled={this.props.disbled} style={this.props.disbled == true ?
-                    [styles.button1, { opacity: 0.5 }] : styles.button1}
-                >
+                    [styles.button1, { opacity: 0.5 }] : styles.button1}>
                     <View>
                         <Text style={[this.props.style, styles.buttonText]}
-
                             onPress={() => this.props.onPress()}> {this.props.text}</Text>
                     </View>
                 </TouchableOpacity>

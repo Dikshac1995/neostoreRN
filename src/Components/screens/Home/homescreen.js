@@ -5,22 +5,23 @@ import Header from '../../Reusable/header /header'
 import SliderBox1 from '../../Reusable/sliderBox'
 import { styles } from './style'
 import Card from '../../Reusable/card'
+import SearchItem from '../../Reusable/searchnar/searchbar'
 
 
 
 export default class Homescreen extends Component {
 
     render() {
-
-
         return (
             <View>
-
                 <View style={styles.headerSection}>
                     <Icon name="bars" size={30} color="#fff" onPress={() => this.props.navigation.openDrawer()} />
                     <Text style={styles.headerTitle}>NeoSTORE</Text>
                     <Icon name="search" size={30} color='#fff'
-                        onPress={() => this.props.navigation.navigate('searchitem')}></Icon>
+                        onPress={() =>
+                            // <SearchItem />
+                            this.props.navigation.navigate('search')
+                        }></Icon>
                 </View>
 
                 <ScrollView>

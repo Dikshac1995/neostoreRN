@@ -2,15 +2,31 @@ import { StyleSheet } from 'react-native'
 import { StyleConstants } from '../../../Assets/Constant/constant'
 
 export const styles = StyleSheet.create({
+    Address: {
+        paddingHorizontal: 5,
+        paddingTop: 5
+    },
+    address_custname: {
+        fontWeight: 'bold',
+        fontSize: 20,
+        paddingBottom: 5
+
+    },
+
+    address_text: {
+        fontWeight: 'bold',
+        fontSize: 20,
+
+    },
 
     addressButton: {
         backgroundColor: 'red',
         fontSize: 20,
         color: '#fff',
         borderRadius: 8,
-        // padding: 10,
-
-        textAlign: 'center'
+        paddingBottom: 10,
+        marginTop: 5,
+        textAlign: 'center',
 
     },
     productDeatailSection1: {
@@ -31,14 +47,7 @@ export const styles = StyleSheet.create({
         height: 100
 
     },
-    Address: {
-        paddingTop: 10, paddingHorizontal: 10
-    },
-    address_text: {
-        fontWeight: 'bold',
-        fontSize: 20,
 
-    },
 
     product_name: {
         fontSize: StyleConstants.FONT_26,
@@ -67,14 +76,11 @@ export const styles = StyleSheet.create({
     },
     priceDetail: {
         textDecorationLine: 'underline', fontSize: 20, paddingLeft: 25,
-        backgroundColor: 'pink'
 
     },
     priceDetailWrapper: {
         display: 'flex', flexDirection: 'row',
         justifyContent: 'space-evenly', padding: 10,
-
-
     },
     footer: {
         flex: 1,
@@ -82,27 +88,17 @@ export const styles = StyleSheet.create({
         borderTopWidth: 2,
         borderTopColor: '#eee',
         elevation: 4,
-
-
-
-
-
-
     },
     footer_wrapper: {
         display: 'flex', flexDirection: 'row',
         justifyContent: 'space-between', paddingHorizontal: 20,
-
         backgroundColor: "#fff",
-
-
+        elevation: 4,
     },
     footerProduct_cost: {
         paddingTop: 30,
         fontSize: 25,
-        fontWeight: 'bold'
-
-
+        fontWeight: 'bold',
     },
 
     footerButton_text: {
@@ -114,8 +110,5 @@ export const styles = StyleSheet.create({
         width: 180,
         paddingTop: 20,
         paddingBottom: 20
-
-
-
     }
 });

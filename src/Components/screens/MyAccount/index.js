@@ -54,7 +54,7 @@ export default class MyAccount extends Component {
                     <View>
                         <View style={globalstyles.Container}>
 
-                            <View style={{ alignItems: 'center' }}>
+                            <View style={{ alignItems: 'center', marginBottom: 10, marginTop: 10 }}>
                                 {/* <Icon name='user-circle' size={120} color="#fff" /> */}
                                 <Avatar
                                     size="large"
@@ -75,15 +75,13 @@ export default class MyAccount extends Component {
                                 onPress={() => this.props.navigation.navigate('EditProfile', { data: this.state.customer_data })}
                                 style={styles.edit_button}
                             />
-
-
                         </View>
                     </View>
                     <View >
                         <TouchableOpacity onPress={() => this.props.navigation.navigate('ResetPassword')}>
                             <View style={{ backgroundColor: 'white', height: 50 }}>
                                 <Text style={{
-                                    textAlign: 'center', paddingTop: 10, fontSize: 20, paddingBottom: 20
+                                    textAlign: 'center', paddingTop: 10, fontSize: 25, paddingBottom: 20
                                 }} >Reset Password</Text>
                             </View>
                         </TouchableOpacity>

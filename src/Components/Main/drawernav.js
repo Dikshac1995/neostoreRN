@@ -15,6 +15,7 @@ import { Text, View, Image, ScrollView, TouchableOpacity, StyleSheet, Alert, Lay
 import AsyncStorage from '@react-native-community/async-storage';
 import { NativeViewGestureHandler } from 'react-native-gesture-handler';
 import { Avatar } from 'react-native-elements';
+import { api } from '../../utils/api'
 
 
 
@@ -27,11 +28,10 @@ export default class CustomDrawerContent extends Component {
     this.state = {
       expanded: false,
       LoggedIn: false,
-      // token: '',
+      myCartProduct: [],
+      token: '',
       userdata: [],
-      img: {
-        uri: 'https://s3.amazonaws.com/uifaces/faces/twitter/ladylexy/128.jpg'
-      }
+      imageSource: require('../../Assets/Images/user-profileIcon.png'),
     };
     if (Platform.OS === 'android') {
       UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -40,11 +40,16 @@ export default class CustomDrawerContent extends Component {
   async getToken() {
     let token = await AsyncStorage.getItem('token');
     const customer_details = JSON.parse(await AsyncStorage.getItem('customerDetail'))
+    const myCartProduct = JSON.parse(await AsyncStorage.getItem('MycardData'))
 
-    console.log('****************', token)
+
+    console.log('****************', myCartProduct)
     if (token !== null) {
-      this.setState({ LoggedIn: true, userdata: customer_details.customer_details })
-      console.log("!!!!!!!!!!!!!!!!!!!!!!!!!", this.state.LoggedIn)
+      this.setState({
+        LoggedIn: true, userdata: customer_details.customer_details, token: token,
+        myCartProduct: myCartProduct
+      })
+      console.log("!!!!!!!!!!!!!!!!!!!!!!!!!", this.state.myCartProduct)
     }
 
   }
@@ -57,6 +62,46 @@ export default class CustomDrawerContent extends Component {
   toggleExpand = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     this.setState({ expanded: !this.state.expanded })
+  }
+  signOut() {
+
+    Alert.alert(
+      'Log out',
+      'Do you want to logout?',
+      [
+        { text: 'Cancel', onPress: () => { return null } },
+        {
+          text: 'Confirm', onPress: () => {
+
+
+            api.fetchapi("http://180.149.241.208:3022/addProductToCartCheckout", 'post',
+              [{
+                "_id": "5cfe3f0fb4db0f338946eabd",
+                "product_id": "5cfe3f0fb4db0f338946eabd",
+                "quantity": "1"
+              },
+
+              {
+                "flag": "logout"
+              }
+              ], this.state.token)
+              .then((response) => response.json()).then((data) => {
+                console.log('Success:', data);
+                Alert.alert(data.message)
+                AsyncStorage.clear();
+                this.props.navigation.navigate('homescreen')
+
+              });
+
+
+            AsyncStorage.clear();
+            // this.props.navigation.navigate('homescreen')
+          }
+        },
+      ],
+      { cancelable: false }
+    )
+
   }
 
   render(props) {
@@ -98,14 +143,19 @@ export default class CustomDrawerContent extends Component {
               </View>
             ) : (
               <View style={{ alignItems: 'center', marginTop: 20 }}>
-                <Avatar
+                <TouchableOpacity onPress={() => Alert.alert('clicked')}>
+                  <Image style={{ width: 150, height: 150, resizeMode: 'cover' }} source={this.state.imageSource} />
+                </TouchableOpacity>
+                {/* <Avatar
                   size="xlarge"
                   rounded
                   showAccessory
-                  icon={{ name: 'user-circle', type: 'font-awesome' }}
+                  source={this.state.imageSource}
+
+                  // icon={{ name: 'user-circle', type: 'font-awesome' }}
                   onPress={() => Alert.alert("Works!")}
                   activeOpacity={0.7}
-                />
+                /> */}
                 <Text style={{ fontSize: 20, color: '#fff' }}>{cust_data.first_name}  {cust_data.last_name}</Text>
                 <Text style={{ fontSize: 20, color: '#e91b1a' }}>{cust_data.email}</Text>
                 <View style={styles.parent_drawer}>
@@ -192,22 +242,23 @@ export default class CustomDrawerContent extends Component {
                   icon={() => <Icon name='sign-out-alt' size={30} color='#fff' />}
                   label="Sign Out"
                   labelStyle={{ color: '#fff', fontSize: 20, marginLeft: 10, fontWeight: 'bold' }}
-                  onPress={() =>
-                    Alert.alert(
-                      'Log out',
-                      'Do you want to logout?',
-                      [
-                        { text: 'Cancel', onPress: () => { return null } },
-                        {
-                          text: 'Confirm', onPress: () => {
-                            AsyncStorage.clear();
-                            this.props.navigation.navigate('homescreen')
-                          }
-                        },
-                      ],
-                      { cancelable: false }
-                    )
-                  }>
+                  onPress={() => this.signOut()
+                    // Alert.alert(
+                    //   'Log out',
+                    //   'Do you want to logout?',
+                    //   [
+                    //     { text: 'Cancel', onPress: () => { return null } },
+                    //     {
+                    //       text: 'Confirm', onPress: () => {
+                    //         AsyncStorage.clear();
+                    //         this.props.navigation.navigate('homescreen')
+                    //       }
+                    //     },
+                    //   ],
+                    //   { cancelable: false }
+                    // )
+                  }
+                >
 
                 </DrawerItem>
               </>) : (null)}

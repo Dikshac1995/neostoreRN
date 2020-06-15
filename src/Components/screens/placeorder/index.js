@@ -1,10 +1,6 @@
 import React, { Component } from 'react'
-import { Text, View, Image, ScrollView, FlatList, Picker, TouchableOpacity } from 'react-native'
-import { FetchProductDetail } from '../../../Redux/Action/productlist'
-import { connect } from 'react-redux';
+import { Text, View, Image, ScrollView, FlatList, Picker, TouchableOpacity, ActivityIndicator } from 'react-native'
 import { styles } from './style'
-import Button1 from '../../Reusable/ButtonField/buttonField'
-import QuantityPicker from '../../Reusable/dropDown/picker';
 import ButtonField from '../../Reusable/ButtonField/buttonField';
 import AsyncStorage from '@react-native-community/async-storage';
 import Header from '../../Reusable/header /header'
@@ -25,36 +21,49 @@ class Placeorder extends Component {
             selectedValue: "1",
             Address: [],
             customer_details: [],
+            picker: [
+                { label: '1', value: 1, },
+                { label: '2', value: 2, },
+            ]
         };
     }
 
     componentDidMount() {
+        const arr = [];
+        const { product_id, Product } = this.props.route.params;
+        console.log("product", Product)
         this.getStoredData()
-        const { product_id, Product } = this.props.route.params;
-        // arr = [...this.state.productData]
-        if (!Product == " ") {
-            arr.push(Product)
-            console.log(arr, "1234")
-        } else {
-            console.log('data')
-        }
+
+        arr.push(Product)
+        this.setState({ productData: arr })
     }
+
     async getStoredData() {
-        const { product_id, Product } = this.props.route.params;
         const customer_details = JSON.parse(await AsyncStorage.getItem('customerDetail'))
         const value = JSON.parse(await AsyncStorage.getItem('myOrder'));
-        const value1 = value.concat(Product)
-        console.log(value1, "12345")
+
         this.setState({
             Address: customer_details.customer_address[0],
             customer_details: customer_details.customer_details,
             productData: value
         })
     }
+
+
     add_address() {
         this.props.navigation.navigate('AddAddress')
     }
+
     oderNow() {
+
+    }
+    pickerChange(itemIndex, itemValue) {
+        if (!itemIndex == " ") {
+            this.setState({
+                selectedValue: itemValue
+            })
+        }
+        console.log(itemIndex, itemValue)
 
     }
 
@@ -70,21 +79,20 @@ class Placeorder extends Component {
         );
     }
     render() {
-        const { product_id, Product } = this.props.route.params;
-        console.log(Product, "abc")
+
         console.log("cust add", this.state.Address)
         const customerData = this.state.customer_details
         const Address = this.state.Address
         console.log("data from detail module ", this.state.ProductDetailData)
         console.log('datadik', this.state.productData)
         return (
-            (!this.state.ProductDetailData) ? <ActivityIndicator /> :
+            (this.state.productDataData) ? <ActivityIndicator /> :
                 <>
                     {/* shipping Address section start  */}
-                    <View style={{ paddingHorizontal: 20, height: '30%' }} >
-                        {this.state.Address == ' ' ? null :
+                    <View style={{ height: '30%', paddingHorizontal: 20 }} >
+                        {(this.state.Address).length > 0 ? null :
                             <View style={styles.Address}>
-                                <Text style={styles.address_text}> {customerData.first_name}  {customerData.last_name}</Text>
+                                <Text style={styles.address_custname}> {customerData.first_name}  {customerData.last_name}</Text>
                                 <Text style={styles.address_text}>
                                     {Address.address} , {Address.state},
                                     {Address.country} , {Address.pincode}</Text>
@@ -92,10 +100,10 @@ class Placeorder extends Component {
                         }
                         <ButtonField text=" Change or Add Address" style={styles.addressButton}
                             onPress={() => {
-                                !this.state.Address ?
-                                    this.props.navigation.navigate('AddAddress')
-                                    :
+                                (this.state.Address).length > 0 ?
                                     this.props.navigation.navigate('address')
+                                    :
+                                    this.props.navigation.navigate('AddAddress')
                             }
                             }
                         />
@@ -108,13 +116,7 @@ class Placeorder extends Component {
                             backgroundColor: "#000",
                         }}
                     />
-                    <View
-                        style={{
-                            height: 1,
-                            width: "100%",
-                            backgroundColor: "#000",
-                        }}
-                    />
+
                     <View style={{ height: "40%" }}>
                         <FlatList data={this.state.productData}
                             showsVerticalScrollIndicator={false}
@@ -125,24 +127,28 @@ class Placeorder extends Component {
                                             <View style={{ width: '50%' }}>
                                                 <Text style={{ fontSize: 25, fontWeight: 'bold' }}>{item.product_name}</Text>
                                             </View>
-                                            <Image style={{ width: 140, height: 100 }} source={{
+                                            <Image style={{ width: 110, height: 80 }} source={{
                                                 uri: 'http://180.149.241.208:3022/' + item.product_image
                                             }} />
                                         </View>
                                         <View style={{ display: 'flex', paddingTop: 10, flexDirection: 'row', justifyContent: 'space-between' }}>
-                                            <View style={{ width: '50%' }}>
-                                                <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{item.product_material}</Text>
+                                            <View style={{ width: '30%' }}>
+                                                <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{item.product_producer}</Text>
                                             </View>
                                             <View>
-                                                <Text style={{ textAlign: 'right', fontSize: 20, fontWeight: 'bold' }}>Rs.{item.product_cost}</Text>
+                                                <Text style={{ textAlign: 'center', fontSize: 22, fontWeight: 'bold' }}>Rs.{item.product_cost}</Text>
                                             </View>
                                         </View>
                                         <View>
                                             <Picker
                                                 selectedValue={this.state.selectedValue}
                                                 style={{ width: 100 }}
-                                                onValueChange={(itemValue, itemIndex) => this.setState({ selectedValue: itemValue })}
+                                                onValueChange={(itemValue, itemIndex) =>
+                                                    this.pickerChange(this.state.productData.indexOf(item), itemValue)
+                                                    // this.setState({ selectedValue: itemValue })
+                                                }
                                             >
+
                                                 <Picker.Item label="1 " value="1" />
                                                 <Picker.Item label="2" value="2" />
                                                 <Picker.Item label="3" value="3" />
@@ -159,6 +165,13 @@ class Placeorder extends Component {
                     </View>
 
                     {/* sfooter section  */}
+                    <View
+                        style={{
+                            height: 1,
+                            width: "100%",
+                            backgroundColor: "#000",
+                        }}
+                    />
                     <View style={{ height: '30%' }}>
                         <View style={{ height: 100, marginBottom: 10 }}>
                             <Text style={styles.priceDetail}>Price Detail</Text>
@@ -171,8 +184,9 @@ class Placeorder extends Component {
 
                         <View style={styles.footer}>
                             <View style={styles.footer_wrapper}>
-                                <View style={{ padding: 10 }}><Text style={styles.footerProduct_cost}>Rs.{this.state.ProductDetailData.product_cost * this.state.selectedValue}</Text>
-                                </View>
+
+                                <Text style={styles.footerProduct_cost}>Rs.{this.state.ProductDetailData.product_cost * this.state.selectedValue}</Text>
+
                                 <ButtonField text="ORDER NOW" style={styles.footerButton_text} />
 
                             </View>

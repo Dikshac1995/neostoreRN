@@ -45,7 +45,6 @@ export default class MyDrawer extends Component {
 
     render() {
         return (
-
             <Drawer.Navigator drawerContent={props => {
                 return <CustomDrawerContent {...props} />;
             }}

@@ -22,8 +22,9 @@ export default class search extends Component {
     }
 
     componentDidMount() {
-        const url = 'http://180.149.241.208:3022/getProductBySearchText/Bed'
-            // 'https://jsonplaceholder.typicode.com/posts'
+        const url =
+            'http://180.149.241.208:3022/getProductBySearchText/Bed'
+        // 'https://jsonplaceholder.typicode.com/posts'
         return fetch(url)
             .then(response => response.json())
             .then(responseJson => {
@@ -56,7 +57,7 @@ export default class search extends Component {
             text: text,
         });
     }
-    
+
     ListViewItemSeparator = () => {
         //Item sparator view
         return (
@@ -71,7 +72,7 @@ export default class search extends Component {
     };
     render() {
         console.log("#####", this.state.dataSource)
-        
+
         if (this.state.isLoading) {
             //Loading View while data is loading
             return (

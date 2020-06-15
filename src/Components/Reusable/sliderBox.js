@@ -4,6 +4,7 @@ import { SliderBox } from "react-native-image-slider-box";
 import { connect } from 'react-redux';
 import { getPeople } from '../../Redux/Action/listaction'
 import { ActivityIndicator } from 'react-native-paper';
+import { api } from '../../utils/api'
 
 class SliderBox1 extends Component {
 
@@ -35,7 +36,7 @@ class SliderBox1 extends Component {
         else {
             var img
             img = this.props.data.map((people) => people.product_image);
-            var images = img.map((a) => 'http://180.149.241.208:3022/'.concat(a))
+            var images = img.map((a) => api.baseUrl.concat(a))
             console.log("ncc", images)
             return < SliderBox autoplay circleLoop DotColor="#90A4AE" inactiveDotColor="red"
                 onCurrentImagePressed={index => this.onpress(index)

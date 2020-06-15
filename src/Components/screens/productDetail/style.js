@@ -5,43 +5,43 @@ export const styles = StyleSheet.create({
 
     productDeatailSection1: {
         backgroundColor: "#fff",
-        marginBottom: 20
-        // padding:20,
-        // paddingTop:30,
-        // // paddingHorizontal: 20,
-        // paddingBottom:10
-
+        marginBottom: 30
     },
     productDetailSection1_wrapper: {
         paddingHorizontal: 20,
-        paddingVertical: 10
+        paddingVertical: 10,
+
     },
     productDetailSection2: {
-        paddingHorizontal: 30, marginBottom: 20
+        paddingHorizontal: 30, marginBottom: 10,
+        backgroundColor: '#eee',
+
     },
     PDsection2_Price: {
-        display: 'flex', flexDirection: 'row', justifyContent: 'space-between', padding: 10
+        display: 'flex', flexDirection: 'row',
+        justifyContent: 'space-between', padding: 10,
     },
     productDetailSection2_wapper: {
+        marginTop: 5,
+        marginBottom: 20,
         padding: 10,
         backgroundColor: '#fff',
         // borderWidth: 2,
         borderRadius: 15,
         borderColor: '#fff',
-        // borderBottomWidth: 1,
-        // shadowColor: 'white',
-        // shadowOffset: { width: 0, height: 2 },
-        // shadowOpacity: 0.9,
-        // shadowRadius: 2,
-        elevation: 2,
+
     },
     product_name: {
-        fontSize: StyleConstants.FONT_26,
+        fontSize: StyleConstants.FONT_30,
         fontWeight: 'bold'
     },
     categogy_name: {
         fontSize: StyleConstants.FONT_26,
         color: '#4f4f4f'
+    },
+    material_wraper: {
+        display: 'flex', flexDirection: 'row',
+        justifyContent: 'space-between', paddingTop: 10
     },
     material_name: {
         fontSize: StyleConstants.FONT_23,
@@ -50,19 +50,19 @@ export const styles = StyleSheet.create({
     product_cost: {
         color: 'red',
         fontSize: StyleConstants.FONT_23,
+        fontWeight: 'bold'
     },
     Product_description_title: {
         fontSize: StyleConstants.FONT_30,
         color: '#111111'
     },
     Product_description: {
-        fontSize: StyleConstants.FONT_30,
+        fontSize: StyleConstants.FONT_18,
         color: '#333333',
-        width: 70
-    },
-    cardIcon: {
+        padding: 10
 
     },
+
 
     footer: {
         display: 'flex', flexDirection: 'row', backgroundColor: '#fff', paddingBottom: 30,
@@ -90,9 +90,6 @@ export const styles = StyleSheet.create({
     container: {
         width: 50,
         height: 50,
-
-        //     alignItems: 'center',
-        //  backgroundColor: 'red',
         padding: 10
     },
     modal: {
@@ -106,9 +103,7 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#fff',
         padding: 10,
-
         borderWidth: 3,
-
         borderColor: '#fff',
         borderTopWidth: 2,
         borderBottomWidth: 1,
@@ -123,5 +118,25 @@ export const styles = StyleSheet.create({
         marginTop: 10,
         marginLeft: 70,
         fontSize: 30
+    },
+    mycart_WrapperContainer: {
+        alignItems: 'flex-end', position: 'absolute'
+    },
+    mycart_Wrapper: {
+        display: 'flex', backgroundColor: '#3A3DE3', borderRadius: 80,
+        width: 70, height: 70, top: 90, left: 270,
+    },
+    mycart_icon: {
+        paddingTop: 20, alignItems: 'center'
+    },
+    subImage_Container: {
+        display: 'flex', flexDirection: 'row', alignItems: 'center', padding: 10
+    },
+    subImage_Wrapper: {
+        borderWidth: 2, borderColor: 'grey'
+
     }
+
+
+
 });

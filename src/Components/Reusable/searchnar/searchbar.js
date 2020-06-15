@@ -76,21 +76,6 @@ export default class SerachItem extends React.Component {
             />
         );
     }
-    // SearchFilterFunction(text) {
-    //     //passing the inserted text in textinput
-    //     const newData = this.arrayholder.filter(function (item) {
-    //         //applying filter for the inserted text in search bar
-    //         const itemData = item.product_name ? item.product_name.toUpperCase() : ''.toUpperCase();
-    //         const textData = text.toUpperCase();
-    //         return itemData.indexOf(textData) > -1;
-    //     });
-    //     this.setState({
-    //         //setting the filtered newData on datasource
-    //         //After setting the data it will automatically re-render the view
-    //         dataSource: newData,
-    //         text: text,
-    //     });
-    // }
 
     render() {
         console.log('in serach bar');
@@ -102,7 +87,6 @@ export default class SerachItem extends React.Component {
                 <View style={{ height: 70, backgroundColor: 'red', justifyContent: 'center', paddingHorizontal: 5 }}>
                     <Animatable.View animation="slideInRight" duration={500} style={{ height: 50, backgroundColor: '#fff', flexDirection: 'row', padding: 5, alignItems: 'center' }}>
                         <Animatable.View animation={this.state.searchBarFocused ? 'fadeInLeft' : 'fadeInRight'} duration={500} style={{ height: 50, backgroundColor: '#fff', flexDirection: 'row', padding: 5, alignItems: 'center' }}>
-
                             <Icon name={this.state.searchBarFocused ? 'search' : 'arrow-left'} size={25}
                                 onPress={() => { 'arrow-left' ? this.props.navigation.goBack() : null }} />
                         </Animatable.View>
@@ -133,9 +117,9 @@ export default class SerachItem extends React.Component {
                                 </View>
                                 <View style={{ padding: 20, width: 250 }}>
                                     <Text style={{ fontSize: 15, fontWeight: 'bold' }}>{
-                                        // ((item.product_name).length > 20) ?
-                                        // (((item.product_name).substring(0, 20 - 3)) + '...') :
-                                        item.product_name}
+                                        ((item.product_name).length > 20) ?
+                                            (((item.product_name).substring(0, 20 - 3)) + '...') :
+                                            item.product_name}
                                     </Text>
                                     <Text style={{ fontSize: 15 }}>{item.product_material}</Text>
 

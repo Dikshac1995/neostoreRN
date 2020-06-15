@@ -123,7 +123,7 @@ export default class Mycard extends Component {
         console.log("   fish", data)
         return (
             <View>
-                <Header name1='arrowleft' text='My Cards' name2='search'
+                <Header name1='arrowleft' text='My Carts' name2='search'
                     onPress={() => this.props.navigation.goBack()}
                     onClick={() => this.props.navigation.navigate('share')}
                 />

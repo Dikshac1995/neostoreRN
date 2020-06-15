@@ -1,8 +1,4 @@
-import React, {
-    Component
-}
-    from 'react';
-
+import React, { Component } from 'react';
 import { NavigationContainer, DrawerActions } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import MyAccount from '../screens/MyAccount/index';

@@ -11,6 +11,8 @@ import { RadioButton } from 'react-native-paper';
 import AsyncStorage from '@react-native-community/async-storage';
 import { styles } from './styles'
 import { api } from '../../..//utils/api'
+import ImagePicker from 'react-native-image-picker';
+
 
 
 export default class EditProfile extends Component {
@@ -24,6 +26,9 @@ export default class EditProfile extends Component {
             email: ' ',
             phone_no: ' ',
             profile_img: ' ',
+            imageSource: require('../../../Assets/Images/user-profileIcon.png'),
+
+
             // radioCheck: 'first',
             checked: false,
 
@@ -94,6 +99,33 @@ export default class EditProfile extends Component {
         }
     }
 
+    onChangeImage() {
+        const option = {
+            quality: 0.7, allowEditing: true, mediaType: 'photo', noData: true,
+            storageOption: {
+                skipBackup: true,
+                path: 'images',
+                waitUntilSaved: true,
+                cameraRoll: true
+            }
+        }
+        ImagePicker.showImagePicker(option, (response) => {
+            console.log('Response = ', response);
+
+            if (response.didCancel) {
+                console.log('User cancelled image picker');
+            } else if (response.error) {
+                console.log('ImagePicker Error: ', response.error);
+            } else if (response.customButton) {
+                console.log('User tapped custom button: ', response.customButton);
+            } else {
+                this.setState({
+                    imageSource: { uri: response.uri }
+                });
+            }
+        }
+        );
+    }
     render() {
         const { data } = this.props.route.params;
         // this.setState({ first_name: data.first_name })
@@ -108,17 +140,20 @@ export default class EditProfile extends Component {
                     <View style={globalstyles.Container}>
 
 
-                        <View style={{ alignItems: 'center' }}>
-
-                            <Avatar
+                        <View style={{ alignItems: 'center', }}>
+                            <TouchableOpacity onPress={() => this.onChangeImage()}>
+                                <Image style={{ borderRadius: 100, width: 150, height: 150, resizeMode: 'cover' }} source={this.state.imageSource} />
+                            </TouchableOpacity>
+                            {/* <Avatar
                                 size="xlarge"
                                 rounded
                                 showAccessory
                                 icon={{ name: 'user-circle', type: 'font-awesome' }}
                                 onPress={() => Alert.alert("Works!")}
                                 activeOpacity={0.7}
-                            />
+                            /> */}
                         </View>
+
                         <TextField placeholder="name" name="user" value={this.state.first_name} editable={true}
 
                             onChangeText={value => this.setState({ first_name: value.trim() })}

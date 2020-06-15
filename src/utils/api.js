@@ -1,6 +1,10 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
 export const api = {
+
+    baseUrl: 'http://180.149.241.208:3022/',
+
+
     fetchapi: function (url, type, data, token) {
         console.log("in api", data, token)
         if (type === 'post' || type === 'put') {

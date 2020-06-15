@@ -13,31 +13,18 @@ import Header from '../../Reusable/header /header'
 import AsyncStorage from '@react-native-community/async-storage';
 import Search from '../../Reusable/searchnar/search'
 import { ThemeProvider } from 'react-native-paper';
-import images from '../../Reusable/share/image';
 import Share1 from 'react-native-share';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import { api } from '../../../utils/api'
+import share from '../../Reusable/share/share'
 
 
 
-const shareOptions = {
-    title: 'Share via',
-    message: 'some message',
-    url: 'some share url',
-    // social: Share.Social.EMAIL,
-    // social: Share.Social.FACEBOOK,
-    urls: [images.image1],
-    dilogTitle: 'data',
-
-    filename: 'test', // only for base64 file in Android
-};
 
 const myCardItem = [] // for storing data 
 class productDetail extends Component {
     constructor(props) {
         super(props);
-
-
         this.state = {
             isLoading: true,
             ProductDetailData: [],
@@ -77,6 +64,7 @@ class productDetail extends Component {
                     subImages_id: data.product_details[0].subImages_id,
                     product_image: data.product_details[0].product_image,
                     product_id: data.product_details[0].product_id,
+                    productCategory: data.product_details[0].category_id
                 })
 
             })
@@ -100,7 +88,6 @@ class productDetail extends Component {
 
     updateRating() {
         if (this.state.token) {
-
             console.log('product_id', this.state.product_id)
             const data = {
                 product_id: this.state.product_id,
@@ -154,7 +141,6 @@ class productDetail extends Component {
 
                             myCardItem.push(data)
                             console.log('~~~', myCardItem)
-
                             this.storeData(myCardItem)
                             // this.recivedData()
                             this.props.navigation.navigate('Mycard',
@@ -226,68 +212,36 @@ class productDetail extends Component {
 
     }
 
-    onShare = async () => {
-        try {
-            const result = await Share.share({
-                message:
-                    'React Native ',
-                title: 'Neostore latest product',
-                // url: 'www.google.com',
-                //    url: 'https://www.itl.cat/wallview/hbTxJw_download-wallpaper-love-nature-wallpaper-hd-for-mobile/'
-                urls: [images.image1, images.image2],
-
-            });
-
-            if (result.action === Share.sharedAction) {
-                if (result.activityType) {
-                    // shared with activity type of result.activityType
-                } else {
-                    // shared
-                }
-            } else if (result.action === Share.dismissedAction) {
-                // dismissed
-            }
-        } catch (error) {
-            alert(error.message);
-        }
-    };
     onClickSubImage(imageid) {
-        console.warn(imageid);
+
         this.setState({ product_image: imageid })
 
     }
 
 
     render() {
-        console.log(this.state.token_id)
-        console.log("pd", this.state.ProductDetailData)
-        console.log('load', this.state.ProductDetailData.product_rating)
-
-
         const Product_name = this.state.ProductDetailData.product_name
-        // "this.state.ProductDetailData.product_name
-        console.log(Product_name, "productname")
         return (
-
 
             <View>
                 <Header name1='arrowleft' text={Product_name} name2='search'
                     onPress={() => this.props.navigation.goBack()}
-                    // onClick={() => this.props.navigation.navigate('share')}
                     onClick={() => this.props.navigation.navigate('searchitem')}
                 />
                 {(this.state.isLoading) ? <ActivityIndicator size='large' /> :
-                    <View style={{ width: windowWidth, height: windowHeight }}>
 
+                    <View style={{ width: windowWidth, height: windowHeight }}>
                         <ScrollView>
                             <View style={styles.productDeatailModule}>
                                 {/* ProductDetailInfo Section*/}
                                 <View style={styles.productDeatailSection1}>
                                     <View style={styles.productDetailSection1_wrapper}>
-                                        <Text style={styles.product_name}>{this.state.ProductDetailData.product_name}</Text>
-                                        <Text style={styles.categogy_name}>Categogy-{this.state.productCategory.category_name}</Text>
-                                        <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                                            <Text style={styles.material_name}>{this.state.ProductDetailData.product_material}</Text>
+                                        <View style={{ width: '80%' }}>
+                                            <Text style={styles.product_name}>{this.state.ProductDetailData.product_name}</Text>
+                                            <Text style={styles.categogy_name}>Categogy - {this.state.productCategory.category_name}</Text>
+                                        </View>
+                                        <View style={styles.material_wraper}>
+                                            <Text style={styles.material_name}>{this.state.ProductDetailData.product_producer}</Text>
                                             <StarRating rating={this.state.ProductDetailData.product_rating} starSize={20} fullStarColor="orange" />
                                         </View>
                                     </View>
@@ -300,29 +254,25 @@ class productDetail extends Component {
                                     <View style={styles.productDetailSection2_wapper}>
                                         <View style={styles.PDsection2_Price}>
                                             <Text style={styles.product_cost}>Rs,{this.state.ProductDetailData.product_cost}</Text>
-
                                             <Icon name="share-alt" size={30} color="#7f7f7f"
-                                                onPress={() => Share1.open(shareOptions)}
+                                                onPress={() => share(this.state.product_image, this.state.ProductDetailData.product_name)}
+                                            // {() => Share1.open(shareOptions)}
                                             // {() => this.onShare()}
                                             />
-
                                         </View>
                                         <View style={{ position: 'relative' }}>
                                             <View style={{ alignItems: 'center' }}>
                                                 <TouchableOpacity onPress={() => this.showZoomModal(true)}  >
-                                                    <Image style={{ width: 200, height: 200 }} source={{
-                                                        uri: 'http://180.149.241.208:3022/' + this.state.product_image
+                                                    <Image style={{ width: 220, height: 160 }} source={{
+                                                        uri: api.baseUrl + this.state.product_image
                                                     }} />
                                                 </TouchableOpacity>
                                             </View>
-
-
-                                            <View style={{ alignItems: 'flex-end', position: 'absolute' }}>
-                                                <View style={{ display: 'flex', backgroundColor: 'blue', borderRadius: 80, width: 60, height: 60, top: 140, left: 270 }}>
-                                                    <View style={{ alignItems: 'center', paddingTop: 10 }}>
-                                                        <Icon name='shopping-cart' size={30} color="#fff"
+                                            <View style={styles.mycart_WrapperContainer}>
+                                                <View style={styles.mycart_Wrapper}>
+                                                    <View style={styles.mycart_icon}>
+                                                        <Icon name='shopping-cart' size={27} color="#fff"
                                                             onPress={() => this.addToCard(this.state.ProductDetailData)}
-                                                        // this.props.navigation.navigate('Mycard')}
                                                         />
                                                     </View>
                                                 </View>
@@ -334,16 +284,14 @@ class productDetail extends Component {
                                                 horizontal={true}
                                                 renderItem={({ item }) =>
                                                     <View>
-                                                        <TouchableOpacity style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', padding: 10 }} onPress=
-                                                            // {() => { this.props.navigation.navigate('productDetail', { product_id: item.product_id }) }}
+                                                        <TouchableOpacity style={styles.subImage_Container} onPress=
                                                             {() => this.onClickSubImage(item)}>
-                                                            <View style={{ borderWidth: 2, borderColor: 'grey' }}>
+                                                            <View style={styles.subImage_Wrapper}>
                                                                 <Image style={{ width: 90, height: 100 }}
-                                                                    source={{ uri: 'http://180.149.241.208:3022/' + item }} />
+                                                                    source={{ uri: api.baseUrl + item }} />
                                                             </View>
                                                         </TouchableOpacity>
-                                                    </View>}
-                                            />
+                                                    </View>} />
                                         </View>
                                     </View>
                                 </View>
@@ -352,15 +300,16 @@ class productDetail extends Component {
                                 <View style={{ backgroundColor: '#fff' }}>
                                     <View style={{ paddingHorizontal: 20 }}>
                                         <Text style={styles.Product_description_title}>Description-</Text>
-                                        <Text style={{ padding: 10, fontSize: 18, color: '#333333' }}>{this.state.ProductDetailData.product_desc}
+                                        <Text style={styles.Product_description}>{this.state.ProductDetailData.product_desc}
                                         </Text>
                                     </View>
                                 </View>
 
-                                {/* Product Description end              */}
+                                {/* Product Description end */}
 
                             </View>
                         </ScrollView>
+
                         <View style={styles.footer}>
                             <Button text="BUY_NOW" onPress={() => this.Buynow()} style={styles.buttonStyle} />
                             <Button text="RATE" onPress={() => this.toggleModal(true)} style={styles.rate_button} />
@@ -373,16 +322,15 @@ class productDetail extends Component {
                         onRequestClose={() => this.toggleModal(false)}>
                         <View style={styles.modal}>
                             <Text style={styles.product_name}>
-
                                 {Product_name}
                                 {/* {(((Product_name).length) > 20) ?
-                                        (((Product_name).substring(0, 20 - 3)) + '...') :
-                                        Product_name} */}
+                                    (((Product_name).substring(0, 20 - 3)) + '...') :
+                                    Product_name} */}
                             </Text>
                             <Text>{this.state.productCategory.category_name}</Text>
                             <View style={{ alignItems: 'center', margin: 20 }}>
                                 <Image style={{ width: 200, height: 200 }} source={{
-                                    uri: 'http://180.149.241.208:3022/' +
+                                    uri: api.baseUrl +
                                         this.state.ProductDetailData.product_image
                                 }} />
                             </View>
@@ -400,12 +348,15 @@ class productDetail extends Component {
                         </View>
                     </Modal>
                 </View>
+
+
+                {/* Model for zoom Imageviwer */}
                 <View >
                     <Modal visible={this.state.modalShow} transparent={true} onRequestClose={() => this.showZoomModal(false)}>
 
                         <ImageViewer imageUrls={
                             [{
-                                url: 'http://180.149.241.208:3022/' + this.state.product_image
+                                url: api.baseUrl + this.state.product_image
                             }]} />
 
 
