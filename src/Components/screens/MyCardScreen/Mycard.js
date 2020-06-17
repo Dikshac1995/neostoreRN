@@ -16,7 +16,7 @@ export default class Mycard extends Component {
             cost: '',
             finalCost: ' ',
             token: ' ',
-            selectedValue: '1',
+            selectedValue: [1, 1, 1],
             pickerItem: [{ 'label': '1', 'value': '1', 'selectedValue': '1' },
             { 'label': '2', 'value': '2', 'selectedValue': '2' },
             { 'label': '3', 'value': '3', 'selectedValue': '3' },
@@ -49,12 +49,21 @@ export default class Mycard extends Component {
 
             });
     }
-    pickerChange(index, value) {
+    pickerChange(index) {
+        console.log('val', index)
+        const indexvalue = this.state.myCardItem.indexOf(this.state.myCardItem[index])
+        console.log(indexvalue)
 
-        if (index) {
+        if (index === indexvalue) {
             this.setState({
                 selectedValue: value
             })
+        }
+        else {
+            this.setState({
+                selectedValue: '1'
+            })
+
         }
 
     }
@@ -166,7 +175,10 @@ export default class Mycard extends Component {
                         showsVerticalScrollIndicator={false}
                         renderItem={({ item }) =>
                             <View >
-                                <TouchableOpacity style={{ display: 'flex', marginTop: 5, flexDirection: 'row', padding: 0, alignItems: 'center' }}
+                                <TouchableOpacity style={{
+                                    display: 'flex', marginTop: 5,
+                                    flexDirection: 'row', padding: 0, alignItems: 'center'
+                                }}
                                     // onPress={() => { this.props.navigation.navigate('productDetail', { product_id: item.product_id }) }}
                                     onPress={() => this.removeProduct(data.indexOf(item))}>
                                     <View>
@@ -180,13 +192,11 @@ export default class Mycard extends Component {
 
                                         <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
                                             <Picker
-                                                selectedValue={this.state.selectedValue}
+                                                selectedValue={this.state.selectedValue[1]}
                                                 style={{ width: 80, }}
                                                 onValueChange={(itemValue, itemIndex) =>
-                                                    this.pickerChange(data.indexOf(item), itemValue)
-                                                    // this.setState({ selectedValue: itemValue })
-                                                    // this.pickerChange(itemIndex)}
-
+                                                    // this.pickerChange(data.indexOf(item), itemValue)
+                                                    this.pickerChange(this)
                                                 }  >
                                                 {
                                                     this.state.pickerItem.map((v) => {

@@ -28,7 +28,8 @@ export default class EditProfile extends Component {
             profile_img: ' ',
             imageSource: require('../../../Assets/Images/user-profileIcon.png'),
             gender: '',
-
+            first_nameError: ' ',
+            last_nameError: ' ',
             upload: false,
             checked: false,
 
@@ -152,14 +153,23 @@ export default class EditProfile extends Component {
                             </TouchableOpacity>
                         </View>
 
-                        <TextField placeholder="name" name="user" value={this.state.first_name} editable={true}
+                        <TextField placeholder="name" name="user" value={this.state.first_name}
+                            editable={true}
                             onChangeText={value => this.setState({ first_name: value.trim() })}
                             onBlur={() => {
                                 this.setState({
-                                    first_nameError: validation('password', this.state.first_name)
+                                    first_nameError: validation('firstName', this.state.first_name)
                                 })
-                            }} />
-                        <TextField placeholder="last name" name="user" value={this.state.last_name} />
+                            }} validate={<Text>{this.state.first_nameError}</Text>}
+                        />
+                        <TextField placeholder="last name" name="user" value={this.state.last_name}
+                            editable={true}
+                            onBlur={() => {
+                                this.setState({
+                                    last_nameError: validation('lastName', this.state.last_name)
+                                })
+                            }}
+                            validate={<Text>{this.state.last_nameError}</Text>} />
                         <TextField placeholder='email Id' name="envelope" value={this.state.email} />
                         <TextField placeholder="Phone number" name="mobile-phone" value={this.state.phone_no} />
 
