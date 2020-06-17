@@ -95,7 +95,7 @@ class productDetail extends Component {
             };
             console.log('data', data)
             const url = 'http://180.149.241.208:3022/updateProductRatingProdId'
-            api.fetchapi(url, 'put', data, this.state.token_id)
+            api.fetchapi(url, 'put', JSON.stringify(data), this.state.token_id)
 
                 // fetch(url, {
                 //     method: 'put', // or 'PUT'

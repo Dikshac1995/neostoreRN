@@ -21,7 +21,7 @@ export const api = {
             )
         }
         else {
-            console.log("in api1234", data)
+            console.log("in api1234", token)
             return fetch(
                 url,
                 {

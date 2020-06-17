@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import { Text, View, TouchableOpacity, FlatList, Image, Alert } from 'react-native'
+import { Text, View, TouchableOpacity, FlatList, Image, Picker, Alert } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage';
 import Header from '../../Reusable/header /header'
+import { api } from '../../../utils/api';
 
 
 
@@ -13,21 +14,48 @@ export default class Mycard extends Component {
             myCardItem: [],
             data: [],
             cost: '',
-            finalCost: ' '
+            finalCost: ' ',
+            token: ' ',
+            selectedValue: '1',
+            pickerItem: [{ 'label': '1', 'value': '1', 'selectedValue': '1' },
+            { 'label': '2', 'value': '2', 'selectedValue': '2' },
+            { 'label': '3', 'value': '3', 'selectedValue': '3' },
+            { 'label': '4', 'value': '4', 'selectedValue': '4' }]
         }
 
     }
 
     componentDidMount() {
-        console.log('mycard')
+
+
         const { data } = this.props.route.params;
         console.log("mydata", data)
         this.state.data.push(data)
-
-        // this.setState({ myCardItem:data })
         console.log(this.state.data, 'ddddjjjj')
         this.retrieveData()
+        // this.getptoductapi()
 
+
+    }
+    async getptoductapi() {
+        const token = await AsyncStorage.getItem('token');
+
+        api.fetchapi('http://180.149.241.208:3022/getCartData', 'get', " ", token)
+            // const res = await api.fetchapi('http://180.149.241.208:3022/getCustProfile', 'get', " ", token)
+
+            .then((response) => response.json()).then((data) => {
+                console.log('Success:', data);
+
+
+            });
+    }
+    pickerChange(index, value) {
+
+        if (index) {
+            this.setState({
+                selectedValue: value
+            })
+        }
 
     }
 
@@ -91,6 +119,8 @@ export default class Mycard extends Component {
 
     retrieveData = async () => {
         try {
+
+            // const token = JSON.parse(await AsyncStorage.getItem('token'));
             const existingProduct = await AsyncStorage.getItem('MycardData')
             console.log('...', existingProduct)
             console.log('   ', this.state.myCardItem)
@@ -108,9 +138,12 @@ export default class Mycard extends Component {
             this.setState({
                 myCardItem: newProduct,
                 cost: cost,
-                finalCost: sum
+                finalCost: sum,
+                // token: token
             })
+            this.getptoductapi()
             console.log('AAAAAAAAAAAAAAAAAAAa', this.state.myCardItem)
+            console.log('AAAAAAAAAAAAAAAAAAAa', this.state.token)
 
         } catch (error) {
             // Error retrieving data
@@ -127,13 +160,13 @@ export default class Mycard extends Component {
                     onPress={() => this.props.navigation.goBack()}
                     onClick={() => this.props.navigation.navigate('share')}
                 />
-                <View style={{ marginHorizontal: 20, marginTop: 10, height: 500 }}>
+                <View style={{ marginHorizontal: 20, height: 500 }}>
 
                     <FlatList data={data}
                         showsVerticalScrollIndicator={false}
                         renderItem={({ item }) =>
                             <View >
-                                <TouchableOpacity style={{ display: 'flex', flexDirection: 'row', padding: 0, alignItems: 'center' }}
+                                <TouchableOpacity style={{ display: 'flex', marginTop: 5, flexDirection: 'row', padding: 0, alignItems: 'center' }}
                                     // onPress={() => { this.props.navigation.navigate('productDetail', { product_id: item.product_id }) }}
                                     onPress={() => this.removeProduct(data.indexOf(item))}>
                                     <View>
@@ -141,10 +174,34 @@ export default class Mycard extends Component {
                                             uri: 'http://180.149.241.208:3022/' + item.product_image
                                         }} />
                                     </View>
-                                    <View style={{ padding: 20, width: 250 }}>
-                                        <Text style={{ fontSize: 15, fontWeight: 'bold' }}>{item.product_name}</Text>
+                                    <View style={{ padding: 15, width: 250 }}>
+                                        <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{item.product_name}</Text>
                                         <Text style={{ fontSize: 15 }}>({item.product_material})</Text>
-                                        <Text style={{ textAlign: 'right', fontSize: 15, fontWeight: 'bold' }}>Rs.{item.product_cost}</Text>
+
+                                        <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
+                                            <Picker
+                                                selectedValue={this.state.selectedValue}
+                                                style={{ width: 80, }}
+                                                onValueChange={(itemValue, itemIndex) =>
+                                                    this.pickerChange(data.indexOf(item), itemValue)
+                                                    // this.setState({ selectedValue: itemValue })
+                                                    // this.pickerChange(itemIndex)}
+
+                                                }  >
+                                                {
+                                                    this.state.pickerItem.map((v) => {
+                                                        return <Picker.Item label={v.label} value={v.value} />
+                                                    })}
+
+                                                {/* <Picker.Item label="1 " value="1" />
+                                                <Picker.Item label="2" value="2" />
+                                                <Picker.Item label="3" value="3" />
+                                                <Picker.Item label="4 " value="4" />
+                                                <Picker.Item label="5 " value="5" /> */}
+
+                                            </Picker>
+                                            <Text style={{ fontSize: 17, paddingTop: 10, fontWeight: 'bold' }}>Rs.{item.product_cost}</Text>
+                                        </View>
                                     </View>
                                 </TouchableOpacity>
                             </View>}

@@ -29,10 +29,11 @@ export default class CustomDrawerContent extends Component {
     this.state = {
       expanded: false,
       LoggedIn: false,
-      myCartProduct: [],
+      myCartProduct: ' ',
       token: '',
       userdata: [],
       imageSource: require('../../Assets/Images/user-profileIcon.png'),
+      product_id: ' '
     };
     if (Platform.OS === 'android') {
       UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -48,7 +49,8 @@ export default class CustomDrawerContent extends Component {
     if (token !== null) {
       this.setState({
         LoggedIn: true, userdata: customer_details.customer_details, token: token,
-        myCartProduct: myCartProduct
+        myCartProduct: myCartProduct,
+        product_id: myCartProduct.product_id
       })
       console.log("!!!!!!!!!!!!!!!!!!!!!!!!!", this.state.myCartProduct)
       console.log('member key size:' + Object.keys(this.state.myCartProduct).length);
@@ -65,7 +67,9 @@ export default class CustomDrawerContent extends Component {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     this.setState({ expanded: !this.state.expanded })
   }
-  signOut() {
+  async signOut() {
+
+
 
     Alert.alert(
       'Log out',
@@ -75,29 +79,45 @@ export default class CustomDrawerContent extends Component {
         {
           text: 'Confirm', onPress: () => {
 
+            let object = [{
+              _id: '5cfe3f7fb4db0f338946eabe',
+              product_id: '5cfe3f7fb4db0f338946eabe',
+              quantity: 1
+            },
+
+            {
+              flag: 'logout'
+            }]
+            let product = [{
+              _id: this.state.myCartProduct[0].product_id,
+              product_id: this.state.myCartProduct[0].product_id,
+              quantity: 1
+            },
+
+            {
+              flag: 'logout'
+            }]
 
             api.fetchapi("http://180.149.241.208:3022/addProductToCartCheckout", 'post',
-              [{
-                "_id": "5cfe3f0fb4db0f338946eabd",
-                "product_id": "5cfe3f0fb4db0f338946eabd",
-                "quantity": "1"
-              },
+              JSON.stringify(product),
+              this.state.token)
 
-              {
-                "flag": "logout"
-              }
-              ], this.state.token)
               .then((response) => response.json()).then((data) => {
                 console.log('Success:', data);
-                Alert.alert(data.message)
-                AsyncStorage.clear();
-                this.props.navigation.navigate('homescreen')
+                if (data.success) {
+                  Alert.alert(data.message)
+                  AsyncStorage.clear();
+                  this.props.navigation.navigate('homescreen')
+                }
+                else {
+                  Alert.alert(data.message)
+
+                }
 
               });
 
 
-            AsyncStorage.clear();
-            // this.props.navigation.navigate('homescreen')
+
           }
         },
       ],
