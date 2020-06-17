@@ -58,7 +58,11 @@ class Registration extends Component {
             || this.state.confirmPassword == " " || this.state.email == " " || this.state.phoneNo == " ") {
             Alert.alert(" Fields can not be empty !")
         }
-        else if (this.state.firstNameError) {
+        else if (this.state.firstNameError !== ' ' || this.state.lastNameError !== ' ' || this.state.passwordError !== ' ' ||
+            this.state.confirmpasswordError !== ' ' || this.state.emailError !== ' ' || this.state.phoneError !== ' ') {
+            Alert.alert('Fill the Detail properly ')
+        }
+        else {
 
             api.fetchapi('http://180.149.241.208:3022/register', 'post', JSON.stringify(collection))
                 .then((response) => {
@@ -86,9 +90,7 @@ class Registration extends Component {
                 )
 
         }
-        else {
-            Alert.alert('filed required')
-        }
+
 
 
     }

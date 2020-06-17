@@ -34,7 +34,6 @@ export default class EditProfile extends Component {
             phone_noError: ' ',
             upload: false,
             checked: false,
-
             radioCheck: 'first',
         };
     }
@@ -59,8 +58,11 @@ export default class EditProfile extends Component {
 
 
     async submit() {
-        if (!this.state.first_nameError || !this.state.last_nameError) {
-            Alert.alert(" fill the data properly ")
+        const err = this.state.last_nameError
+        console.log('err', this.state.last_nameError)
+        if (this.state.last_nameError !== ' ' || this.state.first_nameError !== ' ' || this.state.emailError !== ' '
+            || this.state.phone_noError !== ' ') {
+            Alert.alert("fill the data properly")
         }
         else {
             console.log("prof", this.state.imageSource)
@@ -107,6 +109,7 @@ export default class EditProfile extends Component {
                 Alert.alert("result.error_message")
             }
         }
+
     }
 
     onChangeImage() {
@@ -144,7 +147,6 @@ export default class EditProfile extends Component {
     }
     render() {
         const { data } = this.props.route.params;
-        // this.setState({ first_name: data.first_name })
         console.log(this.state.first_name, " state")
         console.log('fn', this.state.radioCheck)
 

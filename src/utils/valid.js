@@ -15,7 +15,7 @@ export default function validation(type, text, pass) {
 
     if (type == 'firstName') {
         if (regex.test(text)) {
-            return true
+            return ' '
         }
         else {
             return 'first name only contain alphabet'
@@ -23,7 +23,7 @@ export default function validation(type, text, pass) {
     }
     if (type == 'lastName') {
         if (regex.test(text)) {
-            return true
+            return ' '
         }
         else {
             return 'last name only contain alphabet'
@@ -33,7 +33,7 @@ export default function validation(type, text, pass) {
 
         if (passreg.test(text)) {
             password = text
-            console.warn('pass', password)
+
             return ' '
         }
         else {
