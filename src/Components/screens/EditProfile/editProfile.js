@@ -30,6 +30,8 @@ export default class EditProfile extends Component {
             gender: '',
             first_nameError: ' ',
             last_nameError: ' ',
+            emailError: ' ',
+            phone_noError: ' ',
             upload: false,
             checked: false,
 
@@ -57,48 +59,53 @@ export default class EditProfile extends Component {
 
 
     async submit() {
-        console.log("prof", this.state.imageSource)
-        let token = await AsyncStorage.getItem('token');
-        let editedData = {}
-        editedData.first_name = this.state.first_name,
-            editedData.last_name = this.state.last_name,
-            editedData.email = this.state.email,
-            editedData.phone_no = this.state.phone_no,
-            editedData.profile_img = this.state.imageSource,
-            editedData.date = this.state.date
-        console.log("editedData", editedData)
-
-        const res = await api.fetchapi('http://180.149.241.208:3022/profile', 'put',
-            JSON.stringify({
-                first_name: this.state.first_name,
-                last_name: this.state.last_name,
-                email: this.state.email,
-                phone_no: this.state.phone_no,
-                gender: this.state.gender,
-
-                dob: this.state.date
-            }), token)
-        const result = await res.json();
-        console.log("api", result)
-        if (result.success === true) {
-
-            Alert.alert(
-                'your profile updated successfully ',
-                ' see  profile  ',
-                [
-
-                    {
-                        text: 'ok', onPress: () => {
-                            this.props.navigation.navigate('MyAccount')
-                        }
-                    },
-                ],
-                { cancelable: false }
-            )
+        if (!this.state.first_nameError || !this.state.last_nameError) {
+            Alert.alert(" fill the data properly ")
         }
         else {
-            console.log(result.json, " g")
-            Alert.alert("result.error_message")
+            console.log("prof", this.state.imageSource)
+            let token = await AsyncStorage.getItem('token');
+            let editedData = {}
+            editedData.first_name = this.state.first_name,
+                editedData.last_name = this.state.last_name,
+                editedData.email = this.state.email,
+                editedData.phone_no = this.state.phone_no,
+                editedData.profile_img = this.state.imageSource,
+                editedData.date = this.state.date
+            console.log("editedData", editedData)
+
+            const res = await api.fetchapi('http://180.149.241.208:3022/profile', 'put',
+                JSON.stringify({
+                    first_name: this.state.first_name,
+                    last_name: this.state.last_name,
+                    email: this.state.email,
+                    phone_no: this.state.phone_no,
+                    gender: this.state.gender,
+
+                    dob: this.state.date
+                }), token)
+            const result = await res.json();
+            console.log("api", result)
+            if (result.success === true) {
+
+                Alert.alert(
+                    'your profile updated successfully ',
+                    ' see  profile  ',
+                    [
+
+                        {
+                            text: 'ok', onPress: () => {
+                                this.props.navigation.navigate('MyAccount')
+                            }
+                        },
+                    ],
+                    { cancelable: false }
+                )
+            }
+            else {
+                console.log(result.json, " g")
+                Alert.alert("result.error_message")
+            }
         }
     }
 
@@ -164,14 +171,31 @@ export default class EditProfile extends Component {
                         />
                         <TextField placeholder="last name" name="user" value={this.state.last_name}
                             editable={true}
+                            onChangeText={value => this.setState({ last_name: value.trim() })}
                             onBlur={() => {
                                 this.setState({
                                     last_nameError: validation('lastName', this.state.last_name)
                                 })
                             }}
                             validate={<Text>{this.state.last_nameError}</Text>} />
-                        <TextField placeholder='email Id' name="envelope" value={this.state.email} />
-                        <TextField placeholder="Phone number" name="mobile-phone" value={this.state.phone_no} />
+                        <TextField placeholder='email Id' name="envelope" value={this.state.email}
+                            editable={true}
+                            onChangeText={value => this.setState({ email: value.trim() })}
+                            onBlur={() => {
+                                this.setState({
+                                    emailError: validation('email', this.state.email)
+                                })
+                            }}
+                            validate={<Text>{this.state.emailError}</Text>} />
+                        <TextField placeholder="Phone number" name="mobile-phone" value={this.state.phone_no}
+                            editable={true}
+                            onChangeText={value => this.setState({ phone_no: value.trim() })}
+                            onBlur={() => {
+                                this.setState({
+                                    phone_noError: validation('phoneNo', this.state.phone_no)
+                                })
+                            }}
+                            validate={<Text>{this.state.phone_noError}</Text>} />
 
 
                         <View style={styles.container1}>
