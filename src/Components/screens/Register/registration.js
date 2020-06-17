@@ -20,7 +20,7 @@ class Registration extends Component {
             firstName: '',
             lastName: '',
             password: '',
-            comfirmPassword: ' ',
+            confirmPassword: ' ',
             email: ' ',
             phoneNo: ' ',
             gender: '',
@@ -34,22 +34,14 @@ class Registration extends Component {
 
             submitted: false,
             checked: false,
-
             radioCheck: 'first',
         }
     }
 
-
     submit() {
-        this.setState({ submitted: true });
-        if ((!this.state.firstName) && (!this.state.lastName) && (!this.state.password)
-            && (!this.state.confirmPassword)
 
-            && (!this.state.checked)
-        ) {
 
-            Alert.alert('Fill the reuired information ')
-        }
+        const fn_err = validation('firstName', this.state.firstName)
         let collection = {}
         collection.first_name = this.state.firstName
         collection.last_name = this.state.lastName
@@ -58,19 +50,49 @@ class Registration extends Component {
         collection.email = this.state.email
         collection.phone_no = this.state.phoneNo
         collection.gender = this.state.gender
-        console.warn(collection);
-        console.log(collection, 'hiiiiiii')
-        console.log(Object.keys(collection).length, 'hiiiiiii')
 
-        if (Object.keys(collection).length === 0) {
-            Alert.alert('fill the data ')
+        console.log("collect", collection, this.state.firstName)
+        console.warn("1234 ", fn_err)
+
+        if (this.state.firstName == " " || this.state.lastName == " " || this.state.password == " "
+            || this.state.confirmPassword == " " || this.state.email == " " || this.state.phoneNo == " ") {
+            Alert.alert(" Fields can not be empty !")
+        }
+        else if (this.state.firstNameError) {
+
+            api.fetchapi('http://180.149.241.208:3022/register', 'post', JSON.stringify(collection))
+                .then((response) => {
+                    console.log('res', response)
+
+                    response.json().then((responseJSON) => {
+                        console.log("responseJSON", responseJSON);
+                        if (responseJSON.success) {
+                            Alert.alert(responseJSON.message)
+                            this.props.navigation.navigate('loginScreen')
+                        }
+
+                        else {
+                            if (responseJSON.error_message) {
+                                Alert.alert(responseJSON.error_message)
+                            }
+                            else {
+                                Alert.alert(responseJSON.message)
+
+                            }
+                        }
+
+                    })
+                }
+                )
+
         }
         else {
-
-            console.warn('hi')
-            this.props.register(collection)
+            Alert.alert('filed required')
         }
+
+
     }
+
 
 
     render() {
@@ -173,17 +195,8 @@ class Registration extends Component {
     }
 }
 
-const mapStateToProps = State => ({
-    registering: State.registration,
-    // state: State
-})
 
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        register: (type) => dispatch(register(type))
-    };
-}
 
-
-export default connect(mapStateToProps, mapDispatchToProps)(Registration)
+// export default connect(mapStateToProps, mapDispatchToProps)(Registration)
+export default Registration

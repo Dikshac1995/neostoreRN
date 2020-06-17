@@ -15,7 +15,8 @@ import { Text, View, Image, ScrollView, TouchableOpacity, StyleSheet, Alert, Lay
 import AsyncStorage from '@react-native-community/async-storage';
 import { NativeViewGestureHandler } from 'react-native-gesture-handler';
 import { Avatar } from 'react-native-elements';
-import { api } from '../../utils/api'
+import { api } from '../../utils/api';
+
 
 
 
@@ -50,6 +51,7 @@ export default class CustomDrawerContent extends Component {
         myCartProduct: myCartProduct
       })
       console.log("!!!!!!!!!!!!!!!!!!!!!!!!!", this.state.myCartProduct)
+      console.log('member key size:' + Object.keys(this.state.myCartProduct).length);
     }
 
   }
@@ -166,7 +168,7 @@ export default class CustomDrawerContent extends Component {
                   <Text style={styles.parent_drawerLabel}>My Card </Text>
                   <View style=
                     {{ backgroundColor: 'red', borderRadius: 100, width: 40, height: 40, marginRight: 40 }}>
-                    <Text style={{ color: '#fff', paddingLeft: 15, paddingTop: 10 }}>0</Text>
+                    <Text style={{ color: '#fff', paddingLeft: 15, paddingTop: 10 }}>{this.state.myCartProduct ? Object.keys(this.state.myCartProduct).length : 0}</Text>
                   </View>
                 </View>
               </View>
@@ -228,6 +230,12 @@ export default class CustomDrawerContent extends Component {
                   label="MyAccount"
                   labelStyle={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}
                   onPress={() => this.props.navigation.navigate('MyAccount')}
+                />
+                <DrawerItem
+                  icon={() => <Icon name='user-friends' size={30} color='#fff' />}
+                  label="My order"
+                  labelStyle={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}
+                  onPress={() => this.props.navigation.navigate('Myorder')}
                 />
 
                 <DrawerItem

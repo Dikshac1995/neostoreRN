@@ -21,6 +21,7 @@ import Searchitem from '../Reusable/searchnar/searchbar'
 import Search from '../Reusable/searchnar/search'
 import Share1 from '../Reusable/share/share'
 import StoreLocator from '../Map/store';
+import Myorder from '../screens/Myorder/myorder'
 
 
 
@@ -37,6 +38,7 @@ class Main extends Component {
                     <Stack.Screen name="searchitem" component={Searchitem} options={{ headerShown: false }} />
                     <Stack.Screen name="search" component={Search} options={{ headerShown: false }} />
                     <Stack.Screen name="share" component={Share1} options={{ headerShown: false }} />
+                    <Stack.Screen name="Myorder" component={Myorder} options={{ headerShown: false }} />
 
                     <Stack.Screen name="loginScreen" component={LoginScreen}
                         options={{

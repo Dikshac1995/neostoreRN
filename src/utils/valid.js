@@ -5,9 +5,11 @@ import { Alert } from "react-native";
 
 export default function validation(type, text, pass) {
     var password
-    console.warn("hiii", type, text, pass)
+
     const regex = /^[A-Za-z]+$/;
-    const passreg = /^[0-9]+$/;
+    const passreg = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{7,15}$/
+    // /^[0-9]+$/;
+
     const numregx = /^\d{10}$/
     const emailPattern = /^([a-zA-Z])+([0-9a-zA-Z_\.\-])+\@+(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,5}$)$/;
 
@@ -35,7 +37,7 @@ export default function validation(type, text, pass) {
             return ' '
         }
         else {
-            return 'Password should be numeric '
+            return 'Password should be combination of (A,a,@,1) '
         }
     }
 

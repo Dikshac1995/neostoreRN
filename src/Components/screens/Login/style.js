@@ -1,8 +1,8 @@
 import { StyleSheet } from 'react-native'
-import {StyleConstants} from '../../../Assets/Constant/constant'
+import { StyleConstants } from '../../../Assets/Constant/constant'
 
 export const styles = StyleSheet.create({
-    LoginScreen1: {
+    LoginScreen: {
         flex: 1,
         justifyContent: 'center',
         backgroundColor: 'red',
@@ -22,13 +22,13 @@ export const styles = StyleSheet.create({
     loginButton: {
         color: 'red',
         fontSize: 30,
-        
-      backgroundColor: 'white',
+
+        backgroundColor: 'white',
         textAlign: 'center',
         borderRadius: 8,
         opacity: 0.8,
-       
-        
+
+
     },
     forgot_link: {
         color: 'white',
@@ -37,17 +37,17 @@ export const styles = StyleSheet.create({
         textAlign: 'center'
 
     },
-    
+
     Account: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        marginBottom:20
+        marginBottom: 20
     },
     Account_Text: {
         padding: 10,
         color: 'white',
         fontSize: 18,
         fontWeight: 'bold',
-        marginLeft:30
+        marginLeft: 30
     }
 });

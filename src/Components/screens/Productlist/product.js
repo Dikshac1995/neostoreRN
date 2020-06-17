@@ -36,7 +36,7 @@ class ProductList extends Component {
         const { data } = this.props;
         console.log("data in productList", data)
         this.setState({
-            loading: false,
+            loading: true,
             ProductList: data.product_details
         })
 

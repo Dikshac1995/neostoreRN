@@ -9,6 +9,7 @@ import { connect } from 'react-redux';
 import * as actions from '../../../Redux/Action/action'
 import PasswordCon from '../../Reusable/Password/Password'
 import validation from '../../../utils/valid'
+import { api } from '../../../utils/api'
 
 
 
@@ -18,65 +19,89 @@ class LoginScreen extends Component {
         this.state = {
             email: '',
             pass: '',
-            emailValid: ' ',
-            passValid: ' ',
+            emailValid: '',
+            passValid: '',
         }
     }
-    componentDidMount() {
-        const { isLoggedIn, userData, error } = this.props
-        console.log('componentDid', userData)
 
-    }
     navigate = () => {
         navigation.navigate('registrationScreen')
     }
 
-    async login() {
-        const { userData, error, isLoggedIn } = this.props
-        const value = await AsyncStorage.getItem('token')
-        console.warn("--------", this.state.emailValid, this.state.passValid)
-        if ((!this.state.email) && (!this.state.pass) && (this.state.emailValid) && (this.state.passValid)) {
+    // async login() {
+    //     const { userData, error, isLoggedIn } = this.props
+    //     const value = await AsyncStorage.getItem('token')
+    //     console.warn("--------", this.state.emailValid, this.state.passValid)
+    //     if ((!this.state.email) || (!this.state.pass) || (this.state.emailValid) || (this.state.passValid)) {
+    //         Alert.alert(" fill the required detail ")
+    //     }
+    //     else {
+    //         this.props.login(this.state.email, this.state.pass).then(async () => {
+    //             const error = await this.props.error
+    //             if (error) {
+
+    //                 console.log(this.props.error)
+    //                 Alert.alert(error)
+    //                 this.props.navigation.navigate('Register')
+    //             }
+    //             else {
+    //                 console.log('================', this.props.isLoggedIn)
+    //                 console.log('login data', this.props.userData)
+    //                 console.log('login successfully')
+    //                 console.log(userData.success)
+    //                 Alert.alert(userData.message)
+    //                 if (userData.sucess == false) {
+    //                     console.log("userdata.success")
+
+    //                 }
+    //                 this.props.navigation.navigate('Homescreen')
+
+    //                 //    Alert.alert(this.props.userData.user.name + ' user successfully logged in ')
+    //             }
+
+    //         })
+    //     }
+
+
+
+    // }
+
+    login() {
+        if ((this.state.email === '') || (this.state.pass === ' ')) {
             Alert.alert(" fill the required detail ")
         }
-        else {
-            this.props.login(this.state.email, this.state.pass).then(async () => {
-                const error = await this.props.error
-                if (error) {
+        else if ((this.state.emailValid === ' ' && this.state.passValid == ' ')) {
+            api.fetchapi('http://180.149.241.208:3022/login', 'post', JSON.stringify({
+                "email": this.state.email,
+                "pass": this.state.pass
+            }))
+                .then((response) => {
+                    response.json().then(async (responseJSON) => {
+                        if (responseJSON.success == true) {
+                            await AsyncStorage.setItem('token', responseJSON.token)
+                            const customerDetail = responseJSON
+                            await AsyncStorage.setItem("customerDetail", JSON.stringify(customerDetail))
+                            Alert.alert(responseJSON.message)
 
-                    console.log(this.props.error)
-                    Alert.alert(error)
-                    this.props.navigation.navigate('Register')
-                }
-                else {
-                    console.log('================', this.props.isLoggedIn)
-                    console.log('login data', this.props.userData)
-                    console.log('login successfully')
-                    console.log(userData.success)
-                    Alert.alert(userData.message)
-                    if (userData.sucess == false) {
-                        console.log("userdata.success")
+                            this.props.navigation.navigate('Homescreen');
 
-                    }
-                    this.props.navigation.navigate('Homescreen')
+                        }
+                        else {
+                            Alert.alert(responseJSON.message)
+                        }
+                    })
+                })
 
-                    //    Alert.alert(this.props.userData.user.name + ' user successfully logged in ')
-                }
-
-            })
         }
-
-
-
+        else {
+            Alert.alert("fill the data properly ")
+        }
     }
     render() {
 
-        const { isLoggedIn, userData, error } = this.props
-        console.log('token', this.props.token)
-        console.log('00000', isLoggedIn, userData, error)
         return (
-            <View style={styles.LoginScreen1}>
+            <View style={styles.LoginScreen}>
                 <View style={styles.login}>
-
                     <Text style={styles.login_neostore}>NeoSTORE</Text>
                     <TextField placeholder="Email" name="envelope"
                         onChangeText={value => this.setState({ email: value.trim() })}
@@ -116,16 +141,18 @@ class LoginScreen extends Component {
         );
     }
 }
-const mapStateToProps = state => ({
-    isLoggedIn: state.auth.isLoggedIn,
-    isLoading: state.auth.isLoading,
-    userData: state.auth.userData,
-    token: state.auth.token,
-    error: state.auth.error
-})
+// const mapStateToProps = state => ({
+//     isLoggedIn: state.auth.isLoggedIn,
+//     isLoading: state.auth.isLoading,
+//     userData: state.auth.userData,
+//     token: state.auth.token,
+//     error: state.auth.error
+// })
 
-const mapDispatchToProps = dispatch => ({
-    login: (email, pass) => dispatch(actions.login({ email, pass }))
-})
+// const mapDispatchToProps = dispatch => ({
+//     login: (email, pass) => dispatch(actions.login({ email, pass }))
+// })
 
-export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen)
+// export default connect(mapStateToProps, mapDispatchToProps)(LoginScreen)
+
+export default LoginScreen

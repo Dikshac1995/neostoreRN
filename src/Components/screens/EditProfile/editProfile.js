@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, TouchableOpacity, Image, Alert } from 'react-native'
+import { Text, View, TouchableOpacity, Image, Alert, ActivityIndicator } from 'react-native'
 import TextField from '../../Reusable/textField/textField'
 import ButtonField from '../../Reusable/ButtonField/buttonField'
 import { globalstyles } from '../../../style/style'
@@ -27,9 +27,9 @@ export default class EditProfile extends Component {
             phone_no: ' ',
             profile_img: ' ',
             imageSource: require('../../../Assets/Images/user-profileIcon.png'),
+            gender: '',
 
-
-            // radioCheck: 'first',
+            upload: false,
             checked: false,
 
             radioCheck: 'first',
@@ -37,13 +37,13 @@ export default class EditProfile extends Component {
     }
     componentDidMount() {
         const { data } = this.props.route.params;
-        console.log("   ", data.gender)
+        console.log("   ", data)
         this.setState({
             first_name: data.first_name,
             last_name: data.last_name,
             email: data.email,
             phone_no: data.phone_no,
-            profile_img: data.profile_img,
+            gender: data.gender,
             date: data.dob,
         })
 
@@ -56,14 +56,15 @@ export default class EditProfile extends Component {
 
 
     async submit() {
+        console.log("prof", this.state.imageSource)
         let token = await AsyncStorage.getItem('token');
         let editedData = {}
         editedData.first_name = this.state.first_name,
             editedData.last_name = this.state.last_name,
             editedData.email = this.state.email,
             editedData.phone_no = this.state.phone_no,
-            editedData.profile_img = this.state.profile_img
-        editedData.date = this.state.date
+            editedData.profile_img = this.state.imageSource,
+            editedData.date = this.state.date
         console.log("editedData", editedData)
 
         const res = await api.fetchapi('http://180.149.241.208:3022/profile', 'put',
@@ -73,6 +74,7 @@ export default class EditProfile extends Component {
                 email: this.state.email,
                 phone_no: this.state.phone_no,
                 gender: this.state.gender,
+
                 dob: this.state.date
             }), token)
         const result = await res.json();
@@ -119,8 +121,14 @@ export default class EditProfile extends Component {
             } else if (response.customButton) {
                 console.log('User tapped custom button: ', response.customButton);
             } else {
+
+                const source = { uri: response.uri };
+                // You can also display the image using data:
+                // const source = { uri: 'data:image/jpeg;base64,' + response.data };
+
                 this.setState({
-                    imageSource: { uri: response.uri }
+                    upload: true,
+                    imageSource: source
                 });
             }
         }
@@ -138,24 +146,13 @@ export default class EditProfile extends Component {
                 <View>
 
                     <View style={globalstyles.Container}>
-
-
                         <View style={{ alignItems: 'center', }}>
                             <TouchableOpacity onPress={() => this.onChangeImage()}>
                                 <Image style={{ borderRadius: 100, width: 150, height: 150, resizeMode: 'cover' }} source={this.state.imageSource} />
                             </TouchableOpacity>
-                            {/* <Avatar
-                                size="xlarge"
-                                rounded
-                                showAccessory
-                                icon={{ name: 'user-circle', type: 'font-awesome' }}
-                                onPress={() => Alert.alert("Works!")}
-                                activeOpacity={0.7}
-                            /> */}
                         </View>
 
                         <TextField placeholder="name" name="user" value={this.state.first_name} editable={true}
-
                             onChangeText={value => this.setState({ first_name: value.trim() })}
                             onBlur={() => {
                                 this.setState({
