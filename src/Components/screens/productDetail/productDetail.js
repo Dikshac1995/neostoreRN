@@ -180,7 +180,7 @@ class productDetail extends Component {
         const value = data
         console.log('7777', value)
         try {
-            await AsyncStorage.setItem('MycardData', JSON.stringify(value));
+            await AsyncStorage.setItem('MycardData', JSON.stringify(values));
 
         } catch (error) {
             console.log(error)

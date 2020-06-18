@@ -12,7 +12,7 @@ import { getCartData } from '../../../Redux/Action/mycat'
 
 
 
-const myCardProduct = []
+const myCartProduct = []
 class Mycart extends Component {
     constructor(props) {
         super(props);
@@ -23,6 +23,7 @@ class Mycart extends Component {
             finalCost: ' ',
             token: ' ',
             selectedValue: [1, 1, 1],
+            quantity: [],
             pickerItem: [{ 'label': '1', 'value': '1', 'selectedValue': '1' },
             { 'label': '2', 'value': '2', 'selectedValue': '2' },
             { 'label': '3', 'value': '3', 'selectedValue': '3' },
@@ -37,35 +38,45 @@ class Mycart extends Component {
         this.state.data.push(data)
         console.log(this.state.data, 'ddddjjjj')
         this.retrieveData()
-        // this.getptoductapi()
+        this.getptoductapi()
+
 
 
     }
     async getptoductapi() {
+
         const token = await AsyncStorage.getItem('token');
-        // api.fetchapi('http://180.149.241.208:3022/getCartData', 'get', " ", token)
-        //     .then((response) => response.json()).then((data) => {
-        //         console.log('Success:', data);
-        //     });
+        if (token) {
+            api.fetchapi('http://180.149.241.208:3022/getCartData', 'get', " ", token)
+                .then((response) => response.json()).then((data) => {
+                    console.log('Success:', data);
+                    if (data.status_code === 200) {
+                        const cartProduct = data.product_details.map((res) => res.product_id)
+                        const quantity = data.product_details.map((res) => res.quantity)
+                        const cartdata = myCartProduct.concat(cartProduct)
+                        console.log('cartProduct', cartdata)
+                        var cost = cartdata.map(res => res.product_cost)
+                        var sum = cost.reduce(function (a, b) { return a + b; }, 0);
+
+                        console.log(cost, sum)
+                        this.setState({
+                            myCardItem: cartdata,
+                            quantity: quantity,
+                            finalCost: sum
+                        })
+                    }
+                    else {
+                        Alert.alert(data.message)
+                    }
+                });
+        }
         // this.props.getCartData(token);
     }
-    pickerChange(index) {
-        console.log('val', index)
-        const indexvalue = this.state.myCardItem.indexOf(this.state.myCardItem[index])
-        console.log(indexvalue)
-
-        if (index === indexvalue) {
-            this.setState({
-                selectedValue: value
-            })
-        }
-        else {
-            this.setState({
-                selectedValue: '1'
-            })
-
-        }
-
+    pickerChange(index, value) {
+        console.log('val', index, value)
+        const { quantity } = this.state
+        quantity.splice(index, 1, value)
+        this.setState({ quantity: [...quantity] })
     }
 
     async  orderNow() {
@@ -84,10 +95,20 @@ class Mycart extends Component {
         } catch (error) {
             console.log(error)
         }
+    }
+    async  storedata() {
+        try {
+            await AsyncStorage.setItem('myOrder', JSON.stringify(values));
+            const value = JSON.parse(await AsyncStorage.getItem('myOrder'));
+            console.log("place order", value)
 
 
+        } catch (error) {
+            console.log(error)
+        }
 
     }
+
     FlatListItemSeparator = () => {
         return (
             <View
@@ -99,6 +120,8 @@ class Mycart extends Component {
             />
         );
     }
+
+
     removeProduct(id) {
         console.log('+++', id)
         Alert.alert(
@@ -131,12 +154,14 @@ class Mycart extends Component {
     retrieveData = async () => {
         try {
 
-            // const token = JSON.parse(await AsyncStorage.getItem('token'));
+            const token = await AsyncStorage.getItem('token');
             const existingProduct = await AsyncStorage.getItem('MycardData')
             console.log('...', existingProduct)
             console.log('   ', this.state.myCardItem)
             let newProduct = JSON.parse(existingProduct);
-            console.log("&&", newProduct)
+            myCartProduct.push(newProduct)
+
+            console.log("&&", myCartProduct)
             var cost = newProduct.map(res => res.product_cost)
             console.log("cost ", cost)
             console.log(
@@ -150,9 +175,9 @@ class Mycart extends Component {
                 myCardItem: newProduct,
                 cost: cost,
                 finalCost: sum,
-                // token: token
+                token: token
             })
-            this.getptoductapi()
+
             console.log('AAAAAAAAAAAAAAAAAAAa', this.state.myCardItem)
             console.log('AAAAAAAAAAAAAAAAAAAa', this.state.token)
 
@@ -175,11 +200,11 @@ class Mycart extends Component {
 
                     <FlatList data={data}
                         showsVerticalScrollIndicator={false}
-                        renderItem={({ item }) =>
+                        renderItem={({ item, index }) =>
                             <View >
                                 <TouchableOpacity style={styles.myOrder_container}
                                     // onPress={() => { this.props.navigation.navigate('productDetail', { product_id: item.product_id }) }}
-                                    onPress={() => this.removeProduct(data.indexOf(item))}>
+                                    onLongPress={() => this.removeProduct(data.indexOf(item))}>
                                     <View>
                                         <Image style={{ width: 120, height: 100 }} source={{
                                             uri: 'http://180.149.241.208:3022/' + item.product_image
@@ -191,11 +216,12 @@ class Mycart extends Component {
 
                                         <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
                                             <Picker
-                                                selectedValue={this.state.selectedValue[1]}
+                                                key={index}
+                                                selectedValue={this.state.quantity[index]}
                                                 style={{ width: 80, }}
-                                                onValueChange={(itemValue, itemIndex) =>
+                                                onValueChange={(itemValue, ) =>
                                                     // this.pickerChange(data.indexOf(item), itemValue)
-                                                    this.pickerChange(this)
+                                                    this.pickerChange(index, itemValue)
                                                 }  >
                                                 {
                                                     this.state.pickerItem.map((v) => {
