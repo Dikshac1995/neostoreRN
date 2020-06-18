@@ -21,7 +21,8 @@ export default class add_list extends Component {
             addressData: {},
             checked: true,
             data: [],
-            radioCheck: 'first',
+            radioCheck: ' ',
+            address_id: ' '
         };
     }
 
@@ -61,6 +62,13 @@ export default class add_list extends Component {
             />
         );
     }
+
+    onhandle_cahnge(index) {
+        console.log(index, 'index')
+        this.setState({ radioCheck: index })
+
+
+    }
     render() {
         console.log("customerdata", this.state.addressData)
         const data = this.state.data
@@ -81,7 +89,7 @@ export default class add_list extends Component {
                     <FlatList
                         data={this.state.addressData}
                         ItemSeparatorComponent={this.FlatListItemSeparator}
-                        renderItem={({ item }) => {
+                        renderItem={({ item, index }) => {
                             return (
                                 <View
                                     style={{
@@ -89,21 +97,20 @@ export default class add_list extends Component {
                                         flexDirection: 'row',
                                     }}>
                                     <View style={{ marginTop: 40 }}>
-                                        <RadioButton value="first"
-                                            status={this.state.radioCheck === 'first' ? 'checked' : 'unchecked'}
+                                        <RadioButton
+                                            value={index}
+                                            status={this.state.radioCheck == index ? 'checked' : 'unchecked'}
                                             onPress={() => {
-                                                this.setState({
-                                                    radioCheck: 'first',
-                                                    gender: 'male'
-                                                });
+                                                this.setState({ radioCheck: index, address_id: item.address_id })
+
                                             }} />
                                     </View>
                                     <TouchableOpacity>
                                         <View style={{ flex: 1, flexDirection: 'column', paddingVertical: 15 }}>
-                                            <Text style={{ marginHorizontal: 10, fontSize: 30 }}>
+                                            <Text style={{ marginHorizontal: 10, fontSize: 25 }}>
                                                 {data.first_name}  {data.last_name}
                                             </Text>
-                                            <Text style={styles.address_text}> {item.address}, {item.state}</Text>
+                                            <Text style={styles.address_text}> {item.address},{item.city} ,{item.state}</Text>
 
                                             <Text style={styles.address_text}>
                                                 {item.pincode} , {item.country}

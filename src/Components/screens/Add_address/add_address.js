@@ -56,7 +56,7 @@ export default class AddAddress extends Component {
         collection1.state = this.state.state
         collection1.country = this.state.country
         let error = {}
-        error.address_err = this.state.address_err
+        // error.address_err = this.state.address_err
         var url = 'http://180.149.241.208:3022/address'
 
         api.fetchapi(url, 'post',

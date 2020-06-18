@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import { Text, View, Image, ScrollView, FlatList, Picker, TouchableOpacity, ActivityIndicator } from 'react-native'
+import { Text, View, Image, ScrollView, FlatList, Picker, TouchableOpacity, Alert, ActivityIndicator } from 'react-native'
 import { styles } from './style'
 import ButtonField from '../../Reusable/ButtonField/buttonField';
 import AsyncStorage from '@react-native-community/async-storage';
-import Header from '../../Reusable/header /header'
+import Header from '../../Reusable/header /header';
+import { api } from '../../../utils/api'
 
 
 const arr = [];
@@ -13,12 +14,12 @@ class Placeorder extends Component {
         super(props);
         this.state = {
             quantity: ' ',
-            productData: [],
+            productData: ' ',
             ProductDetailData: [],
             productCategory: [],
             subImages_id: [],
             modalVisible: false,
-            selectedValue: "1",
+            selectedValue: [],
             Address: [],
             customer_details: [],
             picker: [
@@ -29,23 +30,27 @@ class Placeorder extends Component {
     }
 
     componentDidMount() {
-        const arr = [];
+
         const { product_id, Product } = this.props.route.params;
         console.log("product", Product)
+        arr.push(Product)
+
         this.getStoredData()
 
-        arr.push(Product)
-        this.setState({ productData: arr })
+        // this.setState({ productData: arr })
     }
 
     async getStoredData() {
+
+
         const customer_details = JSON.parse(await AsyncStorage.getItem('customerDetail'))
         const value = JSON.parse(await AsyncStorage.getItem('myOrder'));
-
+        console.log('valu', value)
+        const data = arr.concat(value)
         this.setState({
             Address: customer_details.customer_address[0],
             customer_details: customer_details.customer_details,
-            productData: value
+            productData: data
         })
     }
 
@@ -54,17 +59,53 @@ class Placeorder extends Component {
         this.props.navigation.navigate('AddAddress')
     }
 
-    oderNow() {
+    async  oderNow() {
+        let token = await AsyncStorage.getItem('token');
+        const id = this.state.productData[0]._id
+
+        let object = [{
+            _id: '5cfe3f7fb4db0f338946eabe',
+            product_id: '5cfe3f7fb4db0f338946eabe',
+            quantity: 1
+        },
+
+        {
+            flag: 'checkout'
+        }]
+        let product = [{
+            _id: this.state.productData[0]._id,
+            product_id: this.state.productData[0]._id,
+            quantity: 1
+        },
+
+        {
+            flag: 'checkout'
+        }]
+        api.fetchapi("http://180.149.241.208:3022/addProductToCartCheckout", 'post',
+            JSON.stringify(product),
+            token)
+
+            .then((response) => response.json()).then((data) => {
+                console.log('Success:', data);
+                if (data.success) {
+                    Alert.alert(data.message)
+                    AsyncStorage.clear();
+                    this.props.navigation.navigate('homescreen')
+                }
+                else {
+                    Alert.alert(data.message)
+
+                }
+
+            });
+
 
     }
-    pickerChange(itemIndex, itemValue) {
-        if (!itemIndex == " ") {
-            this.setState({
-                selectedValue: itemValue
-            })
-        }
-        console.log(itemIndex, itemValue)
-
+    pickerChange(index, value) {
+        console.log('val', index, value)
+        const { selectedValue } = this.state
+        selectedValue.splice(index, 1, value)
+        this.setState({ selectedValue: [...selectedValue] })
     }
 
     FlatListItemSeparator = () => {
@@ -90,20 +131,20 @@ class Placeorder extends Component {
                 <>
                     {/* shipping Address section start  */}
                     <View style={{ height: '30%', paddingHorizontal: 20 }} >
-                        {(this.state.Address).length > 0 ? null :
-                            <View style={styles.Address}>
-                                <Text style={styles.address_custname}> {customerData.first_name}  {customerData.last_name}</Text>
-                                <Text style={styles.address_text}>
-                                    {Address.address} , {Address.state},
+
+
+                        < View style={styles.Address} >
+                            <Text style={styles.address_custname}> {customerData.first_name}  {customerData.last_name}</Text>
+                            <Text style={styles.address_text}>
+                                {Address.address} , {Address.state},
                                     {Address.country} , {Address.pincode}</Text>
-                            </View>
-                        }
+                        </View>
+
                         <ButtonField text=" Change or Add Address" style={styles.addressButton}
                             onPress={() => {
                                 (this.state.Address).length > 0 ?
+                                    this.props.navigation.navigate('AddAddress') :
                                     this.props.navigation.navigate('address')
-                                    :
-                                    this.props.navigation.navigate('AddAddress')
                             }
                             }
                         />
@@ -120,7 +161,7 @@ class Placeorder extends Component {
                     <View style={{ height: "40%" }}>
                         <FlatList data={this.state.productData}
                             showsVerticalScrollIndicator={false}
-                            renderItem={({ item }) =>
+                            renderItem={({ item, index }) =>
                                 <View>
                                     <TouchableOpacity style={{ padding: 20 }} >
                                         <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -141,10 +182,10 @@ class Placeorder extends Component {
                                         </View>
                                         <View>
                                             <Picker
-                                                selectedValue={this.state.selectedValue}
+                                                selectedValue={this.state.selectedValue[index]}
                                                 style={{ width: 100 }}
                                                 onValueChange={(itemValue, itemIndex) =>
-                                                    this.pickerChange(this.state.productData.indexOf(item), itemValue)
+                                                    this.pickerChange(index, itemValue)
                                                     // this.setState({ selectedValue: itemValue })
                                                 }
                                             >
@@ -187,7 +228,7 @@ class Placeorder extends Component {
 
                                 <Text style={styles.footerProduct_cost}>Rs.{this.state.ProductDetailData.product_cost * this.state.selectedValue}</Text>
 
-                                <ButtonField text="ORDER NOW" style={styles.footerButton_text} />
+                                <ButtonField text="ORDER NOW" style={styles.footerButton_text} onPress={() => this.oderNow()} />
 
                             </View>
                         </View>

@@ -7,12 +7,7 @@ export const styles = StyleSheet.create({
         flex: 1
 
     },
-    // fields: {
 
-
-    //     backgroundColor: 'pink',
-    //     paddingBottom:20
-    // },
     Address_TextField: {
         elevation: 5,
         backgroundColor: '#fff',

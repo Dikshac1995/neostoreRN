@@ -64,6 +64,7 @@ class Mycart extends Component {
                             quantity: quantity,
                             finalCost: sum
                         })
+                        this.storedata(this.state.myCardItem)
                     }
                     else {
                         Alert.alert(data.message)
@@ -96,9 +97,9 @@ class Mycart extends Component {
             console.log(error)
         }
     }
-    async  storedata() {
+    async  storedata(val) {
         try {
-            await AsyncStorage.setItem('myOrder', JSON.stringify(values));
+            await AsyncStorage.setItem('MycartData', JSON.stringify(val));
             const value = JSON.parse(await AsyncStorage.getItem('myOrder'));
             console.log("place order", value)
 
