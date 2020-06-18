@@ -237,12 +237,12 @@ export default class CustomDrawerContent extends Component {
               onPress={() => this.props.navigation.navigate('Map')}
             />
 
-            <DrawerItem
+            {/* <DrawerItem
               icon={() => <Icon name="map-marker-alt" size={30} color='#fff' />}
               label="Store Lactor "
               labelStyle={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}
               onPress={() => this.props.navigation.navigate('storeLocator')}
-            />
+            /> */}
             {this.state.LoggedIn ? (
               <>
                 <DrawerItem

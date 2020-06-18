@@ -3,11 +3,17 @@ import { Text, View, TouchableOpacity, FlatList, Image, Picker, Alert } from 're
 import AsyncStorage from '@react-native-community/async-storage';
 import Header from '../../Reusable/header /header'
 import { api } from '../../../utils/api';
+import Button from '../../Reusable/ButtonField/buttonField'
+import { styles } from './style'
+import { connect } from 'react-redux';
+import { getCartData } from '../../../Redux/Action/mycat'
+
+
 
 
 
 const myCardProduct = []
-export default class Mycard extends Component {
+class Mycart extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -26,8 +32,6 @@ export default class Mycard extends Component {
     }
 
     componentDidMount() {
-
-
         const { data } = this.props.route.params;
         console.log("mydata", data)
         this.state.data.push(data)
@@ -39,15 +43,11 @@ export default class Mycard extends Component {
     }
     async getptoductapi() {
         const token = await AsyncStorage.getItem('token');
-
-        api.fetchapi('http://180.149.241.208:3022/getCartData', 'get', " ", token)
-            // const res = await api.fetchapi('http://180.149.241.208:3022/getCustProfile', 'get', " ", token)
-
-            .then((response) => response.json()).then((data) => {
-                console.log('Success:', data);
-
-
-            });
+        // api.fetchapi('http://180.149.241.208:3022/getCartData', 'get', " ", token)
+        //     .then((response) => response.json()).then((data) => {
+        //         console.log('Success:', data);
+        //     });
+        // this.props.getCartData(token);
     }
     pickerChange(index) {
         console.log('val', index)
@@ -78,6 +78,8 @@ export default class Mycard extends Component {
             await AsyncStorage.setItem('myOrder', JSON.stringify(values));
             const value = JSON.parse(await AsyncStorage.getItem('myOrder'));
             console.log("place order", value)
+            this.props.navigation.navigate('oder summary', { product_id: 0, Product: 0 })
+
 
         } catch (error) {
             console.log(error)
@@ -175,10 +177,7 @@ export default class Mycard extends Component {
                         showsVerticalScrollIndicator={false}
                         renderItem={({ item }) =>
                             <View >
-                                <TouchableOpacity style={{
-                                    display: 'flex', marginTop: 5,
-                                    flexDirection: 'row', padding: 0, alignItems: 'center'
-                                }}
+                                <TouchableOpacity style={styles.myOrder_container}
                                     // onPress={() => { this.props.navigation.navigate('productDetail', { product_id: item.product_id }) }}
                                     onPress={() => this.removeProduct(data.indexOf(item))}>
                                     <View>
@@ -187,8 +186,8 @@ export default class Mycard extends Component {
                                         }} />
                                     </View>
                                     <View style={{ padding: 15, width: 250 }}>
-                                        <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{item.product_name}</Text>
-                                        <Text style={{ fontSize: 15 }}>({item.product_material})</Text>
+                                        <Text style={styles.product_name}>{item.product_name}</Text>
+                                        <Text style={styles.product_material}>({item.product_material})</Text>
 
                                         <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
                                             <Picker
@@ -203,11 +202,6 @@ export default class Mycard extends Component {
                                                         return <Picker.Item label={v.label} value={v.value} />
                                                     })}
 
-                                                {/* <Picker.Item label="1 " value="1" />
-                                                <Picker.Item label="2" value="2" />
-                                                <Picker.Item label="3" value="3" />
-                                                <Picker.Item label="4 " value="4" />
-                                                <Picker.Item label="5 " value="5" /> */}
 
                                             </Picker>
                                             <Text style={{ fontSize: 17, paddingTop: 10, fontWeight: 'bold' }}>Rs.{item.product_cost}</Text>
@@ -219,19 +213,11 @@ export default class Mycard extends Component {
                         ItemSeparatorComponent={this.FlatListItemSeparator} />
                 </View>
 
-                <View style={{
-                    display: 'flex', flexDirection: 'row', justifyContent: 'space-between',
-                    paddingHorizontal: 20, marginBottom: 5, paddingTop: 10, backgroundColor: '#fff', height: 80
-                }}>
-                    <View ><Text style={{ fontSize: 20, fontWeight: 'bold' }}>Rs, {this.state.finalCost}</Text></View>
+                <View style={styles.footer}>
+                    <View ><Text style={styles.totalPrice}>Rs, {this.state.finalCost}</Text></View>
+                    <Button text="order Now" onPress={() => this.orderNow()} style={styles.buttonStyle} />
 
-                    <TouchableOpacity style={{ backgroundColor: 'red', borderRadius: 5, width: 200, height: 50 }}
 
-                        onPress={() => { this.orderNow() }}
-                    >
-                        <Text style={{ justifyContent: "center", color: 'white', fontSize: 20, marginLeft: 50, marginTop: 10 }}>
-                            Order Now</Text>
-                    </TouchableOpacity>
                 </View>
 
             </View >
@@ -240,3 +226,19 @@ export default class Mycard extends Component {
         )
     }
 }
+
+
+const mapStateToProps = state => ({
+    data: state.mycartReducer
+})
+
+//Map your action creators to your props.
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getCartData: (type) => dispatch(getCartData(type))
+    };
+}
+
+// export default connect(mapStateToProps, mapDispatchToProps)(Mycart)
+
+export default Mycart

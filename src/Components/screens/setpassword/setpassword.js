@@ -29,32 +29,45 @@ export default class SetPassword extends Component {
         console.log("mydata", otp, token)
         this.setState({ otp: otp })
     }
+
+
     async submit(token) {
-
-        const res = await api.fetchapi('http://180.149.241.208:3022/recoverPassword', 'post',
-            JSON.stringify({ "otpCode": this.state.otp, "newPass": this.state.password, "confirmPass": this.state.confirmPassword })
-            , token)
-        const result = await res.json();
-        console.log("api", result)
-        if (result.success === true) {
-
-            Alert.alert(
-                'your new password set successfully ',
-                'you have to login again ',
-                [
-
-                    {
-                        text: 'ok', onPress: () => {
-                            this.props.navigation.navigate('loginScreen')
-                        }
-                    },
-                ],
-                { cancelable: false }
-            )
+        if (this.state.otp == ' ' ||
+            this.state.password == ' ' ||
+            this.state.confirmPassword == ' ') {
+            Alert.alert('fields can not be empty')
+        }
+        else if (this.state.passwordError !== ' ' ||
+            this.state.confirmpasswordError !== ' ') {
+            Alert.alert('Fill the proper infomation ')
         }
         else {
-            console.log(result.json, " g")
-            Alert.alert("email_id is invalid")
+
+            const res = await api.fetchapi('http://180.149.241.208:3022/recoverPassword', 'post',
+                JSON.stringify({ "otpCode": this.state.otp, "newPass": this.state.password, "confirmPass": this.state.confirmPassword })
+                , token)
+            const result = await res.json();
+            console.log("api", result)
+            if (result.success === true) {
+
+                Alert.alert(
+                    'your new password set successfully ',
+                    'you have to login again ',
+                    [
+
+                        {
+                            text: 'ok', onPress: () => {
+                                this.props.navigation.navigate('loginScreen')
+                            }
+                        },
+                    ],
+                    { cancelable: false }
+                )
+            }
+            else {
+                console.log(result.json, " g")
+                Alert.alert(result.error_message)
+            }
         }
     }
     render() {
@@ -66,9 +79,9 @@ export default class SetPassword extends Component {
                 <Text style={globalstyles.neostore_logo}>NeoSTORE</Text>
                 <Text style={globalstyles.Containerhead}>Set Password</Text>
                 <TextField placeholder="otp" otp="trending-down"
-                    keyboardType={"number-pad"}
+                    keyboardType={"number-pad"} value={this.state.otp} editable={true}
                     onChangeText={value => this.setState({ otp: value.trim() })}
-                // value={otp}
+
                 // defaultValue={otp}
 
                 />
