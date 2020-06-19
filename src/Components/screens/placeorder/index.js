@@ -31,21 +31,25 @@ class Placeorder extends Component {
 
     componentDidMount() {
 
-        const { product_id, Product } = this.props.route.params;
+        const { product_id, Product, addressData } = this.props.route.params;
         console.log("product", Product)
-        arr.push(Product)
-
+        if (Product == 0) {
+            console.log(0)
+        }
+        else {
+            arr.push(Product)
+        }
         this.getStoredData()
 
-        // this.setState({ productData: arr })
     }
 
     async getStoredData() {
-
+        const { product_id, Product, addressData } = this.props.route.params;
+        console.log('add data', addressData)
 
         const customer_details = JSON.parse(await AsyncStorage.getItem('customerDetail'))
         const value = JSON.parse(await AsyncStorage.getItem('myOrder'));
-        console.log('valu', value)
+        console.log('valu', value, customer_details)
         const data = arr.concat(value)
         this.setState({
             Address: customer_details.customer_address[0],
@@ -121,11 +125,11 @@ class Placeorder extends Component {
     }
     render() {
 
-        console.log("cust add", this.state.Address)
+        const { product_id, Product, addressData } = this.props.route.params;
+        console.log(addressData, 'addData')
+        console.log("productData", this.state.productData)
         const customerData = this.state.customer_details
         const Address = this.state.Address
-        console.log("data from detail module ", this.state.ProductDetailData)
-        console.log('datadik', this.state.productData)
         return (
             (this.state.productDataData) ? <ActivityIndicator /> :
                 <>

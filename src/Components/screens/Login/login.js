@@ -82,7 +82,8 @@ class LoginScreen extends Component {
                             const customerDetail = responseJSON
                             await AsyncStorage.setItem("customerDetail", JSON.stringify(customerDetail))
                             Alert.alert(responseJSON.message)
-
+                            const token = await AsyncStorage.getItem('token')
+                            console.log(token)
                             this.props.navigation.navigate('Homescreen');
 
                         }

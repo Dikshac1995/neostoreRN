@@ -11,7 +11,7 @@ import { getCartData } from '../../../Redux/Action/mycat'
 
 
 
-
+const cartdata = [];
 const myCartProduct = []
 class Mycart extends Component {
     constructor(props) {
@@ -35,9 +35,15 @@ class Mycart extends Component {
     componentDidMount() {
         const { data } = this.props.route.params;
         console.log("mydata", data)
-        this.state.data.push(data)
-        console.log(this.state.data, 'ddddjjjj')
-        this.retrieveData()
+
+        if (data !== 0) {
+            cartdata.push(data)
+        }
+        this.setState({
+            myCardItem: cartdata
+        })
+        console.log(cartdata, 'ddddjjjj')
+
         this.getptoductapi()
 
 
@@ -53,14 +59,14 @@ class Mycart extends Component {
                     if (data.status_code === 200) {
                         const cartProduct = data.product_details.map((res) => res.product_id)
                         const quantity = data.product_details.map((res) => res.quantity)
-                        const cartdata = myCartProduct.concat(cartProduct)
-                        console.log('cartProduct', cartdata)
-                        var cost = cartdata.map(res => res.product_cost)
+                        const mycartdata = cartdata.concat(cartProduct)
+                        console.log('cartProduct', mycartdata)
+                        var cost = mycartdata.map(res => res.product_cost)
                         var sum = cost.reduce(function (a, b) { return a + b; }, 0);
 
                         console.log(cost, sum)
                         this.setState({
-                            myCardItem: cartdata,
+                            myCardItem: mycartdata,
                             quantity: quantity,
                             finalCost: sum
                         })
@@ -98,10 +104,25 @@ class Mycart extends Component {
         }
     }
     async  storedata(val) {
+        const obj = val.map(async (e) => {
+
+            let object = [{
+                id: e.product_id,
+                productid: e.product_id,
+                quantity: 1
+
+            },
+            { flag: 'checkout' }]
+            // await AsyncStorage.setItem('MycartData', JSON.stringify(object));
+            // const value = JSON.parse(await AsyncStorage.getItem('MycartData'));
+            console.log("order123", object)
+
+        })
+        console.log("id", obj)
         try {
             await AsyncStorage.setItem('MycartData', JSON.stringify(val));
-            const value = JSON.parse(await AsyncStorage.getItem('myOrder'));
-            console.log("place order", value)
+            const value = JSON.parse(await AsyncStorage.getItem('MycartData'));
+            console.log("order", value)
 
 
         } catch (error) {
@@ -152,40 +173,40 @@ class Mycart extends Component {
 
 
 
-    retrieveData = async () => {
-        try {
+    // retrieveData = async () => {
+    //     try {
 
-            const token = await AsyncStorage.getItem('token');
-            const existingProduct = await AsyncStorage.getItem('MycardData')
-            console.log('...', existingProduct)
-            console.log('   ', this.state.myCardItem)
-            let newProduct = JSON.parse(existingProduct);
-            myCartProduct.push(newProduct)
+    //         const token = await AsyncStorage.getItem('token');
+    //         const existingProduct = await AsyncStorage.getItem('MycardData')
+    //         console.log('...', existingProduct)
+    //         console.log('   ', this.state.myCardItem)
+    //         let newProduct = JSON.parse(existingProduct);
+    //         myCartProduct.push(newProduct)
 
-            console.log("&&", myCartProduct)
-            var cost = newProduct.map(res => res.product_cost)
-            console.log("cost ", cost)
-            console.log(
-                cost.reduce((a, b) => a + b, 0)
-            )
+    //         console.log("&&", myCartProduct)
+    //         var cost = newProduct.map(res => res.product_cost)
+    //         console.log("cost ", cost)
+    //         console.log(
+    //             cost.reduce((a, b) => a + b, 0)
+    //         )
 
-            var sum = cost.reduce(function (a, b) { return a + b; }, 0);
-            console.log("sum", sum)
+    //         var sum = cost.reduce(function (a, b) { return a + b; }, 0);
+    //         console.log("sum", sum)
 
-            this.setState({
-                myCardItem: newProduct,
-                cost: cost,
-                finalCost: sum,
-                token: token
-            })
+    //         this.setState({
+    //             myCardItem: newProduct,
+    //             cost: cost,
+    //             finalCost: sum,
+    //             token: token
+    //         })
 
-            console.log('AAAAAAAAAAAAAAAAAAAa', this.state.myCardItem)
-            console.log('AAAAAAAAAAAAAAAAAAAa', this.state.token)
+    //         console.log('AAAAAAAAAAAAAAAAAAAa', this.state.myCardItem)
+    //         console.log('AAAAAAAAAAAAAAAAAAAa', this.state.token)
 
-        } catch (error) {
-            // Error retrieving data
-        }
-    };
+    //     } catch (error) {
+    //         // Error retrieving data
+    //     }
+    // };
 
     render() {
 

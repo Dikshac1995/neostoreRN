@@ -22,7 +22,7 @@ export default class add_list extends Component {
             checked: true,
             data: [],
             radioCheck: ' ',
-            address_id: ' '
+            address_id: ' ',
         };
     }
 
@@ -43,6 +43,7 @@ export default class add_list extends Component {
                 console.log('Success:', data);
                 if (data.success == true) {
                     this.setState({ addressData: data.customer_address })
+
                 }
                 else {
                     Alert.alert("not found ")
@@ -63,9 +64,28 @@ export default class add_list extends Component {
         );
     }
 
-    onhandle_cahnge(index) {
-        console.log(index, 'index')
-        this.setState({ radioCheck: index })
+
+    saveAddress() {
+        console.log(this.state.data)
+        console.log(this.state.address_id)
+        const data = { address_id: this.state.address_id }
+
+        api.fetchapi('http://180.149.241.208:3022/updateAddress', 'put',
+            JSON.stringify(data), this.state.token)
+
+            .then((response) => response.json())
+            .then((data) => {
+                console.log('Success:', data);
+                if (data.success == true) {
+                    Alert.alert(data.message)
+                    this.props.navigation.navigate('oder summary', { product_id: 0, Product: 0, addressData: this.state.data })
+
+                }
+                else {
+                    Alert.alert(data.message)
+                }
+            })
+
 
 
     }
@@ -85,7 +105,7 @@ export default class add_list extends Component {
                     Shipping Address</Text>
 
 
-                <View style={{ padding: 10, height: 400 }}>
+                <View style={{ padding: 10, height: 400, marginHorizontal: 10 }}>
                     <FlatList
                         data={this.state.addressData}
                         ItemSeparatorComponent={this.FlatListItemSeparator}
@@ -101,16 +121,19 @@ export default class add_list extends Component {
                                             value={index}
                                             status={this.state.radioCheck == index ? 'checked' : 'unchecked'}
                                             onPress={() => {
-                                                this.setState({ radioCheck: index, address_id: item.address_id })
+                                                this.setState({
+                                                    radioCheck: index, address_id: item.address_id,
+                                                    data: item
+                                                })
 
                                             }} />
                                     </View>
                                     <TouchableOpacity>
                                         <View style={{ flex: 1, flexDirection: 'column', paddingVertical: 15 }}>
-                                            <Text style={{ marginHorizontal: 10, fontSize: 25 }}>
+                                            <Text style={{ marginHorizontal: 10, fontSize: 25, }}>
                                                 {data.first_name}  {data.last_name}
                                             </Text>
-                                            <Text style={styles.address_text}> {item.address},{item.city} ,{item.state}</Text>
+                                            <Text style={styles.address_text}> {item.address}, {item.city} , {item.state}</Text>
 
                                             <Text style={styles.address_text}>
                                                 {item.pincode} , {item.country}
@@ -132,7 +155,7 @@ export default class add_list extends Component {
                     marginBottom: 10, height: 20, flex: 1, justifyContent: 'flex-end'
                 }}>
                     <ButtonField text='SAVE ADDRESS' style={styles.addAddress_button}
-                        disbled={this.state.ButtonDisable} onPress={() => this.AddAddress()} />
+                        disbled={this.state.ButtonDisable} onPress={() => this.saveAddress()} />
                 </View>
 
             </View>

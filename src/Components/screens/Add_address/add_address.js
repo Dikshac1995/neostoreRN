@@ -75,7 +75,7 @@ export default class AddAddress extends Component {
             .catch((error) => {
                 console.log('Error:', error);
             });
-        console.warn(error)
+
 
     }
     render() {
@@ -103,7 +103,7 @@ export default class AddAddress extends Component {
 
                                     } />
                                 {this.state.address_err ? <Text>hi</Text> : null}
-                                {console.log(true + false, " ............")}
+
                             </View>
                         </View>
 

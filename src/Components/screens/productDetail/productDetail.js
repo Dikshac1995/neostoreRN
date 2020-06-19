@@ -141,8 +141,8 @@ class productDetail extends Component {
 
                             myCardItem.push(data)
                             console.log('~~~', myCardItem)
-                            this.storeData(myCardItem)
-                            // this.recivedData()
+                            // this.storeData(myCardItem)
+
                             this.props.navigation.navigate('Mycard',
                                 { data: this.state.ProductDetailData }
                             )
@@ -175,17 +175,17 @@ class productDetail extends Component {
 
         }
     }
-    storeData = async (data) => {
-        const values = this.state.ProductDetailData
-        const value = data
-        console.log('7777', value)
-        try {
-            await AsyncStorage.setItem('MycardData', JSON.stringify(values));
+    // storeData = async (data) => {
+    //     const values = this.state.ProductDetailData
+    //     const value = data
+    //     console.log('7777', value)
+    //     try {
+    //         await AsyncStorage.setItem('MycardData', JSON.stringify(values));
 
-        } catch (error) {
-            console.log(error)
-        }
-    };
+    //     } catch (error) {
+    //         console.log(error)
+    //     }
+    // };
 
 
     async Buynow() {
