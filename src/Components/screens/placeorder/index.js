@@ -19,7 +19,9 @@ class Placeorder extends Component {
             productCategory: [],
             subImages_id: [],
             modalVisible: false,
-            selectedValue: [1, 1],
+            selectedValue: [1],
+            product_cost: [],
+            finalCost: ' ',
             Address: [],
             customer_details: [],
             picker: [
@@ -54,7 +56,6 @@ class Placeorder extends Component {
         if (value !== null) {
             const data = arr.concat(value)
             this.setState({
-
                 productData: data
             })
 

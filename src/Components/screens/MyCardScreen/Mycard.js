@@ -146,6 +146,9 @@ class Mycart extends Component {
         console.log(this.state.myCardItem, "@@@@")
         console.log('Hi', this.state.myCardItem)
         const values = this.state.myCardItem
+        values.forEach(function (element) {
+            element.quantity = 1
+        });
 
         console.log('7777', values)
         try {

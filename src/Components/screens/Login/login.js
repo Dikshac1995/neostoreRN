@@ -21,6 +21,7 @@ class LoginScreen extends Component {
             pass: '',
             emailValid: '',
             passValid: '',
+            loading: false,
         }
     }
 
@@ -71,6 +72,8 @@ class LoginScreen extends Component {
             Alert.alert(" fill the required detail ")
         }
         else if ((this.state.emailValid === ' ' && this.state.passValid == ' ')) {
+
+            this.setState({ loading: true })
             api.fetchapi('http://180.149.241.208:3022/login', 'post', JSON.stringify({
                 "email": this.state.email,
                 "pass": this.state.pass

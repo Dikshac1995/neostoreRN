@@ -1,56 +1,42 @@
 import React, { Component } from 'react'
-import { Text, View, FlatList, ActivityIndicator, RefreshControl, Image, Alert } from 'react-native'
-import axios from 'axios'
-import Header from '../../Reusable/header /header'
+import { Text, View, FlatList, ActivityIndicator, Image, RefreshControl } from 'react-native';
+import axios from 'axios';
 
-const data = []
+const listData = []
 
-export default class lazyloading extends Component {
+export default class list extends Component {
     constructor(props) {
         super(props);
         this.page = 1;
         this.state = {
-            loading: true, // user list loading
+            loading: false, // user list loading
             isRefreshing: false, //for pull to refresh
             data: [], //user list
-            error: '',
-
+            error: ''
         }
     }
+
     componentDidMount() {
         this.fetchUser(this.page) //Method for API call
     }
-
     fetchUser(page) {
-
-        console.log(page, "data")
-
+        //stackexchange User API url
         const url = `http://180.149.241.208:3022/commonProducts?category_id=5cfe3c65ea821930af69281f&pageNo=${page}&perPage=5`
 
         this.setState({ loading: true })
+        axios.get(url)
+            .then(res => {
+                console.log('res', res.data.product_details)
 
-        fetch(url)
-            .then(res => res.json())//response type
-            .then(data1 => {
-                setTimeout(() => { this.setState({ loading: true }) }, 50000);
-                console.log(data1, 'dataaaaaa')
-                const data3 = [...this.state.data]
-                const data2 = data3.concat(data1.product_details)
-                // const resule = data.concat(datares)
-                console.log(data3, '-->')
-                setTimeout(() => {
-                    this.setState({
-                        loading: false, data: data2,
-                    });
-                }, 10000)
+                console.log(listData)
+                listData.push(res.data.product_details). //concate list with response
+                    console.log(listData, '1')
+                this.setState({ loading: false, data: data })
             })
             .catch(error => {
-                console.log(error);
+                this.setState({ loading: false, error: 'Something just went wrong' })
             });
-
     }
-
-
     renderSeparator = () => {
         return (
             <View
@@ -62,7 +48,6 @@ export default class lazyloading extends Component {
             />
         );
     };
-
 
     renderFooter = () => {
         //it will show indicator at the bottom of the list when data is loading otherwise it returns null
@@ -77,34 +62,30 @@ export default class lazyloading extends Component {
 
     handleLoadMore = () => {
         if (!this.state.loading) {
-
-
-            if (this.page < 2) {
-                this.page = this.page + 1; // increase page by 1
-                this.fetchUser(this.page); // method for API call 
-            }
+            this.page = this.page + 1; // increase page by 1
+            this.fetchUser(this.page); // method for API call 
         }
     };
 
     onRefresh() {
         this.setState({ isRefreshing: true }); // true isRefreshing flag for enable pull to refresh indicator
-        const url = `http://180.149.241.208:3022/commonProducts?category_id=5cfe3c65ea821930af69281f&pageNo=1&perPage=8`
-        fetch(url)
-            .then(res => res.json())//response type
-            .then(data1 => {
-
-                this.setState({
-                    loading: false,
-                    data: data1.product_details,
-                });
+        const url = `https://api.stackexchange.com/2.2/users?page=1&order=desc&sort=reputation&site=stackoverflow`;
+        axios.get(url)
+            .then(res => {
+                let data = res.data.items
+                this.setState({ isRefreshing: false, data: data }) // false isRefreshing flag for disable pull to refresh indicator, and clear all data and store only first page data
             })
             .catch(error => {
-                console.log(error);
+                this.setState({ isRefreshing: false, error: 'Something just went wrong' }) // false isRefreshing flag for disable pull to refresh
             });
-        console.log("data23", this.state.data);
     }
+
+
+
+
+
     render() {
-        console.log("data", this.state.data)
+        console.log(this.state.data, 'data')
         if (this.state.loading && this.page === 1) {
             return <View style={{
                 width: '100%',
@@ -113,11 +94,6 @@ export default class lazyloading extends Component {
         }
         return (
             <View style={{ width: '100%', height: '100%' }}>
-                <Header name1='arrowleft' text='Address List ' name2='plus'
-                    onPress={() => this.props.navigation.goBack()}
-                    onClick={() => this.props.navigation.navigate('AddAddress')}
-                />
-
                 <FlatList
                     data={this.state.data}
                     extraData={this.state}
@@ -127,34 +103,34 @@ export default class lazyloading extends Component {
                             onRefresh={this.onRefresh.bind(this)}
                         />
                     }
-
                     renderItem={({ item }) => (
-                        // <Text> {item.product_name}</Text>
                         <View style={{
                             flexDirection: 'row',
                             padding: 15,
                             alignItems: 'center'
                         }}>
-                            <View>
-                                <Image style={{ width: 120, height: 100 }} source={{
-                                    uri: 'http://180.149.241.208:3022/' + item.product_image
+                            <Image source={{ uri: item.profile_image }}
+                                style={{
+                                    height: 50,
+                                    width: 50,
+                                    marginRight: 10
                                 }} />
-                            </View>
                             <Text style={{
                                 fontSize: 18,
                                 alignItems: 'center',
                                 color: '#65A7C5',
-                            }}>{item.product_name}</Text>
+                            }}>{item.display_name}</Text>
                         </View>
                     )}
                     keyExtractor={(item, index) => index.toString()}
                     ItemSeparatorComponent={this.renderSeparator}
-                    ListFooterComponent={this.renderFooter}
-                    onEndReachedThreshold={0.7}
-                    onEndReached={this.handleLoadMore()}
+                    ListFooterComponent={this.renderFooter.bind(this)}
+                    onEndReachedThreshold={0.4}
+                    onEndReached={this.handleLoadMore.bind(this)}
                 />
             </View>
         );
-
     }
+
 }
+

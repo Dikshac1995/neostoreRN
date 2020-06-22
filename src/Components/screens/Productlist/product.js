@@ -7,14 +7,15 @@ import { FetchProductList } from '../../../Redux/Action/productlist'
 import { connect } from 'react-redux';
 import Header from '../../Reusable/header /header'
 
-
+const DATA = []
 class ProductList extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            isLoading: true,
-            ProductList: []
-        };
+        this.page = 1,
+            this.state = {
+                isLoading: true,
+                ProductList: []
+            };
     }
     showToastWithGravityAndOffset = () => {
         ToastAndroid.showWithGravityAndOffset(
@@ -28,29 +29,40 @@ class ProductList extends Component {
         );
     };
     componentDidMount() {
+        this.fetchdata(this.page)
+
+    }
+
+    fetchdata(page) {
         const { category_id } = this.props.route.params;
         console.log("categoryId", category_id)
-        let type = 'commonProducts?category_id=' + category_id + '&pageNo=1&perPage=8'
+        let type = 'commonProducts?category_id=' + category_id + '&pageNo=' + page + '&perPage=5'
         console.log('type1', type)
         this.props.FetchProductList(type);
         const { data } = this.props;
         console.log("data in productList", data)
-        this.setState({
-            loading: true,
-            ProductList: data.product_details
-        })
-
-
-    }
-    componentDidUpdate(prevProps) {
-        console.log("did", prevProps)
-        if (this.props.data.product_details !== prevProps.data.product_details) {
+        const data3 = [...this.state.ProductList]
+        // DATA.push(data.product_details)
+        console.log('data3', data)
+        const data2 = data3.concat(data.product_details)
+        console.log(data2)
+        setTimeout(() => {
             this.setState({
                 loading: false,
-                ProductList: this.props.data.product_details
-            });
-        }
+                ProductList: data2
+            })
+        }, 2500)
+
     }
+    // componentDidUpdate(prevProps) {
+    //     console.log("did", prevProps)
+    //     if (this.props.data.product_details !== prevProps.data.product_details) {
+    //         this.setState({
+    //             loading: false,
+    //             ProductList: this.props.data.product_details
+    //         });
+    //     }
+    // }
 
     FlatListItemSeparator = () => {
         return (
@@ -73,6 +85,18 @@ class ProductList extends Component {
             />
         );
     };
+
+    handleLoadMore = () => {
+        if (!this.state.loading) {
+
+
+            if (this.page < 2) {
+                this.page = this.page + 1; // increase page by 1
+                this.fetchdata(this.page); // method for API call 
+            }
+        }
+    };
+
     onPressItem(id) {
         { this.props.navigation.navigate('productDetail', { product_id: id }) }
     }
@@ -81,8 +105,9 @@ class ProductList extends Component {
     render() {
         const { category_name } = this.props.route.params;
         console.log('product in state ', this.state.ProductData)
+
         const { data } = this.props;
-        console.log(' .........', data)
+        console.log(' .........', this.state.ProductList)
         console.log("hello", data.product_details);
         const ProductDetail = data.product_details;
         return (
@@ -125,6 +150,8 @@ class ProductList extends Component {
                                 onScroll={() => this.showToastWithGravityAndOffset()}
                                 ItemSeparatorComponent={this.FlatListItemSeparator}
                                 ListFooterComponent={this.renderFooter.bind(this)}
+                                onEndReachedThreshold={0.7}
+                                // onEndReached={this.handleLoadMore()}
                                 keyExtractor={item => item.id} />
                         </View>}
                 </View>

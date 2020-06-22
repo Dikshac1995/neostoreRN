@@ -38,7 +38,10 @@ export const FetchProductList = (type) => {
             dispatch(getProduct(true))
             console.log("in teydfdf")
             const commonProduct = await ProductList.json();
-            console.log("jjjjhh", commonProduct)
+            console.log("jjjjhh", commonProduct.product_details)
+            const data = []
+            data.concat(commonProduct.product_details)
+            console.log('datadata', data)
             dispatch(getProductSuccess(commonProduct))
 
         } catch (error) {
