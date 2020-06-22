@@ -1,26 +1,30 @@
 import React, { Component } from 'react'
-import { Text, View ,FlatList,ActivityIndicator,RefreshControl,Image,Alert} from 'react-native'
+import { Text, View, FlatList, ActivityIndicator, RefreshControl, Image, Alert } from 'react-native'
 import axios from 'axios'
+import Header from '../../Reusable/header /header'
 
 export default class lazyloading extends Component {
     constructor(props) {
         super(props);
         this.perpage = 4;
         this.state = {
-            loading: false, // user list loading
+            loading: true, // user list loading
             isRefreshing: false, //for pull to refresh
             data: [], //user list
-            error: ''
+            error: '',
+            page: 5
         }
     }
     componentDidMount() {
-        this.fetchUser(this.perpage) //Method for API call
+        this.fetchUser(this.state.page) //Method for API call
     }
 
-    fetchUser(perpage) {
-        const pageNo = perpage
-        console.log(pageNo)
-        const url = `http://180.149.241.208:3022/commonProducts?category_id=5cfe3c65ea821930af69281f&pageNo=1&perPage=${pageNo}`
+    fetchUser() {
+        const page = this.state.page
+        console.log(page, "data")
+        const url = `http://180.149.241.208:3022/commonProducts?category_id=5cfe3c65ea821930af69281f&pageNo=1&perPage=${page}`
+
+        this.setState({ loading: true })
         fetch(url)
             .then(res => res.json())//response type
             .then(data1 => {
@@ -32,9 +36,9 @@ export default class lazyloading extends Component {
             .catch(error => {
                 console.log(error);
             });
-        console.log("data23", this.state.data);
-  }
-    
+
+    }
+
 
     renderSeparator = () => {
         return (
@@ -59,21 +63,21 @@ export default class lazyloading extends Component {
         );
     };
 
+
     handleLoadMore = () => {
-        console.warn("load")
         if (!this.state.loading) {
-            this.perpage = this.perpage + 8; // increase page by 1
-            if (this.perpage <= 40) {
-                this.fetchUser(this.perpage); // method for API call 
-            }
-            else {
-                Alert.alert('you reach to amximum available product ')
+            if (this.state.page < 8) {
+                this.setState({
+                    page: this.state.page + 1
+                }, () => {
+                    this.fetchUser(this.state.page);
+                });
             }
         }
     };
 
     onRefresh() {
-          this.setState({ isRefreshing: true }); // true isRefreshing flag for enable pull to refresh indicator
+        this.setState({ isRefreshing: true }); // true isRefreshing flag for enable pull to refresh indicator
         const url = `http://180.149.241.208:3022/commonProducts?category_id=5cfe3c65ea821930af69281f&pageNo=1&perPage=8`
         fetch(url)
             .then(res => res.json())//response type
@@ -89,7 +93,7 @@ export default class lazyloading extends Component {
         console.log("data23", this.state.data);
     }
     render() {
-        console.log(this.state.data,'##')
+        console.log("data", this.state.data)
         if (this.state.loading && this.page === 1) {
             return <View style={{
                 width: '100%',
@@ -98,15 +102,21 @@ export default class lazyloading extends Component {
         }
         return (
             <View style={{ width: '100%', height: '100%' }}>
+                <Header name1='arrowleft' text='Address List ' name2='plus'
+                    onPress={() => this.props.navigation.goBack()}
+                    onClick={() => this.props.navigation.navigate('AddAddress')}
+                />
+
                 <FlatList
                     data={this.state.data}
                     extraData={this.state}
                     refreshControl={
-                 <RefreshControl
-                  refreshing={this.state.isRefreshing}
-                   onRefresh={this.onRefresh.bind(this)}
-                />
-             }
+                        <RefreshControl
+                            refreshing={this.state.isRefreshing}
+                            onRefresh={this.onRefresh.bind(this)}
+                        />
+                    }
+
                     renderItem={({ item }) => (
                         // <Text> {item.product_name}</Text>
                         <View style={{
@@ -129,11 +139,11 @@ export default class lazyloading extends Component {
                     keyExtractor={(item, index) => index.toString()}
                     ItemSeparatorComponent={this.renderSeparator}
                     ListFooterComponent={this.renderFooter.bind(this)}
-                    onEndReachedThreshold={0.4}
-                    onEndReached={this.handleLoadMore.bind(this)}
+                    onEndReachedThreshold={0}
+                    onEndReached={this.handleLoadMore()}
                 />
             </View>
         );
-    
+
     }
 }

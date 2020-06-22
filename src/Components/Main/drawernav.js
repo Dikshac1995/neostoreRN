@@ -16,20 +16,21 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { NativeViewGestureHandler } from 'react-native-gesture-handler';
 import { Avatar } from 'react-native-elements';
 import { api } from '../../utils/api';
+import { connect } from 'react-redux';
+import { getCartData } from '../../Redux/Action/mycat'
 
 
 
 
 
-
-export default class CustomDrawerContent extends Component {
+class CustomDrawerContent extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
       expanded: false,
       LoggedIn: false,
-      myCartProduct: ' ',
+      myCartProduct: 0,
       token: '',
       userdata: [],
       imageSource: require('../../Assets/Images/user-profileIcon.png'),
@@ -47,7 +48,8 @@ export default class CustomDrawerContent extends Component {
   async getToken() {
     let token = await AsyncStorage.getItem('token');
     const customer_details = JSON.parse(await AsyncStorage.getItem('customerDetail'))
-    // const myCartProduct = JSON.parse(await AsyncStorage.getItem('MycardData'))
+    this.props.getCartData(token)
+
 
 
     console.log('****************', token)
@@ -55,7 +57,7 @@ export default class CustomDrawerContent extends Component {
       this.setState({
         LoggedIn: true, userdata: customer_details.customer_details,
         token: token,
-        // myCartProduct: myCartProduct,
+        // myCartProduct: mycartData,
         // product_id: myCartProduct.product_id
       })
       // console.log("!!!!!!!!!!!!!!!!!!!!!!!!!", this.state.myCartProduct)
@@ -72,24 +74,24 @@ export default class CustomDrawerContent extends Component {
 
 
     console.log(" my data ", myCartProduct)
-    let object = [{
-      _id: '5cfe3f7fb4db0f338946eabe',
-      product_id: '5cfe3f7fb4db0f338946eabe',
-      quantity: 1
-    },
+    // let object = [{
+    //   _id: '5cfe3f7fb4db0f338946eabe',
+    //   product_id: '5cfe3f7fb4db0f338946eabe',
+    //   quantity: 1
+    // },
 
-    {
-      flag: 'logout'
-    }]
-    let product = [{
-      _id: this.state.myCartProduct[0].product_id,
-      product_id: this.state.myCartProduct[0].product_id,
-      quantity: 1
-    },
+    // {
+    //   flag: 'logout'
+    // }]
+    // let product = [{
+    //   _id: this.state.myCartProduct[0].product_id,
+    //   product_id: this.state.myCartProduct[0].product_id,
+    //   quantity: 1
+    // },
 
-    {
-      flag: 'logout'
-    }]
+    // {
+    //   flag: 'logout'
+    // }]
 
 
 
@@ -142,7 +144,9 @@ export default class CustomDrawerContent extends Component {
   }
 
   render(props) {
-    console.log("data", this.state.token)
+    const mycart = this.props.data
+    const mycartlength = this.props.data.data
+    console.log("data", this.state.token, mycartlength)
     const cust_data = this.state.userdata
     return (
       <>
@@ -203,7 +207,7 @@ export default class CustomDrawerContent extends Component {
                   <Text style={styles.parent_drawerLabel}>My Card </Text>
                   <View style=
                     {{ backgroundColor: 'red', borderRadius: 100, width: 40, height: 40, marginRight: 40 }}>
-                    <Text style={{ color: '#fff', paddingLeft: 15, paddingTop: 10 }}>{this.state.myCartProduct ? Object.keys(this.state.myCartProduct).length : 0}</Text>
+                    <Text style={{ color: '#fff', paddingLeft: 15, paddingTop: 10 }}>{mycartlength !== undefined ? mycartlength.length : 0}</Text>
                   </View>
                 </View>
               </View>
@@ -250,6 +254,12 @@ export default class CustomDrawerContent extends Component {
               label="Store Locator"
               labelStyle={{ color: '#fff', fontSize: 20, marginLeft: 12, fontWeight: 'bold' }}
               onPress={() => this.props.navigation.navigate('Map')}
+            />
+            <DrawerItem
+              icon={() => <Icon name="map-marker-alt" size={30} color='#fff' />}
+              label="lazy loading "
+              labelStyle={{ color: '#fff', fontSize: 20, marginLeft: 12, fontWeight: 'bold' }}
+              onPress={() => this.props.navigation.navigate('LazyLoading')}
             />
 
             {/* <DrawerItem
@@ -353,3 +363,17 @@ const styles = StyleSheet.create({
 
 
 })
+
+
+const mapStateToProps = state => ({
+  data: state.mycartReducer
+})
+
+//Map your action creators to your props.
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getCartData: (type) => dispatch(getCartData(type))
+  };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CustomDrawerContent)

@@ -22,6 +22,7 @@ import Search from '../Reusable/searchnar/search'
 import Share1 from '../Reusable/share/share'
 import StoreLocator from '../Map/store';
 import Myorder from '../screens/Myorder/myorder'
+import LazyLoading from '../screens/flatlistLazy/lazyloading'
 
 
 
@@ -39,6 +40,7 @@ class Main extends Component {
                     <Stack.Screen name="search" component={Search} options={{ headerShown: false }} />
                     <Stack.Screen name="share" component={Share1} options={{ headerShown: false }} />
                     <Stack.Screen name="Myorder" component={Myorder} options={{ headerShown: false }} />
+                    <Stack.Screen name="LazyLoading" component={LazyLoading} options={{ headerShown: false }} />
 
                     <Stack.Screen name="loginScreen" component={LoginScreen}
                         options={{

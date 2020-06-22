@@ -7,22 +7,30 @@ import Button from '../../Reusable/ButtonField/buttonField'
 import { styles } from './style'
 import { connect } from 'react-redux';
 import { getCartData } from '../../../Redux/Action/mycat'
+import { DrawerActions } from '@react-navigation/native';
 
 
 
 
 const cartdata = [];
 const myCartProduct = []
+const quantity = []
 class Mycart extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            cart: {
+                productData: [],
+                quantity: '',
+                cost: ' ',
+
+            },
             myCardItem: [],
             data: [],
-            cost: '',
+            product_cost: [],
             finalCost: ' ',
             token: ' ',
-            selectedValue: [1, 1, 1],
+            selectedValue: [1, 1,],
             quantity: [],
             pickerItem: [{ 'label': '1', 'value': '1', 'selectedValue': '1' },
             { 'label': '2', 'value': '2', 'selectedValue': '2' },
@@ -35,14 +43,24 @@ class Mycart extends Component {
     componentDidMount() {
         const { data } = this.props.route.params;
         console.log("mydata", data)
+        console.log('quan', data.quantity)
 
         if (data !== 0) {
+
+            quantity.push(data.quantity)
             cartdata.push(data)
         }
+
+
+
         this.setState({
-            myCardItem: cartdata
+            myCardItem: cartdata,
+            quantity: quantity
+
+
+
         })
-        console.log(cartdata, 'ddddjjjj')
+        console.log(cartdata, 'ddddjjjj', quantity)
 
         this.getptoductapi()
 
@@ -52,38 +70,76 @@ class Mycart extends Component {
     async getptoductapi() {
 
         const token = await AsyncStorage.getItem('token');
-        if (token) {
-            api.fetchapi('http://180.149.241.208:3022/getCartData', 'get', " ", token)
-                .then((response) => response.json()).then((data) => {
-                    console.log('Success:', data);
-                    if (data.status_code === 200) {
-                        const cartProduct = data.product_details.map((res) => res.product_id)
-                        const quantity = data.product_details.map((res) => res.quantity)
-                        const mycartdata = cartdata.concat(cartProduct)
-                        console.log('cartProduct', mycartdata)
-                        var cost = mycartdata.map(res => res.product_cost)
-                        var sum = cost.reduce(function (a, b) { return a + b; }, 0);
+        // if (token) {
+        //     api.fetchapi('http://180.149.241.208:3022/getCartData', 'get', " ", token)
+        //         .then((response) => response.json()).then((data) => {
+        //             console.log('Success:', data);
+        //             if (data.status_code === 200) {
+        //                 const cartProduct = data.product_details.map((res) => res.product_id)
+        //                 const quantity = data.product_details.map((res) => res.quantity)
+        //                 const mycartdata = cartdata.concat(cartProduct)
+        //                 console.log('cartProduct', mycartdata)
+        //                 var cost = mycartdata.map(res => res.product_cost)
+        //                 var sum = cost.reduce(function (a, b) { return a + b; }, 0);
 
-                        console.log(cost, sum)
-                        this.setState({
-                            myCardItem: mycartdata,
-                            quantity: quantity,
-                            finalCost: sum
-                        })
-                        this.storedata(this.state.myCardItem)
-                    }
-                    else {
-                        Alert.alert(data.message)
-                    }
-                });
-        }
-        // this.props.getCartData(token);
+        //                 console.log(cost, sum)
+        //                 this.setState({
+        //                     myCardItem: mycartdata,
+        //                     quantity: quantity,
+        //                     finalCost: sum
+        //                 })
+        //                 this.storedata(this.state.myCardItem)
+        //             }
+        //             else {
+        //                 Alert.alert(data.message)
+        //             }
+        //         });
+        // }
+
+
+        this.props.getCartData(token)
+        const data = this.props.data
+
+        const cartProduct = data.data.map((res) => res.product_id)
+        const prod_quantity = data.data.map((res) => res.quantity)
+        const mycartdata = cartdata.concat(cartProduct)
+        const product_quantity = quantity.concat(prod_quantity)
+        console.log('cartProduct', cartProduct, product_quantity, mycartdata)
+        var cost = mycartdata.map(res => res.product_cost)
+        var sum = cost.reduce(function (a, b) { return a + b; }, 0);
+        this.state.myCardItem.forEach(function (element) {
+            element.quantity = 1;
+        });
+
+        console.log(cost, sum, '233333')
+        this.setState({
+            myCardItem: mycartdata,
+            quantity: product_quantity,
+            finalCost: sum,
+            product_cost: cost,
+            cart: { ...this.state.cart, productData: mycartdata, quantity: quantity, }
+
+        })
+        this.storedata(this.state.myCardItem, this.state.quantity)
+
+
+        console.log('data is ', this.state.myCardItem)
+
     }
     pickerChange(index, value) {
         console.log('val', index, value)
         const { quantity } = this.state
         quantity.splice(index, 1, value)
         this.setState({ quantity: [...quantity] })
+        // this.state.cost.splice(index, 1, value * this.state.cost)
+        console.log('picker value ', this.state.quantity, this.state.product_cost)
+        var sum = 0;
+        for (var i = 0; i < this.state.quantity.length; i++) {
+            sum += this.state.quantity[i] * this.state.product_cost[i];
+        }
+        console.log('fsum', sum)
+        this.setState({ finalCost: sum })
+
     }
 
     async  orderNow() {
@@ -103,7 +159,11 @@ class Mycart extends Component {
             console.log(error)
         }
     }
-    async  storedata(val) {
+    async  storedata(val, quantity) {
+        console.log(" value is ", val, quantity)
+        var daataa = val.concat(quantity)
+        console.log(daataa)
+
         const obj = val.map(async (e) => {
 
             let object = [{
@@ -113,8 +173,8 @@ class Mycart extends Component {
 
             },
             { flag: 'checkout' }]
-            // await AsyncStorage.setItem('MycartData', JSON.stringify(object));
-            // const value = JSON.parse(await AsyncStorage.getItem('MycartData'));
+            await AsyncStorage.setItem('MycartData', JSON.stringify(object));
+            const value = JSON.parse(await AsyncStorage.getItem('MycartData'));
             console.log("order123", object)
 
         })
@@ -209,7 +269,7 @@ class Mycart extends Component {
     // };
 
     render() {
-
+        const info = this.props.data
         const data = this.state.myCardItem
         console.log("   fish", data)
         return (
@@ -236,7 +296,10 @@ class Mycart extends Component {
                                         <Text style={styles.product_name}>{item.product_name}</Text>
                                         <Text style={styles.product_material}>({item.product_material})</Text>
 
-                                        <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
+                                        <View style={{
+                                            flex: 1, flexDirection: 'row',
+                                            justifyContent: 'space-between'
+                                        }}>
                                             <Picker
                                                 key={index}
                                                 selectedValue={this.state.quantity[index]}
@@ -252,7 +315,7 @@ class Mycart extends Component {
 
 
                                             </Picker>
-                                            <Text style={{ fontSize: 17, paddingTop: 10, fontWeight: 'bold' }}>Rs.{item.product_cost}</Text>
+                                            <Text style={styles.product_cost}>Rs.{item.product_cost * this.state.quantity[index]}</Text>
                                         </View>
                                     </View>
                                 </TouchableOpacity>
@@ -287,6 +350,6 @@ const mapDispatchToProps = (dispatch) => {
     };
 }
 
-// export default connect(mapStateToProps, mapDispatchToProps)(Mycart)
+export default connect(mapStateToProps, mapDispatchToProps)(Mycart)
 
-export default Mycart
+// export default Mycart

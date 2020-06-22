@@ -19,7 +19,7 @@ class Placeorder extends Component {
             productCategory: [],
             subImages_id: [],
             modalVisible: false,
-            selectedValue: [],
+            selectedValue: [1, 1],
             Address: [],
             customer_details: [],
             picker: [
@@ -38,6 +38,7 @@ class Placeorder extends Component {
         }
         else {
             arr.push(Product)
+            this.setState({ productData: arr })
         }
         this.getStoredData()
 
@@ -45,16 +46,23 @@ class Placeorder extends Component {
 
     async getStoredData() {
         const { product_id, Product, addressData } = this.props.route.params;
-        console.log('add data', addressData)
+        console.log('add data', this.state.productData)
 
         const customer_details = JSON.parse(await AsyncStorage.getItem('customerDetail'))
         const value = JSON.parse(await AsyncStorage.getItem('myOrder'));
         console.log('valu', value, customer_details)
-        const data = arr.concat(value)
+        if (value !== null) {
+            const data = arr.concat(value)
+            this.setState({
+
+                productData: data
+            })
+
+        }
         this.setState({
             Address: customer_details.customer_address[0],
             customer_details: customer_details.customer_details,
-            productData: data
+
         })
     }
 
@@ -70,11 +78,9 @@ class Placeorder extends Component {
         let object = [{
             _id: '5cfe3f7fb4db0f338946eabe',
             product_id: '5cfe3f7fb4db0f338946eabe',
-            quantity: 1
-        },
-
-        {
-            flag: 'checkout'
+            quantity: 1,
+        }, {
+            flag: 'checkout',
         }]
         let product = [{
             _id: this.state.productData[0]._id,
@@ -86,7 +92,7 @@ class Placeorder extends Component {
             flag: 'checkout'
         }]
         api.fetchapi("http://180.149.241.208:3022/addProductToCartCheckout", 'post',
-            JSON.stringify(product),
+            JSON.stringify(object),
             token)
 
             .then((response) => response.json()).then((data) => {
@@ -181,7 +187,8 @@ class Placeorder extends Component {
                                                 <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{item.product_producer}</Text>
                                             </View>
                                             <View>
-                                                <Text style={{ textAlign: 'center', fontSize: 22, fontWeight: 'bold' }}>Rs.{item.product_cost}</Text>
+                                                <Text style={{ textAlign: 'center', fontSize: 22, fontWeight: 'bold' }}>
+                                                    Rs.{item.product_cost * this.state.selectedValue[index]}</Text>
                                             </View>
                                         </View>
                                         <View>
@@ -190,7 +197,6 @@ class Placeorder extends Component {
                                                 style={{ width: 100 }}
                                                 onValueChange={(itemValue, itemIndex) =>
                                                     this.pickerChange(index, itemValue)
-                                                    // this.setState({ selectedValue: itemValue })
                                                 }
                                             >
 
@@ -222,7 +228,7 @@ class Placeorder extends Component {
                             <Text style={styles.priceDetail}>Price Detail</Text>
                             <View style={styles.priceDetailWrapper}>
                                 <Text style={{ fontSize: 20, width: 250 }}>Price</Text>
-                                <Text style={{ fontSize: 20 }}>{this.state.ProductDetailData.product_cost * this.state.selectedValue}</Text>
+                                <Text style={{ fontSize: 20 }}>Rs.</Text>
                             </View>
                         </View>
 

@@ -1,4 +1,4 @@
-import { GET_CARt_DATA, GET_CART_DATA_FULFILLED, GET_CART_DATA_REJECTED } from '../Reducer/listReducer'
+import { GET_CART_DATA, GET_CART_DATA_FULFILLED, GET_CART_DATA_REJECTED } from '../Reducer/mycart'
 import { api } from '../../utils/api'
 
 export const fetchData = (bool) => {
@@ -29,7 +29,7 @@ export const fetchDataRejected = (error) => {
 }
 
 export const getCartData = (token) => {
-    console.log("ddd")
+    console.log("ddd", token)
     //IN order to use await your callback must be asynchronous using async keyword.
     return async dispatch => {
         console.log('dis')
@@ -41,9 +41,9 @@ export const getCartData = (token) => {
             const res = await api.fetchapi('http://180.149.241.208:3022/getCartData', 'get', ' ', token)
             dispatch(fetchData(true))
             const people = await res.json();
-            console.log('people-----------', people);
+            console.log('people-----------', people.product_details);
 
-            dispatch(fetchDataFulfilled(people.category_details))
+            dispatch(fetchDataFulfilled(people.product_details))
         } catch (error) {
             console.log('Getting People Error---------', error);
             dispatch(fetchDataRejected(error))

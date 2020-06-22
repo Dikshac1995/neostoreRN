@@ -24,7 +24,7 @@ const mycartReducer = (state = initialState, action) => {
         case GET_CART_DATA_FULFILLED:
             console.log("d reducer", action.payload)
             return { ...state, data: action.payload, loading: action.loading };
-        case GET_CART_DATA_FULFILLED:
+        case GET_CART_DATA_REJECTED:
             return { ...state, errorMessage: action.payload, loading: action.loading };
         default:
             return state;
