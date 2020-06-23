@@ -18,11 +18,12 @@ export default class add_list extends Component {
         this.state = {
             addressData: [],
             token: '',
-            addressData: {},
+            // addressData: {},
             checked: true,
             data: [],
             radioCheck: ' ',
             address_id: ' ',
+            addressinfo: ''
         };
     }
 
@@ -68,17 +69,27 @@ export default class add_list extends Component {
     saveAddress() {
         console.log(this.state.data)
         console.log(this.state.address_id)
+        console.log(this.state.addressinfo, "daaaa")
+        const address_data = {
+            address_id: this.state.addressinfo.address_id,
+            address: this.state.addressinfo.address,
+            pincode: this.state.addressinfo.pincode,
+            city: this.state.addressinfo.city,
+            state: this.state.addressinfo.state,
+            country: this.state.addressinfo.country,
+            isDeliveryAddress: true,
+        }
         const data = { address_id: this.state.address_id }
 
         api.fetchapi('http://180.149.241.208:3022/updateAddress', 'put',
-            JSON.stringify(data), this.state.token)
+            JSON.stringify(address_data), this.state.token)
 
             .then((response) => response.json())
             .then((data) => {
                 console.log('Success:', data);
                 if (data.success == true) {
                     Alert.alert(data.message)
-                    this.props.navigation.navigate('oder summary', { product_id: 0, Product: 0, addressData: this.state.data })
+                    // this.props.navigation.navigate('oder summary', { product_id: 0, Product: 0, addressData: this.state.data })
 
                 }
                 else {
@@ -106,6 +117,9 @@ export default class add_list extends Component {
 
 
                 <View style={{ padding: 10, height: 400, marginHorizontal: 10 }}>
+                    <Text style={{ marginHorizontal: 10, fontSize: 25, }}>
+                        {data.first_name}  {data.last_name}
+                    </Text>
                     <FlatList
                         data={this.state.addressData}
                         ItemSeparatorComponent={this.FlatListItemSeparator}
@@ -123,16 +137,14 @@ export default class add_list extends Component {
                                             onPress={() => {
                                                 this.setState({
                                                     radioCheck: index, address_id: item.address_id,
-                                                    data: item
+                                                    addressinfo: item
                                                 })
 
                                             }} />
                                     </View>
                                     <TouchableOpacity>
                                         <View style={{ flex: 1, flexDirection: 'column', paddingVertical: 15 }}>
-                                            <Text style={{ marginHorizontal: 10, fontSize: 25, }}>
-                                                {data.first_name}  {data.last_name}
-                                            </Text>
+
                                             <Text style={styles.address_text}> {item.address}, {item.city} , {item.state}</Text>
 
                                             <Text style={styles.address_text}>

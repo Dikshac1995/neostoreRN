@@ -20,7 +20,7 @@ class Placeorder extends Component {
             productCategory: [],
             subImages_id: [],
             modalVisible: false,
-
+            addressData: '',
             product_cost: '',
             finalCost: ' ',
             Address: [],
@@ -33,6 +33,7 @@ class Placeorder extends Component {
     }
 
     componentDidMount() {
+        this.getData()
 
         const { product_id, Product, addressData } = this.props.route.params;
         console.log("product", Product)
@@ -159,6 +160,35 @@ class Placeorder extends Component {
         // console.log("picker value", this.state.selectedValue)
     }
 
+    async getData() {
+        let token = await AsyncStorage.getItem('token');
+        const customerData = JSON.parse(await AsyncStorage.getItem('customerDetail'))
+
+
+        this.setState({ token: token, data: customerData.customer_details })
+        api.fetchapi('http://180.149.241.208:3022/getCustAddress', 'get', " ", this.state.token)
+
+            .then((response) => response.json())
+            .then((data) => {
+                console.log('Success address data :', data);
+                if (data.success == true) {
+
+                    var address = data.customer_address.filter(function (res) {
+                        return res.isDeliveryAddress == true;
+                    });
+                    this.setState({ addressData: address[0] })
+                    console.log('datt', address)
+
+                }
+                else {
+                    Alert.alert("not found ")
+                }
+                console.log('addressData', this.state.addressData)
+
+            })
+
+
+    }
     FlatListItemSeparator = () => {
         return (
             <View
@@ -173,10 +203,11 @@ class Placeorder extends Component {
     render() {
 
         const { product_id, Product, addressData } = this.props.route.params;
-        console.log(addressData, 'addData')
+        console.log(this.state.addressData, 'addData')
         console.log("productData", this.state.productData, this.state.quantity)
         const customerData = this.state.customer_details
-        const Address = this.state.Address
+        // const Address = this.state.Address
+        const Address = this.state.addressData
         return (
             (this.state.productDataData) ? <ActivityIndicator /> :
                 <>

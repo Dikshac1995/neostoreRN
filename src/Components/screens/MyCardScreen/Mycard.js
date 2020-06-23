@@ -44,24 +44,26 @@ class Mycart extends Component {
         const { data } = this.props.route.params;
         console.log("mydata", data)
         console.log('quan', data.quantity)
-        if (data.quantity === undefined) { data.quantity = 1 }
-
 
         if (data !== 0) {
 
             quantity.push(data.quantity)
             cartdata.push(data)
+            var cost = cartdata.map(res => res.product_cost)
+            console.log(cost, "co")
+            var sum = cost.reduce(function (a, b) { return a + b; }, 0);
+            this.setState({
+                myCardItem: cartdata,
+                quantity: quantity,
+                finalCost: sum,
+                product_cost: cost
+            })
         }
 
-
-
-        this.setState({
-            myCardItem: cartdata,
-            quantity: quantity
+        this.storedata(this.state.myCardItem, this.state.quantity)
 
 
 
-        })
         console.log(cartdata, 'ddddjjjj', quantity)
 
         this.getptoductapi()
@@ -72,31 +74,31 @@ class Mycart extends Component {
     async getptoductapi() {
 
         const token = await AsyncStorage.getItem('token');
-        // if (token) {
-        //     api.fetchapi('http://180.149.241.208:3022/getCartData', 'get', " ", token)
-        //         .then((response) => response.json()).then((data) => {
-        //             console.log('Success:', data);
-        //             if (data.status_code === 200) {
-        //                 const cartProduct = data.product_details.map((res) => res.product_id)
-        //                 const quantity = data.product_details.map((res) => res.quantity)
-        //                 const mycartdata = cartdata.concat(cartProduct)
-        //                 console.log('cartProduct', mycartdata)
-        //                 var cost = mycartdata.map(res => res.product_cost)
-        //                 var sum = cost.reduce(function (a, b) { return a + b; }, 0);
+        if (token) {
+            api.fetchapi('http://180.149.241.208:3022/getCartData', 'get', " ", token)
+                .then((response) => response.json()).then((data) => {
+                    console.log('Success:', data);
+                    if (data.status_code === 200) {
+                        // const cartProduct = data.product_details.map((res) => res.product_id)
+                        // const quantity = data.product_details.map((res) => res.quantity)
+                        // const mycartdata = cartdata.concat(cartProduct)
+                        // console.log('cartProduct', mycartdata)
+                        // var cost = mycartdata.map(res => res.product_cost)
+                        // var sum = cost.reduce(function (a, b) { return a + b; }, 0);
 
-        //                 console.log(cost, sum)
-        //                 this.setState({
-        //                     myCardItem: mycartdata,
-        //                     quantity: quantity,
-        //                     finalCost: sum
-        //                 })
-        //                 this.storedata(this.state.myCardItem)
-        //             }
-        //             else {
-        //                 Alert.alert(data.message)
-        //             }
-        //         });
-        // }
+                        console.log(cost, sum)
+                        // this.setState({
+                        //     myCardItem: mycartdata,
+                        //     quantity: quantity,
+                        //     finalCost: sum
+                        // })
+                        // this.storedata(this.state.myCardItem)
+                    }
+                    else {
+                        Alert.alert(data.message)
+                    }
+                });
+        }
 
 
         this.props.getCartData(token)
@@ -109,9 +111,9 @@ class Mycart extends Component {
         console.log('cartProduct', cartProduct, product_quantity, mycartdata)
         var cost = mycartdata.map(res => res.product_cost)
         var sum = cost.reduce(function (a, b) { return a + b; }, 0);
-        // this.state.myCardItem.forEach(function (element) {
-        //     element.quantity = 1;
-        // });
+        this.state.myCardItem.forEach(function (element) {
+            element.quantity = 1;
+        });
 
         console.log(cost, sum, '233333')
         this.setState({
@@ -122,7 +124,7 @@ class Mycart extends Component {
             cart: { ...this.state.cart, productData: mycartdata, quantity: quantity, }
 
         })
-        this.storedata(this.state.myCardItem, this.state.quantity)
+        // this.storedata(this.state.myCardItem, this.state.quantity)
 
 
         console.log('data is ', this.state.myCardItem)
@@ -134,7 +136,6 @@ class Mycart extends Component {
         quantity.splice(index, 1, value)
         this.setState({ quantity: [...quantity] })
         // this.state.cost.splice(index, 1, value * this.state.cost)
-
         console.log('picker value ', this.state.quantity, this.state.product_cost)
         var sum = 0;
         for (var i = 0; i < this.state.quantity.length; i++) {

@@ -34,7 +34,8 @@ class CustomDrawerContent extends Component {
       token: '',
       userdata: [],
       imageSource: require('../../Assets/Images/user-profileIcon.png'),
-      product_id: ' '
+      product_id: ' ',
+      cartproduct_length: 0,
     };
     if (Platform.OS === 'android') {
       UIManager.setLayoutAnimationEnabledExperimental(true);
@@ -48,6 +49,16 @@ class CustomDrawerContent extends Component {
   async getToken() {
     let token = await AsyncStorage.getItem('token');
     const customer_details = JSON.parse(await AsyncStorage.getItem('customerDetail'))
+    const value = JSON.parse(await AsyncStorage.getItem('myOrder'));
+
+    console.log("order123", value)
+    console.log("order123", value.length)
+    if (value !== undefined) {
+      this.setState({ cartproduct_length: value.length })
+
+    }
+
+
     this.props.getCartData(token)
 
 
@@ -207,7 +218,10 @@ class CustomDrawerContent extends Component {
                   <Text style={styles.parent_drawerLabel}>My Card </Text>
                   <View style=
                     {{ backgroundColor: 'red', borderRadius: 100, width: 40, height: 40, marginRight: 40 }}>
-                    <Text style={{ color: '#fff', paddingLeft: 15, paddingTop: 10 }}>{mycartlength !== undefined ? mycartlength.length : 0}</Text>
+                    <Text style={{ color: '#fff', paddingLeft: 15, paddingTop: 10 }}>
+                      {this.state.cartproduct_length}
+                      {/* {mycartlength !== undefined ? mycartlength.length : 0} */}
+                    </Text>
                   </View>
                 </View>
               </View>
