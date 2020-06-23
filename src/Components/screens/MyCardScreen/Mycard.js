@@ -44,6 +44,8 @@ class Mycart extends Component {
         const { data } = this.props.route.params;
         console.log("mydata", data)
         console.log('quan', data.quantity)
+        if (data.quantity === undefined) { data.quantity = 1 }
+
 
         if (data !== 0) {
 
@@ -107,9 +109,9 @@ class Mycart extends Component {
         console.log('cartProduct', cartProduct, product_quantity, mycartdata)
         var cost = mycartdata.map(res => res.product_cost)
         var sum = cost.reduce(function (a, b) { return a + b; }, 0);
-        this.state.myCardItem.forEach(function (element) {
-            element.quantity = 1;
-        });
+        // this.state.myCardItem.forEach(function (element) {
+        //     element.quantity = 1;
+        // });
 
         console.log(cost, sum, '233333')
         this.setState({
@@ -132,6 +134,7 @@ class Mycart extends Component {
         quantity.splice(index, 1, value)
         this.setState({ quantity: [...quantity] })
         // this.state.cost.splice(index, 1, value * this.state.cost)
+
         console.log('picker value ', this.state.quantity, this.state.product_cost)
         var sum = 0;
         for (var i = 0; i < this.state.quantity.length; i++) {

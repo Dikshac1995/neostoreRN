@@ -46,23 +46,23 @@ class ProductList extends Component {
         console.log('data3', data)
         const data2 = data3.concat(data.product_details)
         console.log(data2)
-        setTimeout(() => {
-            this.setState({
-                loading: false,
-                ProductList: data2
-            })
-        }, 2500)
+
+        this.setState({
+            loading: true,
+            ProductList: data2
+        })
+
 
     }
-    // componentDidUpdate(prevProps) {
-    //     console.log("did", prevProps)
-    //     if (this.props.data.product_details !== prevProps.data.product_details) {
-    //         this.setState({
-    //             loading: false,
-    //             ProductList: this.props.data.product_details
-    //         });
-    //     }
-    // }
+    componentDidUpdate(prevProps) {
+        console.log("did", prevProps)
+        if (this.props.data.product_details !== prevProps.data.product_details) {
+            this.setState({
+                loading: false,
+                ProductList: this.props.data.product_details
+            });
+        }
+    }
 
     FlatListItemSeparator = () => {
         return (
@@ -150,7 +150,7 @@ class ProductList extends Component {
                                 onScroll={() => this.showToastWithGravityAndOffset()}
                                 ItemSeparatorComponent={this.FlatListItemSeparator}
                                 ListFooterComponent={this.renderFooter.bind(this)}
-                                onEndReachedThreshold={0.7}
+                                onEndReachedThreshold={0}
                                 // onEndReached={this.handleLoadMore()}
                                 keyExtractor={item => item.id} />
                         </View>}

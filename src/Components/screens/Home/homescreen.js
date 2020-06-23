@@ -25,7 +25,7 @@ export default class Homescreen extends Component {
                 </View>
 
                 <ScrollView>
-                    <View style={{ height: 200 }}>
+                    <View style={{ height: 200, width: '100%' }}>
                         <SliderBox1 />
                     </View>
                     <View style={{ display: 'flex', flexWrap: 'wrap' }}>

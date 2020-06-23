@@ -26,7 +26,7 @@ class productDetail extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            isLoading: true,
+            isLoading: false,
             ProductDetailData: [],
             productCategory: [],
             subImages_id: [],
@@ -53,21 +53,22 @@ class productDetail extends Component {
         const { product_id } = this.props.route.params;
         console.log("categoryId", product_id)
         const type = 'getProductByProdId/' + product_id
-
+        this.setState({ isLoading: true })
         api.fetchapi('http://180.149.241.208:3022/' + type, 'get')
             .then((response) => response.json()).then((data) => {
                 console.log('Success:', data.product_details);
+                setTimeout(() => {
+                    this.setState({
+                        isLoading: false,
+                        ProductDetailData: data.product_details[0],
+                        subImages_id: data.product_details[0].subImages_id,
+                        product_image: data.product_details[0].product_image,
+                        product_id: data.product_details[0].product_id,
+                        productCategory: data.product_details[0].category_id
+                    })
 
-                this.setState({
-                    isLoading: false,
-                    ProductDetailData: data.product_details[0],
-                    subImages_id: data.product_details[0].subImages_id,
-                    product_image: data.product_details[0].product_image,
-                    product_id: data.product_details[0].product_id,
-                    productCategory: data.product_details[0].category_id
                 })
-
-            })
+            }, 5000)
     }
 
     async gettoken() {
@@ -129,6 +130,8 @@ class productDetail extends Component {
     }
 
     addToCard(data) {
+
+
         console.log(';;;;;', data)
         if (this.state.token) {
 
@@ -191,6 +194,7 @@ class productDetail extends Component {
     async Buynow() {
         console.log("token", this.state.token)
         const { product_id } = this.props.route.params;
+
         if (this.state.token) {
             this.props.navigation.navigate('oder summary', { product_id: product_id, Product: this.state.ProductDetailData })
         }

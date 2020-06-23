@@ -8,6 +8,7 @@ import { api } from '../../../utils/api'
 
 
 const arr = [];
+const quantity = []
 
 class Placeorder extends Component {
     constructor(props) {
@@ -19,8 +20,8 @@ class Placeorder extends Component {
             productCategory: [],
             subImages_id: [],
             modalVisible: false,
-            selectedValue: [1],
-            product_cost: [],
+
+            product_cost: '',
             finalCost: ' ',
             Address: [],
             customer_details: [],
@@ -39,8 +40,20 @@ class Placeorder extends Component {
             console.log(0)
         }
         else {
+            if (Product.quantity === undefined) { Product.quantity = 1 }
+
             arr.push(Product)
-            this.setState({ productData: arr })
+            quantity.push(Product.quantity)
+            var cost = arr.map(res => res.product_cost)
+            console.log(cost, "co")
+            var sum = cost.reduce(function (a, b) { return a + b; }, 0);
+
+            this.setState({
+                productData: arr,
+                quantity: quantity,
+                product_cost: cost,
+                finalCost: sum
+            })
         }
         this.getStoredData()
 
@@ -48,15 +61,27 @@ class Placeorder extends Component {
 
     async getStoredData() {
         const { product_id, Product, addressData } = this.props.route.params;
-        console.log('add data', this.state.productData)
+        console.log('add data', this.state.productData, this.state.quantity)
 
         const customer_details = JSON.parse(await AsyncStorage.getItem('customerDetail'))
         const value = JSON.parse(await AsyncStorage.getItem('myOrder'));
         console.log('valu', value, customer_details)
         if (value !== null) {
+            const prod_quantity = value.map((res) => res.quantity)
+            const product_quantity = quantity.concat(prod_quantity)
+
+
             const data = arr.concat(value)
+            var cost = data.map(res => res.product_cost)
+            var sum = cost.reduce(function (a, b) { return a + b; }, 0);
+
+            console.log(sum)
+
             this.setState({
-                productData: data
+                productData: data,
+                quantity: product_quantity,
+                product_cost: cost,
+                finalCost: sum
             })
 
         }
@@ -114,9 +139,24 @@ class Placeorder extends Component {
     }
     pickerChange(index, value) {
         console.log('val', index, value)
-        const { selectedValue } = this.state
-        selectedValue.splice(index, 1, value)
-        this.setState({ selectedValue: [...selectedValue] })
+        const { quantity } = this.state
+        quantity.splice(index, 1, value)
+        this.setState({ quantity: [...quantity] })
+        // this.state.cost.splice(index, 1, value * this.state.cost)
+
+        console.log('picker value ', this.state.quantity, this.state.product_cost)
+        var sum = 0;
+        for (var i = 0; i < this.state.quantity.length; i++) {
+            sum += this.state.quantity[i] * this.state.product_cost[i];
+        }
+        console.log('fsum', sum)
+        this.setState({ finalCost: sum })
+
+        // console.log('val', index, value)
+        // const { selectedValue } = this.state
+        // selectedValue.splice(index, 1, value)
+        // this.setState({ selectedValue: [...selectedValue] })
+        // console.log("picker value", this.state.selectedValue)
     }
 
     FlatListItemSeparator = () => {
@@ -134,7 +174,7 @@ class Placeorder extends Component {
 
         const { product_id, Product, addressData } = this.props.route.params;
         console.log(addressData, 'addData')
-        console.log("productData", this.state.productData)
+        console.log("productData", this.state.productData, this.state.quantity)
         const customerData = this.state.customer_details
         const Address = this.state.Address
         return (
@@ -189,12 +229,12 @@ class Placeorder extends Component {
                                             </View>
                                             <View>
                                                 <Text style={{ textAlign: 'center', fontSize: 22, fontWeight: 'bold' }}>
-                                                    Rs.{item.product_cost * this.state.selectedValue[index]}</Text>
+                                                    Rs.{item.product_cost * this.state.quantity[index]}</Text>
                                             </View>
                                         </View>
                                         <View>
                                             <Picker
-                                                selectedValue={this.state.selectedValue[index]}
+                                                selectedValue={this.state.quantity[index]}
                                                 style={{ width: 100 }}
                                                 onValueChange={(itemValue, itemIndex) =>
                                                     this.pickerChange(index, itemValue)
@@ -229,7 +269,7 @@ class Placeorder extends Component {
                             <Text style={styles.priceDetail}>Price Detail</Text>
                             <View style={styles.priceDetailWrapper}>
                                 <Text style={{ fontSize: 20, width: 250 }}>Price</Text>
-                                <Text style={{ fontSize: 20 }}>Rs.</Text>
+                                <Text style={{ fontSize: 20 }}>Rs.{this.state.finalCost}</Text>
                             </View>
                         </View>
 
@@ -237,7 +277,7 @@ class Placeorder extends Component {
                         <View style={styles.footer}>
                             <View style={styles.footer_wrapper}>
 
-                                <Text style={styles.footerProduct_cost}>Rs.{this.state.ProductDetailData.product_cost * this.state.selectedValue}</Text>
+                                <Text style={styles.footerProduct_cost}>Rs.{this.state.finalCost}</Text>
 
                                 <ButtonField text="ORDER NOW" style={styles.footerButton_text} onPress={() => this.oderNow()} />
 

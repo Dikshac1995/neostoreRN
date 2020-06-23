@@ -5,6 +5,7 @@ import {
     TouchableOpacity,
 } from 'react-native'
 import { styles } from './style'
+import { ActivityIndicator } from 'react-native-paper'
 
 export default class ButtonField extends Component {
     constructor(props) {
@@ -23,8 +24,9 @@ export default class ButtonField extends Component {
                 <TouchableOpacity disabled={this.props.disbled} style={this.props.disbled == true ?
                     [styles.button1, { opacity: 0.5 }] : styles.button1}>
                     <View>
-                        <Text style={[this.props.style, styles.buttonText]}
-                            onPress={() => this.props.onPress()}> {this.props.text}</Text>
+                        {this.props.loading == true ? <View style={{ width: 200, height: 100, backgroundColor: '#fff' }}><ActivityIndicator /></View> :
+                            <Text style={[this.props.style, styles.buttonText]}
+                                onPress={() => this.props.onPress()}> {this.props.text}</Text>}
                     </View>
                 </TouchableOpacity>
             </View>

@@ -84,14 +84,22 @@ class LoginScreen extends Component {
                             await AsyncStorage.setItem('token', responseJSON.token)
                             const customerDetail = responseJSON
                             await AsyncStorage.setItem("customerDetail", JSON.stringify(customerDetail))
-                            Alert.alert(responseJSON.message)
+
                             const token = await AsyncStorage.getItem('token')
                             console.log(token)
-                            this.props.navigation.navigate('Homescreen');
+                            setTimeout(() => {
 
+                                Alert.alert(responseJSON.message)
+                                this.setState({ loading: false })
+                                this.props.navigation.navigate('Homescreen');
+                            }, 10000)
                         }
                         else {
-                            Alert.alert(responseJSON.message)
+                            setTimeout(() => {
+
+                                Alert.alert(responseJSON.message)
+                                this.setState({ loading: false })
+                            }, 10000)
                         }
                     })
                 })
@@ -123,7 +131,7 @@ class LoginScreen extends Component {
                             })
                         }}
                         validate={<Text>{this.state.passValid}</Text>} />
-                    <ButtonField text="LOGIN"
+                    <ButtonField text="LOGIN" loading={this.state.loading}
                         onPress={() => this.login()}
                         style={styles.loginButton}
                     />
