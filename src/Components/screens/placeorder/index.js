@@ -99,42 +99,93 @@ class Placeorder extends Component {
     }
 
     async  oderNow() {
+        const { productData } = this.state
         let token = await AsyncStorage.getItem('token');
-        const id = this.state.productData[0]._id
+        // const id = this.state.productData[0]._id
 
-        let object = [{
-            _id: '5cfe3f7fb4db0f338946eabe',
-            product_id: '5cfe3f7fb4db0f338946eabe',
-            quantity: 1,
-        }, {
-            flag: 'checkout',
-        }]
-        let product = [{
-            _id: this.state.productData[0]._id,
-            product_id: this.state.productData[0]._id,
-            quantity: 1
-        },
+        // let object = [{
+        //     _id: '5cfe3f7fb4db0f338946eabe',
+        //     product_id: '5cfe3f7fb4db0f338946eabe',
+        //     quantity: 1,
+        // }, {
+        //     flag: 'checkout',
+        // }]
+        // let product = [{
+        //     _id: this.state.productData[0]._id,
+        //     product_id: this.state.productData[0]._id,
+        //     quantity: 1
+        // },
 
-        {
-            flag: 'checkout'
-        }]
-        api.fetchapi("http://180.149.241.208:3022/addProductToCartCheckout", 'post',
-            JSON.stringify(object),
-            token)
+        // {
+        //     flag: 'checkout'
+        // }]
+        // api.fetchapi("http://180.149.241.208:3022/addProductToCartCheckout", 'post',
+        //     JSON.stringify(product),
+        //     token)
 
-            .then((response) => response.json()).then((data) => {
-                console.log('Success:', data);
-                if (data.success) {
-                    Alert.alert(data.message)
-                    AsyncStorage.clear();
-                    this.props.navigation.navigate('homescreen')
-                }
-                else {
-                    Alert.alert(data.message)
+        //     .then((response) => response.json()).then((data) => {
+        //         console.log('Success:', data);
+        //         if (data.success) {
+        //             Alert.alert(data.message)
 
-                }
+        //             this.props.navigation.navigate('homescreen')
+        //         }
+        //         else {
+        //             Alert.alert(data.message)
 
-            });
+        //         }
+
+        //     });
+
+
+
+        Alert.alert(
+            'place order ',
+            'do u want to buy a product ',
+            [
+                { text: 'Cancel', onPress: () => { return null } },
+                {
+                    text: 'Confirm', onPress: () => {
+                        if (productData !== null) {
+                            productData.map((e) => {
+                                let object = [{
+                                    _id: e.product_id,
+                                    product_id: e.product_id,
+                                    quantity: 1
+
+                                },
+                                { flag: 'checkout' }]
+
+
+
+                                api.fetchapi("http://180.149.241.208:3022/addProductToCartCheckout", 'post',
+                                    JSON.stringify(object),
+                                    token)
+
+                                    .then((response) => response.json()).then((data) => {
+                                        console.log('Success:', data);
+                                        if (data.success) {
+                                            Alert.alert(data.message)
+                                            // AsyncStorage.clear();
+                                            // this.props.navigation.navigate('homescreen')
+                                        }
+                                        else {
+                                            Alert.alert(data.message)
+
+                                        }
+
+                                    });
+                            })
+                        }
+                        // AsyncStorage.clear();
+                        // this.props.navigation.navigate('homescreen')
+                    }
+                },
+            ],
+            { cancelable: false }
+        )
+
+
 
 
     }

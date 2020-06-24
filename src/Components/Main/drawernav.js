@@ -49,28 +49,31 @@ class CustomDrawerContent extends Component {
   async getToken() {
     let token = await AsyncStorage.getItem('token');
     const customer_details = JSON.parse(await AsyncStorage.getItem('customerDetail'))
-    const value = JSON.parse(await AsyncStorage.getItem('myOrder'));
 
-    console.log("order123", value)
-    console.log("order123", value.length)
-    if (value !== undefined) {
-      this.setState({ cartproduct_length: value.length })
-
-    }
-
-
-    this.props.getCartData(token)
-
-
-
-    console.log('****************', token)
     if (token !== null) {
       this.setState({
-        LoggedIn: true, userdata: customer_details.customer_details,
+        LoggedIn: true,
+        userdata: customer_details.customer_details,
         token: token,
         // myCartProduct: mycartData,
         // product_id: myCartProduct.product_id
       })
+      const value = JSON.parse(await AsyncStorage.getItem('myOrder'));
+
+      console.log("order123", value)
+      console.log("order123", value.length)
+      if (value !== undefined) {
+        this.setState({ cartproduct_length: value.length })
+
+      }
+
+
+      this.props.getCartData(token)
+
+
+
+      console.log('****************', token)
+
       // console.log("!!!!!!!!!!!!!!!!!!!!!!!!!", this.state.myCartProduct)
       // console.log('member key size:' + Object.keys(this.state.myCartProduct).length);
     }
@@ -85,24 +88,7 @@ class CustomDrawerContent extends Component {
 
 
     console.log(" my data ", myCartProduct)
-    // let object = [{
-    //   _id: '5cfe3f7fb4db0f338946eabe',
-    //   product_id: '5cfe3f7fb4db0f338946eabe',
-    //   quantity: 1
-    // },
 
-    // {
-    //   flag: 'logout'
-    // }]
-    // let product = [{
-    //   _id: this.state.myCartProduct[0].product_id,
-    //   product_id: this.state.myCartProduct[0].product_id,
-    //   quantity: 1
-    // },
-
-    // {
-    //   flag: 'logout'
-    // }]
 
 
 
@@ -133,8 +119,8 @@ class CustomDrawerContent extends Component {
                     console.log('Success:', data);
                     if (data.success) {
                       Alert.alert(data.message)
-                      // AsyncStorage.clear();
-                      // this.props.navigation.navigate('homescreen')
+                      AsyncStorage.clear();
+                      this.props.navigation.navigate('homescreen')
                     }
                     else {
                       Alert.alert(data.message)
@@ -144,8 +130,8 @@ class CustomDrawerContent extends Component {
                   });
               })
             }
-            AsyncStorage.clear();
-            this.props.navigation.navigate('homescreen')
+            // AsyncStorage.clear();
+            // this.props.navigation.navigate('homescreen')
           }
         },
       ],
