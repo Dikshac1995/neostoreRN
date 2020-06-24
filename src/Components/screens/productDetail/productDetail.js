@@ -21,7 +21,7 @@ import share from '../../Reusable/share/share'
 
 
 
-const myCardItem = [] // for storing data 
+const CartItem = [] // for storing data 
 class productDetail extends Component {
     constructor(props) {
         super(props);
@@ -97,17 +97,6 @@ class productDetail extends Component {
             console.log('data', data)
             const url = 'http://180.149.241.208:3022/updateProductRatingProdId'
             api.fetchapi(url, 'put', JSON.stringify(data), this.state.token_id)
-
-                // fetch(url, {
-                //     method: 'put', // or 'PUT'
-                //     headers: {
-                //         'Content-Type': "application/json",
-                //         // 'Content-Type': 'application/x-www-form-urlencoded',
-                //         Authorization: token ? 'Bearer ' + token : null
-                //     },
-                //     body: { "product_id": "5cfe3f0fb4db0f338946eabd" }
-
-                // })
                 .then((response) => response.json())
                 .then((data) => {
                     console.log('Success:', data);
@@ -142,9 +131,9 @@ class productDetail extends Component {
                     {
                         text: 'OK', onPress: () => {
 
-                            myCardItem.push(data)
-                            console.log('~~~', myCardItem)
-                            // this.storeData(myCardItem)
+                            CartItem.push(data)
+                            console.log('~~~', CartItem)
+                            this.storeData(CartItem)
 
                             this.props.navigation.navigate('Mycard',
                                 { data: this.state.ProductDetailData }
@@ -178,17 +167,17 @@ class productDetail extends Component {
 
         }
     }
-    // storeData = async (data) => {
-    //     const values = this.state.ProductDetailData
-    //     const value = data
-    //     console.log('7777', value)
-    //     try {
-    //         await AsyncStorage.setItem('MycardData', JSON.stringify(values));
+    storeData = async (data) => {
+        const values = this.state.ProductDetailData
+        const value = data
+        console.log('7777', value)
+        try {
+            await AsyncStorage.setItem('CardData', JSON.stringify(value));
 
-    //     } catch (error) {
-    //         console.log(error)
-    //     }
-    // };
+        } catch (error) {
+            console.log(error)
+        }
+    };
 
 
     async Buynow() {

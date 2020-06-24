@@ -69,14 +69,10 @@ export default class Myorder extends Component {
                         return (
 
                             <TouchableOpacity style={{ padding: 10, paddingHorizontal: 20 }}
-                                onPress={() => this.onPressItem(item, item.product_details[0].order_id)}
-
-                            >
+                                onPress={() => this.onPressItem(item, item.product_details[0].order_id)} >
                                 <View style={{ flex: 1, padding: 10, flexDirection: 'row', justifyContent: 'space-between' }}>
-                                    <Text style={{ fontSize: 25, fontWeight: 'bold' }}>{item.product_details[0].order_id}</Text>
+                                    <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{item.product_details[0].order_id}</Text>
                                     <Text style={{ fontSize: 20 }}>Rs, {item.product_details[0].total_cartCost}</Text>
-
-
 
                                 </View>
 

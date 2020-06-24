@@ -58,26 +58,35 @@ class CustomDrawerContent extends Component {
         // myCartProduct: mycartData,
         // product_id: myCartProduct.product_id
       })
-      const value = JSON.parse(await AsyncStorage.getItem('myOrder'));
 
-      console.log("order123", value)
-      console.log("order123", value.length)
-      if (value !== undefined) {
-        this.setState({ cartproduct_length: value.length })
+
+
+      this.props.getCartData(token)
+      const mycartlength = this.props.data.data
+      if (mycartlength !== undefined) {
+        this.setState({ cartproduct_length: mycartlength.length })
 
       }
 
 
-      this.props.getCartData(token)
-
+      this.getCartData()
 
 
       console.log('****************', token)
 
-      // console.log("!!!!!!!!!!!!!!!!!!!!!!!!!", this.state.myCartProduct)
-      // console.log('member key size:' + Object.keys(this.state.myCartProduct).length);
+
     }
 
+  }
+  async getCartData() {
+    const value = JSON.parse(await AsyncStorage.getItem('MycartData'));
+
+    console.log("order123", value)
+    console.log("order123", value.length)
+    if (value !== undefined) {
+      this.setState({ cartproduct_length: value.length })
+
+    }
   }
   toggleExpand = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
@@ -206,7 +215,7 @@ class CustomDrawerContent extends Component {
                     {{ backgroundColor: 'red', borderRadius: 100, width: 40, height: 40, marginRight: 40 }}>
                     <Text style={{ color: '#fff', paddingLeft: 15, paddingTop: 10 }}>
                       {this.state.cartproduct_length}
-                      {/* {mycartlength !== undefined ? mycartlength.length : 0} */}
+                      {/* {mycartlength !== undefined ? mycartlength.length : 0}  */}
                     </Text>
                   </View>
                 </View>
