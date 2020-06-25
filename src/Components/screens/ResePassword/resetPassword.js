@@ -23,22 +23,38 @@ export default class ResetPassword extends Component {
         }
     }
     async  onSubmit() {
-        let token = await AsyncStorage.getItem('token');
-        const res = await api.fetchapi('http://180.149.241.208:3022/changePassword', 'post',
-            JSON.stringify({ "oldPass": this.state.oldPass, "newPass": this.state.newPass, "confirmPass": this.state.confirmPass }), token)
-        const result = await res.json();
-        console.log("api", result.sucess)
-        if (result.sucess === true) {
+        // const passwordError = validation('password', this.state.oldPass)
+        // const newpasswordError = validation('password', this.state.newPass)
+        // const confirmpasswordError = validation('confirmpassword', this.state.confirmPass, this.state.newPass)
 
-            Alert.alert(result.message)
+        // this.setState({
+        //     oldpassError: passwordError,
+        //     newpassError: newpasswordError,
+        //     confirmmpassError: confirmpasswordError
+        // })
 
+        if (!this.state.oldPass || !this.state.newPass || !this.state.confirmPass ||
+            this.state.confirmpassError !== ' ' || this.state.newpassError !== ' '
+            || this.state.oldpassError !== ' ') {
+            Alert.alert("Please Fill  Required Information  ")
         }
         else {
-            console.log(result.json, " g")
-            Alert.alert("old password is incorrect ")
+            let token = await AsyncStorage.getItem('token');
+            const res = await api.fetchapi('http://180.149.241.208:3022/changePassword', 'post',
+                JSON.stringify({ "oldPass": this.state.oldPass, "newPass": this.state.newPass, "confirmPass": this.state.confirmPass }), token)
+            const result = await res.json();
+            console.log("api", result)
+            if (result.sucess === true) {
+
+                Alert.alert(result.message)
+
+            }
+            else {
+                console.log(result.json, " g")
+                Alert.alert("old password is incorrect ")
+            }
         }
     }
-
 
     render() {
 
@@ -48,30 +64,24 @@ export default class ResetPassword extends Component {
                 <View style={globalstyles.Container}>
 
                     <PasswordCon placeholder=' enter current Password'
-                        onChangeText={value => this.setState({ oldPass: value.trim() })}
-                        onBlur={() => {
-                            this.setState({
-                                oldpassError: validation('password', this.state.oldPass)
-                            })
-                        }}
+                        onChangeText={value => this.setState({
+                            oldPass: value.trim(),
+                            oldpassError: validation('password', value)
+                        })}
                         validate={<Text>{this.state.oldpassError}</Text>}
                     />
                     <PasswordCon placeholder='enter new Password '
-                        onChangeText={value => this.setState({ newPass: value.trim() })}
-                        onBlur={() => {
-                            this.setState({
-                                newpassError: validation('password', this.state.newPass)
-                            })
-                        }}
+                        onChangeText={value => this.setState({
+                            newPass: value.trim(),
+                            newpassError: validation('password', value)
+                        })}
                         validate={<Text>{this.state.newpassError}</Text>}
                     />
                     <PasswordCon placeholder=' again enter Password '
-                        onChangeText={value => this.setState({ confirmPass: value.trim() })}
-                        onBlur={() => {
-                            this.setState({
-                                confirmmpassError: validation('confirmpassword', this.state.confirmPass, this.state.newPass)
-                            })
-                        }}
+                        onChangeText={value => this.setState({
+                            confirmPass: value.trim(),
+                            confirmmpassError: validation('confirmpassword', value, this.state.newPass)
+                        })}
                         validate={<Text>{this.state.confirmpassError}</Text>} />
                     <ButtonField text='submit'
                         onPress={() => this.onSubmit()}

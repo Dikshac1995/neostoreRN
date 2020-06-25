@@ -4,6 +4,7 @@ import { Alert } from "react-native";
 
 
 export default function validation(type, text, pass) {
+    console.log(text, 0)
     var password
 
     const regex = /^[A-Za-z]+$/;
@@ -14,15 +15,21 @@ export default function validation(type, text, pass) {
     const emailPattern = /^([a-zA-Z])+([0-9a-zA-Z_\.\-])+\@+(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,5}$)$/;
 
     if (type == 'firstName') {
-        if (regex.test(text)) {
+        if (!text) {
+            return 'Please enter First name '
+        }
+        else if (regex.test(text)) {
             return ' '
         }
         else {
-            return 'first name only contain alphabet'
+            return 'first name only contain Alphabet '
         }
     }
     if (type == 'lastName') {
-        if (regex.test(text)) {
+        if (!text) {
+            return 'Please enter Last name '
+        }
+        else if (regex.test(text)) {
             return ' '
         }
         else {

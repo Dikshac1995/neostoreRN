@@ -170,6 +170,7 @@ class productDetail extends Component {
     storeData = async (data) => {
         const values = this.state.ProductDetailData
         const value = data
+        // value.map(obj => ({ ...obj, quantity: 1 }))
         console.log('7777', value)
         try {
             await AsyncStorage.setItem('CardData', JSON.stringify(value));

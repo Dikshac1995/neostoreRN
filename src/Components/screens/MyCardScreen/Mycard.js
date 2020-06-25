@@ -78,9 +78,15 @@ class Mycart extends Component {
     async getCartData() {
         try {
             const data = JSON.parse(await AsyncStorage.getItem('CardData'));
+            data.forEach(function (element) {
+                element.quantity = 1;
+            })
+
             const prod_quantity = data.map((res) => res.quantity)
+
             var cost = data.map(res => res.product_cost)
             var sum = cost.reduce(function (a, b) { return a + b; }, 0);
+            console.log('product cost', cost, prod_quantity)
             this.setState({
                 myCardItem: data,
                 quantity: prod_quantity,
@@ -148,9 +154,9 @@ class Mycart extends Component {
 
         var cost = mycartdata.map(res => res.product_cost)
         var sum = cost.reduce(function (a, b) { return a + b; }, 0);
-        this.state.myCardItem.forEach(function (element) {
-            element.quantity = 1;
-        });
+        // this.state.myCardItem.forEach(function (element) {
+        //     element.quantity = 1;
+        // });
 
         console.log(cost, sum, '233333')
         this.setState({
@@ -171,8 +177,9 @@ class Mycart extends Component {
         console.log('val', index, value)
         const { quantity, product_cost } = this.state
         quantity.splice(index, 1, value)
-        // product_cost.splice(index, 1, quantity[index] * product_cost[index])
+        product_cost.splice(index, 1, quantity[index] * product_cost[index])
         // console.log(product_cost, '1111z')
+        console.log(this.state.myCardItem[index].product_cost, product_cost[index], '11111111555')
         this.setState({ quantity: [...quantity] })
         console.log('picker value ', this.state.quantity, this.state.product_cost)
         var sum = 0;
@@ -180,7 +187,10 @@ class Mycart extends Component {
             sum += this.state.quantity[i] * this.state.product_cost[i];
         }
         console.log('fsum', sum)
-        this.setState({ finalCost: sum })
+        this.setState({
+            finalCost: sum,
+
+        })
         this.storedata(this.state.myCardItem, this.state.quantity)
 
 
@@ -344,7 +354,7 @@ class Mycart extends Component {
 
 
                                             </Picker>
-                                            <Text style={styles.product_cost}>Rs.{this.state.product_cost[index] * this.state.quantity[index]}</Text>
+                                            <Text style={styles.product_cost}>Rs.{item.product_cost * this.state.quantity[index]}</Text>
                                         </View>
                                     </View>
                                 </TouchableOpacity>

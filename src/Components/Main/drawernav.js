@@ -63,13 +63,14 @@ class CustomDrawerContent extends Component {
 
       this.props.getCartData(token)
       const mycartlength = this.props.data.data
+      console.log(mycartlength, '123')
       if (mycartlength !== undefined) {
         this.setState({ cartproduct_length: mycartlength.length })
 
       }
 
 
-      this.getCartData()
+      this.getCartData1()
 
 
       console.log('****************', token)
@@ -78,12 +79,12 @@ class CustomDrawerContent extends Component {
     }
 
   }
-  async getCartData() {
+  async getCartData1() {
     const value = JSON.parse(await AsyncStorage.getItem('MycartData'));
 
     console.log("order123", value)
     console.log("order123", value.length)
-    if (value !== undefined) {
+    if (value !== undefined || value !== null) {
       this.setState({ cartproduct_length: value.length })
 
     }
@@ -139,8 +140,8 @@ class CustomDrawerContent extends Component {
                   });
               })
             }
-            // AsyncStorage.clear();
-            // this.props.navigation.navigate('homescreen')
+            AsyncStorage.clear();
+            this.props.navigation.navigate('homescreen')
           }
         },
       ],

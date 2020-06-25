@@ -34,12 +34,12 @@ export default class EditProfile extends Component {
             phone_noError: ' ',
             upload: false,
             checked: false,
-            radioCheck: 'first',
+            radioCheck: '',
         };
     }
     componentDidMount() {
         const { data } = this.props.route.params;
-        console.log("   ", data)
+        console.log(" data  ", data, data.gender)
         this.setState({
             first_name: data.first_name,
             last_name: data.last_name,
@@ -49,10 +49,15 @@ export default class EditProfile extends Component {
             date: data.dob,
         })
 
-        data.gender === 'female ' ?
-            this.setState({ redioCkeck: 'second' }) : null
+        if (data.gender === "female") {
+            this.setState({ radioCheck: 'second' })
+        }
+        else {
+            this.setState({ radioCheck: 'first' })
 
-        console.log('fn', this.state.gender)
+        }
+
+        console.log('fn', this.state.radiocheck)
     }
 
 
@@ -62,7 +67,7 @@ export default class EditProfile extends Component {
         console.log('err', this.state.last_nameError)
         if (this.state.last_nameError !== ' ' || this.state.first_nameError !== ' ' || this.state.emailError !== ' '
             || this.state.phone_noError !== ' ') {
-            Alert.alert("fill the data properly")
+            Alert.alert("Please Fill  Required Information  ")
         }
         else {
             console.log("prof", this.state.imageSource)
@@ -164,39 +169,37 @@ export default class EditProfile extends Component {
 
                         <TextField placeholder="name" name="user" value={this.state.first_name}
                             editable={true}
-                            onChangeText={value => this.setState({ first_name: value.trim() })}
-                            onBlur={() => {
-                                this.setState({
-                                    first_nameError: validation('firstName', this.state.first_name)
-                                })
-                            }} validate={<Text>{this.state.first_nameError}</Text>}
+                            onChangeText={value => this.setState({
+                                first_name: value.trim(),
+                                first_nameError: validation('firstName', value)
+                            }
+
+
+                            )}
+                            validate={<Text>{this.state.first_nameError}</Text>}
                         />
                         <TextField placeholder="last name" name="user" value={this.state.last_name}
                             editable={true}
-                            onChangeText={value => this.setState({ last_name: value.trim() })}
-                            onBlur={() => {
-                                this.setState({
-                                    last_nameError: validation('lastName', this.state.last_name)
-                                })
-                            }}
+                            onChangeText={value => this.setState({
+                                last_name: value.trim(),
+                                last_nameError: validation('lastName', value)
+                            })}
                             validate={<Text>{this.state.last_nameError}</Text>} />
                         <TextField placeholder='email Id' name="envelope" value={this.state.email}
                             editable={true}
-                            onChangeText={value => this.setState({ email: value.trim() })}
-                            onBlur={() => {
-                                this.setState({
-                                    emailError: validation('email', this.state.email)
-                                })
-                            }}
+                            onChangeText={value => this.setState({
+                                email: value.trim(),
+                                emailError: validation('email', value)
+                            })}
                             validate={<Text>{this.state.emailError}</Text>} />
                         <TextField placeholder="Phone number" name="mobile-phone" value={this.state.phone_no}
                             editable={true}
-                            onChangeText={value => this.setState({ phone_no: value.trim() })}
-                            onBlur={() => {
-                                this.setState({
-                                    phone_noError: validation('phoneNo', this.state.phone_no)
-                                })
-                            }}
+                            keyboardType={"number-pad"}
+                            maxLength={10}
+                            onChangeText={value => this.setState({
+                                phone_no: value.trim(),
+                                phone_noError: validation('phoneNo', value)
+                            })}
                             validate={<Text>{this.state.phone_noError}</Text>} />
 
 

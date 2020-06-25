@@ -87,21 +87,19 @@ export default class SetPassword extends Component {
                 />
 
                 <PasswordCon placeholder='Enter new Password '
-                    onChangeText={value => this.setState({ password: value.trim() })}
-                    onBlur={() => {
-                        this.setState({
-                            passwordError: validation('password', this.state.password)
-                        })
-                    }}
+                    onChangeText={value => this.setState({
+                        password: value.trim(),
+                        passwordError: validation('password', value)
+
+                    })}
                     validate={<Text>{this.state.passwordError}</Text>} />
                 <PasswordCon placeholder='Enter Password  Again '
-                    onChangeText={value => this.setState({ confirmPassword: value.trim() })}
-                    onBlur={() => {
-                        this.setState({
-                            confirmpasswordError: validation('confirmpassword', this.state.confirmPassword, this.state.password)
-                            // && (this.state.password !== this.state.confirmPassword)
-                        })
-                    }}
+                    onChangeText={value => this.setState({
+                        confirmPassword: value.trim(),
+                        confirmpasswordError: validation('confirmpassword', value, this.state.password)
+
+                    })}
+
                     validate={<Text>{this.state.confirmpasswordError}</Text>}
                 />
                 <ButtonField text="submit" onPress={() => this.submit(token)} style={styles.submit_button} />
