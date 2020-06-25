@@ -13,9 +13,8 @@ import productDetail from '../productDetail/productDetail';
 
 
 
-const cartdata = [];
-const myCartProduct = []
-const quantity = []
+
+
 class Mycart extends Component {
     constructor(props) {
         super(props);
@@ -42,37 +41,58 @@ class Mycart extends Component {
     }
 
     componentDidMount() {
-        const { data } = this.props.route.params;
-        console.log("mydata", data)
-        console.log('quan', data.quantity)
+        // const { data } = this.props.route.params;
+        // console.log("mydata", data)
+        // console.log('quan', data.quantity)
 
-        if (data !== 0) {
-            if (data.quantity === undefined) { data.quantity = 1 }
-            quantity.push(data.quantity)
-            cartdata.push(data)
-            var cost = cartdata.map(res => res.product_cost)
-            console.log(cost, "co")
-            var sum = cost.reduce(function (a, b) { return a + b; }, 0);
-            this.setState({
-                myCardItem: cartdata,
-                quantity: quantity,
-                finalCost: sum,
-                product_cost: cost
-            })
-        }
-        else {
-            this.getCartData()
-        }
-
-        this.storedata(this.state.myCardItem, this.state.quantity)
+        // if (data !== 0) {
+        //     if (data.quantity === undefined) { data.quantity = 1 }
+        //     quantity.push(data.quantity)
+        //     cartdata.push(data)
+        //     var cost = cartdata.map(res => res.product_cost)
+        //     console.log(cost, "co")
+        //     var sum = cost.reduce(function (a, b) { return a + b; }, 0);
+        //     this.setState({
+        //         myCardItem: cartdata,
+        //         quantity: quantity,
+        //         finalCost: sum,
+        //         product_cost: cost
+        //     })
+        // }
+        // else {
+        this.getCartData()
+        // }
 
 
 
-        console.log(cartdata, 'ddddjjjj', quantity)
+
+
 
         this.getptoductapi()
 
 
+
+    }
+
+
+    async getCartData() {
+        try {
+            const data = JSON.parse(await AsyncStorage.getItem('CardData'));
+            const prod_quantity = data.map((res) => res.quantity)
+            var cost = data.map(res => res.product_cost)
+            var sum = cost.reduce(function (a, b) { return a + b; }, 0);
+            this.setState({
+                myCardItem: data,
+                quantity: prod_quantity,
+                finalCost: sum,
+                product_cost: cost
+            })
+            this.storedata(this.state.myCardItem, this.state.quantity)
+
+
+        } catch (error) {
+            console.log(error)
+        }
 
     }
     async getptoductapi() {
@@ -118,9 +138,14 @@ class Mycart extends Component {
 
         const cartProduct = data.data.map((res) => res.product_id)
         const prod_quantity = data.data.map((res) => res.quantity)
-        const mycartdata = cartdata.concat(cartProduct)
+        const Valu = [...this.state.myCardItem]
+        const quantity = [...this.state.quantity]
+        console.log('Val', Valu, quantity)
+        // const mycartdata = cartdata.concat(cartProduct)
+        const mycartdata = Valu.concat(cartProduct)
         const product_quantity = quantity.concat(prod_quantity)
         console.log('cartProduct', cartProduct, product_quantity, mycartdata)
+
         var cost = mycartdata.map(res => res.product_cost)
         var sum = cost.reduce(function (a, b) { return a + b; }, 0);
         this.state.myCardItem.forEach(function (element) {
@@ -144,10 +169,11 @@ class Mycart extends Component {
     }
     pickerChange(index, value) {
         console.log('val', index, value)
-        const { quantity } = this.state
+        const { quantity, product_cost } = this.state
         quantity.splice(index, 1, value)
+        // product_cost.splice(index, 1, quantity[index] * product_cost[index])
+        // console.log(product_cost, '1111z')
         this.setState({ quantity: [...quantity] })
-        // this.state.cost.splice(index, 1, value * this.state.cost)
         console.log('picker value ', this.state.quantity, this.state.product_cost)
         var sum = 0;
         for (var i = 0; i < this.state.quantity.length; i++) {
@@ -155,26 +181,23 @@ class Mycart extends Component {
         }
         console.log('fsum', sum)
         this.setState({ finalCost: sum })
+        this.storedata(this.state.myCardItem, this.state.quantity)
+
 
     }
 
     async  orderNow() {
-        console.log(this.state.myCardItem, "@@@@")
-        console.log('Hi', this.state.myCardItem)
-        const values = this.state.myCardItem
-        values.forEach(function (element) {
-            element.quantity = 1
-        });
 
-        console.log('7777', values)
+        const values = this.state.myCardItem
+
         try {
             await AsyncStorage.setItem('myOrder', JSON.stringify(values));
             const value = JSON.parse(await AsyncStorage.getItem('myOrder'));
-            console.log("place order", value)
             this.props.navigation.navigate('oder summary', { product_id: 0, Product: 0 })
 
 
-        } catch (error) {
+        }
+        catch (error) {
             console.log(error)
         }
     }
@@ -182,24 +205,9 @@ class Mycart extends Component {
 
     async  storedata(val, quantity) {
         console.log(" value is ", val, quantity)
-        var daataa = val.concat(quantity)
-        console.log(daataa)
 
-        const obj = val.map(async (e) => {
 
-            let object = [{
-                id: e.product_id,
-                productid: e.product_id,
-                quantity: 1
 
-            },
-            { flag: 'checkout' }]
-            await AsyncStorage.setItem('MycartData', JSON.stringify(object));
-            const value = JSON.parse(await AsyncStorage.getItem('MycartData'));
-            console.log("order123", value)
-
-        })
-        console.log("id", obj)
         try {
             await AsyncStorage.setItem('MycartData', JSON.stringify(val));
             const value = JSON.parse(await AsyncStorage.getItem('MycartData'));
@@ -336,7 +344,7 @@ class Mycart extends Component {
 
 
                                             </Picker>
-                                            <Text style={styles.product_cost}>Rs.{item.product_cost * this.state.quantity[index]}</Text>
+                                            <Text style={styles.product_cost}>Rs.{this.state.product_cost[index] * this.state.quantity[index]}</Text>
                                         </View>
                                     </View>
                                 </TouchableOpacity>
