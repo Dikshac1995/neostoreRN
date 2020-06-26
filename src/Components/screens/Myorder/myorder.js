@@ -28,8 +28,6 @@ export default class Myorder extends Component {
                 if (data.status_code === 200) {
                     this.setState({ myOder: data.product_details })
                 }
-
-
             })
     }
     onPressItem(product_details, order_id) {

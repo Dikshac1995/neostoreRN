@@ -58,33 +58,26 @@ class CustomDrawerContent extends Component {
         // myCartProduct: mycartData,
         // product_id: myCartProduct.product_id
       })
-
-
-
-      this.props.getCartData(token)
+      await this.props.getCartData(token)
       const mycartlength = this.props.data.data
       console.log(mycartlength, '123')
       if (mycartlength !== undefined) {
         this.setState({ cartproduct_length: mycartlength.length })
 
       }
-
-
       this.getCartData1()
-
-
       console.log('****************', token)
-
-
     }
 
   }
   async getCartData1() {
     const value = JSON.parse(await AsyncStorage.getItem('MycartData'));
-
     console.log("order123", value)
-    console.log("order123", value.length)
-    if (value !== undefined || value !== null) {
+    if (value !== null) {
+      console.log('oder', value)
+      // const cart_product = [...this.state.cartproduct_length]
+      // const data = cart_product.concat(value.length)
+      // console.log('value', data)
       this.setState({ cartproduct_length: value.length })
 
     }
@@ -95,13 +88,7 @@ class CustomDrawerContent extends Component {
   }
   async signOut() {
     const myCartProduct = JSON.parse(await AsyncStorage.getItem('MycartData'))
-
-
     console.log(" my data ", myCartProduct)
-
-
-
-
     Alert.alert(
       'Log out',
       'Do you want to logout?',
@@ -118,13 +105,9 @@ class CustomDrawerContent extends Component {
 
                 },
                 { flag: 'logout' }]
-
-
-
-                api.fetchapi("http://180.149.241.208:3022/addProductToCartCheckout", 'post',
+                api.fetchapi(api.baseUrl + "addProductToCartCheckout", 'post',
                   JSON.stringify(object),
                   this.state.token)
-
                   .then((response) => response.json()).then((data) => {
                     console.log('Success:', data);
                     if (data.success) {
@@ -134,14 +117,13 @@ class CustomDrawerContent extends Component {
                     }
                     else {
                       Alert.alert(data.message)
-
+                      AsyncStorage.clear();
+                      this.props.navigation.navigate('homescreen')
                     }
-
                   });
               })
             }
-            AsyncStorage.clear();
-            this.props.navigation.navigate('homescreen')
+
           }
         },
       ],

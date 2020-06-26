@@ -39,16 +39,15 @@ export default class ForgotPassword extends Component {
 
     render() {
         return (
-            <View style={globalstyles.Container}>
+            <View style={{ backgroundColor: 'red', flex: 1, paddingHorizontal: 25, paddingTop: 20 }} >
                 <Text style={globalstyles.neostore_logo}>NeoSTORE</Text>
                 <Text style={globalstyles.Containerhead}>Forgot Password ?</Text>
                 <TextField placeholder="Enter Userid" name="user"
-                    onChangeText={value => this.setState({ emailId: value.trim() })}
-                    onBlur={() => {
-                        this.setState({
-                            email_err: validation('email', this.state.emailId)
-                        })
-                    }}
+                    onChangeText={value => this.setState({
+                        emailId: value.trim(),
+                        email_err: validation('email', this.state.emailId)
+                    })}
+
                     validate={<Text>{this.state.email_err}</Text>} />
 
                 <ButtonField text="submit"

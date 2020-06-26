@@ -5,6 +5,9 @@ import ButtonField from '../../Reusable/ButtonField/buttonField';
 import AsyncStorage from '@react-native-community/async-storage';
 import Header from '../../Reusable/header /header';
 import { api } from '../../../utils/api'
+import { connect } from 'react-redux';
+import { getCartData } from '../../../Redux/Action/mycat'
+
 
 
 const arr = [];
@@ -32,13 +35,14 @@ class Placeorder extends Component {
         };
     }
 
-    componentDidMount() {
-        this.getData()
+    async  componentDidMount() {
+        await this.getData()
 
         const { product_id, Product, addressData } = this.props.route.params;
         console.log("product", Product)
         if (Product == 0) {
             console.log(0)
+            // this.getStoredData()
         }
         else {
             if (Product.quantity === undefined) { Product.quantity = 1 }
@@ -48,15 +52,24 @@ class Placeorder extends Component {
             var cost = arr.map(res => res.product_cost)
             console.log(cost, "co")
             var sum = cost.reduce(function (a, b) { return a + b; }, 0);
-
             this.setState({
                 productData: arr,
                 quantity: quantity,
                 product_cost: cost,
                 finalCost: sum
             })
+            this.datafrom_Api()
+
         }
         this.getStoredData()
+
+    }
+
+    async datafrom_Api() {
+        let token = await AsyncStorage.getItem('token');
+        await this.props.getCartData(token)
+        const mycartdata = this.props.data.data
+        console.log('mycart', mycartdata)
 
     }
 
@@ -70,8 +83,6 @@ class Placeorder extends Component {
         if (value !== null) {
             const prod_quantity = value.map((res) => res.quantity)
             const product_quantity = quantity.concat(prod_quantity)
-
-
             const data = arr.concat(value)
             var cost = data.map(res => res.product_cost)
             var sum = cost.reduce(function (a, b) { return a + b; }, 0);
@@ -100,10 +111,8 @@ class Placeorder extends Component {
 
     async  oderNow() {
         const { productData } = this.state
+        console.log('product data', productData)
         let token = await AsyncStorage.getItem('token');
-
-
-
         Alert.alert(
             'place order ',
             'do u want to buy a product ',
@@ -112,26 +121,23 @@ class Placeorder extends Component {
                 {
                     text: 'Confirm', onPress: () => {
                         if (productData !== null) {
-                            productData.map((e) => {
+                            productData.map((e, index) => {
                                 let object = [{
                                     _id: e.product_id,
                                     product_id: e.product_id,
-                                    quantity: 1
+                                    quantity: this.state.quantity[index]
 
                                 },
                                 { flag: 'checkout' }]
-
-
-
                                 api.fetchapi("http://180.149.241.208:3022/addProductToCartCheckout", 'post',
                                     JSON.stringify(object),
                                     token)
-
                                     .then((response) => response.json()).then((data) => {
                                         console.log('Success:', data);
                                         if (data.success) {
                                             Alert.alert(data.message)
-                                            // AsyncStorage.clear();
+                                            AsyncStorage.removeItem('myOrder', 'CardData', 'MycardData');
+
                                             // this.props.navigation.navigate('homescreen')
                                         }
                                         else {
@@ -175,6 +181,7 @@ class Placeorder extends Component {
         // this.setState({ selectedValue: [...selectedValue] })
         // console.log("picker value", this.state.selectedValue)
     }
+
 
     async getData() {
         let token = await AsyncStorage.getItem('token');
@@ -336,6 +343,17 @@ class Placeorder extends Component {
     }
 }
 
+const mapStateToProps = state => ({
+    data: state.mycartReducer
+})
+
+//Map your action creators to your props.
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getCartData: (type) => dispatch(getCartData(type))
+    };
+}
 
 
-export default Placeorder;
+// export default Placeorder;
+export default connect(mapStateToProps, mapDispatchToProps)(Placeorder)

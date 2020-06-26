@@ -65,7 +65,8 @@ export default class EditProfile extends Component {
     async submit() {
         const err = this.state.last_nameError
         console.log('err', this.state.last_nameError)
-        if (this.state.last_nameError !== ' ' || this.state.first_nameError !== ' ' || this.state.emailError !== ' '
+        if (this.state.last_nameError !== ' ' || this.state.first_nameError !== ' '
+            || this.state.emailError !== ' '
             || this.state.phone_noError !== ' ') {
             Alert.alert("Please Fill  Required Information  ")
         }

@@ -215,10 +215,15 @@ class productDetail extends Component {
 
     render() {
         const Product_name = this.state.ProductDetailData.product_name
+        const { product_name } = this.props.route.params;
+
         return (
 
             <View>
-                <Header name1='arrowleft' text={Product_name} name2='search'
+                <Header name1='arrowleft' text={
+                    ((product_name).length > 20) ?
+                        (((product_name).substring(0, 20 - 3)) + '...') :
+                        product_name} name2='search'
                     onPress={() => this.props.navigation.goBack()}
                     onClick={() => this.props.navigation.navigate('searchitem')}
                 />

@@ -5,7 +5,6 @@ import { Alert } from "react-native";
 
 export default function validation(type, text, pass) {
     console.log(text, 0)
-    var password
 
     const regex = /^[A-Za-z]+$/;
     const passreg = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{7,15}$/
@@ -22,23 +21,28 @@ export default function validation(type, text, pass) {
             return ' '
         }
         else {
-            return 'first name only contain Alphabet '
+            return 'First name only contain Alphabet '
         }
     }
     if (type == 'lastName') {
         if (!text) {
-            return 'Please enter Last name '
+            return 'Please enter last  name '
         }
         else if (regex.test(text)) {
             return ' '
         }
         else {
-            return 'last name only contain alphabet'
+            return 'Last name only contain Alphabet '
         }
+
+
     }
     else if (type == 'password') {
+        if (!text) {
+            return 'Password is Required '
+        }
 
-        if (passreg.test(text)) {
+        else if (passreg.test(text)) {
             password = text
 
             return ' '
@@ -49,28 +53,49 @@ export default function validation(type, text, pass) {
     }
 
     else if (type == 'confirmpassword') {
-        console.warn('a', password)
-        if (pass == text) {
+        if (!text) {
+            return ' confirm Password is Required '
+        }
+
+        else if (pass == text) {
             return " "
         }
         else {
-            return ' password Does not  match '
+            return ' Password Does not  match '
         }
     }
     else if (type == 'email') {
-        if (emailPattern.test(text)) {
+        if (!text) {
+            return 'Email id  is Required '
+        }
+
+        else if (emailPattern.test(text)) {
             return " "
         }
         else {
-            return 'email is Invalid'
+            return 'Email is Invalid'
         }
     }
     else if (type == 'phoneNo') {
-        if (numregx.test(text)) {
+        if (!text) {
+            return 'Mob no is Required '
+        }
+        else if (numregx.test(text)) {
             return ' '
         }
         else {
-            return 'mobile no is Invalid'
+            return 'Mobile no is Invalid'
+        }
+    }
+    else if (type == 'otp') {
+        if (!text) {
+            return 'otp is Required '
+        }
+        else if (numregx.test(text)) {
+            return ' '
+        }
+        else {
+            return 'otp is Invalid'
         }
     }
     else if (type == 'Address') {
@@ -95,7 +120,7 @@ export default function validation(type, text, pass) {
     else if (type == 'City') {
         console.warn(" #####", text)
         if (text == '') {
-            // console.warn('@@@')
+
             Alert.alert(' cityis required')
             return true
         }

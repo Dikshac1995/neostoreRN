@@ -20,7 +20,7 @@ export default class Homescreen extends Component {
                     <Icon name="search" size={30} color='#fff'
                         onPress={() =>
                             // <SearchItem />
-                            this.props.navigation.navigate('search')
+                            this.props.navigation.navigate('searchitem')
                         }></Icon>
                 </View>
 

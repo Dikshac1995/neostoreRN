@@ -6,7 +6,6 @@ import { globalstyles } from '../../../style/style'
 import PasswordCon from '../../Reusable/Password/Password'
 import { styles } from './styles'
 import validation from '../../../utils/valid'
-import OtpIcon from 'react-native-vector-icons/Feather';
 import { api } from '../../..//utils/api'
 
 
@@ -79,10 +78,13 @@ export default class SetPassword extends Component {
                 <Text style={globalstyles.neostore_logo}>NeoSTORE</Text>
                 <Text style={globalstyles.Containerhead}>Set Password</Text>
                 <TextField placeholder="otp" otp="trending-down"
-                    keyboardType={"number-pad"} value={this.state.otp} editable={true}
-                    onChangeText={value => this.setState({ otp: value.trim() })}
+                    keyboardType={"number-pad"} value={otp} editable={true}
+                    onChangeText={value => this.setState({
+                        otp: value.trim(),
+                        otp_err: validation('otp', value)
 
-                // defaultValue={otp}
+                    })}
+                    validate={<Text>{this.state.otp_err}</Text>}
 
                 />
 
@@ -90,7 +92,6 @@ export default class SetPassword extends Component {
                     onChangeText={value => this.setState({
                         password: value.trim(),
                         passwordError: validation('password', value)
-
                     })}
                     validate={<Text>{this.state.passwordError}</Text>} />
                 <PasswordCon placeholder='Enter Password  Again '

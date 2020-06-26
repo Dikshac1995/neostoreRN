@@ -97,8 +97,8 @@ class ProductList extends Component {
         }
     };
 
-    onPressItem(id) {
-        { this.props.navigation.navigate('productDetail', { product_id: id }) }
+    onPressItem(id, product_name) {
+        { this.props.navigation.navigate('productDetail', { product_id: id, product_name: product_name }) }
     }
 
 
@@ -124,7 +124,7 @@ class ProductList extends Component {
                                 renderItem={({ item }) =>
                                     <View >
                                         <TouchableOpacity style={{ display: 'flex', flexDirection: 'row', padding: 0, alignItems: 'center' }}
-                                            onPress={() => this.onPressItem(item.product_id)
+                                            onPress={() => this.onPressItem(item.product_id, item.product_name)
                                                 // { this.props.navigation.navigate('productDetail', { product_id: item.product_id }) }
                                             }
                                         >
@@ -135,9 +135,10 @@ class ProductList extends Component {
                                                     }} />}
                                             </View>
                                             <View style={{ padding: 20, width: 250 }}>
-                                                <Text style={{ fontSize: 15, fontWeight: 'bold' }}>{((item.product_name).length > 20) ?
-                                                    (((item.product_name).substring(0, 20 - 3)) + '...') :
-                                                    item.product_name}
+                                                <Text style={{ fontSize: 15, fontWeight: 'bold' }}>{
+                                                    ((item.product_name).length > 20) ?
+                                                        (((item.product_name).substring(0, 20 - 3)) + '...') :
+                                                        item.product_name}
                                                 </Text>
                                                 <Text style={{ fontSize: 15 }}>{item.product_material}</Text>
                                                 <View style={{ justifyContent: 'flex-end', alignItems: 'flex-end' }}>

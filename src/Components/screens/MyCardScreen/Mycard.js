@@ -139,36 +139,37 @@ class Mycart extends Component {
         // }
 
 
-        this.props.getCartData(token)
+        await this.props.getCartData(token)
         const data = this.props.data
+        console.log(data, 'daaaa')
+        if (data.data !== undefined) {
+            console.log('in a')
+            const cartProduct = data.data.map((res) => res.product_id)
+            console.log('data1234', cartProduct)
+            const prod_quantity = data.data.map((res) => res.quantity)
+            const Valu = [...this.state.myCardItem]
+            const quantity = [...this.state.quantity]
+            console.log('Val', Valu, prod_quantity)
+            // const mycartdata = cartdata.concat(cartProduct)
+            const mycartdata = Valu.concat(cartProduct)
+            const product_quantity = quantity.concat(prod_quantity)
+            console.log('cartProduct', mycartdata)
 
-        const cartProduct = data.data.map((res) => res.product_id)
-        const prod_quantity = data.data.map((res) => res.quantity)
-        const Valu = [...this.state.myCardItem]
-        const quantity = [...this.state.quantity]
-        console.log('Val', Valu, quantity)
-        // const mycartdata = cartdata.concat(cartProduct)
-        const mycartdata = Valu.concat(cartProduct)
-        const product_quantity = quantity.concat(prod_quantity)
-        console.log('cartProduct', cartProduct, product_quantity, mycartdata)
+            var cost = mycartdata.map(res => res.product_cost)
+            var sum = cost.reduce(function (a, b) { return a + b; }, 0);
 
-        var cost = mycartdata.map(res => res.product_cost)
-        var sum = cost.reduce(function (a, b) { return a + b; }, 0);
-        // this.state.myCardItem.forEach(function (element) {
-        //     element.quantity = 1;
-        // });
 
-        console.log(cost, sum, '233333')
-        this.setState({
-            myCardItem: mycartdata,
-            quantity: product_quantity,
-            finalCost: sum,
-            product_cost: cost,
-            // cart: { ...this.state.cart, productData: mycartdata, quantity: quantity, }
+            console.log(cost, sum, '233333')
+            this.setState({
+                myCardItem: mycartdata,
+                quantity: product_quantity,
+                finalCost: sum,
+                product_cost: cost,
+                // cart: { ...this.state.cart, productData: mycartdata, quantity: quantity, }
 
-        })
-        this.storedata(this.state.myCardItem, this.state.quantity)
-
+            })
+            this.storedata(this.state.myCardItem, this.state.quantity)
+        }
 
         console.log('data is ', this.state.myCardItem)
 
@@ -197,12 +198,16 @@ class Mycart extends Component {
     }
 
     async  orderNow() {
-
+        this.state.myCardItem.forEach(function (element) {
+            element.quantity = 1;
+        });
         const values = this.state.myCardItem
+        console.log('values', this.state.myCardItem)
 
         try {
             await AsyncStorage.setItem('myOrder', JSON.stringify(values));
             const value = JSON.parse(await AsyncStorage.getItem('myOrder'));
+            console.log('orderrrrr', value)
             this.props.navigation.navigate('oder summary', { product_id: 0, Product: 0 })
 
 

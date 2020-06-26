@@ -17,7 +17,8 @@ export const styles = StyleSheet.create({
         color: 'white',
         fontSize: StyleConstants.FONT_45,
         fontWeight: 'bold',
-        textAlign: 'center'
+        textAlign: 'center',
+        paddingBottom: 20
     },
     loginButton: {
         color: 'red',

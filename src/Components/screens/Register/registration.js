@@ -34,7 +34,7 @@ class Registration extends Component {
 
             submitted: false,
             checked: false,
-            radioCheck: 'first',
+            radioCheck: '',
         }
     }
 
@@ -55,7 +55,8 @@ class Registration extends Component {
         console.warn("1234 ", fn_err)
 
         if (this.state.firstName == " " || this.state.lastName == " " || this.state.password == " "
-            || this.state.confirmPassword == " " || this.state.email == " " || this.state.phoneNo == " ") {
+            || this.state.confirmPassword == " " || this.state.email == " " || this.state.phoneNo == " "
+            || !this.state.checked || !this.state.gender) {
             Alert.alert(" Fields can not be empty !")
         }
         else if (this.state.firstNameError !== ' ' || this.state.lastNameError !== ' ' || this.state.passwordError !== ' ' ||
@@ -98,7 +99,6 @@ class Registration extends Component {
 
 
     render() {
-        const { register } = this.props;
         const { radioCheck } = this.state;
 
         return (
@@ -106,48 +106,38 @@ class Registration extends Component {
                 <View style={globalstyles.Container}>
                     <Text style={styles.register_neostore}>NeoSTORE </Text>
                     <TextField placeholder="First Name" name="user"
-                        onChangeText={value => this.setState({ firstName: value.trim() })}
-                        onBlur={() => {
-                            this.setState({
-                                firstNameError: validation('firstName', this.state.firstName)
-                            })
-                        }}
+                        onChangeText={value => this.setState({
+                            firstName: value.trim(),
+                            firstNameError: validation('firstName', value)
+                        })}
                         validate={<Text>{this.state.firstNameError}</Text>} />
 
                     <TextField placeholder="Last Name" name="user" onChangeText={(text) => this.setState({ lastName: text, lastNamevalid: true })}
-                        onChangeText={value => this.setState({ lastName: value.trim() })}
-                        onBlur={() => {
-                            this.setState({
-                                lastNameError: validation('lastName', this.state.lastName)
-                            })
-                        }}
+                        onChangeText={value => this.setState({
+                            lastName: value.trim(),
+                            lastNameError: validation('lastName', value)
+                        })}
                         validate={<Text>{this.state.lastNameError}</Text>} />
 
                     <PasswordCon placeholder='Password'
-                        onChangeText={value => this.setState({ password: value.trim() })}
-                        onBlur={() => {
-                            this.setState({
-                                passwordError: validation('password', this.state.password)
-                            })
-                        }}
+                        onChangeText={value => this.setState({
+                            password: value.trim(),
+                            passwordError: validation('password', value)
+                        })}
                         validate={<Text>{this.state.passwordError}</Text>} />
 
                     <PasswordCon placeholder=' confirm Password'
-                        onChangeText={value => this.setState({ confirmPassword: value.trim() })}
-                        onBlur={() => {
-                            this.setState({
-                                confirmpasswordError: validation('confirmpassword', this.state.confirmPassword, this.state.password)
-                            })
-                        }}
+                        onChangeText={value => this.setState({
+                            confirmPassword: value.trim(),
+                            confirmpasswordError: validation('confirmpassword', value, this.state.password)
+                        })}
                         validate={<Text>{this.state.confirmpasswordError}</Text>} />
 
                     <TextField placeholder="Email" name="envelope"
-                        onChangeText={value => this.setState({ email: value.trim() })}
-                        onBlur={() => {
-                            this.setState({
-                                emailError: validation('email', this.state.email)
-                            })
-                        }}
+                        onChangeText={value => this.setState({
+                            email: value.trim(),
+                            emailError: validation('email', value)
+                        })}
                         validate={<Text>{this.state.emailError}</Text>} />
                     {/* <Gender /> */}
                     <View style={styles.GenderField}>
@@ -168,12 +158,11 @@ class Registration extends Component {
 
                     <TextField placeholder="Phone number" name="mobile-phone" maxLength={10}
                         keyboardType={"number-pad"}
-                        onChangeText={value => this.setState({ phoneNo: value.trim() })}
-                        onBlur={() => {
-                            this.setState({
-                                phoneError: validation('phoneNo', this.state.phoneNo)
-                            })
-                        }}
+                        onChangeText={value => this.setState({
+                            phoneNo: value.trim(),
+                            phoneError: validation('phoneNo', value)
+                        })}
+
                         validate={<Text>{this.state.phoneError}</Text>} />
 
                     {/* <Checkbox1 /> */}

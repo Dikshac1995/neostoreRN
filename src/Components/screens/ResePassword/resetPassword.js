@@ -80,7 +80,7 @@ export default class ResetPassword extends Component {
                     <PasswordCon placeholder=' again enter Password '
                         onChangeText={value => this.setState({
                             confirmPass: value.trim(),
-                            confirmmpassError: validation('confirmpassword', value, this.state.newPass)
+                            confirmpassError: validation('confirmpassword', value, this.state.newPass)
                         })}
                         validate={<Text>{this.state.confirmpassError}</Text>} />
                     <ButtonField text='submit'

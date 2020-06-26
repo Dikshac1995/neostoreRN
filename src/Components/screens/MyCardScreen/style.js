@@ -21,7 +21,7 @@ export const styles = StyleSheet.create({
 
     footer: {
         display: 'flex', flexDirection: 'row', justifyContent: 'space-between',
-        paddingHorizontal: 20, backgroundColor: '#fff', height: 80
+        paddingHorizontal: 20, backgroundColor: '#fff',
     },
     totalPrice: {
         fontSize: 20, fontWeight: 'bold', padding: 20
@@ -34,6 +34,7 @@ export const styles = StyleSheet.create({
         color: '#fff',
         borderRadius: 8,
         textAlign: 'center',
+
 
     },
 
