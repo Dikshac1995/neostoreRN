@@ -7,10 +7,6 @@ import Button from '../../Reusable/ButtonField/buttonField'
 import { styles } from './style'
 import { connect } from 'react-redux';
 import { getCartData } from '../../../Redux/Action/mycat'
-import { DrawerActions } from '@react-navigation/native';
-import productDetail from '../productDetail/productDetail';
-
-
 
 
 
@@ -32,45 +28,15 @@ class Mycart extends Component {
             token: ' ',
             selectedValue: [1, 1,],
             quantity: [],
-            pickerItem: [{ 'label': '1', 'value': '1', 'selectedValue': '1' },
-            { 'label': '2', 'value': '2', 'selectedValue': '2' },
-            { 'label': '3', 'value': '3', 'selectedValue': '3' },
-            { 'label': '4', 'value': '4', 'selectedValue': '4' }]
+
         }
 
     }
 
     componentDidMount() {
-        // const { data } = this.props.route.params;
-        // console.log("mydata", data)
-        // console.log('quan', data.quantity)
 
-        // if (data !== 0) {
-        //     if (data.quantity === undefined) { data.quantity = 1 }
-        //     quantity.push(data.quantity)
-        //     cartdata.push(data)
-        //     var cost = cartdata.map(res => res.product_cost)
-        //     console.log(cost, "co")
-        //     var sum = cost.reduce(function (a, b) { return a + b; }, 0);
-        //     this.setState({
-        //         myCardItem: cartdata,
-        //         quantity: quantity,
-        //         finalCost: sum,
-        //         product_cost: cost
-        //     })
-        // }
-        // else {
         this.getCartData()
-        // }
-
-
-
-
-
-
         this.getptoductapi()
-
-
 
     }
 
@@ -102,43 +68,7 @@ class Mycart extends Component {
 
     }
     async getptoductapi() {
-
         const token = await AsyncStorage.getItem('token');
-        // if (token) {
-        //     api.fetchapi('http://180.149.241.208:3022/getCartData', 'get', " ", token)
-        //         .then((response) => response.json()).then((data) => {
-        //             console.log('Success:', data);
-        //             console.log('data', data.product_details)
-        //             if (data.status_code === 200) {
-
-        //                 if (data.product_details !== undefined) {
-        //                     const cartProduct = data.product_details.map((res) => res.product_id)
-        //                     const prod_quantity = data.product_details.map((res) => res.quantity)
-        //                     const mycartdata = cartdata.concat(cartProduct)
-        //                     console.log('cartProduct', mycartdata)
-        //                     const product_quantity = quantity.concat(prod_quantity)
-
-        //                     var cost = mycartdata.map(res => res.product_cost)
-        //                     var sum = cost.reduce(function (a, b) { return a + b; }, 0);
-
-        //                     console.log(cost, sum)
-        //                     this.setState({
-        //                         myCardItem: mycartdata,
-        //                         quantity: product_quantity,
-        //                         finalCost: sum,
-        //                         product_cost: cost,
-        //                     })
-        //                     this.storedata(this.state.myCardItem)
-        //                 }
-        //                 else {
-        //                     Alert.alert(data.message)
-        //                 }
-        //             }
-        //             Alert.alert(data.message)
-        //         });
-        // }
-
-
         await this.props.getCartData(token)
         const data = this.props.data
         console.log(data, 'daaaa')
@@ -340,11 +270,8 @@ class Mycart extends Component {
                                         <Text style={styles.product_name}>{item.product_name}</Text>
                                         <Text style={styles.product_material}>({item.product_material})</Text>
 
-                                        <View style={{
-                                            flex: 1, flexDirection: 'row',
-                                            justifyContent: 'space-between'
-                                        }}>
-                                            <Picker
+                                        <View>
+                                            {/* <Picker
                                                 key={index}
                                                 selectedValue={this.state.quantity[index]}
                                                 style={{ width: 80, }}
@@ -358,8 +285,8 @@ class Mycart extends Component {
                                                     })}
 
 
-                                            </Picker>
-                                            <Text style={styles.product_cost}>Rs.{item.product_cost * this.state.quantity[index]}</Text>
+                                            </Picker> */}
+                                            <Text style={styles.product_cost}>Rs.{item.product_cost}</Text>
                                         </View>
                                     </View>
                                 </TouchableOpacity>

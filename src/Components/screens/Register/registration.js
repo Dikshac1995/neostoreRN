@@ -10,6 +10,7 @@ import { globalstyles } from '../../../style/style'
 import validation from '../../../utils/valid'
 import PasswordCon from '../../Reusable/Password/Password'
 import { Checkbox, RadioButton } from 'react-native-paper';
+import Loader from '../../Reusable/loader/loader'
 
 
 
@@ -17,6 +18,7 @@ class Registration extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            loading: false,
             firstName: '',
             lastName: '',
             password: '',
@@ -40,7 +42,7 @@ class Registration extends Component {
 
     submit() {
 
-
+        this.setState({ loading: true })
         const fn_err = validation('firstName', this.state.firstName)
         let collection = {}
         collection.first_name = this.state.firstName
@@ -72,17 +74,26 @@ class Registration extends Component {
                     response.json().then((responseJSON) => {
                         console.log("responseJSON", responseJSON);
                         if (responseJSON.success) {
-                            Alert.alert(responseJSON.message)
-                            this.props.navigation.navigate('loginScreen')
+
+                            setTimeout(() => {
+                                Alert.alert(responseJSON.message)
+                                this.setState({ loading: false })
+                                this.props.navigation.navigate('loginScreen');
+                            }, 3000)
                         }
 
                         else {
                             if (responseJSON.error_message) {
-                                Alert.alert(responseJSON.error_message)
+                                setTimeout(() => {
+                                    this.setState({ loading: false })
+                                    Alert.alert(responseJSON.error_message)
+                                }, 3000)
                             }
                             else {
-                                Alert.alert(responseJSON.message)
-
+                                setTimeout(() => {
+                                    this.setState({ loading: false })
+                                    Alert.alert(responseJSON.message)
+                                }, 3000)
                             }
                         }
 
@@ -104,6 +115,8 @@ class Registration extends Component {
         return (
             <ScrollView>
                 <View style={globalstyles.Container}>
+                    <Loader
+                        loading={this.state.loading} />
                     <Text style={styles.register_neostore}>NeoSTORE </Text>
                     <TextField placeholder="First Name" name="user"
                         onChangeText={value => this.setState({

@@ -38,6 +38,7 @@ class Placeorder extends Component {
     async  componentDidMount() {
         await this.getData()
 
+
         const { product_id, Product, addressData } = this.props.route.params;
         console.log("product", Product)
         if (Product == 0) {
@@ -111,7 +112,7 @@ class Placeorder extends Component {
 
     async  oderNow() {
         const { productData } = this.state
-        console.log('product data', productData)
+        console.log('product data1', productData)
         let token = await AsyncStorage.getItem('token');
         Alert.alert(
             'place order ',
@@ -121,35 +122,36 @@ class Placeorder extends Component {
                 {
                     text: 'Confirm', onPress: () => {
                         if (productData !== null) {
-                            productData.map((e, index) => {
-                                let object = [{
-                                    _id: e.product_id,
-                                    product_id: e.product_id,
-                                    quantity: this.state.quantity[index]
+                            let flag = [{ flag: 'checkout' }];
+                            let data1 = [...productData, ...flag];
+                            // productData.map((e, index) => {
+                            //     let object = [{
+                            //         _id: e.product_id,
+                            //         product_id: e.product_id,
+                            //         quantity: this.state.quantity[index]
 
-                                },
-                                { flag: 'checkout' }]
-                                api.fetchapi("http://180.149.241.208:3022/addProductToCartCheckout", 'post',
-                                    JSON.stringify(object),
-                                    token)
-                                    .then((response) => response.json()).then((data) => {
-                                        console.log('Success:', data);
-                                        if (data.success) {
-                                            Alert.alert(data.message)
-                                            AsyncStorage.removeItem('myOrder', 'CardData', 'MycardData');
+                            //     },
+                            //     { flag: 'checkout' }]
+                            api.fetchapi("http://180.149.241.208:3022/addProductToCartCheckout", 'post',
+                                JSON.stringify(data1),
+                                token)
+                                .then((response) => response.json()).then((data) => {
+                                    console.log('Success:', data);
+                                    if (data.success) {
+                                        Alert.alert(data.message)
+                                        AsyncStorage.removeItem('myOrder');
+                                        // this.setState({ productData: ' ' })
+                                        // this.props.navigation.navigate('homescreen')
+                                    }
+                                    else {
+                                        Alert.alert(data.message)
 
-                                            // this.props.navigation.navigate('homescreen')
-                                        }
-                                        else {
-                                            Alert.alert(data.message)
+                                    }
 
-                                        }
-
-                                    });
-                            })
+                                });
+                            // })
                         }
-                        // AsyncStorage.clear();
-                        // this.props.navigation.navigate('homescreen')
+
                     }
                 },
             ],
@@ -161,25 +163,28 @@ class Placeorder extends Component {
 
     }
     pickerChange(index, value) {
+        const elementsIndex = this.state.productData.findIndex(element => element.id == id)
+        let newArray = [...this.state.productData]
+        newArray[index] = { ...newArray[index], quantity: value }
+        console.log(elementsIndex, newArray, "data")
         console.log('val', index, value)
         const { quantity } = this.state
         quantity.splice(index, 1, value)
         this.setState({ quantity: [...quantity] })
         // this.state.cost.splice(index, 1, value * this.state.cost)
-
+        console.log("this", this.state.productData[0].quantity)
         console.log('picker value ', this.state.quantity, this.state.product_cost)
         var sum = 0;
         for (var i = 0; i < this.state.quantity.length; i++) {
             sum += this.state.quantity[i] * this.state.product_cost[i];
         }
         console.log('fsum', sum)
-        this.setState({ finalCost: sum })
+        this.setState({
+            finalCost: sum,
+            productData: newArray
+        })
 
-        // console.log('val', index, value)
-        // const { selectedValue } = this.state
-        // selectedValue.splice(index, 1, value)
-        // this.setState({ selectedValue: [...selectedValue] })
-        // console.log("picker value", this.state.selectedValue)
+
     }
 
 
@@ -232,7 +237,7 @@ class Placeorder extends Component {
         // const Address = this.state.Address
         const Address = this.state.addressData
         return (
-            (this.state.productDataData) ? <ActivityIndicator /> :
+            (!this.state.productData) ? <ActivityIndicator /> :
                 <>
                     {/* shipping Address section start  */}
                     <View style={{ height: '30%', paddingHorizontal: 20 }} >

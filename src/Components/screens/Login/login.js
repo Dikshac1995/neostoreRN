@@ -10,6 +10,7 @@ import * as actions from '../../../Redux/Action/action'
 import PasswordCon from '../../Reusable/Password/Password'
 import validation from '../../../utils/valid'
 import { api } from '../../../utils/api'
+import Loader from '../../Reusable/loader/loader'
 
 
 
@@ -88,11 +89,10 @@ class LoginScreen extends Component {
                             const token = await AsyncStorage.getItem('token')
                             console.log(token)
                             setTimeout(() => {
-
                                 Alert.alert(responseJSON.message)
                                 this.setState({ loading: false })
                                 this.props.navigation.navigate('Homescreen');
-                            }, 10000)
+                            }, 2000)
                         }
                         else {
                             setTimeout(() => {
@@ -113,43 +113,43 @@ class LoginScreen extends Component {
 
         return (
             <View style={styles.LoginScreen}>
-                {this.state.loading ?
-                    <ActivityIndicator size={50} />
-                    : <>
-                        <View style={styles.login}>
-                            <Text style={styles.login_neostore}>NeoSTORE</Text>
-                            <TextField placeholder="Email" name="envelope"
-                                onChangeText={value => this.setState({
-                                    email: value.trim(),
-                                    emailValid: validation('email', value)
-                                })}
-                                validate={<Text>{this.state.emailValid}</Text>} />
-                            <PasswordCon placeholder='Password'
-                                onChangeText={value => this.setState({
-                                    pass: value.trim(),
-                                    passValid: validation('password', value)
 
-                                })}
+                <Loader
+                    loading={this.state.loading} />
+                <View style={styles.login}>
+                    <Text style={styles.login_neostore}>NeoSTORE</Text>
+                    <TextField placeholder="Email" name="envelope"
+                        onChangeText={value => this.setState({
+                            email: value.trim(),
+                            emailValid: validation('email', value)
+                        })}
+                        validate={<Text>{this.state.emailValid}</Text>} />
+                    <PasswordCon placeholder='Password'
+                        onChangeText={value => this.setState({
+                            pass: value.trim(),
+                            passValid: validation('password', value)
 
-                                validate={<Text>{this.state.passValid}</Text>} />
-                            <ButtonField text="LOGIN" loading={this.state.loading}
-                                onPress={() => this.login()}
-                                style={styles.loginButton}
-                            />
-                            <TouchableOpacity onPress={() => this.props.navigation.navigate('ForgotPassword')}>
-                                <Text style={styles.forgot_link}>Forgot Password ?</Text>
-                            </TouchableOpacity>
+                        })}
+
+                        validate={<Text>{this.state.passValid}</Text>} />
+                    <ButtonField text="LOGIN" loading={this.state.loading}
+                        onPress={() => this.login()}
+                        style={styles.loginButton}
+                    />
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('ForgotPassword')}>
+                        <Text style={styles.forgot_link}>Forgot Password ?</Text>
+                    </TouchableOpacity>
+                </View>
+
+                <View style={styles.Account}>
+                    <Text style={styles.Account_Text}>DON'T HAVE AN ACCOUNT ?</Text>
+                    <TouchableOpacity onPress={() => this.props.navigation.navigate('Register')}>
+                        <View style={{ backgroundColor: 'black', opacity: 0.6, padding: 10, marginRight: 15 }}>
+                            <Icon name="plus" size={30} color="#fff" />
                         </View>
+                    </TouchableOpacity>
+                </View>
 
-                        <View style={styles.Account}>
-                            <Text style={styles.Account_Text}>DON'T HAVE AN ACCOUNT ?</Text>
-                            <TouchableOpacity onPress={() => this.props.navigation.navigate('Register')}>
-                                <View style={{ backgroundColor: 'black', opacity: 0.6, padding: 10, marginRight: 15 }}>
-                                    <Icon name="plus" size={30} color="#fff" />
-                                </View>
-                            </TouchableOpacity>
-                        </View>
-                    </>}
 
             </View>
         );

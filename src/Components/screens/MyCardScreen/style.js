@@ -16,7 +16,7 @@ export const styles = StyleSheet.create({
     product_cost:
     {
         fontSize: 17, paddingTop: 10,
-        fontWeight: 'bold'
+        fontWeight: 'bold', textAlign: 'right'
     },
 
     footer: {

@@ -97,31 +97,34 @@ class CustomDrawerContent extends Component {
         {
           text: 'Confirm', onPress: () => {
             if (myCartProduct !== null) {
-              myCartProduct.map((e) => {
-                let object = [{
-                  _id: e.product_id,
-                  product_id: e.product_id,
-                  quantity: 1
+              // myCartProduct.map((e) => {
+              //   let object = [{
+              //     _id: e.product_id,
+              //     product_id: e.product_id,
+              //     quantity: 1
 
-                },
-                { flag: 'logout' }]
-                api.fetchapi(api.baseUrl + "addProductToCartCheckout", 'post',
-                  JSON.stringify(object),
-                  this.state.token)
-                  .then((response) => response.json()).then((data) => {
-                    console.log('Success:', data);
-                    if (data.success) {
-                      Alert.alert(data.message)
-                      AsyncStorage.clear();
-                      this.props.navigation.navigate('homescreen')
-                    }
-                    else {
-                      Alert.alert(data.message)
-                      AsyncStorage.clear();
-                      this.props.navigation.navigate('homescreen')
-                    }
-                  });
-              })
+              //   },
+              //   { flag: 'logout' }]
+              let flag = [{ flag: 'logout' }];
+              const data = [...myCartProduct, ...flag];
+              console.log(data, 'data1')
+
+              api.fetchapi(api.baseUrl + "addProductToCartCheckout", 'post',
+                JSON.stringify(data),
+                this.state.token)
+                .then((response) => response.json()).then((data) => {
+                  console.log('Success:', data);
+                  if (data.success) {
+                    Alert.alert(data.message)
+                    AsyncStorage.clear();
+                    this.props.navigation.navigate('homescreen')
+                  }
+                  else {
+                    Alert.alert(data.message)
+
+                  }
+                });
+              // })
             }
 
           }
