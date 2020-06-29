@@ -18,9 +18,6 @@ import ImageViewer from 'react-native-image-zoom-viewer';
 import { api } from '../../../utils/api'
 import share from '../../Reusable/share/share'
 
-
-
-
 const CartItem = [] // for storing data 
 class productDetail extends Component {
     constructor(props) {
@@ -33,12 +30,10 @@ class productDetail extends Component {
             modalVisible: false,
             starCount: 0,
             modalShow: false,
-
             product_id: 0,
             product_image: ' ',
             token: false,
             token_id: ' '
-
         };
     }
 
@@ -54,7 +49,7 @@ class productDetail extends Component {
         console.log("categoryId", product_id)
         const type = 'getProductByProdId/' + product_id
         this.setState({ isLoading: true })
-        api.fetchapi('http://180.149.241.208:3022/' + type, 'get')
+        api.fetchapi(api.baseUrl + type, 'get')
             .then((response) => response.json()).then((data) => {
                 console.log('Success:', data.product_details);
                 setTimeout(() => {
@@ -66,13 +61,11 @@ class productDetail extends Component {
                         product_id: data.product_details[0].product_id,
                         productCategory: data.product_details[0].category_id
                     })
-
                 })
             }, 5000)
     }
 
     async gettoken() {
-        console.log("ingettoken")
         const token = await AsyncStorage.getItem('token');
         if (!token == " ") {
             this.setState({
@@ -89,19 +82,20 @@ class productDetail extends Component {
 
     updateRating() {
         if (this.state.token) {
+            console.log('token ', this.state.token_id)
             console.log('product_id', this.state.product_id)
             const data = {
                 product_id: this.state.product_id,
-
+                product_rating: this.state.starCount
             };
             console.log('data', data)
-            const url = 'http://180.149.241.208:3022/updateProductRatingProdId'
+            const url = api.baseUrl + 'updateProductRatingByCustomer'
             api.fetchapi(url, 'put', JSON.stringify(data), this.state.token_id)
                 .then((response) => response.json())
                 .then((data) => {
                     console.log('Success:', data);
                     if (data.status_code == 200) {
-                        Alert.alert('thank you for rating our product');
+                        Alert.alert(data.message);
                         this.setState({ modalVisible: false });
                     }
                     else {
@@ -113,32 +107,24 @@ class productDetail extends Component {
                 });
         }
         else {
-            Alert.alert(' for the update product you have to login ');
+            Alert.alert(' you have to login First ');
             this.setState({ modalVisible: false });
         }
     }
 
     addToCard(data) {
-
-
-        console.log(';;;;;', data)
         if (this.state.token) {
-
             Alert.alert(
                 'ADD to card ',
                 'Do you want to  Add this to Mycard',
                 [
                     {
                         text: 'OK', onPress: () => {
-
                             CartItem.push(data)
-                            console.log('~~~', CartItem)
                             this.storeData(CartItem)
-
                             this.props.navigation.navigate('Mycard',
                                 { data: this.state.ProductDetailData }
                             )
-                            console.log("????????", this.state.cardData)
                         }
                     },
                     {
@@ -152,7 +138,7 @@ class productDetail extends Component {
         }
         else {
             Alert.alert(
-                'for Add  any product  to cart you need to login ',
+                'For  Add  any product  to cart you have  to login ',
                 'Do you want to Login?',
                 [
                     { text: 'No', onPress: () => { return null } },
@@ -170,11 +156,8 @@ class productDetail extends Component {
     storeData = async (data) => {
         const values = this.state.ProductDetailData
         const value = data
-        // value.map(obj => ({ ...obj, quantity: 1 }))
-        console.log('7777', value)
         try {
             await AsyncStorage.setItem('CardData', JSON.stringify(value));
-
         } catch (error) {
             console.log(error)
         }
@@ -207,18 +190,14 @@ class productDetail extends Component {
     }
 
     onClickSubImage(imageid) {
-
         this.setState({ product_image: imageid })
-
     }
 
 
     render() {
         const Product_name = this.state.ProductDetailData.product_name
         const { product_name } = this.props.route.params;
-
         return (
-
             <View>
                 <Header name1='arrowleft' text={
                     ((product_name).length > 20) ?
@@ -281,16 +260,19 @@ class productDetail extends Component {
                                             <FlatList data={this.state.subImages_id.product_subImages}
                                                 showsVerticalScrollIndicator={false}
                                                 horizontal={true}
-                                                renderItem={({ item }) =>
+                                                renderItem={({ item, index }) =>
                                                     <View>
-                                                        <TouchableOpacity style={styles.subImage_Container} onPress=
-                                                            {() => this.onClickSubImage(item)}>
+                                                        <TouchableOpacity style={styles.subImage_Container}
+                                                            onPress={() => this.onClickSubImage(item)}
+                                                        >
                                                             <View style={styles.subImage_Wrapper}>
                                                                 <Image style={{ width: 90, height: 100 }}
                                                                     source={{ uri: api.baseUrl + item }} />
                                                             </View>
                                                         </TouchableOpacity>
-                                                    </View>} />
+                                                    </View>}
+                                                keyExtractor={(item, index) => index.toString()}
+                                            />
                                         </View>
                                     </View>
                                 </View>
@@ -352,13 +334,10 @@ class productDetail extends Component {
                 {/* Model for zoom Imageviwer */}
                 <View >
                     <Modal visible={this.state.modalShow} transparent={true} onRequestClose={() => this.showZoomModal(false)}>
-
                         <ImageViewer imageUrls={
                             [{
                                 url: api.baseUrl + this.state.product_image
                             }]} />
-
-
                     </Modal>
                 </View>
             </View>

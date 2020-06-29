@@ -2,16 +2,7 @@ import React, { Component } from 'react'
 import { Text, View, TouchableOpacity, StyleSheet } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { globalstyles } from '../../style/style'
-// import { styles } from '../../Reusable/textField/style';
-// import bedIcon from 'react-native-vector-icons/Ionicons';
-// export default class Card extends Component {
-//     constructor(props) {
-//         super(props)
-//         this.state = {
-//             style: this.props.style || {},
-//         }
-//     }
-//     render() {
+
 
 function Card(props) {
     console.log('id', props.category_id)

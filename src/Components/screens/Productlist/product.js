@@ -2,16 +2,15 @@ import React, { Component } from 'react'
 import { Text, View, Image, FlatList, ActivityIndicator, ToastAndroid, RefreshControl } from 'react-native'
 import StarRating from 'react-native-star-rating';
 import { TouchableOpacity } from 'react-native-gesture-handler'
-import { windowWidth } from '../../../Assets/Constant/constant'
-import { FetchProductList } from '../../../Redux/Action/productlist'
 import { connect } from 'react-redux';
 import Header from '../../Reusable/header /header'
+import { FetchProductList } from '../../../Redux/Action/productlist'
 
 const DATA = []
 class ProductList extends Component {
     constructor(props) {
         super(props);
-        this.page = 1,
+        this.page = 6,
             this.state = {
                 isLoading: true,
                 ProductList: [],
@@ -34,37 +33,43 @@ class ProductList extends Component {
 
     }
 
-    fetchdata(page) {
-        this.setState({ loading: true })
+    async  fetchdata(page) {
+        setTimeout(() => {
+            this.setState({ isLoading: true })
+        }, 2000)
         const { category_id } = this.props.route.params;
         console.log("categoryId", category_id)
-        let type = 'commonProducts?category_id=' + category_id + '&pageNo=' + page + '&perPage=6'
+        let type = 'commonProducts?category_id=' + category_id + '&pageNo=1&perPage=' + page
         console.log('type1', type)
 
-        this.props.FetchProductList(type);
+        await this.props.FetchProductList(type);
         const { data, isFetching } = this.props;
         console.log("data in productList", data, isFetching)
-        const data3 = [...this.state.ProductList]
+        // const data3 = [...this.state.ProductList]
         // DATA.push(data.product_details)
+        const data3 = []
         console.log('data3', data)
 
         const data2 = data3.concat(data.product_details)
         console.log(data2)
-
-        this.setState({
-            loading: false,
-            ProductList: data2
-        })
+        setTimeout(() => {
+            this.setState({
+                isLoading: false,
+                ProductList: data2
+            })
+        }, 5000)
 
 
     }
     componentDidUpdate(prevProps) {
         console.log("did", prevProps)
         if (this.props.data.product_details !== prevProps.data.product_details) {
-            this.setState({
-                loading: false,
-                ProductList: this.props.data.product_details
-            });
+            setTimeout(() => {
+                this.setState({
+                    isLoading: false,
+                    ProductList: this.props.data.product_details
+                });
+            }, 2000)
         }
     }
 
@@ -81,12 +86,12 @@ class ProductList extends Component {
     }
 
     renderFooter = () => {
-        console.log('in loader', this.state.loading)
+        console.log('in loader', this.state.isLoading)
         //it will show indicator at the bottom of the list when data is loading otherwise it returns null
         if (!this.state.loading) return null;
         return (
-            <ActivityIndicator
-                style={{ color: '#000' }}
+            <ActivityIndicator size={30}
+                style={{ color: '#000', }}
             />
         );
     };
@@ -94,10 +99,8 @@ class ProductList extends Component {
     handleLoadMore = () => {
         console.log('indataaaa')
 
-        if (!this.state.loading) {
-
-
-            if (this.page < 2) {
+        if (!this.state.isLoading) {
+            if (this.page < 8) {
                 this.page = this.page + 1; // increase page by 1
                 this.fetchdata(this.page); // method for API call 
             }
@@ -113,9 +116,8 @@ class ProductList extends Component {
         fetch(url)
             .then(res => res.json())//response type
             .then(data1 => {
-
                 this.setState({
-                    loading: false,
+                    isLoading: false,
                     ProductList: data1.product_details,
                     isRefreshing: false
                 });
@@ -200,6 +202,7 @@ class ProductList extends Component {
         )
     }
 }
+
 
 const mapStateToProps = state => ({
     data: state.productListReducer.data,

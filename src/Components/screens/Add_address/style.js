@@ -4,7 +4,8 @@ import {
 
 export const styles = StyleSheet.create({
     Address_container: {
-        flex: 1
+        flex: 1,
+        // backgroundColor: 'pink'
 
     },
 

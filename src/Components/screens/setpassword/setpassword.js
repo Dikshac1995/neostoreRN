@@ -7,6 +7,7 @@ import PasswordCon from '../../Reusable/Password/Password'
 import { styles } from './styles'
 import validation from '../../../utils/valid'
 import { api } from '../../..//utils/api'
+import Loader from '../../Reusable/loader/loader'
 
 
 
@@ -20,7 +21,8 @@ export default class SetPassword extends Component {
             confirmPassword: ' ',
             otp_err: ' ',
             passwordError: ' ',
-            confirmpasswordError: ' '
+            confirmpasswordError: ' ',
+            loading: false
         }
     }
     componentDidMount() {
@@ -41,31 +43,38 @@ export default class SetPassword extends Component {
             Alert.alert('Fill the proper infomation ')
         }
         else {
-
+            this, this.setState({ loading: true })
             const res = await api.fetchapi('http://180.149.241.208:3022/recoverPassword', 'post',
                 JSON.stringify({ "otpCode": this.state.otp, "newPass": this.state.password, "confirmPass": this.state.confirmPassword })
                 , token)
             const result = await res.json();
             console.log("api", result)
             if (result.success === true) {
+                setTimeout(() => {
+                    Alert.alert(responseJSON.message)
+                    this.setState({ loading: false })
+                    Alert.alert(
+                        'your new password set successfully ',
+                        'you have to login again ',
+                        [
 
-                Alert.alert(
-                    'your new password set successfully ',
-                    'you have to login again ',
-                    [
+                            {
+                                text: 'ok', onPress: () => {
+                                    this.props.navigation.navigate('loginScreen')
+                                }
+                            },
+                        ],
+                        { cancelable: false }
+                    )
 
-                        {
-                            text: 'ok', onPress: () => {
-                                this.props.navigation.navigate('loginScreen')
-                            }
-                        },
-                    ],
-                    { cancelable: false }
-                )
+                }, 3000)
+
             }
             else {
-                console.log(result.json, " g")
-                Alert.alert(result.error_message)
+                setTimeout(() => {
+                    this.setState({ loading: false })
+                    Alert.alert(result.message)
+                }, 3000)
             }
         }
     }
@@ -75,6 +84,8 @@ export default class SetPassword extends Component {
         return (
 
             <View style={globalstyles.Container}>
+                <Loader
+                    loading={this.state.loading} />
                 <Text style={globalstyles.neostore_logo}>NeoSTORE</Text>
                 <Text style={globalstyles.Containerhead}>Set Password</Text>
                 <TextField placeholder="otp" otp="trending-down"

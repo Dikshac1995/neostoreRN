@@ -20,7 +20,7 @@ import Addresses from '../screens/Address_list/add_list'
 import Searchitem from '../Reusable/searchnar/searchbar'
 import Search from '../Reusable/searchnar/search'
 import Share1 from '../Reusable/share/share'
-import StoreLocator from '../Map/store';
+import StoreLocator from '../Map/index';
 import Myorder from '../screens/Myorder/myorder'
 import LazyLoading from '../screens/flatlistLazy/lazyloading'
 import Orderid from '../screens/OrderId/orderid'

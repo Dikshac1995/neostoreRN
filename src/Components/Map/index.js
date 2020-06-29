@@ -1,13 +1,8 @@
 
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'; // remove PROVIDER_GOOGLE import if not using Google Maps
-import { StyleSheet } from 'react-native'
 import React from "react";
-import { View, Text, Share, Button, TouchableOpacity, FlatList } from "react-native";
+import { View, Text, Share, Button, TouchableOpacity, FlatList, Dimensions, StyleSheet, } from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { Dimensions } from 'react-native';
-
-import { Marker } from 'react-native-maps';
-import { ScrollView } from 'react-native-gesture-handler';
 import Headerc from '../Reusable/header /header'
 import { Header, Left, Body, Right, CheckBox, } from 'native-base';
 import share from '../Reusable/share/share';

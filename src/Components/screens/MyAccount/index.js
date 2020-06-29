@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, TouchableOpacity, Image, TextInput } from 'react-native'
+import { Text, View, TouchableOpacity, Image, TextInput, ActivityIndicator } from 'react-native'
 import TextField from '../../Reusable/textField/textField'
 import ButtonField from '../../Reusable/ButtonField/buttonField'
 import { globalstyles } from '../../../style/style'
@@ -18,6 +18,7 @@ export default class MyAccount extends Component {
         super(props);
         this.state = {
             customer_data: [],
+            loading: true
 
         }
     }
@@ -31,7 +32,7 @@ export default class MyAccount extends Component {
         const res = await api.fetchapi('http://180.149.241.208:3022/getCustProfile', 'get', " ", token)
         const result = await res.json();
         const customer_profile = result.customer_proile
-        this.setState({ customer_data: customer_profile })
+        this.setState({ customer_data: customer_profile, loading: false })
         console.log("api", customer_profile)
         console.log("123", this.state.customer_data)
     }
@@ -52,30 +53,32 @@ export default class MyAccount extends Component {
                 {/* </View> */}
                 <ScrollView>
                     <View>
-                        <View style={globalstyles.Container}>
+                        {this.state.loading ? <ActivityIndicator /> :
 
-                            <View style={{ alignItems: 'center', marginBottom: 10, marginTop: 10 }}>
-                                {/* <Icon name='user-circle' size={120} color="#fff" /> */}
-                                <Avatar
-                                    size="large"
-                                    rounded
-                                    showAccessory
-                                    icon={{ name: 'user-circle', type: 'font-awesome' }}
-                                    onPress={() => Alert.alert("Works!")}
-                                    activeOpacity={0.7}
+                            <View style={globalstyles.Container}>
+
+                                <View style={{ alignItems: 'center', marginBottom: 10, marginTop: 10 }}>
+                                    {/* <Icon name='user-circle' size={120} color="#fff" /> */}
+                                    <Avatar
+                                        size="large"
+                                        rounded
+                                        showAccessory
+                                        icon={{ name: 'user-circle', type: 'font-awesome' }}
+                                        onPress={() => Alert.alert("Works!")}
+                                        activeOpacity={0.7}
+                                    />
+                                </View>
+                                <TextField name="user" value={this.state.customer_data.first_name} editable={false} />
+                                <TextField placeholder="last name" name="user" value={this.state.customer_data.last_name} editable={false} />
+                                <TextField placeholder='email Id' name="envelope" value={this.state.customer_data.email} editable={false} />
+                                <TextField placeholder="Phone number" name="mobile-phone" value={this.state.customer_data.phone_no} editable={false} />
+
+                                <ButtonField text="EDIT PROFILE"
+
+                                    onPress={() => this.props.navigation.navigate('EditProfile', { data: this.state.customer_data })}
+                                    style={styles.edit_button}
                                 />
-                            </View>
-                            <TextField name="user" value={this.state.customer_data.first_name} editable={false} />
-                            <TextField placeholder="last name" name="user" value={this.state.customer_data.last_name} editable={false} />
-                            <TextField placeholder='email Id' name="envelope" value={this.state.customer_data.email} editable={false} />
-                            <TextField placeholder="Phone number" name="mobile-phone" value={this.state.customer_data.phone_no} editable={false} />
-
-                            <ButtonField text="EDIT PROFILE"
-
-                                onPress={() => this.props.navigation.navigate('EditProfile', { data: this.state.customer_data })}
-                                style={styles.edit_button}
-                            />
-                        </View>
+                            </View>}
                     </View>
                     <View >
                         <TouchableOpacity onPress={() => this.props.navigation.navigate('ResetPassword')}>

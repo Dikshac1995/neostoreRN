@@ -11,6 +11,7 @@ import validation from '../../../utils/valid'
 import { tokenHard } from '../../../Assets/Constant/constant'
 import { api } from '../../../utils/api'
 import Header from '../../Reusable/header /header'
+// import TextField from '../../Reusable/textField/textField'
 
 
 
@@ -24,8 +25,6 @@ export default class AddAddress extends Component {
             state: ' ',
             zipCode: ' ',
             country: ' ',
-
-
             address_err: false,
             landmark_err: false,
             city_err: false,
@@ -91,7 +90,7 @@ export default class AddAddress extends Component {
                             <Text style={styles.Text_label}> ADDRESS</Text>
                             <View style={styles.Address_TextField}>
                                 <TextInput multiline={true}
-                                    numberOfLines={4}
+                                    numberOfLines={3}
                                     onChangeText={value => this.setState({ address: value.trim() })}
                                     onBlur={() => {
                                         this.setState((state) => ({
@@ -99,16 +98,14 @@ export default class AddAddress extends Component {
                                             ButtonDisable: state.ButtonDisable + this.state.address_err
                                         }))
                                     }
-
-
                                     } />
-                                {this.state.address_err ? <Text>hi</Text> : null}
-
                             </View>
+                            {this.state.address_err ? <Text>hi</Text> : null}
                         </View>
 
                         <Text style={styles.Text_label}> LANDMARK</Text>
                         <View style={styles.Address_TextField}>
+                            <TextField />
                             <TextInput onChangeText={value => this.setState({ LANDMARK: value.trim() })}
                                 onBlur={() => {
                                     this.setState({

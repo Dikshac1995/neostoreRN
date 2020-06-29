@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, ScrollView, Alert } from 'react-native'
+import { Text, View, ScrollView, Alert, Linking } from 'react-native'
 import TextField from '../../Reusable/textField/textField'
 import ButtonField from '../../Reusable/ButtonField/buttonField'
 import { styles } from './style'
@@ -26,7 +26,6 @@ class Registration extends Component {
             email: ' ',
             phoneNo: ' ',
             gender: '',
-
             firstNameError: ' ',
             lastNameError: ' ',
             passwordError: ' ',
@@ -42,7 +41,6 @@ class Registration extends Component {
 
     submit() {
 
-        this.setState({ loading: true })
         const fn_err = validation('firstName', this.state.firstName)
         let collection = {}
         collection.first_name = this.state.firstName
@@ -66,7 +64,7 @@ class Registration extends Component {
             Alert.alert('Fill the Detail properly ')
         }
         else {
-
+            this.setState({ loading: true })
             api.fetchapi('http://180.149.241.208:3022/register', 'post', JSON.stringify(collection))
                 .then((response) => {
                     console.log('res', response)
@@ -185,7 +183,9 @@ class Registration extends Component {
                                 this.setState({ checked: !this.state.checked });
                             }} />
                         <Text style={styles.text}> I agree </Text>
-                        <Text style={styles.terms} onPress={() => Alert.alert('hi')}> terms and conditions </Text>
+                        <Text style={styles.terms} onPress={() =>
+                            Linking.openURL('http://180.149.241.208:3022/2019-06-28T06-10-29.263ZTerms_and_Conditions.pdf')
+                        }> Terms and conditions </Text>
                     </View>
 
                     <View>

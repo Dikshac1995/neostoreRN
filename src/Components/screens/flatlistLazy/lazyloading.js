@@ -96,6 +96,7 @@ export default class lazyloading extends Component {
                 this.setState({
                     loading: false,
                     data: data1.product_details,
+                    isRefreshing: false,
                 });
             })
             .catch(error => {

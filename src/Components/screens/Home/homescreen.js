@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, TouchableOpacity, ScrollView } from 'react-native'
+import { Text, View, TouchableOpacity, ScrollView, SafeAreaView } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Header from '../../Reusable/header /header'
 import SliderBox1 from '../../Reusable/sliderBox'
@@ -13,9 +13,10 @@ export default class Homescreen extends Component {
 
     render() {
         return (
-            <View>
+            <SafeAreaView>
                 <View style={styles.headerSection}>
-                    <Icon name="bars" size={30} color="#fff" onPress={() => this.props.navigation.openDrawer()} />
+                    <Icon name="bars" size={30} color="#fff" onPress={() =>
+                        this.props.navigation.openDrawer()} />
                     <Text style={styles.headerTitle}>NeoSTORE</Text>
                     <Icon name="search" size={30} color='#fff'
                         onPress={() =>
@@ -43,7 +44,7 @@ export default class Homescreen extends Component {
                     </View>
                 </ScrollView>
 
-            </View >
+            </SafeAreaView >
         )
     }
 }

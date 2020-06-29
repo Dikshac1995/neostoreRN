@@ -117,7 +117,10 @@ class CustomDrawerContent extends Component {
                   if (data.success) {
                     Alert.alert(data.message)
                     AsyncStorage.clear();
-                    this.props.navigation.navigate('homescreen')
+                    this.props.navigation.closeDrawer()
+
+
+                    // this.props.navigation.navigate('homescreen')
                   }
                   else {
                     Alert.alert(data.message)

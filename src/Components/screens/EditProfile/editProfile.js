@@ -35,6 +35,7 @@ export default class EditProfile extends Component {
             upload: false,
             checked: false,
             radioCheck: '',
+            img_filename: ' '
         };
     }
     componentDidMount() {
@@ -72,26 +73,31 @@ export default class EditProfile extends Component {
         }
         else {
             console.log("prof", this.state.imageSource)
+            console.log("profimg", this.state.img_filename)
+
             let token = await AsyncStorage.getItem('token');
             let editedData = {}
             editedData.first_name = this.state.first_name,
                 editedData.last_name = this.state.last_name,
                 editedData.email = this.state.email,
                 editedData.phone_no = this.state.phone_no,
-                editedData.profile_img = this.state.imageSource,
-                editedData.date = this.state.date
+                editedData.profile_img = this.state.img_filename,
+                editedData.dob = this.state.date,
+                editedData.gender = this.state.gender
             console.log("editedData", editedData)
 
             const res = await api.fetchapi('http://180.149.241.208:3022/profile', 'put',
-                JSON.stringify({
-                    first_name: this.state.first_name,
-                    last_name: this.state.last_name,
-                    email: this.state.email,
-                    phone_no: this.state.phone_no,
-                    gender: this.state.gender,
+                JSON.stringify(editedData
+                    // {
+                    // first_name: this.state.first_name,
+                    // last_name: this.state.last_name,
+                    // email: this.state.email,
+                    // phone_no: this.state.phone_no,
+                    // gender: this.state.gender,
 
-                    dob: this.state.date
-                }), token)
+                    // dob: this.state.date
+                    // }
+                ), token)
             const result = await res.json();
             console.log("api", result)
             if (result.success === true) {
@@ -141,11 +147,13 @@ export default class EditProfile extends Component {
 
                 const source = { uri: response.uri };
                 // You can also display the image using data:
-                // const source = { uri: 'data:image/jpeg;base64,' + response.data };
+                const file = response.fileName
+                console.log('filename', file)
 
                 this.setState({
                     upload: true,
-                    imageSource: source
+                    imageSource: source,
+                    img_filename: file
                 });
             }
         }
@@ -206,7 +214,7 @@ export default class EditProfile extends Component {
 
                         <View style={styles.container1}>
                             <DatePicker
-                                style={{ width: 250, color: '#fff', fontSize: 50 }}
+                                style={{ width: 250, fontSize: 50 }}
                                 date={this.state.date} //initial date from state
                                 mode="date" //The enum of date, datetime and time
                                 placeholder="select date"
