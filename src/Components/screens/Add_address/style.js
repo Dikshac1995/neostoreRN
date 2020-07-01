@@ -5,7 +5,8 @@ import {
 export const styles = StyleSheet.create({
     Address_container: {
         flex: 1,
-        // backgroundColor: 'pink'
+        backgroundColor: 'pink',
+        height: '90%'
 
     },
 
@@ -17,27 +18,32 @@ export const styles = StyleSheet.create({
 
     },
     Address_wrapper: {
+        flex: 5, paddingHorizontal: 15, paddingTop: 25
         // marginTop: 20,
-        paddingHorizontal: 20,
+        // paddingHorizontal: 20,
+        // backgroundColor: 'pink',
+        // height: '95%'
         // paddingTop: 20,
         // paddingBottom:20
     },
     Text_label: {
 
         fontSize: 20,
-        paddingTop: 20,
-        paddingBottom: 20
+
+        paddingBottom: 5
 
     },
-    footer: {
-        flex: 1,
-        justifyContent: 'flex-end',
-        borderTopWidth: 2,
-        borderTopColor: '#eee',
-        elevation: 4,
-        backgroundColor: '#fff',
+    address_fields: { display: 'flex', flexDirection: 'row', justifyContent: 'space-between' },
+    fields: {
         paddingTop: 10
-
+    },
+    fields_two: {
+        paddingTop: 10,
+        width: '45%'
+    },
+    footer: {
+        backgroundColor: '#fff', flex: 1,
+        elevation: 4,
 
     },
     addAddress_button: {
@@ -48,8 +54,10 @@ export const styles = StyleSheet.create({
         backgroundColor: 'red',
         textAlign: 'center',
         borderRadius: 8,
-        paddingTop: 20,
-        paddingBottom: 20,
+
+        height: 70
+
+
 
 
 

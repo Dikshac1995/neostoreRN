@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, FlatList, TouchableOpacity } from 'react-native'
+import { Text, View, FlatList, TouchableOpacity, Alert } from 'react-native'
 import Header from '../../Reusable/header /header';
 import { api } from '../../../utils/api';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -16,20 +16,26 @@ export default class Myorder extends Component {
     }
     componentDidMount() {
         this.getdata()
+        // const { page } = this.state;
     }
 
     async getdata() {
         let token = await AsyncStorage.getItem('token');
 
-        api.fetchapi('http://180.149.241.208:3022/getOrderDetails', 'get', " ", token)
+        api.fetchapi(api.baseUrl + 'getOrderDetails', 'get', " ", token)
             .then((response) => response.json())
             .then((data) => {
                 console.log('Success:', data);
                 if (data.status_code === 200) {
+                    const pdata = data.product_details
                     this.setState({ myOder: data.product_details })
+                }
+                else {
+                    Alert.alert(data.message)
                 }
             })
     }
+
     onPressItem(product_details, order_id) {
         console.log(order_id, product_details)
         { this.props.navigation.navigate('Orderid', { product_details: product_details.product_details, order_id: order_id }) }

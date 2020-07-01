@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, Button, Alert, ScrollView } from 'react-native'
+import { Text, View, Button, Alert, ScrollView, SafeAreaView } from 'react-native'
 import { TextInput } from 'react-native-gesture-handler'
 import { globalstyles } from '../../../style/style'
 import TextField from '../../Reusable/textField/textField'
@@ -68,7 +68,7 @@ export default class AddAddress extends Component {
                     Alert.alert(" address added successfully")
                 }
                 else {
-                    Alert.alert('fill the mentioned data ')
+                    Alert.alert('Fill the mentioned data ')
                 }
             })
             .catch((error) => {
@@ -79,108 +79,131 @@ export default class AddAddress extends Component {
     }
     render() {
         return (
-            <ScrollView>
+            <SafeAreaView style={{ flex: 1, }}>
                 <Header name1='arrowleft' text='Add Address ' name2='search'
                     onPress={() => this.props.navigation.goBack()}
                     onClick={() => this.props.navigation.navigate('share')}
                 />
-                <View style={styles.Address_container}>
+                <ScrollView style={{ flex: 1 }}>
                     <View style={styles.Address_wrapper}>
+
                         <View style={styles.fields}>
-                            <Text style={styles.Text_label}> ADDRESS</Text>
-                            <View style={styles.Address_TextField}>
-                                <TextInput multiline={true}
-                                    numberOfLines={3}
-                                    onChangeText={value => this.setState({ address: value.trim() })}
-                                    onBlur={() => {
-                                        this.setState((state) => ({
-                                            address_err: validation('Address', this.state.address),
-                                            ButtonDisable: state.ButtonDisable + this.state.address_err
-                                        }))
-                                    }
-                                    } />
-                            </View>
-                            {this.state.address_err ? <Text>hi</Text> : null}
+                            <Text style={styles.Text_label}>Address</Text>
+                            <TextInput style={styles.Address_TextField} multiline={true} numberOfLines={3}
+
+                                onChangeText={value => this.setState({
+                                    address: value.trim(),
+                                    address_err: validation('Address', value),
+                                })}
+                                onBlur={() => {
+                                    this.setState((state) => ({
+                                        address_err: validation('Address', this.state.address),
+                                        ButtonDisable: state.ButtonDisable + this.state.address_err
+                                    }))
+                                }
+                                } />
+                            <Text style={{ fontSize: 15, color: 'red' }}> {this.state.address_err}</Text>
                         </View>
 
-                        <Text style={styles.Text_label}> LANDMARK</Text>
-                        <View style={styles.Address_TextField}>
-                            <TextField />
-                            <TextInput onChangeText={value => this.setState({ LANDMARK: value.trim() })}
+                        <View style={styles.fields}>
+                            <Text style={styles.Text_label}>Landmark</Text>
+                            <TextInput style={styles.Address_TextField}
+                                onChangeText={value => this.setState({
+                                    LANDMARK: value.trim(),
+                                    landmark_err: validation('Landmark', this.state.LANDMARK),
+
+                                })}
                                 onBlur={() => {
                                     this.setState({
                                         landmark_err: validation('Landmark', this.state.LANDMARK),
                                         ButtonDisable: this.state.landmark_err
                                     })
                                 }} />
+                            <Text>{this.state.landmark_err}</Text>
                         </View>
+                        <View style={styles.address_fields}>
+                            <View style={styles.fields_two}>
+                                <Text style={styles.Text_label}> City</Text>
+                                <TextInput style={styles.Address_TextField}
+                                    onChangeText={value => this.setState({
+                                        City: value.trim(),
+                                        city_err: validation('City', value),
 
-                        <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                            <View style={{ width: 170 }}>
-                                <Text style={styles.Text_label}> CITY</Text>
-                                <View style={styles.Address_TextField}>
-                                    <TextInput onChangeText={value => this.setState({ City: value.trim() })}
-                                        onBlur={() => {
-                                            this.setState({ city_err: validation('City', this.state.City) })
-                                        }} />
-                                </View>
+                                    })}
+                                    onBlur={() => {
+                                        this.setState({
+                                            city_err: validation('City', this.state.City),
+                                            ButtonDisable: this.state.landmark_err
+                                        })
+                                    }} />
+                                <Text>{this.state.city_err}</Text>
                             </View>
-                            <View style={{ width: 170 }}>
-                                <Text style={styles.Text_label}> STATE</Text>
-                                <View style={styles.Address_TextField}>
-                                    <TextInput onChangeText={value => this.setState({ state: value.trim() })}
-                                        onBlur={() => {
-                                            this.setState({
-                                                state_err: validation('state', this.state.state),
-                                                ButtonDisable: this.state.address_err
-                                            })
-                                        }} />
-                                </View>
-                            </View>
-                        </View>
+                            <View style={styles.fields_two}>
+                                <Text style={styles.Text_label}> State</Text>
+                                <TextInput style={styles.Address_TextField}
+                                    onChangeText={value => this.setState({
+                                        state: value.trim(),
+                                        state_err: validation('state', value),
 
-                        <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                            <View style={{ width: 170 }}>
-                                <Text style={styles.Text_label}> ZIP CODE</Text>
-                                <View style={styles.Address_TextField}>
-                                    <TextInput onChangeText={value => this.setState({ zipCode: value.trim() })}
-                                        onBlur={() => {
-                                            this.setState({
-                                                zip_err: validation('pinCode', this.state.zipCode)
-                                            })
-                                        }} />
-                                </View>
-                            </View>
-                            <View style={{ width: 170 }}>
-                                <Text style={styles.Text_label}> COUNTRY</Text>
-                                <View style={styles.Address_TextField}>
-                                    <TextInput onChangeText={value => this.setState({ country: value.trim() })}
-                                        onBlur={() => {
-                                            this.setState({
-                                                country_err: validation('country', this.state.country)
-                                            })
-                                        }} />
-                                </View>
+                                    })}
+                                    onBlur={() => {
+                                        this.setState({
+                                            state_err: validation('state', this.state.state),
+                                            ButtonDisable: this.state.landmark_err
+                                        })
+                                    }} />
+                                <Text>{this.state.state_err}</Text>
                             </View>
                         </View>
 
+                        <View style={styles.address_fields}>
+                            <View style={styles.fields_two}>
+                                <Text style={styles.Text_label}> Zip Code</Text>
+                                <TextInput style={styles.Address_TextField}
+                                    keyboardType={"number-pad"} maxLength={6}
+                                    onChangeText={value => this.setState({
+                                        zipCode: value.trim(),
+                                        zip_err: validation('pinCode', value),
+
+                                    })}
+                                    onBlur={() => {
+                                        this.setState({
+                                            zip_err: validation('pinCode', this.state.zipCode),
+                                            ButtonDisable: this.state.landmark_err
+                                        })
+                                    }} />
+                                <Text>{this.state.zip_err}</Text>
+                            </View>
+                            <View style={styles.fields_two}>
+                                <Text style={styles.Text_label}> Country</Text>
+                                <TextInput style={styles.Address_TextField}
+                                    onChangeText={value => this.setState({
+                                        country: value.trim(),
+                                        country_err: validation('country', value),
+
+                                    })}
+                                    onBlur={() => {
+                                        this.setState({
+                                            country_err: validation('country', this.state.country),
+                                            ButtonDisable: this.state.landmark_err
+                                        })
+                                    }} />
+                                <Text>{this.state.country_err}</Text>
+                            </View>
+                        </View>
 
 
 
-                        {console.log(this.state.address_err.addErr, " $$$")}
-
-                        {/* {this.state.address_err == false ? this.setState({ ButtonDisable: false }) : null}           */}
-                        {console.log(this.state.ButtonDisable, " 444$$$")}
 
                     </View>
                     <View style={styles.footer}>
-                        <View>
-                            <ButtonField text='SAVE ADDRESS' style={styles.addAddress_button}
-                                disbled={this.state.ButtonDisable} onPress={() => this.AddAddress()} />
-                        </View>
+                        <ButtonField text='SAVE ADDRESS' style={styles.addAddress_button}
+                            disbled={this.state.ButtonDisable} onPress={() => this.AddAddress()} />
                     </View>
-                </View>
-            </ScrollView>
+                </ScrollView>
+
+
+            </SafeAreaView>
         )
     }
 }

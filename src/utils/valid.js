@@ -99,21 +99,22 @@ export default function validation(type, text, pass) {
         }
     }
     else if (type == 'Address') {
-        if (text.length < 5) {
-            Alert.alert('Address must be larger')
-            return true
+        if (text.length < 8) {
+            return 'Address must be larger'
+
         } else {
-            return false
+            return ' '
+
 
         }
     }
     else if (type == 'Landmark') {
         if (text == ' ') {
-            Alert.alert('landMark is required')
-            return true
+            // Alert.alert('landMark is required')
+            return 'landMark is required'
         }
         else {
-            return false
+            return ' '
         }
     }
 
@@ -121,41 +122,47 @@ export default function validation(type, text, pass) {
         console.warn(" #####", text)
         if (text == '') {
 
-            Alert.alert(' cityis required')
-            return true
+            return ' city is required'
         }
         else {
             // Alert.alert('ok')
-            return false
+            return ' '
         }
 
     }
     else if (type == 'pinCode') {
-        if (text == ' ' && text.length < 6) {
-            Alert.alert('pin code is required')
-            return true
+        var pincode_regx = /^ [0 - 9]  $/
+        if (!text) {
+            // Alert.alert()
+            return 'Zip code is Required'
+        }
+        else if (!pincode_regx.test(text)) {
+            // Alert.alert()
+            return 'zip  code  must be 6 digit number '
+
         }
         else {
-            return false
+            return '  '
+
         }
     }
     else if (type == 'state') {
-        if (text == ' ') {
-            Alert.alert('state is required')
-            return true
+        if (!text) {
+
+            return 'State is Required'
         }
         else {
-            return false
+            return ' '
         }
     }
 
     else if (type == 'country') {
-        if (text == ' ') {
-            Alert.alert('country is required')
-            return true
+        if (!text) {
+            // Alert.alert('country is required')
+            return 'Country is Required'
         }
         else {
-            return false
+            return ' '
         }
     }
 

@@ -6,7 +6,7 @@ import { globalstyles } from '../../../style/style'
 import validation from '../../../utils/valid'
 import { api } from '../../..//utils/api'
 import AsyncStorage from '@react-native-community/async-storage';
-
+import Loader from '../../Reusable/loader/loader'
 import authHeader from '../../../Redux/helper/authHeader'
 import PasswordCon from '../../Reusable/Password/Password'
 import { styles } from './style'
@@ -19,7 +19,8 @@ export default class ResetPassword extends Component {
             confirmPass: '',
             confirmpassError: ' ',
             newpassError: ' ',
-            oldpassError: ' '
+            oldpassError: ' ',
+            loading: false
         }
     }
     async  onSubmit() {
@@ -39,19 +40,20 @@ export default class ResetPassword extends Component {
             Alert.alert("Please Fill  Required Information  ")
         }
         else {
+            this.setState({ loading: true })
             let token = await AsyncStorage.getItem('token');
             const res = await api.fetchapi('http://180.149.241.208:3022/changePassword', 'post',
                 JSON.stringify({ "oldPass": this.state.oldPass, "newPass": this.state.newPass, "confirmPass": this.state.confirmPass }), token)
             const result = await res.json();
             console.log("api", result)
             if (result.sucess === true) {
-
+                this.setState({ loading: false })
                 Alert.alert(result.message)
 
             }
             else {
-                console.log(result.json, " g")
-                Alert.alert("old password is incorrect ")
+                this.setState({ loading: false })
+                Alert.alert(result.message)
             }
         }
     }
@@ -62,6 +64,8 @@ export default class ResetPassword extends Component {
             <>
 
                 <View style={globalstyles.Container}>
+                    <Loader
+                        loading={this.state.loading} />
 
                     <PasswordCon placeholder=' enter current Password'
                         onChangeText={value => this.setState({

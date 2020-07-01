@@ -13,6 +13,7 @@ export const api = {
                 {
                     method: type,
                     headers: {
+                        // 'Content-Type': 'multipart/form-data',
                         'Content-Type': 'application/json',
                         Authorization: token ? 'Bearer ' + token : null
                     },
