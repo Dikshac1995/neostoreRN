@@ -40,8 +40,23 @@ class Registration extends Component {
     }
 
     submit() {
+        const fnameError = validation('firstName', this.state.firstName)
+        const lnameError = validation('lastName', this.state.lastName)
+        const emailError = validation('email', this.state.email)
+        const passwordError = validation('password', this.state.password)
+        const conpassError = validation('confirmpassword', this.state.confirmPassword, this.state.password)
+        const phoneError = validation('phoneNo', this.state.phoneNo)
 
-        const fn_err = validation('firstName', this.state.firstName)
+        this.setState({
+            firstNameError: fnameError,
+            lastNameError: lnameError,
+            emailError: emailError,
+            passwordError: passwordError,
+            confirmpasswordError: conpassError,
+            phoneError: phoneError
+        })
+
+        // const fn_err = validation('firstName', this.state.firstName)
         let collection = {}
         collection.first_name = this.state.firstName
         collection.last_name = this.state.lastName
@@ -50,29 +65,15 @@ class Registration extends Component {
         collection.email = this.state.email
         collection.phone_no = this.state.phoneNo
         collection.gender = this.state.gender
-
-        console.log("collect", collection, this.state.firstName)
-        console.warn("1234 ", fn_err)
-
-        if (this.state.firstName == " " || this.state.lastName == " " || this.state.password == " "
-            || this.state.confirmPassword == " " || this.state.email == " " || this.state.phoneNo == " "
-            || !this.state.checked || !this.state.gender) {
-            Alert.alert(" Fields can not be empty !")
-        }
-        else if (this.state.firstNameError !== ' ' || this.state.lastNameError !== ' ' || this.state.passwordError !== ' ' ||
-            this.state.confirmpasswordError !== ' ' || this.state.emailError !== ' ' || this.state.phoneError !== ' ') {
-            Alert.alert('Fill the Detail properly ')
-        }
-        else {
+        if (fnameError == " " && lnameError == " " && emailError == " " && passwordError == " "
+            && conpassError == " "
+            && phoneError == " ") {
             this.setState({ loading: true })
-            api.fetchapi('http://180.149.241.208:3022/register', 'post', JSON.stringify(collection))
+            api.fetchapi(api.baseUrl + 'register', 'post', JSON.stringify(collection))
                 .then((response) => {
-                    console.log('res', response)
-
                     response.json().then((responseJSON) => {
                         console.log("responseJSON", responseJSON);
                         if (responseJSON.success) {
-
                             setTimeout(() => {
                                 Alert.alert(responseJSON.message)
                                 this.setState({ loading: false })
@@ -98,18 +99,13 @@ class Registration extends Component {
                     })
                 }
                 )
-
         }
-
-
-
     }
 
 
 
     render() {
         const { radioCheck } = this.state;
-
         return (
             <ScrollView>
                 <View style={globalstyles.Container}>
@@ -166,6 +162,7 @@ class Registration extends Component {
                             onPress={() => { this.setState({ radioCheck: 'second', gender: 'female' }); }} />
                         <Text style={styles.GenderName}> Female </Text>
                     </View>
+
 
                     <TextField placeholder="Phone number" name="mobile-phone" maxLength={10}
                         keyboardType={"number-pad"}

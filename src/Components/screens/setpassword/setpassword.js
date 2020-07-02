@@ -16,7 +16,7 @@ export default class SetPassword extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            otp: ' ',
+            Otp: ' ',
             password: ' ',
             confirmPassword: ' ',
             otp_err: ' ',
@@ -33,49 +33,56 @@ export default class SetPassword extends Component {
 
 
     async submit(token) {
-        if (this.state.otp == ' ' ||
-            this.state.password == ' ' ||
-            this.state.confirmPassword == ' ') {
-            Alert.alert('fields can not be empty')
-        }
-        else if (this.state.passwordError !== ' ' ||
-            this.state.confirmpasswordError !== ' ') {
-            Alert.alert('Fill the proper infomation ')
-        }
-        else {
+        console.log(this.state.password, 'v', this.state.confirmPassword)
+        const otpErr = validation('otp', this.state.Otp)
+        const passError = validation('password', this.state.password)
+        const conpassErr = validation('confirmpassword', this.state.confirmPassword, this.state.password)
+
+        console.log('err', passError, conpassErr)
+        this.setState({
+            otp_err: otpErr,
+            passwordError: passError,
+            confirmpasswordError: conpassErr
+        })
+
+        if (otpErr == " " && passError == " " && conpassErr == " ") {
+            // console.log('data', otpCode)
             this, this.setState({ loading: true })
             const res = await api.fetchapi('http://180.149.241.208:3022/recoverPassword', 'post',
-                JSON.stringify({ "otpCode": this.state.otp, "newPass": this.state.password, "confirmPass": this.state.confirmPassword })
+                JSON.stringify({ "otpCode": this.state.Otp, "newPass": this.state.password, "confirmPass": this.state.confirmPassword })
                 , token)
-            const result = await res.json();
-            console.log("api", result)
-            if (result.success === true) {
-                setTimeout(() => {
-                    Alert.alert(responseJSON.message)
-                    this.setState({ loading: false })
-                    Alert.alert(
-                        'your new password set successfully ',
-                        'you have to login again ',
-                        [
+                .then((response) => {
+                    response.json().then((responseJSON) => {
+                        console.log("responseJSON", responseJSON);
+                        if (responseJSON.success === true) {
+                            this.setState({ loading: false })
+                            Alert.alert(responseJSON.message)
+                            setTimeout(() => {
+                                this.props.navigation.navigate('loginScreen')
+                            }, 3000)
 
-                            {
-                                text: 'ok', onPress: () => {
-                                    this.props.navigation.navigate('loginScreen')
-                                }
-                            },
-                        ],
-                        { cancelable: false }
-                    )
-
-                }, 3000)
-
-            }
-            else {
-                setTimeout(() => {
-                    this.setState({ loading: false })
-                    Alert.alert(result.message)
-                }, 3000)
-            }
+                            //         Alert.alert(
+                            //             'your new password set successfully ',
+                            //             'you have to login again ',
+                            //             [
+                            //                 {
+                            //                     text: 'ok', onPress: () => {
+                            //                         this.props.navigation.navigate('loginScreen')
+                            //                     }
+                            //                 },
+                            //             ],
+                            //             { cancelable: false }
+                            //         )
+                            //     }, 3000)
+                        }
+                        else {
+                            setTimeout(() => {
+                                this.setState({ loading: false })
+                                Alert.alert(responseJSON.message)
+                            }, 3000)
+                        }
+                    })
+                })
         }
     }
     render() {
@@ -89,9 +96,9 @@ export default class SetPassword extends Component {
                 <Text style={globalstyles.neostore_logo}>NeoSTORE</Text>
                 <Text style={globalstyles.Containerhead}>Set Password</Text>
                 <TextField placeholder="otp" otp="trending-down"
-                    keyboardType={"number-pad"} value={otp} editable={true}
+
                     onChangeText={value => this.setState({
-                        otp: value.trim(),
+                        Otp: value,
                         otp_err: validation('otp', value)
 
                     })}

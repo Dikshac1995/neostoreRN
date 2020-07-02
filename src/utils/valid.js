@@ -4,11 +4,11 @@ import { Alert } from "react-native";
 
 
 export default function validation(type, text, pass) {
-    console.log(text, 0)
+    console.log(text, 0, pass)
 
     const regex = /^[A-Za-z]+$/;
     const passreg = /^(?=.*[0-9])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{7,15}$/
-    // /^[0-9]+$/;
+
 
     const numregx = /^\d{10}$/
     const emailPattern = /^([a-zA-Z])+([0-9a-zA-Z_\.\-])+\@+(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,5}$)$/;
@@ -53,11 +53,12 @@ export default function validation(type, text, pass) {
     }
 
     else if (type == 'confirmpassword') {
-        if (!text) {
-            return ' confirm Password is Required '
+        console.log("conpass", text, pass)
+        if (text == " ") {
+            return 'confirm Password is Required '
         }
 
-        else if (pass == text) {
+        else if (pass === text) {
             return " "
         }
         else {
@@ -88,10 +89,12 @@ export default function validation(type, text, pass) {
         }
     }
     else if (type == 'otp') {
+        const otp_regx = /^\d{4}$/
+
         if (!text) {
             return 'otp is Required '
         }
-        else if (numregx.test(text)) {
+        else if (otp_regx.test(text)) {
             return ' '
         }
         else {
@@ -137,7 +140,7 @@ export default function validation(type, text, pass) {
     }
     else if (type == 'pinCode') {
         console.log(text, '12')
-        var pincode_regx = /^ [0 - 9]  $/
+        var pincode_regx = /^\d{6}$/
         if (!text) {
             // Alert.alert()
             return 'Zip code is Required'

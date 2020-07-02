@@ -18,22 +18,21 @@ export default class ForgotPassword extends Component {
         }
     }
     async onsubmit() {
+        const emailErr = validation('email', this.state.emailId)
+        this.setState({ email_err: emailErr })
+        console.log(emailErr, '1')
 
-        if (this.state.emailId == ' ') {
-            Alert.alert(" Emailid  is required ")
-        }
-        else if (this.state.email_err !== ' ') {
-            Alert.alert(" Email  is invalid")
-        }
-        else {
+        if (emailErr == " ") {
+            console.log('hi')
             this.setState({ loading: true })
-            const res = await api.fetchapi('http://180.149.241.208:3022/forgotPassword', 'post',
+            const res = await api.fetchapi(api.baseUrl + 'forgotPassword', 'post',
                 JSON.stringify({ "email": this.state.emailId }))
             const result = await res.json();
             console.log("api", result)
             if (result.success === true) {
+                this.setState({ emailId: ' ' })
                 setTimeout(() => {
-                    this.setState({ loading: false })
+                    this.setState({ emailId: ' ', loading: false })
                     Alert.alert(result.message)
                     this.props.navigation.navigate('SetPassword', { otp: result.otp, token: result.token })
 
@@ -47,6 +46,7 @@ export default class ForgotPassword extends Component {
                 }, 3000)
             }
         }
+
     }
     render() {
         return (
@@ -58,7 +58,7 @@ export default class ForgotPassword extends Component {
                 <TextField placeholder="Enter Userid" name="user"
                     onChangeText={value => this.setState({
                         emailId: value.trim(),
-                        email_err: validation('email', this.state.emailId)
+                        email_err: validation('email', value.trim())
                     })}
 
                     validate={<Text>{this.state.email_err}</Text>} />

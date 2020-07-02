@@ -69,13 +69,21 @@ class LoginScreen extends Component {
     // }
 
     login() {
-        if ((this.state.email === '') || (this.state.pass === ' ')) {
+        const emailError = validation('email', this.state.email)
+        const passwordError = validation('password', this.state.pass)
+        console.log('emailErr', emailError, passwordError)
+        this.setState({
+            emailValid: emailError,
+            passValid: passwordError
+        })
+        if ((this.state.email === '') || (this.state.pass === ' ') || (this.state.emailValid !== " ") || (this.state.passValid != " ")) {
             Alert.alert(" fill the required detail ")
         }
-        else if ((this.state.emailValid === ' ' && this.state.passValid == ' ')) {
+
+        else {
 
             this.setState({ loading: true })
-            api.fetchapi('http://180.149.241.208:3022/login', 'post', JSON.stringify({
+            api.fetchapi(api.baseUrl + 'login', 'post', JSON.stringify({
                 "email": this.state.email,
                 "pass": this.state.pass
             }))
@@ -85,7 +93,6 @@ class LoginScreen extends Component {
                             await AsyncStorage.setItem('token', responseJSON.token)
                             const customerDetail = responseJSON
                             await AsyncStorage.setItem("customerDetail", JSON.stringify(customerDetail))
-
                             const token = await AsyncStorage.getItem('token')
                             console.log(token)
                             setTimeout(() => {
@@ -96,7 +103,6 @@ class LoginScreen extends Component {
                         }
                         else {
                             setTimeout(() => {
-
                                 Alert.alert(responseJSON.message)
                                 this.setState({ loading: false })
                             }, 3000)
@@ -104,9 +110,6 @@ class LoginScreen extends Component {
                     })
                 })
 
-        }
-        else {
-            Alert.alert("fill the data properly ")
         }
     }
     render() {
