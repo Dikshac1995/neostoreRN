@@ -1,9 +1,13 @@
 import React, { Component } from 'react'
-import { Text, View, FlatList, TouchableOpacity, Alert } from 'react-native'
+import { Text, View, FlatList, TouchableOpacity, Alert, TextInput } from 'react-native'
 import Header from '../../Reusable/header /header';
 import { api } from '../../../utils/api';
 import AsyncStorage from '@react-native-community/async-storage';
 import moment from "moment";
+import * as Animatable from 'react-native-animatable';
+import Icon from 'react-native-vector-icons/FontAwesome';
+
+
 
 
 export default class Myorder extends Component {
@@ -11,8 +15,10 @@ export default class Myorder extends Component {
         super(props);
         this.state = {
             myOder: [],
-            token: ' '
+            token: ' ',
+            serachShow: false
         }
+        this.arrayholder = [];
     }
     componentDidMount() {
         this.getdata()
@@ -29,11 +35,21 @@ export default class Myorder extends Component {
                 if (data.status_code === 200) {
                     const pdata = data.product_details
                     this.setState({ myOder: data.product_details })
+                    this.arrayholder = pdata;
                 }
                 else {
                     Alert.alert(data.message)
                 }
             })
+    }
+    searchFilterFunction = text => {
+        const newData = this.arrayholder.filter(function (item) {
+            //applying filter for the inserted text in search bar
+            const itemData = item.product_details[0].order_id ? item.product_details[0].order_id.toUpperCase() : ''.toUpperCase();
+            const textData = text.toUpperCase();
+            return itemData.indexOf(textData) > -1;
+        });
+        this.setState({ myOder: newData });
     }
 
     onPressItem(product_details, order_id) {
@@ -53,16 +69,48 @@ export default class Myorder extends Component {
             />
         );
     }
+    onsearchClick() {
+        console.log('hiii', this.arrayholder)
+        this.setState({
+            serachShow: !this.state.serachShow,
+            myOder: this.arrayholder
+        })
+        // this.getdata()
+
+
+    }
     render() {
         console.log(this.state.myOder, 'myorder')
 
         return (
 
             <View>
-                <Header name1='arrowleft' text='My order' name2='search'
-                    onPress={() => this.props.navigation.goBack()}
-                    onClick={() => this.props.navigation.navigate('searchitem')}
-                />
+                {!this.state.serachShow ?
+
+                    <Header name1='arrowleft' text='My order' name2='search'
+                        onPress={() => this.props.navigation.goBack()}
+                        onClick={() => this.onsearchClick()}
+                    // onClick={() => this.props.navigation.navigate('searchitem')}
+                    />
+                    :
+                    <View style={{ height: 80, backgroundColor: 'red', paddingTop: 10, padding: 10 }}>
+                        <Animatable.View animation="slideInRight" duration={500} style={{ height: 60, backgroundColor: '#fff', flexDirection: 'row', padding: 5, alignItems: 'center' }}>
+                            <Animatable.View animation='fadeInLeft' duration={500} style={{ height: 50, backgroundColor: '#fff', flexDirection: 'row', padding: 5, alignItems: 'center' }}>
+                                <Icon name='arrow-left' size={25}
+                                    onPress={() => { 'arrow-left' ? this.onsearchClick() : null }} />
+                            </Animatable.View>
+
+                            <TextInput placeholder="search" style={{ fontSize: 25, marginLeft: 15 }}
+                                onChangeText={value => this.searchFilterFunction(value)
+                                    // this.setState({
+                                    // text: value.trim(),
+                                    // }),
+
+                                }
+                            // onBlur={() => this.search('text', this.state.text)}
+                            />
+                        </Animatable.View>
+                    </View>}
                 <FlatList
                     data={this.state.myOder}
 

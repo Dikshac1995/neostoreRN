@@ -44,7 +44,12 @@ export default class EditProfile extends Component {
     componentDidMount() {
         const { data } = this.props.route.params;
         console.log(" data  ", data, data.gender)
-        const source = { uri: api.baseUrl + data.profile_img };
+
+
+        if (data.profile_img !== null) {
+            const source = { uri: api.baseUrl + data.profile_img };
+            this.setState({ imageSource: source })
+        }
 
         this.setState({
             first_name: data.first_name,
@@ -53,7 +58,7 @@ export default class EditProfile extends Component {
             phone_no: data.phone_no,
             gender: data.gender,
             date: data.dob,
-            imageSource: source,
+            // imageSource: source,
             loading: false
         })
         if (data.gender === "female") {
@@ -94,21 +99,23 @@ export default class EditProfile extends Component {
                             loading: false,
 
                         })
+                        this.props.navigation.navigate('MyAccount')
+
                     })
                 })
 
         }
-        // this.onuploadimage()
-        const err = this.state.last_nameError
-        if (this.state.last_nameError !== ' ' || this.state.first_nameError !== ' '
-            || this.state.emailError !== ' '
-            || this.state.phone_noError !== ' ') {
-            Alert.alert("Please Fill  Required Information  ")
-        }
-
-
+        this.onuploadimage()
+        // const err = this.state.last_nameError
+        // if (this.state.last_nameError !== ' ' || this.state.first_nameError !== ' '
+        //     || this.state.emailError !== ' '
+        //     || this.state.phone_noError !== ' ') {
+        //     Alert.alert("Please Fill  Required Information  ")
 
     }
+
+
+
     async  onuploadimage() {
         let token = await AsyncStorage.getItem('token');
         console.log('token ', token)
@@ -142,22 +149,7 @@ export default class EditProfile extends Component {
             const data = JSON.parse(resp.data);
             console.log(data.customer_details, "res")
             if (data.success === true) {
-                AsyncStorage.getItem('customerDetail')
-                    .then(d => {
-                        const Data = JSON.parse(d);
-
-                        Data.customer_details.profile_img =
-                            data.customer_details.profile_img;
-
-                        Data.customer_details.first_name =
-                            data.customer_details.first_name;
-
-                        Data.customer_details.last_name =
-                            data.customer_details.last_name;
-                        AsyncStorage.setItem('customerDetail', JSON.stringify(Data));
-                    })
-                    .done();
-
+                this.storeData(data)
                 Alert.alert(data.message);
                 this.setState({ loading: false })
                 this.props.navigation.navigate('MyAccount')
@@ -176,10 +168,8 @@ export default class EditProfile extends Component {
                 const Data = JSON.parse(d);
                 Data.customer_details.profile_img =
                     data.customer_details.profile_img;
-
                 Data.customer_details.first_name =
                     data.customer_details.first_name;
-
                 Data.customer_details.last_name =
                     data.customer_details.last_name;
                 AsyncStorage.setItem('customerDetail', JSON.stringify(Data));
@@ -228,8 +218,6 @@ export default class EditProfile extends Component {
         const { data } = this.props.route.params;
         console.log(this.state.first_name, " state")
         console.log('fn', this.state.radioCheck)
-
-
         return (
             <ScrollView>
 
