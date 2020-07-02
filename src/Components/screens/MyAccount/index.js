@@ -18,7 +18,9 @@ export default class MyAccount extends Component {
         super(props);
         this.state = {
             customer_data: [],
-            loading: true
+            loading: true,
+            imageSource: require('../../../Assets/Images/user-profileIcon.png'),
+
 
         }
     }
@@ -32,9 +34,35 @@ export default class MyAccount extends Component {
         const res = await api.fetchapi('http://180.149.241.208:3022/getCustProfile', 'get', " ", token)
         const result = await res.json();
         const customer_profile = result.customer_proile
-        this.setState({ customer_data: customer_profile, loading: false })
-        console.log("api", customer_profile)
-        console.log("123", this.state.customer_data)
+
+        console.log(customer_profile, '@@@@')
+        AsyncStorage.getItem('customerDetail')
+            .then(d => {
+                const Data = JSON.parse(d);
+                console.log('123', Data)
+                Data.customer_details.profile_img =
+                    customer_profile.profile_img;
+
+                Data.customer_details.first_name =
+                    customer_profile.first_name;
+
+                Data.customer_details.last_name =
+                    customer_profile.last_name;
+
+                console.log(Data, 'd1111ata');
+
+                AsyncStorage.setItem('customerDetail', JSON.stringify(Data));
+            })
+            .done();
+        const source = { uri: api.baseUrl + customer_profile.profile_img };
+
+        const img = api.baseUrl + customer_profile.profile_img
+        console.log('1ws', img)
+        this.setState({
+            customer_data: customer_profile, loading: false,
+            imageSource: source
+        })
+
     }
 
 
@@ -44,11 +72,10 @@ export default class MyAccount extends Component {
         return (
             <>
 
-                {/* <View> */}
 
                 <Header name1='arrowleft' text=' My Account' name2='search'
                     onPress={() => this.props.navigation.goBack()}
-                    onClick={() => this.props.navigation.navigate('share')}
+                    onClick={() => this.props.navigation.navigate('serachitem')}
                 />
                 {/* </View> */}
                 {this.state.loading ? <ActivityIndicator /> :
@@ -58,16 +85,14 @@ export default class MyAccount extends Component {
 
                             <View style={globalstyles.Container}>
 
-                                <View style={{ alignItems: 'center', marginBottom: 10, marginTop: 10 }}>
-                                    {/* <Icon name='user-circle' size={120} color="#fff" /> */}
-                                    <Avatar
-                                        size="large"
-                                        rounded
-                                        showAccessory
-                                        icon={{ name: 'user-circle', type: 'font-awesome' }}
-                                        onPress={() => Alert.alert("Works!")}
-                                        activeOpacity={0.7}
-                                    />
+                                <View style={{ alignItems: 'center', }}>
+                                    <TouchableOpacity onPress={() => this.onChangeImage()}>
+                                        {/* <Image style={{ width: 220, height: 160 }} source={{
+                                            uri: api.baseUrl + this.state.customer_data.profile_img
+                                        }} /> */}
+                                        <Image style={{ borderRadius: 100, width: 150, height: 150, resizeMode: 'cover' }} source={this.state.imageSource} />
+                                    </TouchableOpacity>
+
                                 </View>
                                 <TextField name="user" value={this.state.customer_data.first_name} editable={false} />
                                 <TextField placeholder="last name" name="user" value={this.state.customer_data.last_name} editable={false} />
@@ -85,8 +110,8 @@ export default class MyAccount extends Component {
                             <TouchableOpacity onPress={() => this.props.navigation.navigate('ResetPassword')}>
                                 <View style={{ backgroundColor: 'white', height: 50 }}>
                                     <Text style={{
-                                        textAlign: 'center', paddingTop: 10, fontSize: 25, paddingBottom: 20
-                                    }} >Reset Password</Text>
+                                        textAlign: 'center', paddingTop: 15, fontSize: 25, paddingBottom: 20
+                                    }} >RESET PASSWORD</Text>
                                 </View>
                             </TouchableOpacity>
                         </View>

@@ -3,6 +3,7 @@ import { Text, View, Image, FlatList, ActivityIndicator, ToastAndroid, RefreshCo
 import StarRating from 'react-native-star-rating';
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { connect } from 'react-redux';
+import { api } from '../../../utils/api'
 import Header from '../../Reusable/header /header'
 // import { FetchProductList } from '../../../Redux/Action/productlist'
 
@@ -38,7 +39,7 @@ export default class ProductList extends Component {
     fetchProductList() {
         const { category_id } = this.props.route.params;
         const { page } = this.state;
-        const url = `http://180.149.241.208:3022/commonProducts?category_id=${category_id}&pageNo=${page}&perPage=5`
+        const url = api.baseUrl + `commonProducts?category_id=${category_id}&pageNo=${page}&perPage=5`
         fetch(url)
             .then(res => res.json())
             .then(response => {
@@ -103,18 +104,22 @@ export default class ProductList extends Component {
 
 
     _handleLoadMore = () => {
-        if (this.state.page < 2) {
-            // setTimeout(() => {
-            this.setState(
-                (prevState, nextProps) => ({
-                    page: prevState.page + 1,
-                    loading: true
-                }),
-                () => {
-                    this.fetchProductList();
-                }
-            )
-            // }, 5000)
+        if (!this.state.loading) {
+
+
+            if (this.state.page < 2) {
+                // setTimeout(() => {
+                this.setState(
+                    (prevState, nextProps) => ({
+                        page: prevState.page + 1,
+                        loading: true
+                    }),
+                    () => {
+                        this.fetchProductList();
+                    }
+                )
+                // }, 5000)
+            }
         }
     };
     _handleRefresh = () => {

@@ -4,9 +4,8 @@ import {
 
 export const styles = StyleSheet.create({
     Address_container: {
-        flex: 1,
+        // flex: 1,
         backgroundColor: 'pink',
-        height: '90%'
 
     },
 
@@ -18,7 +17,11 @@ export const styles = StyleSheet.create({
 
     },
     Address_wrapper: {
-        flex: 5, paddingHorizontal: 15, paddingTop: 25
+        paddingHorizontal: 10, paddingTop: 25,
+        height: '100%',
+        // marginHorizontal: 10
+
+
         // marginTop: 20,
         // paddingHorizontal: 20,
         // backgroundColor: 'pink',
@@ -33,16 +36,26 @@ export const styles = StyleSheet.create({
         paddingBottom: 5
 
     },
+    err_text: {
+        fontSize: 15, color: 'red'
+
+    },
     address_fields: { display: 'flex', flexDirection: 'row', justifyContent: 'space-between' },
     fields: {
-        paddingTop: 10
+        paddingTop: 10,
+        marginHorizontal: 10
     },
     fields_two: {
         paddingTop: 10,
-        width: '45%'
+        width: '45%',
+        marginHorizontal: 10
+
     },
     footer: {
-        backgroundColor: '#fff', flex: 1,
+        // backgroundColor: 'pink',
+        // flex: 2,
+        // height: '20%',
+
         elevation: 4,
 
     },

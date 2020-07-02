@@ -80,7 +80,7 @@ class Placeorder extends Component {
 
         const customer_details = JSON.parse(await AsyncStorage.getItem('customerDetail'))
         const value = JSON.parse(await AsyncStorage.getItem('myOrder'));
-        console.log('valu', value, customer_details)
+        console.log('valu', customer_details)
         if (value !== null) {
             const prod_quantity = value.map((res) => res.quantity)
             const product_quantity = quantity.concat(prod_quantity)
@@ -132,7 +132,7 @@ class Placeorder extends Component {
 
                             //     },
                             //     { flag: 'checkout' }]
-                            api.fetchapi("http://180.149.241.208:3022/addProductToCartCheckout", 'post',
+                            api.fetchapi(api.baseUrl + "addProductToCartCheckout", 'post',
                                 JSON.stringify(data1),
                                 token)
                                 .then((response) => response.json()).then((data) => {
@@ -163,7 +163,7 @@ class Placeorder extends Component {
 
     }
     pickerChange(index, value) {
-        const elementsIndex = this.state.productData.findIndex(element => element.id == id)
+        const elementsIndex = this.state.productData.findIndex(element => element.id == index)
         let newArray = [...this.state.productData]
         newArray[index] = { ...newArray[index], quantity: value }
         console.log(elementsIndex, newArray, "data")
@@ -191,11 +191,8 @@ class Placeorder extends Component {
     async getData() {
         let token = await AsyncStorage.getItem('token');
         const customerData = JSON.parse(await AsyncStorage.getItem('customerDetail'))
-
-
         this.setState({ token: token, data: customerData.customer_details })
-        api.fetchapi('http://180.149.241.208:3022/getCustAddress', 'get', " ", this.state.token)
-
+        api.fetchapi(api.baseUrl + 'getCustAddress', 'get', " ", this.state.token)
             .then((response) => response.json())
             .then((data) => {
                 console.log('Success address data :', data);
@@ -234,6 +231,7 @@ class Placeorder extends Component {
         console.log(this.state.addressData, 'addData')
         console.log("productData", this.state.productData, this.state.quantity)
         const customerData = this.state.customer_details
+        console.log('customerData', customerData)
         // const Address = this.state.Address
         const Address = this.state.addressData
         return (

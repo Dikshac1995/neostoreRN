@@ -111,60 +111,60 @@ export default class add_list extends Component {
                     onClick={() => this.props.navigation.navigate('AddAddress')}
                 />
 
+                <View style={{ height: '75%' }}>
+                    <Text style={{ fontSize: 25, margin: 20, color: '#8B8888' }}>
+                        Shipping Address</Text>
 
-                <Text style={{ fontSize: 25, margin: 20, color: '#8B8888' }}>
-                    Shipping Address</Text>
 
+                    <View style={{ padding: 10, height: 400, marginHorizontal: 10 }}>
+                        <Text style={{ marginHorizontal: 10, fontSize: 25, }}>
+                            {data.first_name}  {data.last_name}
+                        </Text>
+                        <FlatList
+                            data={this.state.addressData}
+                            ItemSeparatorComponent={this.FlatListItemSeparator}
+                            renderItem={({ item, index }) => {
+                                return (
+                                    <View
+                                        style={{
+                                            flex: 1,
+                                            flexDirection: 'row',
+                                        }}>
+                                        <View style={{ marginTop: 40 }}>
+                                            <RadioButton
+                                                value={index}
+                                                status={this.state.radioCheck == index ? 'checked' : 'unchecked'}
+                                                onPress={() => {
+                                                    this.setState({
+                                                        radioCheck: index, address_id: item.address_id,
+                                                        addressinfo: item
+                                                    })
 
-                <View style={{ padding: 10, height: 400, marginHorizontal: 10 }}>
-                    <Text style={{ marginHorizontal: 10, fontSize: 25, }}>
-                        {data.first_name}  {data.last_name}
-                    </Text>
-                    <FlatList
-                        data={this.state.addressData}
-                        ItemSeparatorComponent={this.FlatListItemSeparator}
-                        renderItem={({ item, index }) => {
-                            return (
-                                <View
-                                    style={{
-                                        flex: 1,
-                                        flexDirection: 'row',
-                                    }}>
-                                    <View style={{ marginTop: 40 }}>
-                                        <RadioButton
-                                            value={index}
-                                            status={this.state.radioCheck == index ? 'checked' : 'unchecked'}
-                                            onPress={() => {
-                                                this.setState({
-                                                    radioCheck: index, address_id: item.address_id,
-                                                    addressinfo: item
-                                                })
-
-                                            }} />
-                                    </View>
-                                    <TouchableOpacity>
-                                        <View style={{ flex: 1, flexDirection: 'column', paddingVertical: 15 }}>
-
-                                            <Text style={styles.address_text}> {item.address}, {item.city} , {item.state}</Text>
-
-                                            <Text style={styles.address_text}>
-                                                {item.pincode} , {item.country}
-                                            </Text>
+                                                }} />
                                         </View>
-                                    </TouchableOpacity>
-                                </View>
-                            );
-                        }}
-                        keyExtractor={(index, item) => index}
-                    />
+                                        <TouchableOpacity>
+                                            <View style={{ flex: 1, flexDirection: 'column', paddingVertical: 15 }}>
+
+                                                <Text style={styles.address_text}> {item.address}, {item.city} , {item.state}</Text>
+
+                                                <Text style={styles.address_text}>
+                                                    {item.pincode} , {item.country}
+                                                </Text>
+                                            </View>
+                                        </TouchableOpacity>
+                                    </View>
+                                );
+                            }}
+                            keyExtractor={(index, item) => index}
+                        />
 
 
+                    </View>
                 </View>
-
 
                 <View style={{
                     backgroundColor: '#fff',
-                    marginBottom: 10, height: 20, flex: 1, justifyContent: 'flex-end'
+                    marginBottom: 10,
                 }}>
                     <ButtonField text='SAVE ADDRESS' style={styles.addAddress_button}
                         disbled={this.state.ButtonDisable} onPress={() => this.saveAddress()} />

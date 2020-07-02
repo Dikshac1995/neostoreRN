@@ -47,15 +47,23 @@ class CustomDrawerContent extends Component {
 
   }
   async getToken() {
+    console.log('tokks')
     let token = await AsyncStorage.getItem('token');
     const customer_details = JSON.parse(await AsyncStorage.getItem('customerDetail'))
+    console.log('cust_det', customer_details)
+    if (customer_details.customer_details.profile_img !== null) {
+      console.log('data234', customer_details.customer_details.profile_img)
+      const source = { uri: api.baseUrl + customer_details.customer_details.profile_img };
+      this.setState({ imageSource: source })
+    }
+
 
     if (token !== null) {
       this.setState({
         LoggedIn: true,
         userdata: customer_details.customer_details,
         token: token,
-        // myCartProduct: mycartData,
+        // imageSource: source
         // product_id: myCartProduct.product_id
       })
       await this.props.getCartData(token)
@@ -180,18 +188,9 @@ class CustomDrawerContent extends Component {
             ) : (
               <View style={{ alignItems: 'center', marginTop: 20 }}>
                 <TouchableOpacity onPress={() => Alert.alert('clicked')}>
-                  <Image style={{ width: 150, height: 150, resizeMode: 'cover' }} source={this.state.imageSource} />
+                  <Image style={{ borderRadius: 100, width: 150, height: 150, resizeMode: 'cover' }} source={this.state.imageSource} />
                 </TouchableOpacity>
-                {/* <Avatar
-                  size="xlarge"
-                  rounded
-                  showAccessory
-                  source={this.state.imageSource}
 
-                  // icon={{ name: 'user-circle', type: 'font-awesome' }}
-                  onPress={() => Alert.alert("Works!")}
-                  activeOpacity={0.7}
-                /> */}
                 <Text style={{ fontSize: 20, color: '#fff' }}>{cust_data.first_name}  {cust_data.last_name}</Text>
                 <Text style={{ fontSize: 20, color: '#e91b1a' }}>{cust_data.email}</Text>
                 <View style={styles.parent_drawer}>

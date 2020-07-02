@@ -99,6 +99,9 @@ export default function validation(type, text, pass) {
         }
     }
     else if (type == 'Address') {
+        if (!text) {
+            return 'Address is Required'
+        }
         if (text.length < 8) {
             return 'Address must be larger'
 
@@ -109,9 +112,11 @@ export default function validation(type, text, pass) {
         }
     }
     else if (type == 'Landmark') {
-        if (text == ' ') {
+        console.log(text, '123')
+        if (!text) {
+            console.log(text, '1')
             // Alert.alert('landMark is required')
-            return 'landMark is required'
+            return 'Landmark is Required '
         }
         else {
             return ' '
@@ -120,9 +125,9 @@ export default function validation(type, text, pass) {
 
     else if (type == 'City') {
         console.warn(" #####", text)
-        if (text == '') {
+        if (!text) {
 
-            return ' city is required'
+            return ' City is Required'
         }
         else {
             // Alert.alert('ok')
@@ -131,6 +136,7 @@ export default function validation(type, text, pass) {
 
     }
     else if (type == 'pinCode') {
+        console.log(text, '12')
         var pincode_regx = /^ [0 - 9]  $/
         if (!text) {
             // Alert.alert()
@@ -146,20 +152,21 @@ export default function validation(type, text, pass) {
 
         }
     }
-    else if (type == 'state') {
+    else if (type == 'State') {
+        console.log(text, '1')
         if (!text) {
-
-            return 'State is Required'
+            console.log(text, '2')
+            return 'state is Required '
         }
         else {
-            return ' '
+            return '  '
         }
     }
 
     else if (type == 'country') {
         if (!text) {
             // Alert.alert('country is required')
-            return 'Country is Required'
+            return ' country is Required '
         }
         else {
             return ' '

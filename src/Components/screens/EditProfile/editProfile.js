@@ -45,6 +45,8 @@ export default class EditProfile extends Component {
     componentDidMount() {
         const { data } = this.props.route.params;
         console.log(" data  ", data, data.gender)
+        const source = { uri: api.baseUrl + data.profile_img };
+
         this.setState({
             first_name: data.first_name,
             last_name: data.last_name,
@@ -52,6 +54,7 @@ export default class EditProfile extends Component {
             phone_no: data.phone_no,
             gender: data.gender,
             date: data.dob,
+            imageSource: source,
             loading: false
         })
 
@@ -65,49 +68,6 @@ export default class EditProfile extends Component {
         console.log('fn', this.state.radiocheck)
     }
 
-    async   onSubmit() {
-        let token = await AsyncStorage.getItem('token');
-
-        var photo = {
-            uri: this.state.img_filename,
-            type: 'image/jpeg',
-            name: 'profile_img',
-        };
-        //     email = this.state.email,
-        // phone_no = this.state.phone_no,
-        //     // editedData.profile_img = this.state.img_filename,
-        //     dob = this.state.date,
-        // gender = this.state.gender)
-        var form = new FormData();
-        let editedData = {}
-        editedData.first_name = this.state.first_name,
-            editedData.last_name = this.state.last_name,
-            editedData.email = this.state.email,
-            editedData.phone_no = this.state.phone_no,
-            editedData.profile_img = photo,
-            editedData.dob = this.state.date,
-            editedData.gender = this.state.gender
-        form.append('data', editedData)
-        console.log('data12', editedData)
-        form.append('profile_img', photo);
-        console.log('form', form, photo)
-        fetch('http://180.149.241.208:3022/profile',
-            {
-                body: form,
-                method: "PUT",
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    'Authorization': 'Bearer ' + token
-                }
-            }
-        ).then((response) => response.json())
-            .catch((error) => {
-                alert("ERROR " + error)
-            })
-            .then((responseData) => {
-                alert("Succes " + responseData)
-            }).done();
-    }
 
     async submit() {
         this.onuploadimage()
@@ -119,91 +79,76 @@ export default class EditProfile extends Component {
             Alert.alert("Please Fill  Required Information  ")
         }
         else {
-            console.log("prof", this.state.imageSource)
-            console.log("profimg", this.state.img_filename)
-
-            let token = await AsyncStorage.getItem('token');
-            let editedData = {}
-            editedData.first_name = this.state.first_name,
-                editedData.last_name = this.state.last_name,
-                editedData.email = this.state.email,
-                editedData.phone_no = this.state.phone_no,
-                // editedData.profile_img = this.state.img_filename,
-                editedData.dob = this.state.date,
-                editedData.gender = this.state.gender
-            console.log("editedData", editedData)
-            this.setState({ loading: true })
-
-            const res = await api.fetchapi('http://180.149.241.208:3022/profile', 'put',
-                JSON.stringify(editedData)
-                // {
-                // first_name: this.state.first_name,
-                // last_name: this.state.last_name,
-                // email: this.state.email,
-                // phone_no: this.state.phone_no,
-                // gender: this.state.gender,
-
-                // dob: this.state.date
-                // }
-                , token)
-            const result = await res.json();
-            console.log("api", result)
-            if (result.success === true) {
-
-                Alert.alert(
-                    'your profile updated successfully ',
-                    ' see  profile  ',
-                    [
-
-                        {
-                            text: 'ok', onPress: () => {
-                                this.setState({ loading: false })
-                                this.props.navigation.navigate('MyAccount')
-                            }
-                        },
-                    ],
-                    { cancelable: false }
-                )
-            }
-            else {
-                console.log(result.json, " g")
-                Alert.alert("result.error_message")
-            }
+            this.onuploadimage()
         }
 
     }
     async  onuploadimage() {
         let token = await AsyncStorage.getItem('token');
+        console.log('token ', token)
         const { selectedImage } = this.state
         console.log(selectedImage.fileName, 'image')
+        this.setState({ loading: true })
 
-        RNFetchBlob.fetch('PUT', 'http://180.149.241.208:3022/profile', {
-            Authorization: "Bearer" + token,
-            otherHeader: "foo",
-            'Content-Type': 'multipart/form-data',
-        }, [
+        RNFetchBlob.fetch(
+            'PUT',
+            'http://180.149.241.208:3022/profile',
+            {
+                Authorization: 'Bearer ' + token,
+                'Content-Type': 'multipart/form-data',
+            }, [
 
             {
                 name: 'profile_img', filename: selectedImage.fileName, type: selectedImage.type,
                 data: RNFetchBlob.wrap(selectedImage.path)
             },
-            {
-                data: JSON.stringify(
-                    {
-                        first_name: this.state.first_name,
-                        last_name: this.state.last_name,
-                        email: this.state.email,
-                        phone_no: this.state.phone_no,
-                        gender: this.state.gender,
 
-                        dob: this.state.date
-                    })
-            }
+            { name: 'first_name', data: this.state.first_name },
+            { name: 'last_name', data: this.state.last_name },
+            { name: 'email', data: this.state.email },
+            {
+                name: 'dob', data: this.state.date
+            },
+            { name: 'phone_no', data: this.state.phone_no },
+            { name: 'gender', data: this.state.gender },
+
 
         ]).then((resp) => {
-            console.log(resp, "res")
+            const data = JSON.parse(resp.data);
+            console.log(data.customer_details, "res")
+            if (data.success === true) {
+                // // await AsyncStorage.setItem("customerDetail", JSON.stringify(data.customer_details))
+                // let asyncdata = JSON.parse(await AsyncStorage.getItem("customerDetail"));
+                // console.log(asyncdata, 'asyc')
+
+                AsyncStorage.getItem('customerDetail')
+                    .then(d => {
+                        const Data = JSON.parse(d);
+
+                        Data.customer_details.profile_img =
+                            data.customer_details.profile_img;
+
+                        Data.customer_details.first_name =
+                            data.customer_details.first_name;
+
+                        Data.customer_details.last_name =
+                            data.customer_details.last_name;
+
+                        console.log(Data, 'data');
+
+                        AsyncStorage.setItem('customerDetail', JSON.stringify(Data));
+                    })
+                    .done();
+
+                Alert.alert(data.message);
+                this.setState({ loading: false })
+                this.props.navigation.navigate('MyAccount')
+
+            }
         }).catch((err) => {
-            // ...
+            console.log(err)
+            this.setState({ loading: false })
+
         })
     }
 
@@ -236,7 +181,9 @@ export default class EditProfile extends Component {
                 this.setState({
                     upload: true,
                     imageSource: source,
-                    img_filename: ' data: image / png; base64' + file,
+                    // img_filename: ' data: image / png; base64' + file,
+                    img_filename: file,
+
                     selectedImage: response
                 });
             }
@@ -361,9 +308,10 @@ export default class EditProfile extends Component {
                         <ButtonField text='SUBMIT'
                             style={styles.submit_button}
                             //onPress={() => this.login()}
-                            onPress={() => this.onSubmit()}
-                        />
+                            onPress={() => this.submit()}
+                        // onPress={() => this.onuploadimage()}
 
+                        />
 
                     </View>
                 </View>

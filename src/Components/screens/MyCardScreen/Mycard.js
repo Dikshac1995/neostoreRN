@@ -252,7 +252,7 @@ class Mycart extends Component {
                     onPress={() => this.props.navigation.goBack()}
                     onClick={() => this.props.navigation.navigate('share')}
                 />
-                <View style={{ marginHorizontal: 20, height: 500 }}>
+                <View style={{ marginHorizontal: 20, height: '78%' }}>
 
                     <FlatList data={data}
                         showsVerticalScrollIndicator={false}
@@ -263,7 +263,7 @@ class Mycart extends Component {
                                     onLongPress={() => this.removeProduct(data.indexOf(item))}>
                                     <View>
                                         <Image style={{ width: 120, height: 100 }} source={{
-                                            uri: 'http://180.149.241.208:3022/' + item.product_image
+                                            uri: api.baseUrl + item.product_image
                                         }} />
                                     </View>
                                     <View style={{ padding: 15, width: 250 }}>
