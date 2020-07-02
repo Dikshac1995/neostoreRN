@@ -43,8 +43,6 @@ export default function validation(type, text, pass) {
         }
 
         else if (passreg.test(text)) {
-            password = text
-
             return ' '
         }
         else {
@@ -53,16 +51,15 @@ export default function validation(type, text, pass) {
     }
 
     else if (type == 'confirmpassword') {
-        console.log("conpass", text, pass)
-        if (text == " ") {
+        console.log("conpass", text, "sd", pass)
+        if (text == " " || !text) {
             return 'confirm Password is Required '
         }
-
         else if (pass === text) {
             return " "
         }
         else {
-            return ' Password Does not  match '
+            return 'Password Does not  match '
         }
     }
     else if (type == 'email') {
@@ -105,8 +102,8 @@ export default function validation(type, text, pass) {
         if (!text) {
             return 'Address is Required'
         }
-        if (text.length < 8) {
-            return 'Address must be larger'
+        if (text.length < 10) {
+            return 'Address contain at least 10 charcter'
 
         } else {
             return ' '
@@ -120,6 +117,9 @@ export default function validation(type, text, pass) {
             console.log(text, '1')
             // Alert.alert('landMark is required')
             return 'Landmark is Required '
+        }
+        else if (!regex.test(text)) {
+            return ' LandMark is invalid'
         }
         else {
             return ' '
@@ -141,7 +141,7 @@ export default function validation(type, text, pass) {
     else if (type == 'pinCode') {
         console.log(text, '12')
         var pincode_regx = /^\d{6}$/
-        if (!text) {
+        if (text == " ") {
             // Alert.alert()
             return 'Zip code is Required'
         }
@@ -157,7 +157,7 @@ export default function validation(type, text, pass) {
     }
     else if (type == 'State') {
         console.log(text, '1')
-        if (!text) {
+        if (text == " ") {
             console.log(text, '2')
             return 'state is Required '
         }
@@ -167,7 +167,7 @@ export default function validation(type, text, pass) {
     }
 
     else if (type == 'country') {
-        if (!text) {
+        if (text == " ") {
             // Alert.alert('country is required')
             return ' country is Required '
         }

@@ -30,44 +30,6 @@ class LoginScreen extends Component {
         navigation.navigate('registrationScreen')
     }
 
-    // async login() {
-    //     const { userData, error, isLoggedIn } = this.props
-    //     const value = await AsyncStorage.getItem('token')
-    //     console.warn("--------", this.state.emailValid, this.state.passValid)
-    //     if ((!this.state.email) || (!this.state.pass) || (this.state.emailValid) || (this.state.passValid)) {
-    //         Alert.alert(" fill the required detail ")
-    //     }
-    //     else {
-    //         this.props.login(this.state.email, this.state.pass).then(async () => {
-    //             const error = await this.props.error
-    //             if (error) {
-
-    //                 console.log(this.props.error)
-    //                 Alert.alert(error)
-    //                 this.props.navigation.navigate('Register')
-    //             }
-    //             else {
-    //                 console.log('================', this.props.isLoggedIn)
-    //                 console.log('login data', this.props.userData)
-    //                 console.log('login successfully')
-    //                 console.log(userData.success)
-    //                 Alert.alert(userData.message)
-    //                 if (userData.sucess == false) {
-    //                     console.log("userdata.success")
-
-    //                 }
-    //                 this.props.navigation.navigate('Homescreen')
-
-    //                 //    Alert.alert(this.props.userData.user.name + ' user successfully logged in ')
-    //             }
-
-    //         })
-    //     }
-
-
-
-    // }
-
     login() {
         const emailError = validation('email', this.state.email)
         const passwordError = validation('password', this.state.pass)
@@ -76,12 +38,11 @@ class LoginScreen extends Component {
             emailValid: emailError,
             passValid: passwordError
         })
-        if ((this.state.email === '') || (this.state.pass === ' ') || (this.state.emailValid !== " ") || (this.state.passValid != " ")) {
-            Alert.alert(" fill the required detail ")
-        }
+        // if ((this.state.email === '') || (this.state.pass === ' ') || (this.state.emailValid !== " ") || (this.state.passValid != " ")) {
+        //     Alert.alert(" fill the required detail ")
+        // }
 
-        else {
-
+        if (emailError == " " && passwordError == " ") {
             this.setState({ loading: true })
             api.fetchapi(api.baseUrl + 'login', 'post', JSON.stringify({
                 "email": this.state.email,
@@ -109,7 +70,6 @@ class LoginScreen extends Component {
                         }
                     })
                 })
-
         }
     }
     render() {

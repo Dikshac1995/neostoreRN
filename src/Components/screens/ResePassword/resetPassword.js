@@ -24,32 +24,25 @@ export default class ResetPassword extends Component {
         }
     }
     async  onSubmit() {
-        // const passwordError = validation('password', this.state.oldPass)
-        // const newpasswordError = validation('password', this.state.newPass)
-        // const confirmpasswordError = validation('confirmpassword', this.state.confirmPass, this.state.newPass)
-
-        // this.setState({
-        //     oldpassError: passwordError,
-        //     newpassError: newpasswordError,
-        //     confirmmpassError: confirmpasswordError
-        // })
-
-        if (!this.state.oldPass || !this.state.newPass || !this.state.confirmPass ||
-            this.state.confirmpassError !== ' ' || this.state.newpassError !== ' '
-            || this.state.oldpassError !== ' ') {
-            Alert.alert("Please Fill  Required Information  ")
-        }
-        else {
+        const passError = validation('password', this.state.oldPass)
+        const newpassError = validation('password', this.state.newPass)
+        const conpassError = validation('confirmpassword', this.state.confirmPass, this.state.newPass)
+        console.log(conpassError, 'dfg')
+        this.setState({
+            oldpassError: passError,
+            newpassError: newpassError,
+            confirmpassError: conpassError
+        })
+        if (passError == " " && newpassError == " " && conpassError == " ") {
             this.setState({ loading: true })
             let token = await AsyncStorage.getItem('token');
-            const res = await api.fetchapi('http://180.149.241.208:3022/changePassword', 'post',
+            const res = await api.fetchapi(api.baseUrl + 'changePassword', 'post',
                 JSON.stringify({ "oldPass": this.state.oldPass, "newPass": this.state.newPass, "confirmPass": this.state.confirmPass }), token)
             const result = await res.json();
             console.log("api", result)
             if (result.sucess === true) {
                 this.setState({ loading: false })
                 Alert.alert(result.message)
-
             }
             else {
                 this.setState({ loading: false })
@@ -62,7 +55,6 @@ export default class ResetPassword extends Component {
 
         return (
             <>
-
                 <View style={globalstyles.Container}>
                     <Loader
                         loading={this.state.loading} />
@@ -84,13 +76,12 @@ export default class ResetPassword extends Component {
                     <PasswordCon placeholder=' again enter Password '
                         onChangeText={value => this.setState({
                             confirmPass: value.trim(),
-                            confirmpassError: validation('confirmpassword', value, this.state.newPass)
+                            confirmpassError: validation('confirmpassword', value.trim(), this.state.newPass)
                         })}
                         validate={<Text>{this.state.confirmpassError}</Text>} />
                     <ButtonField text='submit'
                         onPress={() => this.onSubmit()}
                         style={styles.submit_button}
-                    //    onPress={() => this.props.navigation.navigate('AddAddress')}
                     />
 
 

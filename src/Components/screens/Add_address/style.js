@@ -17,8 +17,10 @@ export const styles = StyleSheet.create({
 
     },
     Address_wrapper: {
-        paddingHorizontal: 10, paddingTop: 25,
-        height: '100%',
+        paddingHorizontal: 10, paddingTop: 20,
+        height: '90%',
+        // paddingBottom: 25,
+        // backgroundColor: 'red'
         // marginHorizontal: 10
 
 
@@ -48,7 +50,8 @@ export const styles = StyleSheet.create({
     fields_two: {
         paddingTop: 10,
         width: '45%',
-        marginHorizontal: 10
+        marginHorizontal: 10,
+        paddingBottom: 10
 
     },
     footer: {
@@ -60,15 +63,17 @@ export const styles = StyleSheet.create({
 
     },
     addAddress_button: {
-        color: 'white',
+        color: '#fff',
         fontSize: 20,
         marginLeft: 10,
         marginRight: 10,
         backgroundColor: 'red',
         textAlign: 'center',
         borderRadius: 8,
+        marginTop: 0,
+        height: 60
 
-        height: 70
+
 
 
 

@@ -5,7 +5,6 @@ import ButtonField from '../../Reusable/ButtonField/buttonField'
 import { globalstyles } from '../../../style/style'
 import { ScrollView } from 'react-native-gesture-handler'
 import DatePicker from 'react-native-datepicker';
-import { Avatar } from 'react-native-elements';
 import validation from '../../../utils/valid'
 import { RadioButton } from 'react-native-paper';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -57,30 +56,57 @@ export default class EditProfile extends Component {
             imageSource: source,
             loading: false
         })
-
         if (data.gender === "female") {
             this.setState({ radioCheck: 'second' })
         }
         else {
             this.setState({ radioCheck: 'first' })
         }
-
-        console.log('fn', this.state.radiocheck)
     }
 
 
     async submit() {
-        this.onuploadimage()
+        let token = await AsyncStorage.getItem('token');
+
+        console.log(this.state.selectedImage, 'selectedImage')
+        if (this.state.selectedImage == " ") {
+            console.log('data')
+            this.setState({ loading: true })
+
+            api.fetchapi('http://180.149.241.208:3022/profile', 'put',
+                JSON.stringify(
+                    {
+                        first_name: this.state.first_name,
+                        last_name: this.state.last_name,
+                        email: this.state.email,
+                        phone_no: this.state.phone_no,
+                        gender: this.state.gender,
+
+                        dob: this.state.date
+                    }
+                ), token).then((res) => {
+                    res.json().then((responseJSON) => {
+                        console.log("responseJSON", responseJSON);
+                        Alert.alert(responseJSON.message)
+
+                        this.storeData(responseJSON)
+                        this.setState({
+                            loading: false,
+
+                        })
+                    })
+                })
+
+        }
+        // this.onuploadimage()
         const err = this.state.last_nameError
-        console.log('err', this.state.last_nameError)
         if (this.state.last_nameError !== ' ' || this.state.first_nameError !== ' '
             || this.state.emailError !== ' '
             || this.state.phone_noError !== ' ') {
             Alert.alert("Please Fill  Required Information  ")
         }
-        else {
-            this.onuploadimage()
-        }
+
+
 
     }
     async  onuploadimage() {
@@ -89,7 +115,6 @@ export default class EditProfile extends Component {
         const { selectedImage } = this.state
         console.log(selectedImage.fileName, 'image')
         this.setState({ loading: true })
-
         RNFetchBlob.fetch(
             'PUT',
             'http://180.149.241.208:3022/profile',
@@ -117,10 +142,6 @@ export default class EditProfile extends Component {
             const data = JSON.parse(resp.data);
             console.log(data.customer_details, "res")
             if (data.success === true) {
-                // // await AsyncStorage.setItem("customerDetail", JSON.stringify(data.customer_details))
-                // let asyncdata = JSON.parse(await AsyncStorage.getItem("customerDetail"));
-                // console.log(asyncdata, 'asyc')
-
                 AsyncStorage.getItem('customerDetail')
                     .then(d => {
                         const Data = JSON.parse(d);
@@ -133,9 +154,6 @@ export default class EditProfile extends Component {
 
                         Data.customer_details.last_name =
                             data.customer_details.last_name;
-
-                        console.log(Data, 'data');
-
                         AsyncStorage.setItem('customerDetail', JSON.stringify(Data));
                     })
                     .done();
@@ -150,6 +168,25 @@ export default class EditProfile extends Component {
             this.setState({ loading: false })
 
         })
+    }
+    storeData(data) {
+        console.log('dw', data)
+        AsyncStorage.getItem('customerDetail')
+            .then(d => {
+                const Data = JSON.parse(d);
+                Data.customer_details.profile_img =
+                    data.customer_details.profile_img;
+
+                Data.customer_details.first_name =
+                    data.customer_details.first_name;
+
+                Data.customer_details.last_name =
+                    data.customer_details.last_name;
+                AsyncStorage.setItem('customerDetail', JSON.stringify(Data));
+                console.log(Data, 'data123')
+            })
+            .done();
+
     }
 
     onChangeImage() {
@@ -172,18 +209,15 @@ export default class EditProfile extends Component {
             } else if (response.customButton) {
                 console.log('User tapped custom button: ', response.customButton);
             } else {
-
                 const source = { uri: response.uri };
                 // You can also display the image using data:
                 const file = response.fileName
                 console.log('filename', ' data: image / png; base64', file)
-
                 this.setState({
                     upload: true,
                     imageSource: source,
                     // img_filename: ' data: image / png; base64' + file,
                     img_filename: file,
-
                     selectedImage: response
                 });
             }
@@ -216,8 +250,6 @@ export default class EditProfile extends Component {
                                 first_name: value.trim(),
                                 first_nameError: validation('firstName', value)
                             }
-
-
                             )}
                             validate={<Text>{this.state.first_nameError}</Text>}
                         />

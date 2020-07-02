@@ -54,39 +54,47 @@ export default class AddAddress extends Component {
         const cityError = validation('City', this.state.City)
         const LandError = validation('Landmark', this.state.LANDMARK)
         const zipError = validation('pinCode', this.state.zipCode)
+        const stateErr = validation('State', this.state.State)
+        const countryErr = validation('country', this.state.country)
 
 
-        console.log(addError, 'coerr')
+        console.log(LandError, 'coerr')
 
         this.setState(() => ({
             address_err: addError,
             city_err: cityError,
             landmark_err: LandError,
-            // state_err: stateError,
+            state_err: stateErr,
             zip_err: zipError,
-            // country_err: countryError,
+            country_err: countryErr,
         }))
+        console.log(addError, cityError, LandError, zipError, countryErr, stateErr, 'err')
 
-        if (!addError && !cityError) {
-            console.log('err', addError)
-            let collection1 = {}
-            collection1.address = this.state.address
-            collection1.pincode = this.state.zipCode
-            collection1.city = this.state.City
-            collection1.state = this.state.State
-            collection1.country = this.state.country
-            console.log(collection1, 'cokk')
-            let error = {}
-            // error.address_err = this.state.address_err
+        console.log('err', addError)
+        let collection1 = {}
+        collection1.address = this.state.address
+        collection1.pincode = this.state.zipCode
+        collection1.city = this.state.City
+        collection1.state = this.state.State
+        collection1.country = this.state.country
+        console.log(collection1, 'cokk')
+        let error = {}
+        // error.address_err = this.state.address_err
+        if (addError !== " " && cityError !== " " && LandError !== " " && zipError !== " "
+            && countryErr !== " " && stateErr !== " ") {
+
+            Alert.alert('Fill data properly ')
+
+        }
+        else {
             var url = api.baseUrl + 'address'
 
             api.fetchapi(url, 'post',
                 JSON.stringify(collection1), this.state.token)
-
                 .then((response) => response.json())
                 .then((data) => {
                     console.log('Success:', data);
-                    if (data.success === 'true') {
+                    if (data.success == true) {
                         Alert.alert(data.message)
                     }
                     else {
@@ -97,9 +105,7 @@ export default class AddAddress extends Component {
                     console.log('Error:', error);
                 });
         }
-        else {
-            Alert.alert('Fill data properly ')
-        }
+
 
 
     }
@@ -213,12 +219,12 @@ export default class AddAddress extends Component {
                                 <Text style={styles.err_text}>{this.state.country_err}</Text>
                             </View>
                         </View>
-                        <View style={styles.footer}>
-                            <ButtonField text='SAVE ADDRESS' style={styles.addAddress_button}
-                                disbled={this.state.ButtonDisable} onPress={() => this.AddAddress()} />
-                        </View>
-                    </ScrollView>
 
+                    </ScrollView>
+                    <View style={styles.footer}>
+                        <ButtonField text='SAVE ADDRESS' style={styles.addAddress_button}
+                            disbled={this.state.ButtonDisable} onPress={() => this.AddAddress()} />
+                    </View>
                 </View>
 
             </SafeAreaView>

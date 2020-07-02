@@ -50,17 +50,23 @@ export default class MyAccount extends Component {
                     customer_profile.last_name;
 
                 console.log(Data, 'd1111ata');
-
                 AsyncStorage.setItem('customerDetail', JSON.stringify(Data));
             })
             .done();
-        const source = { uri: api.baseUrl + customer_profile.profile_img };
+        if (customer_profile.profile_img === null) {
+            console.log('profileimg')
+        }
+        else {
+            const source = { uri: api.baseUrl + customer_profile.profile_img };
+            this.setState({
+                imageSource: source
+            })
 
-        const img = api.baseUrl + customer_profile.profile_img
-        console.log('1ws', img)
+        }
+
         this.setState({
             customer_data: customer_profile, loading: false,
-            imageSource: source
+            // imageSource: source
         })
 
     }
