@@ -31,7 +31,6 @@ export function login(data) {
   } else {
     return async dispatch => {
       dispatch(isLoading(true));
-      console.log('inloding')
       return await fetch('http://180.149.241.208:3022/login', {
         method: 'POST',
         headers: {
@@ -43,12 +42,8 @@ export function login(data) {
         })
       })
         .then((response) => {
-          console.log(response, " resp");
-          console.log("giiijj")
-
           dispatch(isLoading(false))
           response.json().then(async (responseJSON) => {
-            console.log("responseJSON", responseJSON);
             if (responseJSON.success) {
               await AsyncStorage.setItem('token', responseJSON.token)
               const customerDetail = responseJSON
@@ -58,17 +53,11 @@ export function login(data) {
             else {
               dispatch(loginFailed(responseJSON.message))
             }
-
-
             const value = await AsyncStorage.getItem('token')
             const value1 = await AsyncStorage.getItem('customerDetail')
-            console.log("-->", value)
-            console.log("-->", value1)
+
           })
-
-
         })
-
         .catch((error) => {
           console.log("error", error);
           dispatch(isLoading(false))

@@ -5,6 +5,8 @@ import { TouchableOpacity } from 'react-native-gesture-handler'
 import { connect } from 'react-redux';
 import { api } from '../../../utils/api'
 import Header from '../../Reusable/header /header'
+import Loader from '../../Reusable/loader/loader'
+
 // import { FetchProductList } from '../../../Redux/Action/productlist'
 
 const DATA = []
@@ -150,7 +152,12 @@ export default class ProductList extends Component {
                     onClick={() => this.props.navigation.navigate('searchitem')}
                 />
                 <View>
-                    {(this.state.isLoading) ? <ActivityIndicator size='large' /> :
+                    {(this.state.isLoading) ?
+                        <Loader
+                            loading={true} />
+                        // <ActivityIndicator size='large' />
+
+                        :
                         <View style={{ marginHorizontal: 20 }}>
                             <FlatList data={this.state.ProductList}
                                 showsVerticalScrollIndicator={false}

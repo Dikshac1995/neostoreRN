@@ -28,24 +28,15 @@ export const fetchDataRejected = (error) => {
     };
 }
 
-export const getPeople = () => {
-    console.log("ddd")
-    //IN order to use await your callback must be asynchronous using async keyword.
+export const getImage = () => {
     return async dispatch => {
-        console.log('dis')
         //Then perform your asynchronous operations.
         try {
-            console.log("in tey")
-            //Have it first fetch data from our starwars url.
-            //const res = await fetch('http://180.149.241.208:3022/getAllCategories');
             const res = await api.fetchapi('http://180.149.241.208:3022/getAllCategories', 'get')
             dispatch(fetchData(true))
             const people = await res.json();
-            console.log('people-----------', people);
-            
             dispatch(fetchDataFulfilled(people.category_details))
         } catch (error) {
-            console.log('Getting People Error---------', error);
             dispatch(fetchDataRejected(error))
         }
     }

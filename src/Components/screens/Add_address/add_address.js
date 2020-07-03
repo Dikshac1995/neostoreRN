@@ -1,18 +1,12 @@
 import React, { Component } from 'react'
 import { Text, View, Button, Alert, ScrollView, SafeAreaView } from 'react-native'
 import { TextInput } from 'react-native-gesture-handler'
-import { globalstyles } from '../../../style/style'
-import TextField from '../../Reusable/textField/textField'
 import ButtonField from '../../Reusable/ButtonField/buttonField'
 import { styles } from './style'
 import AsyncStorage from '@react-native-community/async-storage';
-import authHeader from '../../../Redux/helper/authHeader'
 import validation from '../../../utils/valid'
-import { tokenHard } from '../../../Assets/Constant/constant'
 import { api } from '../../../utils/api'
 import Header from '../../Reusable/header /header'
-import { add } from 'react-native-reanimated'
-// import TextField from '../../Reusable/textField/textField'
 
 
 
@@ -39,26 +33,20 @@ export default class AddAddress extends Component {
     }
     componentDidMount() {
         this.getToken()
-
     }
 
     async getToken() {
-
         let token = await AsyncStorage.getItem('token');
         this.setState({ token: token })
     }
 
     AddAddress() {
-
         const addError = validation('Address', this.state.address)
         const cityError = validation('City', this.state.City)
         const LandError = validation('Landmark', this.state.LANDMARK)
         const zipError = validation('pinCode', this.state.zipCode)
         const stateErr = validation('State', this.state.State)
         const countryErr = validation('country', this.state.country)
-
-
-        console.log(LandError, 'coerr')
 
         this.setState(() => ({
             address_err: addError,
@@ -68,27 +56,20 @@ export default class AddAddress extends Component {
             zip_err: zipError,
             country_err: countryErr,
         }))
-        console.log(addError, cityError, LandError, zipError, countryErr, stateErr, 'err')
 
-        console.log('err', addError)
         let collection1 = {}
         collection1.address = this.state.address
         collection1.pincode = this.state.zipCode
         collection1.city = this.state.City
         collection1.state = this.state.State
         collection1.country = this.state.country
-        console.log(collection1, 'cokk')
-        let error = {}
-        // error.address_err = this.state.address_err
-        if (addError !== " " && cityError !== " " && LandError !== " " && zipError !== " "
-            && countryErr !== " " && stateErr !== " ") {
 
+        if (addError !== " " && cityError !== " " && LandError !== " "
+            & zipError !== " " && countryErr !== " " && stateErr !== " ") {
             Alert.alert('Fill data properly ')
-
         }
         else {
             var url = api.baseUrl + 'address'
-
             api.fetchapi(url, 'post',
                 JSON.stringify(collection1), this.state.token)
                 .then((response) => response.json())
@@ -105,9 +86,6 @@ export default class AddAddress extends Component {
                     console.log('Error:', error);
                 });
         }
-
-
-
     }
     render() {
         return (
@@ -122,7 +100,6 @@ export default class AddAddress extends Component {
                         <View style={styles.fields}>
                             <Text style={styles.Text_label}>Address</Text>
                             <TextInput style={styles.Address_TextField} multiline={true} numberOfLines={3}
-
                                 onChangeText={value => this.setState({
                                     address: value.trim(),
                                     address_err: validation('Address', value.trim()),
@@ -143,7 +120,6 @@ export default class AddAddress extends Component {
                                 onChangeText={value => this.setState({
                                     LANDMARK: value.trim(),
                                     landmark_err: validation('Landmark', value.trim())
-
                                 })}
                                 onBlur={() => {
                                     this.setState({
@@ -175,7 +151,6 @@ export default class AddAddress extends Component {
                                     onChangeText={value => this.setState({
                                         State: value.trim(),
                                         state_err: validation('State', value.trim())
-
                                     })}
                                     onBlur={() => {
                                         this.setState({
@@ -194,7 +169,6 @@ export default class AddAddress extends Component {
                                     onChangeText={value => this.setState({
                                         zipCode: value.trim(),
                                         zip_err: validation('pinCode', value.trim()),
-
                                     })}
                                     onBlur={() => {
                                         this.setState({
@@ -219,14 +193,13 @@ export default class AddAddress extends Component {
                                 <Text style={styles.err_text}>{this.state.country_err}</Text>
                             </View>
                         </View>
-
                     </ScrollView>
+
                     <View style={styles.footer}>
                         <ButtonField text='SAVE ADDRESS' style={styles.addAddress_button}
                             disbled={this.state.ButtonDisable} onPress={() => this.AddAddress()} />
                     </View>
                 </View>
-
             </SafeAreaView>
         )
     }

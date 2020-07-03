@@ -1,12 +1,12 @@
 
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps'; // remove PROVIDER_GOOGLE import if not using Google Maps
 import React from "react";
-import { View, Text, Share, Button, TouchableOpacity, FlatList, Dimensions, StyleSheet, } from "react-native";
+import { View, Text, Share, Button, TouchableOpacity, FlatList, Dimensions, StyleSheet, TextInput } from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import Headerc from '../Reusable/header /header'
 import { Header, Left, Body, Right, CheckBox, } from 'native-base';
 import share from '../Reusable/share/share';
-
+import * as Animatable from 'react-native-animatable';
 // import { Button } from 'react-native-elements';
 
 
@@ -25,6 +25,7 @@ export default class Map extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
+            searchShow: false,
             extended: false,
             latitude: 18.5789,
             longitude: 73.7385,
@@ -32,40 +33,41 @@ export default class Map extends React.Component {
             longitudeDelta: LONGITUDE_DELTA,
 
 
-            markers: [{
-                title: 'Neostore-pimpri',
-                coordinates: {
-                    latitude: 18.6037,
-                    longitude: 73.7731,
-                },
-            },
-            {
-                title: 'Neostore-wakad',
-                coordinates: {
-                    latitude: 18.6187,
-                    longitude: 73.8037,
-                },
-            },
-            {
-                title: 'Neostore-hinjwadi',
-                coordinates: {
-                    latitude: 18.6002,
-                    longitude: 73.7215,
-                },
-            }, {
-                title: 'Neostore-kothrud',
-                coordinates: {
-                    latitude: 18.4793,
-                    longitude: 73.8713
-                },
-            },
-                // {
-                //     title: 'Neostore-kerve',
+            markers: [
+                //     {
+                //     title: 'Neostore-pimpri',
                 //     coordinates: {
-                //         latitude: 18.4883,
-                //         longitude: 73.8193
+                //         latitude: 18.6037,
+                //         longitude: 73.7731,
                 //     },
                 // },
+                {
+                    title: 'Neostore-wakad',
+                    coordinates: {
+                        latitude: 18.6187,
+                        longitude: 73.8037,
+                    },
+                },
+                {
+                    title: 'Neostore-hinjwadi',
+                    coordinates: {
+                        latitude: 18.6002,
+                        longitude: 73.7215,
+                    },
+                }, {
+                    title: 'Neostore-kothrud',
+                    coordinates: {
+                        latitude: 18.4793,
+                        longitude: 73.8713
+                    },
+                },
+                {
+                    title: 'Neostore-kerve',
+                    coordinates: {
+                        latitude: 18.4883,
+                        longitude: 73.8193
+                    },
+                },
                 // {
                 //     title: 'Neostore-Hinwadi-chouk',
                 //     coordinates: {
@@ -85,7 +87,8 @@ export default class Map extends React.Component {
                 //     coordinates: {
                 //         latitude: 18.4709,
                 //         longitude: 73.8889,
-                //     },}
+                //     },
+                // }
             ]
         }
     }
@@ -98,6 +101,15 @@ export default class Map extends React.Component {
         })
 
     }
+    onSerach() {
+        // console.log('hiii', this.arrayholder)
+        this.setState({
+            searchShow: !this.state.searchShow,
+        })
+        // this.getdata()
+
+
+    }
 
     render() {
         const { marker } = this.props;
@@ -105,9 +117,9 @@ export default class Map extends React.Component {
             <>
                 <Headerc name1='arrowleft' text='store Location ' name2='search'
                     onPress={() => this.props.navigation.goBack()}
-                    onClick={() => this.props.navigation.navigate('share')}
+                    // onClick={() => this.onSerach()}
+                    onClick={() => this.props.navigation.navigate('searchitem')}
                 />
-
                 <Header style={{ backgroundColor: '#841584' }}>
                     <Left>
                         <Icon name={this.state.extended ? 'sign-in-alt' : 'sign-out-alt'} size={25} color="#fff"

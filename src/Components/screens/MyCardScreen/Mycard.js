@@ -149,20 +149,13 @@ class Mycart extends Component {
 
 
     async  storedata(val, quantity) {
-        console.log(" value is ", val, quantity)
-
-
-
         try {
             await AsyncStorage.setItem('MycartData', JSON.stringify(val));
             const value = JSON.parse(await AsyncStorage.getItem('MycartData'));
-            console.log("order", value)
-
-
+            console.log(value, 'val')
         } catch (error) {
             console.log(error)
         }
-
     }
 
     FlatListItemSeparator = () => {
@@ -179,7 +172,6 @@ class Mycart extends Component {
 
 
     removeProduct(id) {
-        console.log('+++', id)
         Alert.alert(
             'Remove from card ',
             'Do you want to Remove this Product from Mycard',
@@ -188,10 +180,8 @@ class Mycart extends Component {
                     text: 'OK', onPress: async () => {
                         // Alert.alert(id)
                         this.state.myCardItem.splice(id, 1);
-                        console.log('del', this.state.myCardItem)
                         await AsyncStorage.setItem('MycardData', JSON.stringify(this.state.myCardItem))
                         this.setState({ myCardItem: JSON.parse(await AsyncStorage.getItem('MycardData')) })
-                        console.log(this.state.myCardItem, "@@@@")
                     }
                 },
                 {
@@ -245,7 +235,6 @@ class Mycart extends Component {
     render() {
         const info = this.props.data
         const data = this.state.myCardItem
-        console.log("   fish", data)
         return (
             <View>
                 <Header name1='arrowleft' text='My Carts' name2='search'
@@ -298,13 +287,8 @@ class Mycart extends Component {
                 <View style={styles.footer}>
                     <View ><Text style={styles.totalPrice}>Rs, {this.state.finalCost}</Text></View>
                     <Button text="order Now" onPress={() => this.orderNow()} style={styles.buttonStyle} />
-
-
                 </View>
-
             </View >
-            // </View >
-
         )
     }
 }

@@ -35,8 +35,8 @@ class Placeorder extends Component {
         };
     }
 
-    async  componentDidMount() {
-        await this.getData()
+    componentDidMount() {
+        this.getData()
 
 
         const { product_id, Product, addressData } = this.props.route.params;
@@ -104,7 +104,20 @@ class Placeorder extends Component {
 
         })
     }
+    componentDidUpdate(prevProps, prevState) {
+        console.log(prevState.Address, 'addre', this.state.Address)
+        if (prevState.Address === this.state.Address) {
+            console.log('dik')
+            // this.setState({
+            //     Address: this.state.Address
 
+            // })
+            // this.getData()
+
+
+
+        }
+    };
 
     add_address() {
         this.props.navigation.navigate('AddAddress')
@@ -277,7 +290,7 @@ class Placeorder extends Component {
                                                 <Text style={{ fontSize: 25, fontWeight: 'bold' }}>{item.product_name}</Text>
                                             </View>
                                             <Image style={{ width: 110, height: 80 }} source={{
-                                                uri: 'http://180.149.241.208:3022/' + item.product_image
+                                                uri: api.baseUrl + item.product_image
                                             }} />
                                         </View>
                                         <View style={{ display: 'flex', paddingTop: 10, flexDirection: 'row', justifyContent: 'space-between' }}>

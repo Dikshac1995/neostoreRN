@@ -81,7 +81,7 @@ export default class add_list extends Component {
         }
         const data = { address_id: this.state.address_id }
 
-        api.fetchapi('http://180.149.241.208:3022/updateAddress', 'put',
+        api.fetchapi(api.baseUrl + 'updateAddress', 'put',
             JSON.stringify(address_data), this.state.token)
 
             .then((response) => response.json())
@@ -89,7 +89,7 @@ export default class add_list extends Component {
                 console.log('Success:', data);
                 if (data.success == true) {
                     Alert.alert(data.message)
-                    // this.props.navigation.navigate('oder summary', { product_id: 0, Product: 0, addressData: this.state.data })
+                    this.props.navigation.navigate('oder summary', { product_id: 0, Product: 0, addressData: this.state.data })
 
                 }
                 else {

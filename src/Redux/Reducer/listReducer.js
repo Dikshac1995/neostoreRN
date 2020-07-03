@@ -16,17 +16,16 @@ export const GET_COROSAL_IMAGE = 'GET_COROSAL_IMAGE';
 
 export const GET_COROSAL_IMAGE_FULFILLED = 'GET_COROSAL_IMAGE_FULFILLED';
 
-export const GET_COROSAL_IMAGE_REJECTED = 'GET_COROSAL_IMAGE_REJECTED';                          
+export const GET_COROSAL_IMAGE_REJECTED = 'GET_COROSAL_IMAGE_REJECTED';
 
 
 
 const listReducer = (state = initialState, action) => {
     switch (action.type) {
         case GET_COROSAL_IMAGE:
-            console.log('load reducer ',action.payload)
             return { ...state, loading: action.payload };
         case GET_COROSAL_IMAGE_FULFILLED:
-            console.log("d reducer",action.payload)
+
             return { ...state, data: action.payload, loading: action.loading };
         case GET_COROSAL_IMAGE_FULFILLED:
             return { ...state, errorMessage: action.payload, loading: action.loading };

@@ -33,8 +33,11 @@ export default class MyDrawer extends Component {
 
     }
     componentDidMount() {
-
+        console.log('dataujfbb')
         this.getToken()
+
+    }
+    componentDidUpdate() {
 
     }
     toggleExpand = () => {
@@ -44,6 +47,8 @@ export default class MyDrawer extends Component {
     }
 
     render() {
+        console.log('data2345678908447')
+
         return (
             <Drawer.Navigator drawerContent={props => {
                 return <CustomDrawerContent {...props} />;

@@ -2,36 +2,19 @@ import React, { Component } from 'react'
 import { Text, View, StyleSheet, Image, Alert } from 'react-native'
 import { SliderBox } from "react-native-image-slider-box";
 import { connect } from 'react-redux';
-import { getPeople } from '../../Redux/Action/listaction'
+import { getImage } from '../../Redux/Action/listaction'
 import { ActivityIndicator } from 'react-native-paper';
 import { api } from '../../utils/api'
 
 class SliderBox1 extends Component {
-
     componentDidMount() {
         //Dispatch your dispatcher
-        this.props.getPeople();
-
+        this.props.getImage();
     }
-    onpress(index) {
-        if (index == 0) {
-            this.props.navigation.navigate('Mycard')
-            // Alert.alert('index0')
-        }
-        else if (index == 1) {
-            Alert.alert('index 1')
-        }
-
-
-    }
-
     getData() {
-
         const { data, loading } = this.props;
-
         if (this.props.loading) {
             return (<ActivityIndicator size={30} />)
-
         }
         else {
             var img
@@ -40,7 +23,6 @@ class SliderBox1 extends Component {
             console.log("ncc", images)
             return < SliderBox autoplay circleLoop DotColor="#90A4AE" inactiveDotColor="red"
                 onCurrentImagePressed={index => this.onpress(index)
-
                 }
                 images={images}
                 dotStyle={{
@@ -51,23 +33,18 @@ class SliderBox1 extends Component {
                     padding: 0,
                     margin: 0
                 }} />
-
         }
 
     }
     render() {
-
         return (
             <>
                 <View>{this.getData()}</View>
-                {/* <SliderBox autoplay circleLoop images={images} /> */}
             </>
         )
 
     }
 }
-
-
 //Map the redux state to your props.
 const mapStateToProps = state => ({
     data: state.listReducer.data,
@@ -77,7 +54,7 @@ const mapStateToProps = state => ({
 //Map your action creators to your props.
 const mapDispatchToProps = (dispatch) => {
     return {
-        getPeople: () => dispatch(getPeople())
+        getImage: () => dispatch(getImage())
     };
 }
 

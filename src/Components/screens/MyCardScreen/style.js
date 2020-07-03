@@ -20,8 +20,11 @@ export const styles = StyleSheet.create({
     },
 
     footer: {
-        display: 'flex', flexDirection: 'row', justifyContent: 'space-between',
-        paddingHorizontal: 20, backgroundColor: '#fff',
+
+        display: 'flex', flexDirection: 'row',
+        justifyContent: 'space-between',
+        paddingHorizontal: 20,
+        backgroundColor: '#fff',
         // height: '20%'
     },
     totalPrice: {

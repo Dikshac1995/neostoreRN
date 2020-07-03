@@ -43,6 +43,7 @@ function Card(props) {
 
 
 export const style = StyleSheet.create({
+
     cards: {
         backgroundColor: 'red',
         height: 150,

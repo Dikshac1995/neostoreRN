@@ -19,10 +19,6 @@ import { api } from '../../utils/api';
 import { connect } from 'react-redux';
 import { getCartData } from '../../Redux/Action/mycat'
 
-
-
-
-
 class CustomDrawerContent extends Component {
 
   constructor(props) {
@@ -227,8 +223,8 @@ class CustomDrawerContent extends Component {
               onPress={() => this.props.navigation.navigate('productList', { category_id: "5cfe3c65ea821930af69281f", category_name: "Bed" })}
             />
             <DrawerItem
-              icon={() => <Icon name="chair" size={30} color='#fff' />}
-              label="chair"
+              icon={() => <Icon name="chair" size={35} color='#fff' />}
+              label="Chair"
               labelStyle={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}
               onPress={() => this.props.navigation.navigate('productList', { category_id: "5cfe3c6fea821930af692820", category_name: "chair" })}
             />
@@ -249,15 +245,15 @@ class CustomDrawerContent extends Component {
             <DrawerItem
               icon={() => <Icon name="map-marker-alt" size={30} color='#fff' />}
               label="Store Locator"
-              labelStyle={{ color: '#fff', fontSize: 20, marginLeft: 12, fontWeight: 'bold' }}
+              labelStyle={{ color: '#fff', fontSize: 20, marginLeft: 10, fontWeight: 'bold' }}
               onPress={() => this.props.navigation.navigate('Map')}
             />
-            <DrawerItem
+            {/* <DrawerItem
               icon={() => <Icon name="map-marker-alt" size={30} color='#fff' />}
               label="lazy loading "
-              labelStyle={{ color: '#fff', fontSize: 20, marginLeft: 12, fontWeight: 'bold' }}
+              labelStyle={{ color: '#fff', fontSize: 20, marginLeft: 10, fontWeight: 'bold' }}
               onPress={() => this.props.navigation.navigate('LazyLoading')}
-            />
+            /> */}
 
             {/* <DrawerItem
               icon={() => <Icon name="map-marker-alt" size={30} color='#fff' />}
@@ -274,39 +270,25 @@ class CustomDrawerContent extends Component {
                   onPress={() => this.props.navigation.navigate('MyAccount')}
                 />
                 <DrawerItem
-                  icon={() => <Icon name='user-friends' size={30} color='#fff' />}
+                  icon={() => <Icon name='clipboard-list' size={30} color='#fff' />}
                   label="My order"
-                  labelStyle={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}
+                  labelStyle={{ color: '#fff', fontSize: 20, fontWeight: 'bold', marginLeft: 10 }}
                   onPress={() => this.props.navigation.navigate('Myorder')}
                 />
 
-                <DrawerItem
+                {/* <DrawerItem
                   icon={() => <Icon name='user-friends' size={30} color='#fff' />}
                   label="AddressList"
-                  labelStyle={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}
+                  labelStyle={{ color: '#fff', fontSize: 20, fontWeight: 'bold', }}
                   onPress={() => this.props.navigation.navigate('AddAddress')}
-                />
+                /> */}
 
 
                 <DrawerItem
                   icon={() => <Icon name='sign-out-alt' size={30} color='#fff' />}
                   label="Sign Out"
-                  labelStyle={{ color: '#fff', fontSize: 20, marginLeft: 10, fontWeight: 'bold' }}
+                  labelStyle={{ color: '#fff', fontSize: 20, marginLeft: 5, fontWeight: 'bold' }}
                   onPress={() => this.signOut()
-                    // Alert.alert(
-                    //   'Log out',
-                    //   'Do you want to logout?',
-                    //   [
-                    //     { text: 'Cancel', onPress: () => { return null } },
-                    //     {
-                    //       text: 'Confirm', onPress: () => {
-                    //         AsyncStorage.clear();
-                    //         this.props.navigation.navigate('homescreen')
-                    //       }
-                    //     },
-                    //   ],
-                    //   { cancelable: false }
-                    // )
                   }
                 >
 
@@ -344,7 +326,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: '#fff',
     fontWeight: 'bold',
-    marginLeft: 20,
+    marginLeft: 25,
     marginRight: 100
   },
   child_drawer:

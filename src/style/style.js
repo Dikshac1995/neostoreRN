@@ -28,7 +28,7 @@ export const globalstyles = StyleSheet.create({
         //height: ((windowHeight-2) - 0),
         height: windowHeight / 4,
         width: ((windowWidth / 2) - 20),
-        //  backgroundColor: 'yellow',
+        // backgroundColor: 'yellow',
         //display:'flex'
     }
 })
