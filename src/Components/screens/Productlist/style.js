@@ -5,16 +5,24 @@ export const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         padding: 0,
-        alignItems: 'center' 
+        alignItems: 'center'
     },
     Product_name: {
-        fontSize: 15, fontWeight: 'bold' 
-    } ,  
-     Product_material: {
-        fontSize: 15, 
+        fontSize: 15, fontWeight: 'bold'
+    },
+    Product_material: {
+        fontSize: 15,
     },
     start_rating: {
         justifyContent: 'flex-end', alignItems: 'flex-end'
 
-    } 
+    },
+    loading: {
+
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center'
+
+    },
 })

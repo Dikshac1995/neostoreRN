@@ -36,6 +36,8 @@ class Registration extends Component {
             submitted: false,
             checked: false,
             radioCheck: '',
+            genderErr: false,
+            checkboxErr: false
         }
     }
 
@@ -46,6 +48,13 @@ class Registration extends Component {
         const passwordError = validation('password', this.state.password)
         const conpassError = validation('confirmpassword', this.state.confirmPassword, this.state.password)
         const phoneError = validation('phoneNo', this.state.phoneNo)
+        if (!this.state.checked) {
+            this.setState({ checkboxErr: true })
+        }
+        if (!this.state.gender) {
+            this.setState({ genderErr: true })
+        }
+
 
         this.setState({
             firstNameError: fnameError,
@@ -67,7 +76,7 @@ class Registration extends Component {
         collection.gender = this.state.gender
         if (fnameError == " " && lnameError == " " && emailError == " " && passwordError == " "
             && conpassError == " "
-            && phoneError == " ") {
+            && phoneError == " " && this.state.gender && this.state.checked) {
             this.setState({ loading: true })
             api.fetchapi(api.baseUrl + 'register', 'post', JSON.stringify(collection))
                 .then((response) => {
@@ -117,6 +126,12 @@ class Registration extends Component {
                             firstName: value.trim(),
                             firstNameError: validation('firstName', value)
                         })}
+                        onBlur={() => {
+                            this.setState(() => ({
+                                firstNameError: validation('firstName', this.state.firstName)
+                            }))
+                        }}
+
                         validate={<Text>{this.state.firstNameError}</Text>} />
 
                     <TextField placeholder="Last Name" name="user" onChangeText={(text) => this.setState({ lastName: text, lastNamevalid: true })}
@@ -124,6 +139,12 @@ class Registration extends Component {
                             lastName: value.trim(),
                             lastNameError: validation('lastName', value)
                         })}
+                        onBlur={() => {
+                            this.setState(() => ({
+                                lastNameError: validation('lastName', this.state.lastName),
+                            }))
+                        }}
+
                         validate={<Text>{this.state.lastNameError}</Text>} />
 
                     <PasswordCon placeholder='Password'
@@ -131,6 +152,12 @@ class Registration extends Component {
                             password: value.trim(),
                             passwordError: validation('password', value)
                         })}
+                        onBlur={() => {
+                            this.setState(() => ({
+                                passValid: validation('password', this.state.pass),
+                            }))
+                        }}
+
                         validate={<Text>{this.state.passwordError}</Text>} />
 
                     <PasswordCon placeholder=' confirm Password'
@@ -138,6 +165,12 @@ class Registration extends Component {
                             confirmPassword: value.trim(),
                             confirmpasswordError: validation('confirmpassword', value, this.state.password)
                         })}
+                        onBlur={() => {
+                            this.setState(() => ({
+                                confirmpasswordError: validation('confirmpassword', this.state.confirmPassword, this.state.password)
+                            }))
+                        }}
+
                         validate={<Text>{this.state.confirmpasswordError}</Text>} />
 
                     <TextField placeholder="Email" name="envelope"
@@ -145,24 +178,32 @@ class Registration extends Component {
                             email: value.trim(),
                             emailError: validation('email', value)
                         })}
+                        onBlur={() => {
+                            this.setState(() => ({
+                                emailError: validation('email', this.state.email)
+                            }))
+                        }}
                         validate={<Text>{this.state.emailError}</Text>} />
                     {/* <Gender /> */}
-                    <View style={styles.GenderField}>
-                        <Text style={styles.Gender}> Gender </Text>
-                        <RadioButton value="first"
-                            status={radioCheck === 'first' ? 'checked' : 'unchecked'}
-                            onPress={() => {
-                                this.setState({
-                                    radioCheck: 'first',
-                                    gender: 'male'
-                                });
-                            }} />
-                        <Text style={styles.GenderName}> Male </Text>
-                        <RadioButton value="second" status={radioCheck === 'second' ? 'checked' : 'unchecked'}
-                            onPress={() => { this.setState({ radioCheck: 'second', gender: 'female' }); }} />
-                        <Text style={styles.GenderName}> Female </Text>
+                    <View>
+                        <View style={styles.GenderField}>
+                            <Text style={styles.Gender}> Gender </Text>
+                            <RadioButton value="first"
+                                status={radioCheck === 'first' ? 'checked' : 'unchecked'} uncheckedColor='#fff'
+                                onPress={() => {
+                                    this.setState({
+                                        radioCheck: 'first',
+                                        gender: 'male',
+                                        genderErr: false
+                                    });
+                                }} />
+                            <Text style={styles.GenderName}> Male </Text>
+                            <RadioButton value="second" status={radioCheck === 'second' ? 'checked' : 'unchecked'}
+                                uncheckedColor='#fff' onPress={() => { this.setState({ radioCheck: 'second', gender: 'female' }); }} />
+                            <Text style={styles.GenderName}> Female </Text>
+                        </View>
+                        <Text style={{ color: '#fff', textAlign: 'center' }}>{this.state.genderErr ? 'Select the Gender ' : ' '} </Text>
                     </View>
-
 
                     <TextField placeholder="Phone number" name="mobile-phone" maxLength={10}
                         keyboardType={"number-pad"}
@@ -170,21 +211,34 @@ class Registration extends Component {
                             phoneNo: value.trim(),
                             phoneError: validation('phoneNo', value)
                         })}
+                        onBlur={() => {
+                            this.setState(() => ({
+                                phoneError: validation('phoneNo', this.state.phonNo)
+                            }))
+                        }}
 
                         validate={<Text>{this.state.phoneError}</Text>} />
 
                     {/* <Checkbox1 /> */}
-                    <View style={styles.checkboxField}>
-                        <Checkbox status={this.state.checked ? 'checked' : 'unchecked'}
-                            onPress={() => {
-                                this.setState({ checked: !this.state.checked });
-                            }} />
-                        <Text style={styles.text}> I agree </Text>
-                        <Text style={styles.terms} onPress={() =>
-                            Linking.openURL('http://180.149.241.208:3022/2019-06-28T06-10-29.263ZTerms_and_Conditions.pdf')
-                        }> Terms and conditions </Text>
-                    </View>
+                    <View>
+                        <View style={styles.checkboxField}>
+                            <Checkbox status={this.state.checked ? 'checked' : 'unchecked'}
+                                uncheckedColor='#fff'
+                                onPress={() => {
+                                    this.setState({
+                                        checked: !this.state.checked,
+                                        checkboxErr: false
+                                    });
 
+                                }}
+                            />
+                            <Text style={styles.text}> I agree </Text>
+                            <Text style={styles.terms} onPress={() =>
+                                Linking.openURL('http://180.149.241.208:3022/2019-06-28T06-10-29.263ZTerms_and_Conditions.pdf')
+                            }> Terms and conditions </Text>
+                        </View>
+                        <Text style={{ color: '#fff', textAlign: 'center' }}>{this.state.checkboxErr ? 'select the checkbox' : ' '}</Text>
+                    </View>
                     <View>
                         <ButtonField text="Registration" style={styles.registerButton}
                             onPress={() => this.submit()}

@@ -102,6 +102,12 @@ export default class SetPassword extends Component {
                         otp_err: validation('otp', value)
 
                     })}
+                    onBlur={() => {
+                        this.setState(() => ({
+                            otp_err: validation('otp', this.state.Otp)
+                        }))
+                    }}
+
                     validate={<Text>{this.state.otp_err}</Text>}
 
                 />
@@ -111,6 +117,12 @@ export default class SetPassword extends Component {
                         password: value.trim(),
                         passwordError: validation('password', value)
                     })}
+                    onBlur={() => {
+                        this.setState(() => ({
+                            passwordError: validation('password', this.state.pasword)
+                        }))
+                    }}
+
                     validate={<Text>{this.state.passwordError}</Text>} />
                 <PasswordCon placeholder='Enter Password  Again '
                     onChangeText={value => this.setState({
@@ -118,6 +130,12 @@ export default class SetPassword extends Component {
                         confirmpasswordError: validation('confirmpassword', value, this.state.password)
 
                     })}
+                    onBlur={() => {
+                        this.setState(() => ({
+                            confirmpasswordError: validation('confirmpassword', this.state.confirmPassword, this.state.password)
+                        }))
+                    }}
+
 
                     validate={<Text>{this.state.confirmpasswordError}</Text>}
                 />

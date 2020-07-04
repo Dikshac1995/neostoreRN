@@ -83,7 +83,7 @@ class Main extends Component {
                     <Stack.Screen name="SetPassword" component={SetPassword} options={{
                         headerStyle: { backgroundColor: 'red' },
                         headerTintColor: '#fff',
-                        headerTitle: 'Set Passwword',
+                        headerTitle: 'Set Password',
                         headerTitleAlign: 'center',
                         headerTitleStyle: {
                             fontWeight: 'bold',

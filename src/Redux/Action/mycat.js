@@ -32,20 +32,13 @@ export const getCartData = (token) => {
     console.log("ddd", token)
     //IN order to use await your callback must be asynchronous using async keyword.
     return async dispatch => {
-        console.log('dis')
         //Then perform your asynchronous operations.
         try {
-            console.log("in tey")
-            //Have it first fetch data from our starwars url.
-            //const res = await fetch('http://180.149.241.208:3022/getAllCategories');
-            const res = await api.fetchapi('http://180.149.241.208:3022/getCartData', 'get', ' ', token)
+            const res = await api.fetchapi(api.baseUrl + 'getCartData', 'get', ' ', token)
             dispatch(fetchData(true))
             const people = await res.json();
-            console.log('people-----------', people.product_details);
-
             dispatch(fetchDataFulfilled(people.product_details))
         } catch (error) {
-            console.log('Getting People Error---------', error);
             dispatch(fetchDataRejected(error))
         }
     }

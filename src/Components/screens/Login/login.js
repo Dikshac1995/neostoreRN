@@ -86,6 +86,12 @@ class LoginScreen extends Component {
                             email: value.trim(),
                             emailValid: validation('email', value)
                         })}
+                        onBlur={() => {
+                            this.setState(() => ({
+                                emailValid: validation('email', this.state.email),
+                            }))
+                        }}
+
                         validate={<Text>{this.state.emailValid}</Text>} />
                     <PasswordCon placeholder='Password'
                         onChangeText={value => this.setState({
@@ -93,6 +99,11 @@ class LoginScreen extends Component {
                             passValid: validation('password', value)
 
                         })}
+                        onBlur={() => {
+                            this.setState(() => ({
+                                passValid: validation('password', this.state.pass),
+                            }))
+                        }}
 
                         validate={<Text>{this.state.passValid}</Text>} />
                     <ButtonField text="LOGIN" loading={this.state.loading}

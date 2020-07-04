@@ -19,7 +19,6 @@ import RNFetchBlob from 'rn-fetch-blob'
 export default class EditProfile extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
             date: '',
             first_name: '',
@@ -72,40 +71,45 @@ export default class EditProfile extends Component {
 
     async submit() {
         let token = await AsyncStorage.getItem('token');
+        console.log(this.state.first_nameError, 'dggdh')
 
         console.log(this.state.selectedImage, 'selectedImage')
-        if (this.state.selectedImage == " ") {
-            console.log('data')
-            this.setState({ loading: true })
+        if (this.state.first_nameError == " " && this.state.last_nameError == " " && this.state.emailError == " "
+            && this.state.phone_noError == " ") {
+            if (this.state.selectedImage == " ") {
+                console.log('data')
+                this.setState({ loading: true })
 
-            api.fetchapi('http://180.149.241.208:3022/profile', 'put',
-                JSON.stringify(
-                    {
-                        first_name: this.state.first_name,
-                        last_name: this.state.last_name,
-                        email: this.state.email,
-                        phone_no: this.state.phone_no,
-                        gender: this.state.gender,
-
-                        dob: this.state.date
-                    }
-                ), token).then((res) => {
-                    res.json().then((responseJSON) => {
-                        console.log("responseJSON", responseJSON);
-                        Alert.alert(responseJSON.message)
-
-                        this.storeData(responseJSON)
-                        this.setState({
-                            loading: false,
-
+                api.fetchapi(api.baseUrl + 'profile', 'put',
+                    JSON.stringify(
+                        {
+                            first_name: this.state.first_name,
+                            last_name: this.state.last_name,
+                            email: this.state.email,
+                            phone_no: this.state.phone_no,
+                            gender: this.state.gender,
+                            dob: this.state.date
+                        }
+                    ), token).then((res) => {
+                        res.json().then((responseJSON) => {
+                            console.log("responseJSON", responseJSON);
+                            Alert.alert(responseJSON.message)
+                            this.storeData(responseJSON)
+                            this.setState({
+                                loading: false,
+                            })
+                            this.props.navigation.navigate('MyAccount')
                         })
-                        this.props.navigation.navigate('MyAccount')
-
                     })
-                })
 
+            }
+            else {
+                this.onuploadimage()
+            }
         }
-        this.onuploadimage()
+        else {
+            Alert.alert('Fill the Required Fields ')
+        }
         // const err = this.state.last_nameError
         // if (this.state.last_nameError !== ' ' || this.state.first_nameError !== ' '
         //     || this.state.emailError !== ' '
@@ -124,7 +128,7 @@ export default class EditProfile extends Component {
         this.setState({ loading: true })
         RNFetchBlob.fetch(
             'PUT',
-            'http://180.149.241.208:3022/profile',
+            api.baseUrl + 'profile',
             {
                 Authorization: 'Bearer ' + token,
                 'Content-Type': 'multipart/form-data',
@@ -313,8 +317,7 @@ export default class EditProfile extends Component {
                                 status={this.state.radioCheck === 'first' ? 'checked' : 'unchecked'}
                                 onPress={() => {
                                     this.setState({
-                                        radioCheck: 'first',
-                                        gender: 'male'
+                                        radioCheck: 'first', gender: 'male'
                                     });
                                 }} />
                             <Text style={
@@ -336,7 +339,7 @@ export default class EditProfile extends Component {
                     </View>
                 </View>
 
-            </ScrollView>
+            </ScrollView >
         )
     }
 }

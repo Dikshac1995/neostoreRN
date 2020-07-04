@@ -7,6 +7,8 @@ import Button from '../../Reusable/ButtonField/buttonField'
 import { styles } from './style'
 import { connect } from 'react-redux';
 import { getCartData } from '../../../Redux/Action/mycat'
+import Loader from '../../Reusable/loader/loader'
+
 
 
 
@@ -28,7 +30,7 @@ class Mycart extends Component {
             token: ' ',
             selectedValue: [1, 1,],
             quantity: [],
-
+            loading: true
         }
 
     }
@@ -57,7 +59,8 @@ class Mycart extends Component {
                 myCardItem: data,
                 quantity: prod_quantity,
                 finalCost: sum,
-                product_cost: cost
+                product_cost: cost,
+                loading: false
             })
             this.storedata(this.state.myCardItem, this.state.quantity)
 
@@ -95,6 +98,7 @@ class Mycart extends Component {
                 quantity: product_quantity,
                 finalCost: sum,
                 product_cost: cost,
+                loading: false,
                 // cart: { ...this.state.cart, productData: mycartdata, quantity: quantity, }
 
             })
@@ -236,31 +240,37 @@ class Mycart extends Component {
         const info = this.props.data
         const data = this.state.myCardItem
         return (
-            <View>
+            <>
                 <Header name1='arrowleft' text='My Carts' name2='search'
                     onPress={() => this.props.navigation.goBack()}
                     onClick={() => this.props.navigation.navigate('share')}
                 />
-                <View style={{ marginHorizontal: 20, height: '78%' }}>
+                <View style={{ flex: 1 }}>
+                    {(this.state.isLoading) ?
+                        <Loader name='onLoad'
+                            loading={true} />
+                        :
+                        <View style={{ flex: 1 }}>
+                            <View style={{ marginHorizontal: 20, flex: 8 }}>
 
-                    <FlatList data={data}
-                        showsVerticalScrollIndicator={false}
-                        renderItem={({ item, index }) =>
-                            <View >
-                                <TouchableOpacity style={styles.myOrder_container}
-                                    // onPress={() => { this.props.navigation.navigate('productDetail', { product_id: item.product_id }) }}
-                                    onLongPress={() => this.removeProduct(data.indexOf(item))}>
-                                    <View>
-                                        <Image style={{ width: 120, height: 100 }} source={{
-                                            uri: api.baseUrl + item.product_image
-                                        }} />
-                                    </View>
-                                    <View style={{ padding: 15, width: 250 }}>
-                                        <Text style={styles.product_name}>{item.product_name}</Text>
-                                        <Text style={styles.product_material}>({item.product_material})</Text>
+                                <FlatList data={data}
+                                    showsVerticalScrollIndicator={false}
+                                    renderItem={({ item, index }) =>
+                                        <View >
+                                            <TouchableOpacity style={styles.myOrder_container}
+                                                // onPress={() => { this.props.navigation.navigate('productDetail', { product_id: item.product_id }) }}
+                                                onLongPress={() => this.removeProduct(data.indexOf(item))}>
+                                                <View>
+                                                    <Image style={{ width: 120, height: 100 }} source={{
+                                                        uri: api.baseUrl + item.product_image
+                                                    }} />
+                                                </View>
+                                                <View style={{ padding: 15, width: 250 }}>
+                                                    <Text style={styles.product_name}>{item.product_name}</Text>
+                                                    <Text style={styles.product_material}>({item.product_material})</Text>
 
-                                        <View>
-                                            {/* <Picker
+                                                    <View>
+                                                        {/* <Picker
                                                 key={index}
                                                 selectedValue={this.state.quantity[index]}
                                                 style={{ width: 80, }}
@@ -275,20 +285,23 @@ class Mycart extends Component {
 
 
                                             </Picker> */}
-                                            <Text style={styles.product_cost}>Rs.{item.product_cost}</Text>
-                                        </View>
-                                    </View>
-                                </TouchableOpacity>
-                            </View>}
+                                                        <Text style={styles.product_cost}>Rs.{item.product_cost}</Text>
+                                                    </View>
+                                                </View>
+                                            </TouchableOpacity>
+                                        </View>}
 
-                        ItemSeparatorComponent={this.FlatListItemSeparator} />
-                </View>
+                                    ItemSeparatorComponent={this.FlatListItemSeparator} />
+                            </View>
 
-                <View style={styles.footer}>
-                    <View ><Text style={styles.totalPrice}>Rs, {this.state.finalCost}</Text></View>
-                    <Button text="order Now" onPress={() => this.orderNow()} style={styles.buttonStyle} />
+                            <View style={styles.footer}>
+                                <View ><Text style={styles.totalPrice}>Rs, {this.state.finalCost}</Text></View>
+                                <Button text="order Now" onPress={() => this.orderNow()} style={styles.buttonStyle} />
+                            </View>
+                        </View>}
+
                 </View>
-            </View >
+            </>
         )
     }
 }

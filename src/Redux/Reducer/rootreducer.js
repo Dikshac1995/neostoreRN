@@ -3,8 +3,9 @@ import auth from './authReducer'
 import productListReducer from './productListReducer'
 import { countReducer } from './counter'
 import listReducer from './listReducer'
-import registration from './registration.reducer'
+import registration from './registrationreducer'
 import mycartReducer from './mycart'
+import AddressReducer from './addressReducer'
 
 const rootReducer = combineReducers({
     auth,
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
     listReducer,
     count: countReducer,
     registration: registration,
-    mycartReducer
+    mycartReducer,
+    AddressReducer
 
 })
 

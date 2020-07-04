@@ -9,23 +9,38 @@ import {
 const Loader = props => {
     const {
         loading,
+
+        name,
         ...attributes
     } = props;
+    if (!name) {
+        return (
 
-    return (
-        <Modal
-            transparent={true}
-            animationType={'none'}
-            visible={loading}
-            onRequestClose={() => { console.log('close modal') }}>
-            <View style={styles.modalBackground}>
-                <View style={styles.activityIndicatorWrapper}>
-                    <ActivityIndicator
-                        animating={loading} />
+            <Modal
+                transparent={true}
+                animationType={'none'}
+                visible={loading}
+                onRequestClose={() => { console.log('close modal') }}>
+                <View style={styles.modalBackground}>
+                    <View style={styles.activityIndicatorWrapper}>
+                        <ActivityIndicator
+                            animating={loading} />
+                    </View>
                 </View>
-            </View>
-        </Modal>
-    )
+            </Modal>
+        )
+    }
+    else {
+        return (
+            <View style={{ flex: 1 }}>
+                <View style={styles.loading}>
+                    <View>
+                        <ActivityIndicator size='large' />
+                    </View>
+                </View>
+            </View>)
+    }
+
 }
 
 const styles = StyleSheet.create({
@@ -44,7 +59,15 @@ const styles = StyleSheet.create({
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-around'
-    }
+    },
+    loading: {
+
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center'
+
+    },
 });
 
 export default Loader;

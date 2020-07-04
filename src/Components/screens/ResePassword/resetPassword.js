@@ -43,10 +43,15 @@ export default class ResetPassword extends Component {
             if (result.sucess === true) {
                 this.setState({ loading: false })
                 Alert.alert(result.message)
+                this.props.navigation.goBack()
+
             }
             else {
                 this.setState({ loading: false })
                 Alert.alert(result.message)
+
+
+
             }
         }
     }

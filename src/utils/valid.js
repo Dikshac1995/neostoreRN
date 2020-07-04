@@ -15,8 +15,9 @@ export default function validation(type, text, pass) {
 
     if (type == 'firstName') {
         if (!text) {
-            return 'Please enter First name '
+            return 'First Name is Required '
         }
+
         else if (regex.test(text)) {
             return ' '
         }
@@ -26,13 +27,13 @@ export default function validation(type, text, pass) {
     }
     if (type == 'lastName') {
         if (!text) {
-            return 'Please enter last  name '
+            return 'Last  Name is Required'
         }
         else if (regex.test(text)) {
             return ' '
         }
         else {
-            return 'Last name only contain Alphabet '
+            return 'Last Name only contain Alphabet '
         }
 
 
@@ -40,6 +41,9 @@ export default function validation(type, text, pass) {
     else if (type == 'password') {
         if (!text) {
             return 'Password is Required '
+        }
+        else if (text.length < 7) {
+            return 'Password at least 7 digit Long'
         }
 
         else if (passreg.test(text)) {
@@ -63,7 +67,7 @@ export default function validation(type, text, pass) {
         }
     }
     else if (type == 'email') {
-        if (!text) {
+        if (text == " " || !text) {
             return 'Email id  is Required '
         }
 
@@ -75,7 +79,7 @@ export default function validation(type, text, pass) {
         }
     }
     else if (type == 'phoneNo') {
-        if (!text) {
+        if (text == " " || !text) {
             return 'Mob no is Required '
         }
         else if (numregx.test(text)) {
@@ -113,7 +117,7 @@ export default function validation(type, text, pass) {
     }
     else if (type == 'Landmark') {
         console.log(text, '123')
-        if (!text) {
+        if (text == " " || !text) {
             console.log(text, '1')
             // Alert.alert('landMark is required')
             return 'Landmark is Required '

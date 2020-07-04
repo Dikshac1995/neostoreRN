@@ -77,7 +77,14 @@ export const styles = StyleSheet.create({
         borderRadius: 8,
         textAlign: 'center'
     },
+    loading: {
 
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center'
+
+    },
     buttonStyle: {
         backgroundColor: 'red',
         width: 180,

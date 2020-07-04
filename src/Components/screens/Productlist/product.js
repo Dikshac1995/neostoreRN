@@ -6,6 +6,8 @@ import { connect } from 'react-redux';
 import { api } from '../../../utils/api'
 import Header from '../../Reusable/header /header'
 import Loader from '../../Reusable/loader/loader'
+import { styles } from './style'
+
 
 // import { FetchProductList } from '../../../Redux/Action/productlist'
 
@@ -151,11 +153,15 @@ export default class ProductList extends Component {
                     onPress={() => this.props.navigation.goBack()}
                     onClick={() => this.props.navigation.navigate('searchitem')}
                 />
-                <View>
+                <View style={{ flex: 1 }}>
                     {(this.state.isLoading) ?
-                        <Loader
+                        <Loader name='onLoad'
                             loading={true} />
-                        // <ActivityIndicator size='large' />
+                        // <View style={styles.loading}>
+                        //     <View>
+                        //         <ActivityIndicator size='large' />
+                        //     </View>
+                        // </View>
 
                         :
                         <View style={{ marginHorizontal: 20 }}>

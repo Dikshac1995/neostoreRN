@@ -6,12 +6,10 @@ import { styles } from './style'
 import AsyncStorage from '@react-native-community/async-storage';
 import { api } from '../../../utils/api'
 import { RadioButton } from 'react-native-paper';
+import { connect } from 'react-redux';
+import { FetchAddress } from '../../../Redux/Action/address'
 
-
-
-
-
-export default class add_list extends Component {
+class AddressList extends Component {
     constructor(props) {
         super(props);
 
@@ -28,28 +26,44 @@ export default class add_list extends Component {
     }
 
     componentDidMount() {
+        // let token AsyncStorage.getItem('token');
+        // console.log('tok', token)
         this.getData()
 
     }
     async getData() {
         let token = await AsyncStorage.getItem('token');
         const customerData = JSON.parse(await AsyncStorage.getItem('customerDetail'))
+        this.props.FetchAddress(token)
 
 
         this.setState({ token: token, data: customerData.customer_details })
-        api.fetchapi('http://180.149.241.208:3022/getCustAddress', 'get', " ", this.state.token)
+        const data = this.props.data
+        console.log('as', data)
+        var address = data.filter(function (res) {
+            return res.isDeliveryAddress == true;
+        });
+        console.log('addr', address)
+        // this.setState({ addressData: address[0] })
 
-            .then((response) => response.json())
-            .then((data) => {
-                console.log('Success:', data);
-                if (data.success == true) {
-                    this.setState({ addressData: data.customer_address })
+        this.setState({ addressData: data })
 
-                }
-                else {
-                    Alert.alert("not found ")
-                }
-            })
+
+
+
+        // api.fetchapi(api.baseUrl + 'getCustAddress', 'get', " ", this.state.token)
+
+        //     .then((response) => response.json())
+        //     .then((data) => {
+        //         console.log('Success:', data);
+        //         if (data.success == true) {
+        //             this.setState({ addressData: data.customer_address })
+
+        //         }
+        //         else {
+        //             Alert.alert("not found ")
+        //         }
+        //     })
 
 
     }
@@ -101,6 +115,7 @@ export default class add_list extends Component {
 
     }
     render() {
+        console.log('hh', this.props)
         console.log("customerdata", this.state.addressData)
         const data = this.state.data
         console.log("data", data)
@@ -110,12 +125,9 @@ export default class add_list extends Component {
                     onPress={() => this.props.navigation.goBack()}
                     onClick={() => this.props.navigation.navigate('AddAddress')}
                 />
-
                 <View style={{ height: '75%' }}>
                     <Text style={{ fontSize: 25, margin: 20, color: '#8B8888' }}>
                         Shipping Address</Text>
-
-
                     <View style={{ padding: 10, height: 400, marginHorizontal: 10 }}>
                         <Text style={{ marginHorizontal: 10, fontSize: 25, }}>
                             {data.first_name}  {data.last_name}
@@ -158,7 +170,6 @@ export default class add_list extends Component {
                             keyExtractor={(index, item) => index}
                         />
 
-
                     </View>
                 </View>
 
@@ -174,3 +185,15 @@ export default class add_list extends Component {
         )
     }
 }
+const mapStateToProps = state => ({
+    data: state.AddressReducer.data
+})
+
+//Map your action creators to your props.
+const mapDispatchToProps = (dispatch) => {
+    return {
+        FetchAddress: (type) => dispatch(FetchAddress(type))
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddressList)

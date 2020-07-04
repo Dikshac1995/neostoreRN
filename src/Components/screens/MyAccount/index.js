@@ -31,7 +31,7 @@ export default class MyAccount extends Component {
     async  fetchCustomerData() {
         let token = await AsyncStorage.getItem('token');
         console.log("data", token)
-        const res = await api.fetchapi('http://180.149.241.208:3022/getCustProfile', 'get', " ", token)
+        const res = await api.fetchapi(api.baseUrl + 'getCustProfile', 'get', " ", token)
         const result = await res.json();
         const customer_profile = result.customer_proile
 
@@ -76,27 +76,24 @@ export default class MyAccount extends Component {
 
 
         return (
+            // <View style={{ flex: 1, backgroundColor: 'yellow' }}>
+
             <>
-
-
                 <Header name1='arrowleft' text=' My Account' name2='search'
                     onPress={() => this.props.navigation.goBack()}
                     onClick={() => this.props.navigation.navigate('serachitem')}
                 />
                 {/* </View> */}
                 {this.state.loading ? <ActivityIndicator /> :
-                    <ScrollView>
-                        <View>
+                    <View style={{ flex: 1 }}>
+                        {/* <View style={{ flex: 8 }}> */}
 
+                        <View style={styles.myAccount_wrapper}>
 
-                            <View style={globalstyles.Container}>
-
-                                <View style={{ alignItems: 'center', }}>
+                            <ScrollView>
+                                <View style={styles.proImage_container}>
                                     <TouchableOpacity onPress={() => this.onChangeImage()}>
-                                        {/* <Image style={{ width: 220, height: 160 }} source={{
-                                            uri: api.baseUrl + this.state.customer_data.profile_img
-                                        }} /> */}
-                                        <Image style={{ borderRadius: 100, width: 150, height: 150, resizeMode: 'cover' }} source={this.state.imageSource} />
+                                        <Image style={{ borderRadius: 100, width: 100, height: 100, resizeMode: 'cover' }} source={this.state.imageSource} />
                                     </TouchableOpacity>
 
                                 </View>
@@ -110,18 +107,21 @@ export default class MyAccount extends Component {
                                     onPress={() => this.props.navigation.navigate('EditProfile', { data: this.state.customer_data })}
                                     style={styles.edit_button}
                                 />
+
+
+
+                            </ScrollView>
+                        </View>
+
+                        {/* </View> */}
+
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate('ResetPassword')}>
+                            <View style={styles.reset_button}>
+                                <Text style={styles.reset_button_text} >RESET PASSWORD</Text>
                             </View>
-                        </View>
-                        <View >
-                            <TouchableOpacity onPress={() => this.props.navigation.navigate('ResetPassword')}>
-                                <View style={{ backgroundColor: 'white', height: 50 }}>
-                                    <Text style={{
-                                        textAlign: 'center', paddingTop: 15, fontSize: 25, paddingBottom: 20
-                                    }} >RESET PASSWORD</Text>
-                                </View>
-                            </TouchableOpacity>
-                        </View>
-                    </ScrollView>}
+                        </TouchableOpacity>
+                        {/* </View> */}
+                    </View>}
             </>
         )
     }

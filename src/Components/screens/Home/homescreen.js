@@ -21,6 +21,7 @@ class Homescreen extends Component {
     }
     componentDidMount() {
         //Dispatch your dispatcher
+        console.log('indid home')
         this.props.getImage();
     }
     getData() {

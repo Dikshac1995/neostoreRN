@@ -29,58 +29,50 @@ export const styles = StyleSheet.create({
         textAlign: 'center',
 
     },
-    productDeatailSection1: {
-        backgroundColor: "#fff",
-        // marginBottom: 20
-        // padding:20,
-        // paddingTop:30,
-        // // paddingHorizontal: 20,
-        // paddingBottom:10
-
+    product: {
+        padding: 20
     },
-    productDetailSection1_wrapper: {
-
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'space-evenly',
-        paddingVertical: 20,
-        height: 100
-
+    product_row: {
+        flex: 1, flexDirection: 'row', justifyContent: 'space-between',
+        paddingBottom: 10
     },
-
-
-    product_name: {
-        fontSize: StyleConstants.FONT_26,
-        fontWeight: 'bold'
+    productName_wrapper: {
+        width: '50%'
     },
-    categogy_name: {
-        fontSize: StyleConstants.FONT_26,
-
+    productName_text: {
+        fontSize: 25, fontWeight: 'bold'
     },
-    material_name: {
-        fontSize: StyleConstants.FONT_23,
-        // color: '#4f4f4f'
+    productProducer: {
+        width: '30%'
+    },
+    productProducer_text: {
+        fontSize: 20, fontWeight: 'bold'
     },
     product_cost: {
-        color: 'red',
-        fontSize: StyleConstants.FONT_23,
-    },
-    Product_description_title: {
-        fontSize: StyleConstants.FONT_30,
-        color: '#111111'
-    },
-    Product_description: {
-        fontSize: StyleConstants.FONT_30,
-        color: '#333333',
-        width: 70
+        fontSize: StyleConstants.FONT_22,
+        fontWeight: 'bold',
+        textAlign: 'center'
     },
     priceDetail: {
+        height: '30%'
+    },
+    priceDetail_container: {
+        height: 100, marginBottom: 10
+    },
+    priceDetail_text: {
         textDecorationLine: 'underline', fontSize: 20, paddingLeft: 25,
 
     },
     priceDetailWrapper: {
         display: 'flex', flexDirection: 'row',
         justifyContent: 'space-evenly', padding: 10,
+    },
+    priceDetailWrapper_text: {
+        fontSize: 20, width: 250
+    },
+    priceDetail_totalCost: {
+        fontSize: 20,
+        fontWeight: '900'
     },
     footer: {
         flex: 1,

@@ -60,6 +60,11 @@ export default class ForgotPassword extends Component {
                         emailId: value.trim(),
                         email_err: validation('email', value.trim())
                     })}
+                    onBlur={() => {
+                        this.setState(() => ({
+                            email_err: validation('email', this.state.email)
+                        }))
+                    }}
 
                     validate={<Text>{this.state.email_err}</Text>} />
 

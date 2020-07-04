@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native'
 
 export const styles = StyleSheet.create({
     button1: {
-        marginTop: 20,
+        marginTop: 10,
         marginBottom: 15,
         // alignItems: 'center',
         // backgroundColor: 'white',

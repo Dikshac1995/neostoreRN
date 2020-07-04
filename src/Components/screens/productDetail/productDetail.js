@@ -198,7 +198,7 @@ class productDetail extends Component {
         const Product_name = this.state.ProductDetailData.product_name
         const { product_name } = this.props.route.params;
         return (
-            <View>
+            <View style={{ flex: 1 }}>
                 <Header name1='arrowleft' text={
                     ((product_name).length > 20) ?
                         (((product_name).substring(0, 20 - 3)) + '...') :
@@ -206,7 +206,14 @@ class productDetail extends Component {
                     onPress={() => this.props.navigation.goBack()}
                     onClick={() => this.props.navigation.navigate('searchitem')}
                 />
-                {(this.state.isLoading) ? <ActivityIndicator size='large' /> :
+                {(this.state.isLoading) ?
+                    <View style={styles.loading}>
+                        <View>
+                            <ActivityIndicator size='large' />
+                        </View>
+                    </View>
+                    // <ActivityIndicator size='large' />
+                    :
 
                     <View style={{ width: windowWidth, height: windowHeight }}>
                         <ScrollView>
