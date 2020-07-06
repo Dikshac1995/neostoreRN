@@ -14,8 +14,6 @@ import ImagePicker from 'react-native-image-picker';
 import Loader from '../../Reusable/loader/loader'
 import RNFetchBlob from 'rn-fetch-blob'
 
-
-
 export default class EditProfile extends Component {
     constructor(props) {
         super(props);
@@ -36,20 +34,17 @@ export default class EditProfile extends Component {
             checked: false,
             radioCheck: '',
             img_filename: ' ',
-            loading: true,
+            loading: false,
             selectedImage: ' '
         };
     }
     componentDidMount() {
         const { data } = this.props.route.params;
         console.log(" data  ", data, data.gender)
-
-
         if (data.profile_img !== null) {
             const source = { uri: api.baseUrl + data.profile_img };
             this.setState({ imageSource: source })
         }
-
         this.setState({
             first_name: data.first_name,
             last_name: data.last_name,
@@ -57,8 +52,6 @@ export default class EditProfile extends Component {
             phone_no: data.phone_no,
             gender: data.gender,
             date: data.dob,
-            // imageSource: source,
-            loading: false
         })
         if (data.gender === "female") {
             this.setState({ radioCheck: 'second' })
@@ -72,14 +65,13 @@ export default class EditProfile extends Component {
     async submit() {
         let token = await AsyncStorage.getItem('token');
         console.log(this.state.first_nameError, 'dggdh')
-
+        console.log(this.state.loading, 'loader')
         console.log(this.state.selectedImage, 'selectedImage')
         if (this.state.first_nameError == " " && this.state.last_nameError == " " && this.state.emailError == " "
             && this.state.phone_noError == " ") {
             if (this.state.selectedImage == " ") {
                 console.log('data')
                 this.setState({ loading: true })
-
                 api.fetchapi(api.baseUrl + 'profile', 'put',
                     JSON.stringify(
                         {
@@ -93,29 +85,35 @@ export default class EditProfile extends Component {
                     ), token).then((res) => {
                         res.json().then((responseJSON) => {
                             console.log("responseJSON", responseJSON);
-                            Alert.alert(responseJSON.message)
-                            this.storeData(responseJSON)
-                            this.setState({
-                                loading: false,
-                            })
-                            this.props.navigation.navigate('MyAccount')
+                            if (responseJSON.success === true) {
+                                this.storeData(responseJSON)
+                                setTimeout(() => {
+                                    this.setState({ loading: false })
+                                    Alert.alert(
+                                        'Your Profile Updated Successfully',
+                                        ' ',
+                                        [{
+                                            text: 'OK', onPress: () => {
+                                                this.props.navigation.navigate('MyAccount')
+                                            }
+                                        },],
+                                        { cancelable: false }
+                                    )
+                                }, 2000)
+                            } else {
+                                Alert.alert(responseJSON.message)
+
+                            }
                         })
                     })
-
             }
             else {
                 this.onuploadimage()
             }
         }
         else {
-            Alert.alert('Fill the Required Fields ')
+            Alert.alert(' Please Fill the Required Data ')
         }
-        // const err = this.state.last_nameError
-        // if (this.state.last_nameError !== ' ' || this.state.first_nameError !== ' '
-        //     || this.state.emailError !== ' '
-        //     || this.state.phone_noError !== ' ') {
-        //     Alert.alert("Please Fill  Required Information  ")
-
     }
 
 
@@ -154,10 +152,29 @@ export default class EditProfile extends Component {
             console.log(data.customer_details, "res")
             if (data.success === true) {
                 this.storeData(data)
-                Alert.alert(data.message);
-                this.setState({ loading: false })
-                this.props.navigation.navigate('MyAccount')
+                setTimeout(() => {
+                    // Alert.alert(responseJSON.message)
+                    this.setState({ loading: false })
+                    Alert.alert(
+                        data.message,
+                        ' ',
+                        [{
+                            text: 'OK', onPress: () => {
+                                this.props.navigation.navigate('MyAccount')
+                            }
+                        },],
+                        { cancelable: false }
+                    )
+                }, 2000)
 
+
+                // Alert.alert(data.message);
+                // this.setState({ loading: false })
+                // this.props.navigation.navigate('MyAccount')
+
+            }
+            else {
+                Alert.alert(data.message);
             }
         }).catch((err) => {
             console.log(err)
@@ -220,16 +237,15 @@ export default class EditProfile extends Component {
     }
     render() {
         const { data } = this.props.route.params;
-        console.log(this.state.first_name, " state")
-        console.log('fn', this.state.radioCheck)
         return (
-            <ScrollView>
 
-                <Loader
-                    loading={this.state.loading} />
+
+            <ScrollView>
                 <View>
 
                     <View style={globalstyles.Container}>
+                        <Loader
+                            loading={this.state.loading} />
                         <View style={{ alignItems: 'center', }}>
                             <TouchableOpacity onPress={() => this.onChangeImage()}>
                                 <Image style={{ borderRadius: 100, width: 150, height: 150, resizeMode: 'cover' }} source={this.state.imageSource} />
@@ -335,6 +351,12 @@ export default class EditProfile extends Component {
                         // onPress={() => this.onuploadimage()}
 
                         />
+                        {/* <ButtonField text="EDIT PROFILE"
+
+                            onPress={() => this.props.navigation.navigate('EditProfile', { data: this.state.customer_data })}
+                            style={styles.edit_button}
+                        /> */}
+
 
                     </View>
                 </View>

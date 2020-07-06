@@ -8,6 +8,8 @@ import { api } from '../../../utils/api'
 import { RadioButton } from 'react-native-paper';
 import { connect } from 'react-redux';
 import { FetchAddress } from '../../../Redux/Action/address'
+import Loader from '../../Reusable/loader/loader'
+
 
 class AddressList extends Component {
     constructor(props) {
@@ -21,7 +23,9 @@ class AddressList extends Component {
             data: [],
             radioCheck: ' ',
             address_id: ' ',
-            addressinfo: ''
+            addressinfo: '',
+            loading: true,
+            loader: false,
         };
     }
 
@@ -34,19 +38,30 @@ class AddressList extends Component {
     async getData() {
         let token = await AsyncStorage.getItem('token');
         const customerData = JSON.parse(await AsyncStorage.getItem('customerDetail'))
-        this.props.FetchAddress(token)
+        await this.props.FetchAddress(token)
 
 
-        this.setState({ token: token, data: customerData.customer_details })
+        // this.setState({ token: token, data: customerData.customer_details })
         const data = this.props.data
         console.log('as', data)
-        var address = data.filter(function (res) {
-            return res.isDeliveryAddress == true;
-        });
-        console.log('addr', address)
+        // var address = data.filter(function (res) {
+        //     return res.isDeliveryAddress == true;
+        // });
+        // console.log('addr', address)
         // this.setState({ addressData: address[0] })
+        const D_address = (element) => element.isDeliveryAddress == true;
+        // const res = data.map((index, e) => e.isDeliveryAddress)
+        const res = data.findIndex(D_address)
+        // console.log(data.findIndex(isLargeNumber), '##', res);
 
-        this.setState({ addressData: data })
+        setTimeout(() => {
+            this.setState({
+                token: token, data: customerData.customer_details,
+                addressData: data,
+                loading: this.props.loading,
+                radioCheck: res
+            })
+        }, 1000)
 
 
 
@@ -67,6 +82,22 @@ class AddressList extends Component {
 
 
     }
+    // omponentDidUpdate(prevProps) {
+    //     if (this.props.productList !== prevProps.productList) {
+    //         this.setState({ productListArray: this.props.productList });
+    //     }
+    // // }
+    // componentDidUpdate(previousProps, previousState) {
+    //     console.log(previousProps, 'component did', this.props)
+    //     if (previousProps.data !== this.props.data) {
+    //         console.log('in change')
+    //         this.setState({ addressData: this.props.data, loading: false })
+    //     }
+    //     // else {
+    //     // this.setState({ loading: false })
+
+    // }
+
     FlatListItemSeparator = () => {
         return (
             <View
@@ -94,7 +125,7 @@ class AddressList extends Component {
             isDeliveryAddress: true,
         }
         const data = { address_id: this.state.address_id }
-
+        this.setState({ loader: true })
         api.fetchapi(api.baseUrl + 'updateAddress', 'put',
             JSON.stringify(address_data), this.state.token)
 
@@ -102,8 +133,23 @@ class AddressList extends Component {
             .then((data) => {
                 console.log('Success:', data);
                 if (data.success == true) {
-                    Alert.alert(data.message)
-                    this.props.navigation.navigate('oder summary', { product_id: 0, Product: 0, addressData: this.state.data })
+                    setTimeout(() => {
+                        // Alert.alert(responseJSON.message)
+                        this.setState({ loader: false })
+                        Alert.alert(
+                            data.message,
+                            ' ',
+                            [{
+                                text: 'OK', onPress: () => {
+                                    this.props.navigation.navigate('oder summary',
+                                        { product_id: 0, Product: 0, addressData: this.state.addressinfo })
+                                }
+                            },],
+                            { cancelable: false }
+                        )
+                    }, 2000)
+
+
 
                 }
                 else {
@@ -125,68 +171,83 @@ class AddressList extends Component {
                     onPress={() => this.props.navigation.goBack()}
                     onClick={() => this.props.navigation.navigate('AddAddress')}
                 />
-                <View style={{ height: '75%' }}>
-                    <Text style={{ fontSize: 25, margin: 20, color: '#8B8888' }}>
-                        Shipping Address</Text>
-                    <View style={{ padding: 10, height: 400, marginHorizontal: 10 }}>
-                        <Text style={{ marginHorizontal: 10, fontSize: 25, }}>
-                            {data.first_name}  {data.last_name}
-                        </Text>
-                        <FlatList
-                            data={this.state.addressData}
-                            ItemSeparatorComponent={this.FlatListItemSeparator}
-                            renderItem={({ item, index }) => {
-                                return (
-                                    <View
-                                        style={{
-                                            flex: 1,
-                                            flexDirection: 'row',
-                                        }}>
-                                        <View style={{ marginTop: 40 }}>
-                                            <RadioButton
-                                                value={index}
-                                                status={this.state.radioCheck == index ? 'checked' : 'unchecked'}
-                                                onPress={() => {
-                                                    this.setState({
-                                                        radioCheck: index, address_id: item.address_id,
-                                                        addressinfo: item
-                                                    })
+                {(this.state.loading) ?
+                    <Loader name='onLoad'
+                        loading={true} /> :
+                    <>
+                        <Loader
+                            loading={this.state.loader} />
+                        <View style={{ height: '75%' }}>
+                            <Text style={{ fontSize: 25, margin: 20, color: '#8B8888' }}>
+                                Shipping Address</Text>
+                            <View style={{ padding: 10, height: 400, marginHorizontal: 10 }}>
+                                <Text style={{ marginHorizontal: 10, fontSize: 25, }}>
+                                    {data.first_name}  {data.last_name}
+                                </Text>
+                                <FlatList
+                                    data={this.state.addressData}
+                                    ItemSeparatorComponent={this.FlatListItemSeparator}
+                                    renderItem={({ item, index }) => {
+                                        return (
+                                            <View
+                                                style={{
+                                                    flex: 1,
+                                                    flexDirection: 'row',
+                                                }}>
+                                                <View style={{ marginTop: 40 }}>
+                                                    <RadioButton
+                                                        value={index}
+                                                        status={this.state.radioCheck == index ? 'checked' : 'unchecked'}
+                                                        onPress={() => {
+                                                            this.setState({
+                                                                radioCheck: index,
+                                                                address_id: item.address_id,
+                                                                addressinfo: item
+                                                            })
 
-                                                }} />
-                                        </View>
-                                        <TouchableOpacity>
-                                            <View style={{ flex: 1, flexDirection: 'column', paddingVertical: 15 }}>
+                                                        }} />
+                                                </View>
+                                                <TouchableOpacity>
+                                                    <View style={{ flex: 1, flexDirection: 'column', paddingVertical: 15 }}>
 
-                                                <Text style={styles.address_text}> {item.address}, {item.city} , {item.state}</Text>
+                                                        <Text style={styles.address_text}> {item.address}, {item.city} , {item.state}</Text>
 
-                                                <Text style={styles.address_text}>
-                                                    {item.pincode} , {item.country}
-                                                </Text>
+                                                        <Text style={styles.address_text}>
+                                                            {item.pincode} , {item.country}
+                                                        </Text>
+                                                    </View>
+                                                </TouchableOpacity>
                                             </View>
-                                        </TouchableOpacity>
-                                    </View>
-                                );
-                            }}
-                            keyExtractor={(index, item) => index}
-                        />
+                                        );
+                                    }}
+                                    keyExtractor={(item, index) => index.toString()}
 
-                    </View>
-                </View>
+                                // keyExtractor={(index, item) => index}
+                                />
 
-                <View style={{
-                    backgroundColor: '#fff',
-                    marginBottom: 10,
-                }}>
-                    <ButtonField text='SAVE ADDRESS' style={styles.addAddress_button}
-                        disbled={this.state.ButtonDisable} onPress={() => this.saveAddress()} />
-                </View>
+                            </View>
+                        </View>
 
+                        <View style={{
+                            backgroundColor: '#fff',
+                            marginBottom: 10,
+                        }}>
+                            <ButtonField text='SAVE ADDRESS' style={styles.addAddress_button}
+                                disbled={this.state.ButtonDisable} onPress={() =>
+                                    this.saveAddress()} />
+                        </View>
+                    </>
+
+                }
             </View>
         )
     }
 }
 const mapStateToProps = state => ({
-    data: state.AddressReducer.data
+    data: state.AddressReducer.data,
+    loading: state.AddressReducer.isFetching
+
+
 })
 
 //Map your action creators to your props.

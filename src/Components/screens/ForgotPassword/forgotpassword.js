@@ -17,6 +17,23 @@ export default class ForgotPassword extends Component {
             loading: false,
         }
     }
+
+    componentDidMount() {
+        this.focusListener = this.props.navigation.addListener('focus', () => {
+            console.log('screen is focused')
+            this.setState({
+                emailId: '  ',
+                // email_err: ' ',
+            });
+        })
+
+    }
+
+    componentWillUnmount() {
+        // Remove the event listener before removing the screen from the stack
+        this.focusListener();
+
+    }
     async onsubmit() {
         const emailErr = validation('email', this.state.emailId)
         this.setState({ email_err: emailErr })
@@ -32,7 +49,7 @@ export default class ForgotPassword extends Component {
             if (result.success === true) {
                 this.setState({ emailId: ' ' })
                 setTimeout(() => {
-                    this.setState({ emailId: ' ', loading: false })
+                    this.setState({ emailId: '  ', loading: false })
                     Alert.alert(result.message)
                     this.props.navigation.navigate('SetPassword', { otp: result.otp, token: result.token })
 
@@ -62,7 +79,7 @@ export default class ForgotPassword extends Component {
                     })}
                     onBlur={() => {
                         this.setState(() => ({
-                            email_err: validation('email', this.state.email)
+                            email_err: validation('email', this.state.emailId)
                         }))
                     }}
 

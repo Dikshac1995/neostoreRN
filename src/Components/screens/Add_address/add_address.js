@@ -7,7 +7,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import validation from '../../../utils/valid'
 import { api } from '../../../utils/api'
 import Header from '../../Reusable/header /header'
-
+import Loader from '../../Reusable/loader/loader'
 
 
 export default class AddAddress extends Component {
@@ -27,7 +27,8 @@ export default class AddAddress extends Component {
             zip_err: ' ',
             country_err: ' ',
             ButtonDisable: false,
-            token: ' '
+            token: ' ',
+            loading: false
 
         }
     }
@@ -63,12 +64,14 @@ export default class AddAddress extends Component {
         collection1.city = this.state.City
         collection1.state = this.state.State
         collection1.country = this.state.country
+        collection1.isDeliveryAddress = true
 
         if (addError !== " " && cityError !== " " && LandError !== " "
             & zipError !== " " && countryErr !== " " && stateErr !== " ") {
             Alert.alert('Fill data properly ')
         }
         else {
+            this.setState({ loading: true })
             var url = api.baseUrl + 'address'
             api.fetchapi(url, 'post',
                 JSON.stringify(collection1), this.state.token)
@@ -76,7 +79,20 @@ export default class AddAddress extends Component {
                 .then((data) => {
                     console.log('Success:', data);
                     if (data.success == true) {
-                        Alert.alert(data.message)
+                        setTimeout(() => {
+                            // Alert.alert(responseJSON.message)
+                            this.setState({ loading: false })
+                            Alert.alert(
+                                data.message,
+                                ' ',
+                                [{
+                                    text: 'OK', onPress: () => {
+                                        this.props.navigation.goBack()
+                                    }
+                                },],
+                                { cancelable: false }
+                            )
+                        }, 2000)
                     }
                     else {
                         Alert.alert(data.error_message)
@@ -90,6 +106,8 @@ export default class AddAddress extends Component {
     render() {
         return (
             <SafeAreaView style={{ flex: 1, }}>
+                <Loader
+                    loading={this.state.loading} />
                 <Header name1='arrowleft' text='Add Address ' name2='search'
                     onPress={() => this.props.navigation.goBack()}
                     onClick={() => this.props.navigation.navigate('share')}

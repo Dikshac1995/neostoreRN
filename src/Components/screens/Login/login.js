@@ -30,6 +30,26 @@ class LoginScreen extends Component {
         navigation.navigate('registrationScreen')
     }
 
+    componentDidMount() {
+        this.focusListener = this.props.navigation.addListener('focus', () => {
+            console.log('screen is focused')
+            this.setState({
+                email: ' ',
+                pass: ' ',
+                emailValid: ' ',
+                passValid: ' ',
+            });
+        })
+
+    }
+
+    componentWillUnmount() {
+        // Remove the event listener before removing the screen from the stack
+        this.focusListener();
+
+    }
+
+
     login() {
         const emailError = validation('email', this.state.email)
         const passwordError = validation('password', this.state.pass)
@@ -57,9 +77,18 @@ class LoginScreen extends Component {
                             const token = await AsyncStorage.getItem('token')
                             console.log(token)
                             setTimeout(() => {
-                                Alert.alert(responseJSON.message)
+                                // Alert.alert(responseJSON.message)
                                 this.setState({ loading: false })
-                                this.props.navigation.navigate('Homescreen');
+                                Alert.alert(
+                                    ' You are Login successfully',
+                                    ' ',
+                                    [{
+                                        text: 'OK', onPress: () => {
+                                            this.props.navigation.navigate('Homescreen');
+                                        }
+                                    },],
+                                    { cancelable: false }
+                                )
                             }, 2000)
                         }
                         else {

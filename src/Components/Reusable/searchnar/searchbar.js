@@ -75,15 +75,19 @@ export default class SerachItem extends React.Component {
                 <View style={{ height: 70, backgroundColor: 'red', justifyContent: 'center', paddingHorizontal: 5 }}>
                     <Animatable.View animation="slideInRight" duration={500} style={{ height: 50, backgroundColor: '#fff', flexDirection: 'row', padding: 5, alignItems: 'center' }}>
                         <Animatable.View animation={this.state.searchBarFocused ? 'fadeInLeft' : 'fadeInRight'} duration={500} style={{ height: 50, backgroundColor: '#fff', flexDirection: 'row', padding: 5, alignItems: 'center' }}>
-                            <Icon name={this.state.searchBarFocused ? 'search' : 'arrow-left'} size={25}
+                            <Icon name={this.state.searchBarFocused ? 'search' : 'arrow-left'} size={20} color='rgb(117, 117, 117)'
                                 onPress={() => { 'arrow-left' ? this.props.navigation.goBack() : null }} />
                         </Animatable.View>
-
-                        <TextInput placeholder="search" style={{ fontSize: 20, marginLeft: 15 }}
-                            onChangeText={value => this.setState({
-                                text: value.trim(),
-                            })}
-                            onBlur={() => this.search('text', this.state.text)} />
+                        <View style={{ flex: 1, height: 50 }}>
+                            <TextInput placeholder="Search" placeholderTextColor='rgb(117, 117, 117)'
+                                style={{ fontSize: 22, marginLeft: 15, }}
+                                onChangeText={value => this.search('text', value)}
+                            //             this.setState({
+                            //             text: value.trim(),
+                            // })}
+                            //         onBlur={() => this.search('text', this.state.text)} 
+                            />
+                        </View>
                     </Animatable.View>
                 </View>
 

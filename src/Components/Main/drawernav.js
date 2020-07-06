@@ -39,7 +39,19 @@ class CustomDrawerContent extends Component {
   }
 
   componentDidMount() {
-    this.getToken()
+    // this.getToken()
+
+    this.focusListener = this.props.navigation.addListener('focus', () => {
+      console.log('screen is focused')
+
+      this.getToken()
+    })
+
+
+  }
+  componentWillUnmount() {
+    // Remove the event listener before removing the screen from the stack
+    this.focusListener();
 
   }
   async getToken() {
@@ -79,12 +91,10 @@ class CustomDrawerContent extends Component {
     console.log("order123", value)
     if (value !== null) {
       console.log('oder', value)
-      // const cart_product = [...this.state.cartproduct_length]
-      // const data = cart_product.concat(value.length)
-      // console.log('value', data)
       this.setState({ cartproduct_length: value.length })
 
     }
+    console.log(this.state.cartproduct_length, '!!!')
   }
   toggleExpand = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
@@ -121,6 +131,7 @@ class CustomDrawerContent extends Component {
                   if (data.success) {
                     Alert.alert(data.message)
                     AsyncStorage.clear();
+                    this.setState({ token: ' ' })
                     this.props.navigation.closeDrawer()
 
 
@@ -145,7 +156,7 @@ class CustomDrawerContent extends Component {
   render(props) {
     const mycart = this.props.data
     const mycartlength = this.props.data.data
-    console.log("data", this.state.token, mycartlength)
+    console.log("data", this.state.token, this.state.cartproduct_length)
     const cust_data = this.state.userdata
     return (
       <>
@@ -194,7 +205,7 @@ class CustomDrawerContent extends Component {
                     <Icon name='shopping-cart' size={30} color='#fff'
                       onPress={() => this.props.navigation.navigate('Mycard', { data: 0 })} />
                   </View>
-                  <Text style={styles.parent_drawerLabel}>My Card </Text>
+                  <Text style={styles.parent_drawerLabel}>My Cart </Text>
                   <View style=
                     {{ backgroundColor: 'red', borderRadius: 100, width: 40, height: 40, marginRight: 40 }}>
                     <Text style={{ color: '#fff', paddingLeft: 15, paddingTop: 10 }}>

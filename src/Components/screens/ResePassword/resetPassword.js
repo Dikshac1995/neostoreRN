@@ -41,10 +41,21 @@ export default class ResetPassword extends Component {
             const result = await res.json();
             console.log("api", result)
             if (result.sucess === true) {
-                this.setState({ loading: false })
-                Alert.alert(result.message)
-                this.props.navigation.goBack()
+                setTimeout(() => {
+                    // Alert.alert(responseJSON.message)
+                    this.setState({ loading: false })
+                    Alert.alert(
+                        result.message,
+                        ' ',
+                        [{
+                            text: 'OK', onPress: () => {
+                                this.props.navigation.goBack()
 
+                            }
+                        },],
+                        { cancelable: false }
+                    )
+                }, 2000)
             }
             else {
                 this.setState({ loading: false })
@@ -69,6 +80,11 @@ export default class ResetPassword extends Component {
                             oldPass: value.trim(),
                             oldpassError: validation('password', value)
                         })}
+                        onBlur={() => {
+                            this.setState(() => ({
+                                oldpassError: validation('password', this.state.oldPass)
+                            }))
+                        }}
                         validate={<Text>{this.state.oldpassError}</Text>}
                     />
                     <PasswordCon placeholder='enter new Password '
@@ -76,6 +92,11 @@ export default class ResetPassword extends Component {
                             newPass: value.trim(),
                             newpassError: validation('password', value)
                         })}
+                        onBlur={() => {
+                            this.setState(() => ({
+                                newpassError: validation('password', this.state.newPass)
+                            }))
+                        }}
                         validate={<Text>{this.state.newpassError}</Text>}
                     />
                     <PasswordCon placeholder=' again enter Password '
@@ -83,6 +104,11 @@ export default class ResetPassword extends Component {
                             confirmPass: value.trim(),
                             confirmpassError: validation('confirmpassword', value.trim(), this.state.newPass)
                         })}
+                        onBlur={() => {
+                            this.setState(() => ({
+                                confirmpassError: validation('confirmpassword', this.state.confirmPass, this.state.newPass)
+                            }))
+                        }}
                         validate={<Text>{this.state.confirmpassError}</Text>} />
                     <ButtonField text='submit'
                         onPress={() => this.onSubmit()}

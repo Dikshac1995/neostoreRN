@@ -5,11 +5,9 @@ export const styles = StyleSheet.create({
     submit_button: {
         color: 'red',
         fontSize: 30,
-
         backgroundColor: 'white',
         textAlign: 'center',
         borderRadius: 8,
-        paddingBottom: 20
     },
     container1: {
         flex: 1,

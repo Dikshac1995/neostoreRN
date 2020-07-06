@@ -7,6 +7,7 @@ import moment from "moment";
 import * as Animatable from 'react-native-animatable';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+import Loader from '../../Reusable/loader/loader'
 
 
 
@@ -16,7 +17,8 @@ export default class Myorder extends Component {
         this.state = {
             myOder: [],
             token: ' ',
-            serachShow: false
+            serachShow: false,
+            loading: true
         }
         this.arrayholder = [];
     }
@@ -34,7 +36,7 @@ export default class Myorder extends Component {
                 console.log('Success:', data);
                 if (data.status_code === 200) {
                     const pdata = data.product_details
-                    this.setState({ myOder: data.product_details })
+                    this.setState({ myOder: data.product_details, loading: false })
                     this.arrayholder = pdata;
                 }
                 else {
@@ -83,8 +85,13 @@ export default class Myorder extends Component {
         console.log(this.state.myOder, 'myorder')
 
         return (
+            // <> {
+            //     this.state.loading ?
+            //         <Loader name='onLoad'
+            //             loading={true} /> :
 
             <View>
+
                 {!this.state.serachShow ?
 
                     <Header name1='arrowleft' text='My order' name2='search'
@@ -140,10 +147,12 @@ export default class Myorder extends Component {
 
                     keyExtractor={(index, item) => index}
                 />
-
-
-
             </View>
+            // }
+            // </>
+
+
+
         )
     }
 }

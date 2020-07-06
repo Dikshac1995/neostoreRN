@@ -2,8 +2,9 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
 export const api = {
 
-    baseUrl: 'http://180.149.241.208:3022/',
-
+    baseUrl:
+        'http://180.149.241.208:3022/',
+    // 'https://dbe6d59fca1d.ngrok.io',
 
     fetchapi: function (url, type, data, token) {
         console.log("in api", data, token)

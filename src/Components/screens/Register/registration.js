@@ -84,9 +84,17 @@ class Registration extends Component {
                         console.log("responseJSON", responseJSON);
                         if (responseJSON.success) {
                             setTimeout(() => {
-                                Alert.alert(responseJSON.message)
                                 this.setState({ loading: false })
-                                this.props.navigation.navigate('loginScreen');
+                                Alert.alert(
+                                    responseJSON.message,
+                                    ' You have to Login ',
+                                    [{
+                                        text: 'OK', onPress: () => {
+                                            this.props.navigation.navigate('loginScreen');
+                                        }
+                                    },],
+                                    { cancelable: false }
+                                )
                             }, 3000)
                         }
 
@@ -213,7 +221,7 @@ class Registration extends Component {
                         })}
                         onBlur={() => {
                             this.setState(() => ({
-                                phoneError: validation('phoneNo', this.state.phonNo)
+                                phoneError: validation('phoneNo', this.state.phoneNo)
                             }))
                         }}
 

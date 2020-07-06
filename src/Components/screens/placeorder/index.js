@@ -18,8 +18,8 @@ class Placeorder extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            quantity: ' ',
-            productData: ' ',
+            quantity: [],
+            productData: [],
             ProductDetailData: [],
             productCategory: [],
             subImages_id: [],
@@ -30,6 +30,8 @@ class Placeorder extends Component {
             Address: [],
             customer_details: [],
             isLoading: true,
+            loading: false,
+            add: '',
             picker: [
                 { label: '1', value: 1, },
                 { label: '2', value: 2, },
@@ -38,47 +40,149 @@ class Placeorder extends Component {
     }
 
     componentDidMount() {
-        console.log('data')
+
+        this.getDataFrom_route()
         this.getData()
+
+        // this.focusListener = this.props.navigation.addListener('focus', () => {
+        //     this.getDataFrom_route(),
+        //         this.getData()
+
+
+        // })
+    }
+    componentWillUnmount() {
+        // Remove the event listener before removing the screen from the stack
+        // this.focusListener();
+
+    }
+
+
+
+
+    async  getDataFrom_route() {
         const { product_id, Product, addressData } = this.props.route.params;
-        console.log("product", Product)
+        console.log(arr, 'arr')
+        console.log("product1234", Product)
         if (Product == 0) {
             console.log(0)
-            // this.getStoredData()
+            this.getStoredData()
         }
+
         else {
             if (Product.quantity === undefined) { Product.quantity = 1 }
-            arr.push(Product)
-            quantity.push(Product.quantity)
-            var cost = arr.map(res => res.product_cost)
-            console.log(cost, "co")
+            console.log('prod', Product)
+            const value = [...this.state.productData]
+            // const prod_quantity = [...this.state.quantity]
+
+            const data = value.concat(Product)
+            const prod_quantity = data.map((res) => res.quantity)
+            var cost = data.map(res => res.product_cost)
             var sum = cost.reduce(function (a, b) { return a + b; }, 0);
-            setTimeout(() => {
-                this.setState({
-                    productData: arr,
-                    quantity: quantity,
-                    product_cost: cost,
-                    finalCost: sum,
-                    isLoading: false
-                })
-            }, 2000)
+            console.log(prod_quantity, cost, sum, 'hd')
+
+            console.log(data, 'hg')
+            // arr.push(Product)
+            // quantity.push(Product.quantity)
+            // var cost = arr.map(res => res.product_cost)
+            console.log(cost, "co")
+            // var sum = cost.reduce(function (a, b) { return a + b; }, 0);
+
+
+
+            this.setState({
+                productData: data,
+                quantity: prod_quantity,
+                product_cost: cost,
+                finalCost: sum,
+                isLoading: false,
+                token: ' '
+            })
+
             this.datafrom_Api()
 
         }
-        this.getStoredData()
 
     }
-
     async datafrom_Api() {
+        console.log('incart api ')
         let token = await AsyncStorage.getItem('token');
         await this.props.getCartData(token)
         const mycartdata = this.props.data.data
+
         console.log('mycart', mycartdata)
+        const value = [...this.state.productData]
+        // console.log('d2', value, Quan)
+        if (mycartdata !== undefined || mycartdata === null) {
+            const cartProduct = mycartdata.map((res) => res.product_id)
+            console.log(cartProduct, 'hi')
+
+            const data1 = [...this.state.productData]
+            const Quan = [...this.state.quantity]
+            const pcost = [...this.state.product_cost]
+            const cartQuan = mycartdata.map((res) => res.quantity)
+            const quantity = Quan.concat(cartQuan)
+            console.log('quan', pcost, quantity, cartQuan, Quan)
+            const res = data1.concat(cartProduct)
+            console.log(res, '13')
+            var cost = res.map(res => res.product_cost)
+            const PrCost = pcost.concat(cost)
+            console.log(cost, PrCost, "co")
+            var sum = PrCost.reduce(function (a, b) { return a + b; }, 0);
+
+            this.setState({
+                productData: res,
+                isLoading: false,
+                quantity: quantity,
+                finalCost: sum,
+                product_cost: PrCost
+
+
+            })
+            console.log('datdd34', this.state.productData)
+        }
+    }
+    async getData() {
+        let token = await AsyncStorage.getItem('token');
+        const customerData = JSON.parse(await AsyncStorage.getItem('customerDetail'))
+        // this.setState({ token: token, data: customerData.customer_details })
+        await this.props.FetchAddress(token)
+        const data = this.props.addressData
+        console.log('as', data)
+        if (data !== 'undefined') {
+            console.log('dara')
+            var address = data.filter(function (res) {
+                return res.isDeliveryAddress == true;
+            });
+            console.log('addr', address)
+            this.setState({
+                addressData: address[0],
+                customer_details: customerData.customer_details,
+
+            })
+        }
+        // await api.fetchapi(api.baseUrl + 'getCustAddress', 'get', " ", this.state.token)
+        //     .then((response) => response.json())
+        //     .then((data) => {
+        //         console.log('Success address data :', data);
+        //         if (data.success == true) {
+        //             var address = data.customer_address.filter(function (res) {
+        //                 return res.isDeliveryAddress == true;
+        //             });
+        //             this.setState({ addressData: address[0] })
+        //         }
+        //         else {
+        //             Alert.alert("not found ")
+        //         }
+        //     })
+
 
     }
-    async getStoredData() {
-        this.setState({ isLoading: true })
 
+
+    async getStoredData() {
+        console.log('data345')
+        this.setState({ isLoading: true })
         const { product_id, Product, addressData } = this.props.route.params;
         console.log('add data', this.state.productData, this.state.quantity)
         const customer_details = JSON.parse(await AsyncStorage.getItem('customerDetail'))
@@ -87,12 +191,13 @@ class Placeorder extends Component {
         if (value !== null) {
             const prod_quantity = value.map((res) => res.quantity)
             const product_quantity = quantity.concat(prod_quantity)
-            const data = arr.concat(value)
-            var cost = data.map(res => res.product_cost)
+            console.log(...this.state.productData, '123')
+            // const data = arr.concat(value)
+            var cost = value.map(res => res.product_cost)
             var sum = cost.reduce(function (a, b) { return a + b; }, 0);
             console.log(sum)
             this.setState({
-                productData: data,
+                productData: value,
                 quantity: product_quantity,
                 product_cost: cost,
                 finalCost: sum,
@@ -101,11 +206,17 @@ class Placeorder extends Component {
 
         }
         this.setState({
+            add: customer_details.customer_address,
             Address: customer_details.customer_address[0],
             customer_details: customer_details.customer_details,
 
         })
     }
+    componentDidUpdate = async prev => {
+        if (this.props.route.params !== prev.route.params) {
+            this.getData()
+        }
+    };
     // componentDidUpdate(prevProps, prevState) {
     //     console.log(prevState.Address, 'addre', this.state.Address)
     //     if (prevState.Address === this.state.Address) {
@@ -130,19 +241,37 @@ class Placeorder extends Component {
                         if (productData !== null) {
                             let flag = [{ flag: 'checkout' }];
                             let data1 = [...productData, ...flag];
+                            this.setState({ loading: true })
                             api.fetchapi(api.baseUrl + "addProductToCartCheckout", 'post',
                                 JSON.stringify(data1),
                                 token)
                                 .then((response) => response.json()).then(async (data) => {
                                     console.log('Success:', data);
                                     if (data.success) {
-                                        // AsyncStorage.removeItem('MycartData');
+                                        // AsyncStorage.removeItem('myOrder');
+                                        AsyncStorage.removeItem('MycartData');
+                                        AsyncStorage.removeItem('CardData');
+
                                         // await AsyncStorage.multiRemove('myOrder')
-                                        Alert.alert(data.message)
-                                        this.props.navigation.navigate('homescreen')
-
-                                        // this.setState({ productData: ' ' })
-
+                                        setTimeout(() => {
+                                            // Alert.alert(responseJSON.message)
+                                            this.setState({
+                                                loading: false,
+                                                arr: []
+                                            })
+                                            Alert.alert(
+                                                data.message,
+                                                ' ',
+                                                [{
+                                                    text: 'OK', onPress: () => {
+                                                        // this.props.navigation.navigate('homescreen')
+                                                        // this.props.navigation.navigate('productDetail')
+                                                        this.props.navigation.goBack()
+                                                    }
+                                                },],
+                                                { cancelable: false }
+                                            )
+                                        }, 2000)
                                     }
                                     else {
                                         Alert.alert(data.message)
@@ -181,36 +310,7 @@ class Placeorder extends Component {
     }
 
 
-    async getData() {
-        let token = await AsyncStorage.getItem('token');
-        const customerData = JSON.parse(await AsyncStorage.getItem('customerDetail'))
-        this.setState({ token: token, data: customerData.customer_details })
 
-        // this.props.FetchAddress(token)
-        // const data = this.props.addressData
-        // console.log('as', data)
-        // var address = data.filter(function (res) {
-        //     return res.isDeliveryAddress == true;
-        // });
-        // console.log('addr', address)
-        // this.setState({ addressData: address[0] })
-        api.fetchapi(api.baseUrl + 'getCustAddress', 'get', " ", this.state.token)
-            .then((response) => response.json())
-            .then((data) => {
-                console.log('Success address data :', data);
-                if (data.success == true) {
-                    var address = data.customer_address.filter(function (res) {
-                        return res.isDeliveryAddress == true;
-                    });
-                    this.setState({ addressData: address[0] })
-                }
-                else {
-                    Alert.alert("not found ")
-                }
-            })
-
-
-    }
     FlatListItemSeparator = () => {
         return (
             <View
@@ -224,11 +324,12 @@ class Placeorder extends Component {
     }
     render() {
         const { product_id, Product, addressData } = this.props.route.params;
+        console.log('///////', this.state.productData, '///////')
         const customerData = this.state.customer_details
         const Address = this.state.addressData
+        // console.log(Address, 'ad', customerData)
         return (
 
-            // (!this.state.productData) ? <ActivityIndicator /> :
             <>
 
                 {/* shipping Address section start  */}
@@ -236,17 +337,24 @@ class Placeorder extends Component {
                     <Loader name='onLoad'
                         loading={true} /> :
                     <View>
+                        <Loader
+                            loading={this.state.loading} />
                         <View style={{ height: '30%', paddingHorizontal: 20 }} >
+
                             <View style={styles.Address} >
-                                <Text style={styles.address_custname}> {customerData.first_name}  {customerData.last_name}</Text>
-                                <Text style={styles.address_text}>
-                                    {Address.address} , {Address.state},
+                                {Address.length !== 0 &&
+                                    <>
+                                        <Text style={styles.address_custname}> {customerData.first_name}  {customerData.last_name}</Text>
+                                        <Text style={styles.address_text}>
+                                            {Address.address} ,{Address.city}, {Address.state},
                                 {Address.country} , {Address.pincode}</Text>
+                                    </>}
                             </View>
+
 
                             <ButtonField text=" Change or Add Address" style={styles.addressButton}
                                 onPress={() => {
-                                    (this.state.Address).length > 0 ?
+                                    Address.length === 0 ?
                                         this.props.navigation.navigate('AddAddress') :
                                         this.props.navigation.navigate('address')
                                 }

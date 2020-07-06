@@ -4,7 +4,9 @@ import { StyleConstants } from '../../../Assets/Constant/constant'
 export const styles = StyleSheet.create({
     Address: {
         paddingHorizontal: 5,
-        paddingTop: 5
+        paddingTop: 10,
+        // backgroundColor: 'yellow',
+        height: '55%'
     },
     address_custname: {
         fontWeight: 'bold',
@@ -16,7 +18,10 @@ export const styles = StyleSheet.create({
     address_text: {
         fontWeight: 'bold',
         fontSize: 20,
-
+        // height: '50%',
+        // backgroundColor: 'yellow',
+        // paddingBottom: 10,
+        paddingTop: 10,
     },
 
     addressButton: {

@@ -25,8 +25,9 @@ export default class ProductList extends Component {
         };
     }
     showToastWithGravityAndOffset = () => {
+        console.log('tost')
         ToastAndroid.showWithGravityAndOffset(
-            " 6 out of 8 ",
+            " 5 out of 8 ",
             ToastAndroid.LONG,
             ToastAndroid.BOTTOM,
             25,
@@ -85,8 +86,9 @@ export default class ProductList extends Component {
 
                 <View
                     style={{
-                        position: 'relative',
-                        width: 50,
+                        // position: 'relative',
+                        flex: 1,
+
                         height: 50,
                         paddingVertical: 20,
                         borderTopWidth: 1,
@@ -173,7 +175,7 @@ export default class ProductList extends Component {
                                         onRefresh={this._handleRefresh}
                                     />
                                 }
-                                renderItem={({ item }) =>
+                                renderItem={({ item, index }) =>
                                     <View >
                                         <TouchableOpacity style={{ display: 'flex', flexDirection: 'row', padding: 0, alignItems: 'center' }}
                                             onPress={() => this.onPressItem(item.product_id, item.product_name)

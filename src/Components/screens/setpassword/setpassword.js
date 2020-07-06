@@ -48,7 +48,7 @@ export default class SetPassword extends Component {
         if (otpErr == " " && passError == " " && conpassErr == " ") {
             // console.log('data', otpCode)
             this, this.setState({ loading: true })
-            const res = await api.fetchapi('http://180.149.241.208:3022/recoverPassword', 'post',
+            const res = await api.fetchapi(api.baseUrl + 'recoverPassword', 'post',
                 JSON.stringify({ "otpCode": this.state.Otp, "newPass": this.state.password, "confirmPass": this.state.confirmPassword })
                 , token)
                 .then((response) => {
@@ -56,24 +56,24 @@ export default class SetPassword extends Component {
                         console.log("responseJSON", responseJSON);
                         if (responseJSON.success === true) {
                             this.setState({ loading: false })
-                            Alert.alert(responseJSON.message)
+                            // Alert.alert(responseJSON.message)
                             setTimeout(() => {
-                                this.props.navigation.navigate('loginScreen')
+                                Alert.alert(
+                                    'Your Password is changed Succssfully',
+                                    'you have to login again ',
+                                    [
+                                        {
+                                            text: 'ok', onPress: () => {
+                                                this.props.navigation.navigate('loginScreen')
+                                            }
+                                        },
+                                    ],
+                                    { cancelable: false }
+                                )
                             }, 3000)
 
-                            //         Alert.alert(
-                            //             'your new password set successfully ',
-                            //             'you have to login again ',
-                            //             [
-                            //                 {
-                            //                     text: 'ok', onPress: () => {
-                            //                         this.props.navigation.navigate('loginScreen')
-                            //                     }
-                            //                 },
-                            //             ],
-                            //             { cancelable: false }
-                            //         )
-                            //     }, 3000)
+
+
                         }
                         else {
                             setTimeout(() => {
@@ -119,7 +119,7 @@ export default class SetPassword extends Component {
                     })}
                     onBlur={() => {
                         this.setState(() => ({
-                            passwordError: validation('password', this.state.pasword)
+                            passwordError: validation('password', this.state.password)
                         }))
                     }}
 
@@ -128,15 +128,12 @@ export default class SetPassword extends Component {
                     onChangeText={value => this.setState({
                         confirmPassword: value.trim(),
                         confirmpasswordError: validation('confirmpassword', value, this.state.password)
-
                     })}
                     onBlur={() => {
                         this.setState(() => ({
                             confirmpasswordError: validation('confirmpassword', this.state.confirmPassword, this.state.password)
                         }))
                     }}
-
-
                     validate={<Text>{this.state.confirmpasswordError}</Text>}
                 />
                 <ButtonField text="submit" onPress={() => this.submit(token)} style={styles.submit_button} />

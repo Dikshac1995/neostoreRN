@@ -10,6 +10,8 @@ import { styles } from './style'
 import { Avatar } from 'react-native-elements';
 import AsyncStorage from '@react-native-community/async-storage';
 import { api } from '../../../utils/api'
+import Loader from '../../Reusable/loader/loader'
+
 
 
 
@@ -25,8 +27,18 @@ export default class MyAccount extends Component {
         }
     }
     componentDidMount() {
-        this.fetchCustomerData()
+        this.focusListener = this.props.navigation.addListener('focus', () => {
+            console.log('screen is focused')
+            this.fetchCustomerData()
+
+        })
     }
+    componentWillUnmount() {
+        // Remove the event listener before removing the screen from the stack
+        this.focusListener();
+
+    }
+
 
     async  fetchCustomerData() {
         let token = await AsyncStorage.getItem('token');
@@ -84,7 +96,9 @@ export default class MyAccount extends Component {
                     onClick={() => this.props.navigation.navigate('serachitem')}
                 />
                 {/* </View> */}
-                {this.state.loading ? <ActivityIndicator /> :
+                {(this.state.loading) ?
+                    <Loader name='onLoad'
+                        loading={true} /> :
                     <View style={{ flex: 1 }}>
                         {/* <View style={{ flex: 8 }}> */}
 
