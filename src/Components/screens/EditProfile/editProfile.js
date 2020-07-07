@@ -67,7 +67,9 @@ export default class EditProfile extends Component {
         console.log(this.state.first_nameError, 'dggdh')
         console.log(this.state.loading, 'loader')
         console.log(this.state.selectedImage, 'selectedImage')
-        if (this.state.first_nameError == " " && this.state.last_nameError == " " && this.state.emailError == " "
+        if (this.state.first_nameError == " " && this.state.last_nameError == " "
+            // && this.state.date == ''
+            && this.state.emailError == " "
             && this.state.phone_noError == " ") {
             if (this.state.selectedImage == " ") {
                 console.log('data')
@@ -227,7 +229,6 @@ export default class EditProfile extends Component {
                 this.setState({
                     upload: true,
                     imageSource: source,
-                    // img_filename: ' data: image / png; base64' + file,
                     img_filename: file,
                     selectedImage: response
                 });

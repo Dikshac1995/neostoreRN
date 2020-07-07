@@ -56,7 +56,7 @@ export default class MyDrawer extends Component {
                 drawerType='slide'
                 drawerStyle={{
                     backgroundColor: 'black',
-                    width: 320,
+                    width: '80%',
                     activeBackgroundColor: '#eee',
                     inactiveBackgroundColor: 'black'
 

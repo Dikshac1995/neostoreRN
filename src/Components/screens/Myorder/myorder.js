@@ -28,6 +28,7 @@ export default class Myorder extends Component {
     }
 
     async getdata() {
+
         let token = await AsyncStorage.getItem('token');
 
         api.fetchapi(api.baseUrl + 'getOrderDetails', 'get', " ", token)
@@ -82,15 +83,14 @@ export default class Myorder extends Component {
 
     }
     render() {
-        console.log(this.state.myOder, 'myorder')
+        const data = this.state.myOder
+        console.log(this.state.myOder, 'myorder', data)
 
         return (
-            // <> {
-            //     this.state.loading ?
-            //         <Loader name='onLoad'
-            //             loading={true} /> :
-
-            <View>
+            // 
+            <View style={{
+                flex: 1
+            }}>
 
                 {!this.state.serachShow ?
 
@@ -118,39 +118,48 @@ export default class Myorder extends Component {
                             />
                         </Animatable.View>
                     </View>}
-                <FlatList
-                    data={this.state.myOder}
+                <>
+                    {
+                        this.state.loading ?
+                            <Loader name='onLoad'
+                                loading={true} /> :
+                            <>
+                                {data.length === 0 &&
+                                    <View style={{ flex: 1, alignItems: 'center', paddingTop: 200 }} >
+                                        <Text> oders list is empty</Text>
+                                    </View>}
+                                <FlatList
+                                    data={this.state.myOder}
 
-                    renderItem={({ item, index }) => {
-                        moment.locale('en');
-                        var dt = item.product_details[0].createdAt;
+                                    renderItem={({ item, index }) => {
+                                        moment.locale('en');
+                                        var dt = item.product_details[0].createdAt;
 
-                        return (
+                                        return (
 
-                            <TouchableOpacity style={{ padding: 10, paddingHorizontal: 20 }}
-                                onPress={() => this.onPressItem(item, item.product_details[0].order_id)} >
-                                <View style={{ flex: 1, padding: 10, flexDirection: 'row', justifyContent: 'space-between' }}>
-                                    <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{item.product_details[0].order_id}</Text>
-                                    <Text style={{ fontSize: 20 }}>Rs, {item.product_details[0].total_cartCost}</Text>
+                                            <TouchableOpacity style={{ padding: 10, paddingHorizontal: 20 }}
+                                                onPress={() => this.onPressItem(item, item.product_details[0].order_id)} >
+                                                <View style={{ flex: 1, padding: 10, flexDirection: 'row', justifyContent: 'space-between' }}>
+                                                    <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{item.product_details[0].order_id}</Text>
+                                                    <Text style={{ fontSize: 20 }}>Rs, {item.product_details[0].total_cartCost}</Text>
 
-                                </View>
+                                                </View>
 
 
-                                <Text style={{ fontSize: 20 }}> Order-Date :
+                                                <Text style={{ fontSize: 20 }}> Order-Date :
                                     {moment(dt).format(' MMM  D  y')}
-                                </Text>
-                            </TouchableOpacity>
+                                                </Text>
+                                            </TouchableOpacity>
 
-                        );
-                    }}
-                    ItemSeparatorComponent={this.FlatListItemSeparator}
+                                        );
+                                    }}
+                                    ItemSeparatorComponent={this.FlatListItemSeparator}
 
-                    keyExtractor={(index, item) => index}
-                />
+                                    keyExtractor={(index, item) => index}
+                                />
+                            </>}
+                </>
             </View>
-            // }
-            // </>
-
 
 
         )

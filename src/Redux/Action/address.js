@@ -6,7 +6,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 export const getAddress = (bool) => {
     return {
         type: FETCH_ADDRESS,
-        payload: bool
+        loading: bool
     }
 }
 export const getAddressSuccess = data => {

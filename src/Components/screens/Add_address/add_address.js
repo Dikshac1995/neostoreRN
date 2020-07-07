@@ -83,11 +83,14 @@ export default class AddAddress extends Component {
                             // Alert.alert(responseJSON.message)
                             this.setState({ loading: false })
                             Alert.alert(
-                                data.message,
+                                'Your Address is  update successfully',
                                 ' ',
                                 [{
                                     text: 'OK', onPress: () => {
-                                        this.props.navigation.goBack()
+
+                                        this.props.navigation.navigate('oder summary',
+                                            { product_id: 0, Product: 0, addressData: true })
+                                        // this.props.navigation.placeorder()
                                     }
                                 },],
                                 { cancelable: false }
@@ -96,6 +99,7 @@ export default class AddAddress extends Component {
                     }
                     else {
                         Alert.alert(data.error_message)
+                        this.setState({ loading: false })
                     }
                 })
                 .catch((error) => {

@@ -99,7 +99,8 @@ class Placeorder extends Component {
                 token: ' '
             })
 
-            this.datafrom_Api()
+
+            // this.datafrom_Api()
 
         }
 
@@ -149,7 +150,7 @@ class Placeorder extends Component {
         await this.props.FetchAddress(token)
         const data = this.props.addressData
         console.log('as', data)
-        if (data !== 'undefined') {
+        if (data !== undefined) {
             console.log('dara')
             var address = data.filter(function (res) {
                 return res.isDeliveryAddress == true;
@@ -213,7 +214,9 @@ class Placeorder extends Component {
         })
     }
     componentDidUpdate = async prev => {
+        console.log(prev, '1245 in up', this.props)
         if (this.props.route.params !== prev.route.params) {
+            console.log(prev.route, '123', this.props.route)
             this.getData()
         }
     };
@@ -249,8 +252,9 @@ class Placeorder extends Component {
                                     console.log('Success:', data);
                                     if (data.success) {
                                         // AsyncStorage.removeItem('myOrder');
-                                        AsyncStorage.removeItem('MycartData');
-                                        AsyncStorage.removeItem('CardData');
+                                        // AsyncStorage.removeItem('MycartData');
+
+                                        // AsyncStorage.removeItem('CardData');
 
                                         // await AsyncStorage.multiRemove('myOrder')
                                         setTimeout(() => {
@@ -266,7 +270,7 @@ class Placeorder extends Component {
                                                     text: 'OK', onPress: () => {
                                                         // this.props.navigation.navigate('homescreen')
                                                         // this.props.navigation.navigate('productDetail')
-                                                        this.props.navigation.goBack()
+                                                        // this.props.navigation.goBack()
                                                     }
                                                 },],
                                                 { cancelable: false }

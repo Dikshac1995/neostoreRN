@@ -32,11 +32,12 @@ class Homescreen extends Component {
         else {
             var img
             img = this.props.data.map((res) => res.product_image);
+            console.log(img, "123")
             var images = img.map((a) => api.baseUrl.concat(a))
             console.log("ncc", images)
             return < SliderBox autoplay circleLoop DotColor="#90A4AE"
                 inactiveDotColor="red"
-                onCurrentImagePressed={index => this.onpress(index)}
+                // onCurrentImagePressed={index => this.onpress(index)}
                 images={images}
                 dotStyle={{
                     width: 10,

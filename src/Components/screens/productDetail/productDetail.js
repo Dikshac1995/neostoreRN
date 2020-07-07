@@ -215,13 +215,13 @@ class productDetail extends Component {
                     // <ActivityIndicator size='large' />
                     :
 
-                    <View style={{ width: windowWidth, height: windowHeight }}>
-                        <ScrollView>
+                    <View style={{ width: windowWidth, height: windowHeight, backgroundColor: 'yellow' }}>
+                        <ScrollView style={{ flex: 1, backgroundColor: '#eee' }}>
                             <View style={styles.productDeatailModule}>
                                 {/* ProductDetailInfo Section*/}
                                 <View style={styles.productDeatailSection1}>
                                     <View style={styles.productDetailSection1_wrapper}>
-                                        <View style={{ width: '80%' }}>
+                                        <View style={{ width: '80%', }}>
                                             <Text style={styles.product_name}>{this.state.ProductDetailData.product_name}</Text>
                                             <Text style={styles.categogy_name}>Categogy - {this.state.productCategory.category_name}</Text>
                                         </View>
@@ -254,13 +254,13 @@ class productDetail extends Component {
                                                 </TouchableOpacity>
                                             </View>
                                             <View style={styles.mycart_WrapperContainer}>
-                                                <View style={styles.mycart_Wrapper}>
+                                                <TouchableOpacity style={styles.mycart_Wrapper}>
                                                     <View style={styles.mycart_icon}>
                                                         <Icon name='shopping-cart' size={27} color="#fff"
                                                             onPress={() => this.addToCard(this.state.ProductDetailData)}
                                                         />
                                                     </View>
-                                                </View>
+                                                </TouchableOpacity>
                                             </View>
                                         </View>
                                         <View>
@@ -299,8 +299,10 @@ class productDetail extends Component {
                         </ScrollView>
 
                         <View style={styles.footer}>
-                            <Button text="BUY_NOW" onPress={() => this.Buynow()} style={styles.buttonStyle} />
-                            <Button text="RATE" onPress={() => this.toggleModal(true)} style={styles.rate_button} />
+                            <View style={{ paddingHorizontal: 20, flexDirection: 'row', justifyContent: 'space-evenly' }}>
+                                <Button text="BUY_NOW" onPress={() => this.Buynow()} style={styles.buttonStyle} />
+                                <Button text="RATE" onPress={() => this.toggleModal(true)} style={styles.rate_button} />
+                            </View>
                         </View>
                     </View>}
 

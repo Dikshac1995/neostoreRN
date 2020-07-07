@@ -48,25 +48,31 @@ export default class MyAccount extends Component {
         const customer_profile = result.customer_proile
 
         console.log(customer_profile, '@@@@')
-        AsyncStorage.getItem('customerDetail')
-            .then(d => {
-                const Data = JSON.parse(d);
-                console.log('123', Data)
-                Data.customer_details.profile_img =
-                    customer_profile.profile_img;
+        // AsyncStorage.getItem('customerDetail')
+        //     .then(d => {
+        //         const Data = JSON.parse(d);
+        //         console.log('123', Data)
+        //         Data.customer_details.profile_img =
+        //             customer_profile.profile_img;
 
-                Data.customer_details.first_name =
-                    customer_profile.first_name;
+        //         Data.customer_details.first_name =
+        //             customer_profile.first_name;
 
-                Data.customer_details.last_name =
-                    customer_profile.last_name;
+        //         Data.customer_details.last_name =
+        //             customer_profile.last_name;
 
-                console.log(Data, 'd1111ata');
-                AsyncStorage.setItem('customerDetail', JSON.stringify(Data));
-            })
-            .done();
+        //         console.log(Data, 'd1111ata');
+        //         AsyncStorage.setItem('customerDetail', JSON.stringify(Data));
+        //     })
+        //     .done();
         if (customer_profile.profile_img === null) {
-            console.log('profileimg')
+            console.log('115', 'profileimg, ')
+            this.setState({
+                imageSource:
+                    require('../../../Assets/Images/user-profileIcon.png')
+
+            })
+
         }
         else {
             const source = { uri: api.baseUrl + customer_profile.profile_img };
@@ -78,7 +84,6 @@ export default class MyAccount extends Component {
 
         this.setState({
             customer_data: customer_profile, loading: false,
-            // imageSource: source
         })
 
     }

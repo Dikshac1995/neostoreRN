@@ -30,73 +30,72 @@ class AddressList extends Component {
     }
 
     componentDidMount() {
-        // let token AsyncStorage.getItem('token');
-        // console.log('tok', token)
         this.getData()
 
     }
+    // componentDidUpdate(prevProps, prevState) {
+    //     console.log(prevProps, 'addre', this.props)
+    //     // if (prevState.Address === this.state.Address) {
+    //     // }
+    // };
     async getData() {
         let token = await AsyncStorage.getItem('token');
         const customerData = JSON.parse(await AsyncStorage.getItem('customerDetail'))
-        await this.props.FetchAddress(token)
+        // this.props.FetchAddress(token)
+
+        // const data = this.props.data
+        // console.log('a12s', data)
+        // if (data !== undefined) {
+        //     const D_address = (element) => element.isDeliveryAddress == true;
+        //     const res = data.findIndex(D_address)
+
+        //     setTimeout(() => {
+        //         this.setState({
+        //             token: token, data: customerData.customer_details,
+        //             addressData: data,
+        //             loading: this.props.loading,
+        //             radioCheck: res
+        //         })
+        //     }, 1000)
+        // }
+        // else {
+        //     setTimeout(() => {
+        //         this.setState({
+        //             // token: token, data: customerData.customer_details,
+        //             // addressData: data,
+        //             loading: false,
+        //             // radioCheck: res
+        //         })
+        //     }, 1000)
+        // }
 
 
-        // this.setState({ token: token, data: customerData.customer_details })
-        const data = this.props.data
-        console.log('as', data)
-        // var address = data.filter(function (res) {
-        //     return res.isDeliveryAddress == true;
-        // });
-        // console.log('addr', address)
-        // this.setState({ addressData: address[0] })
-        const D_address = (element) => element.isDeliveryAddress == true;
-        // const res = data.map((index, e) => e.isDeliveryAddress)
-        const res = data.findIndex(D_address)
-        // console.log(data.findIndex(isLargeNumber), '##', res);
 
-        setTimeout(() => {
-            this.setState({
-                token: token, data: customerData.customer_details,
-                addressData: data,
-                loading: this.props.loading,
-                radioCheck: res
+        api.fetchapi(api.baseUrl + 'getCustAddress', 'get', " ", token)
+
+            .then((response) => response.json())
+            .then((data) => {
+                console.log('Success:', data);
+                if (data.success == true) {
+                    const D_address = (element) => element.isDeliveryAddress == true;
+                    const res = data.customer_address.findIndex(D_address)
+                    this.setState({
+                        token: token,
+                        addressData: data.customer_address,
+                        loading: false,
+                        data: customerData.customer_details,
+                        radioCheck: res
+
+                    })
+
+                }
+                else {
+                    Alert.alert("not found ")
+                }
             })
-        }, 1000)
-
-
-
-
-        // api.fetchapi(api.baseUrl + 'getCustAddress', 'get', " ", this.state.token)
-
-        //     .then((response) => response.json())
-        //     .then((data) => {
-        //         console.log('Success:', data);
-        //         if (data.success == true) {
-        //             this.setState({ addressData: data.customer_address })
-
-        //         }
-        //         else {
-        //             Alert.alert("not found ")
-        //         }
-        //     })
 
 
     }
-    // omponentDidUpdate(prevProps) {
-    //     if (this.props.productList !== prevProps.productList) {
-    //         this.setState({ productListArray: this.props.productList });
-    //     }
-    // // }
-    // componentDidUpdate(previousProps, previousState) {
-    //     console.log(previousProps, 'component did', this.props)
-    //     if (previousProps.data !== this.props.data) {
-    //         console.log('in change')
-    //         this.setState({ addressData: this.props.data, loading: false })
-    //     }
-    //     // else {
-    //     // this.setState({ loading: false })
-
-    // }
 
     FlatListItemSeparator = () => {
         return (
@@ -128,7 +127,6 @@ class AddressList extends Component {
         this.setState({ loader: true })
         api.fetchapi(api.baseUrl + 'updateAddress', 'put',
             JSON.stringify(address_data), this.state.token)
-
             .then((response) => response.json())
             .then((data) => {
                 console.log('Success:', data);
@@ -221,8 +219,6 @@ class AddressList extends Component {
                                         );
                                     }}
                                     keyExtractor={(item, index) => index.toString()}
-
-                                // keyExtractor={(index, item) => index}
                                 />
 
                             </View>

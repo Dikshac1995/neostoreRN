@@ -36,11 +36,19 @@ class Mycart extends Component {
 
     componentDidMount() {
         this.getCartData()
+
+        // this.focusListener = this.props.navigation.addListener('focus', () => {
         this.getptoductapi()
-
+        // })
     }
+    // componentWillUnmount() {
+    //     // Remove the event listener before removing the screen from the stack
+    //     this.focusListener();
 
-
+    // }
+    componentDidUpdate(Prevstate, Prevprops) {
+        console.log(Prevstate, '111', this.props, Prevprops, this.state)
+    }
     async getCartData() {
         try {
             const data = JSON.parse(await AsyncStorage.getItem('CardData'));
@@ -73,14 +81,11 @@ class Mycart extends Component {
         const data = this.props.data
         console.log(data, 'daaaa')
         if (data.data !== undefined) {
-            console.log('in a')
+
             const cartProduct = data.data.map((res) => res.product_id)
-            console.log('data1234', cartProduct)
             const prod_quantity = data.data.map((res) => res.quantity)
             const Valu = [...this.state.myCardItem]
             const quantity = [...this.state.quantity]
-            console.log('Val', Valu, prod_quantity)
-            // const mycartdata = cartdata.concat(cartProduct)
             const mycartdata = Valu.concat(cartProduct)
             const product_quantity = quantity.concat(prod_quantity)
             console.log('cartProduct', mycartdata)
@@ -104,9 +109,9 @@ class Mycart extends Component {
         else {
             const cartData = [...this.state.myCardItem]
             // const cartData1 = [...this.state.mycardItem],
-            console.log('da', cartData.length)
             if (cartData.length == 0) {
-                <Text> your cart is empty </Text>
+                this.storedata(cartData)
+
                 this.setState({ loading: false })
             }
 
@@ -271,16 +276,16 @@ class Mycart extends Component {
                                             <FlatList data={data}
                                                 showsVerticalScrollIndicator={false}
                                                 renderItem={({ item, index }) =>
-                                                    <View >
+                                                    <View style={{ flex: 1 }}>
                                                         <TouchableOpacity style={styles.myOrder_container}
                                                             // onPress={() => { this.props.navigation.navigate('productDetail', { product_id: item.product_id }) }}
                                                             onLongPress={() => this.removeProduct(data.indexOf(item))}>
-                                                            <View>
+                                                            <View style={{ flex: 1 }}>
                                                                 <Image style={{ width: 120, height: 100 }} source={{
                                                                     uri: api.baseUrl + item.product_image
                                                                 }} />
                                                             </View>
-                                                            <View style={{ padding: 15, width: 250 }}>
+                                                            <View style={{ padding: 15, flex: 2 }}>
                                                                 <Text style={styles.product_name}>{item.product_name}</Text>
                                                                 <Text style={styles.product_material}>({item.product_material})</Text>
 
@@ -305,8 +310,9 @@ class Mycart extends Component {
                                                             </View>
                                                         </TouchableOpacity>
                                                     </View>}
-
-                                                ItemSeparatorComponent={this.FlatListItemSeparator} />
+                                                ItemSeparatorComponent={this.FlatListItemSeparator}
+                                                keyExtractor={(item, index) => index.toString()}
+                                            />
                                         </View>
 
                                         <View style={styles.footer}>

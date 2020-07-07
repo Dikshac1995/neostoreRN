@@ -166,7 +166,7 @@ export default class ProductList extends Component {
                         // </View>
 
                         :
-                        <View style={{ marginHorizontal: 20 }}>
+                        <View style={{ marginHorizontal: 20, }}>
                             <FlatList data={this.state.ProductList}
                                 showsVerticalScrollIndicator={false}
                                 refreshControl={
@@ -181,13 +181,13 @@ export default class ProductList extends Component {
                                             onPress={() => this.onPressItem(item.product_id, item.product_name)
                                             }
                                         >
-                                            <View>
+                                            <View style={{ flex: 1 }}>
                                                 {!item.product_image ? <ActivityIndicator size='large' /> :
                                                     <Image style={{ width: 120, height: 100 }} source={{
-                                                        uri: 'http://180.149.241.208:3022/' + item.product_image
+                                                        uri: api.baseUrl + item.product_image
                                                     }} />}
                                             </View>
-                                            <View style={{ padding: 20, width: 250 }}>
+                                            <View style={{ padding: 20, flex: 2 }}>
                                                 <Text style={{ fontSize: 15, fontWeight: 'bold' }}>{
                                                     ((item.product_name).length > 20) ?
                                                         (((item.product_name).substring(0, 20 - 3)) + '...') :

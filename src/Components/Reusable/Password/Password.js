@@ -37,8 +37,8 @@ export default function PasswordCom(props) {
                         onBlur={props.onBlur ? props.onBlur : null}
                     />
                 </View>
-                <View >
-                    <Icon name={password ? 'eye-slash' : 'eye'} size={30} color='#fff' style={styles.eyeIcon}
+                <View style={{ paddingRight: 10 }} >
+                    <Icon name={password ? 'eye-slash' : 'eye'} size={25} color='#fff' style={styles.eyeIcon}
                         onPress={() => changeIcon()} />
                 </View>
             </View>

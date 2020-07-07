@@ -4,7 +4,7 @@ import {
 
 import {
     StyleConstants
-} from  '../../../Assets/Constant/constant'
+} from '../../../Assets/Constant/constant'
 export const styles = StyleSheet.create({
     Password: {
         display: 'flex',
@@ -12,10 +12,10 @@ export const styles = StyleSheet.create({
         borderWidth: 2,
         borderColor: 'white',
         color: 'white',
-        justifyContent: 'flex-start',
+        justifyContent: 'space-around',
         alignItems: 'center',
         marginTop: 5,
-        marginBottom:5
+        marginBottom: 5,
     },
     Icon: {
         paddingLeft: 10,
@@ -23,10 +23,10 @@ export const styles = StyleSheet.create({
     },
     inputText: {
         fontSize: StyleConstants.FONT_20,
-        color:'#fff'
+        color: '#fff'
     },
-    eyeIcon:{
-      paddingLeft:20,
+    eyeIcon: {
+        paddingLeft: 20,
     },
     Placeholder_text: {
         paddingTop: 5,
@@ -38,6 +38,6 @@ export const styles = StyleSheet.create({
         width: '70%',
     },
     validText: {
-        color: 'white', textAlign: 'center' 
+        color: 'white', textAlign: 'center'
     }
 })

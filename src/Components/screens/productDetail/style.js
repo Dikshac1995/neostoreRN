@@ -5,7 +5,8 @@ export const styles = StyleSheet.create({
 
     productDeatailSection1: {
         backgroundColor: "#fff",
-        marginBottom: 30
+        // height: '20%'
+
     },
     productDetailSection1_wrapper: {
         paddingHorizontal: 20,
@@ -13,8 +14,10 @@ export const styles = StyleSheet.create({
 
     },
     productDetailSection2: {
-        paddingHorizontal: 30, marginBottom: 10,
-        backgroundColor: '#eee',
+        paddingHorizontal: 30,
+        // height: '40%'
+
+
 
     },
     PDsection2_Price: {
@@ -25,10 +28,12 @@ export const styles = StyleSheet.create({
         marginTop: 5,
         marginBottom: 20,
         padding: 10,
+        marginTop: 20,
         backgroundColor: '#fff',
         // borderWidth: 2,
         borderRadius: 15,
         borderColor: '#fff',
+        flex: 1,
 
     },
     product_name: {
@@ -65,13 +70,13 @@ export const styles = StyleSheet.create({
 
 
     footer: {
-        display: 'flex', flexDirection: 'row', backgroundColor: '#fff', paddingBottom: 30,
-        marginBottom: 50, justifyContent: 'space-evenly',
+        display: 'flex', paddingBottom: 30, backgroundColor: '#fff',
+        marginBottom: 50,
 
     },
     rate_button: {
         backgroundColor: '#7f7f7f',
-        width: 180,
+        width: 150,
         fontSize: 20,
         color: '#fff',
         borderRadius: 8,
@@ -87,7 +92,7 @@ export const styles = StyleSheet.create({
     },
     buttonStyle: {
         backgroundColor: 'red',
-        width: 180,
+        width: 150,
         fontSize: 20,
         color: '#fff',
         borderRadius: 8,
@@ -131,7 +136,7 @@ export const styles = StyleSheet.create({
     },
     mycart_Wrapper: {
         display: 'flex', backgroundColor: '#3A3DE3', borderRadius: 80,
-        width: 70, height: 70, top: 90, left: 270,
+        width: 70, height: 70, top: 90, left: 250,
     },
     mycart_icon: {
         paddingTop: 20, alignItems: 'center'

@@ -43,46 +43,68 @@ class CustomDrawerContent extends Component {
 
     this.focusListener = this.props.navigation.addListener('focus', () => {
       console.log('screen is focused')
-
       this.getToken()
     })
 
 
   }
+
+  componentDidUpdate = async (prev, state) => {
+    if (this.props.state.routes != prev.state.routes) {
+
+      this.getToken()
+
+    }
+  };
+
   componentWillUnmount() {
     // Remove the event listener before removing the screen from the stack
     this.focusListener();
 
   }
   async getToken() {
-    console.log('tokks')
     let token = await AsyncStorage.getItem('token');
-    const customer_details = JSON.parse(await AsyncStorage.getItem('customerDetail'))
-    console.log('cust_det', customer_details)
-    if (customer_details.customer_details.profile_img !== null) {
-      console.log('data234', customer_details.customer_details.profile_img)
-      const source = { uri: api.baseUrl + customer_details.customer_details.profile_img };
-      this.setState({ imageSource: source })
+    console.log('tokks', token)
+    if (!token || token == " ") {
+      console.log('data')
+      this.setState({ LoggedIn: 'false' })
     }
-
-
-    if (token !== null) {
-      this.setState({
-        LoggedIn: true,
-        userdata: customer_details.customer_details,
-        token: token,
-        // imageSource: source
-        // product_id: myCartProduct.product_id
-      })
-      await this.props.getCartData(token)
-      const mycartlength = this.props.data.data
-      console.log(mycartlength, '123')
-      if (mycartlength !== undefined) {
-        this.setState({ cartproduct_length: mycartlength.length })
-
+    else {
+      const customer_details = JSON.parse(await AsyncStorage.getItem('customerDetail'))
+      console.log('cust_det', customer_details)
+      if (customer_details.customer_details.profile_img !== null) {
+        console.log('data234', customer_details.customer_details.profile_img)
+        const source = { uri: api.baseUrl + customer_details.customer_details.profile_img };
+        this.setState({ imageSource: source })
       }
-      this.getCartData1()
-      console.log('****************', token)
+      else {
+        this.setState({ imageSource: require('../../Assets/Images/user-profileIcon.png') })
+      }
+
+
+      if (token !== null && token !== ' ') {
+        this.setState({
+          LoggedIn: true,
+          userdata: customer_details.customer_details,
+          token: token,
+
+        })
+        await this.props.getCartData(token)
+        const mycartlength = this.props.data.data
+        console.log(mycartlength, '123')
+        if (mycartlength !== undefined) {
+          this.setState({ cartproduct_length: mycartlength.length })
+
+        }
+
+        this.getCartData1()
+        console.log('****************', token)
+      }
+      // if (this.state.token == ' ') {
+      //   this.setState({
+      //     LoggedIn: false
+      //   })
+      // }
     }
 
   }
@@ -94,12 +116,17 @@ class CustomDrawerContent extends Component {
       this.setState({ cartproduct_length: value.length })
 
     }
-    console.log(this.state.cartproduct_length, '!!!')
+    else {
+      console.log(this.state.cartproduct_length, '!!!')
+      // this.setState({ cartproduct_length: 0 })
+    }
+
   }
   toggleExpand = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     this.setState({ expanded: !this.state.expanded })
   }
+
   async signOut() {
     const myCartProduct = JSON.parse(await AsyncStorage.getItem('MycartData'))
     console.log(" my data ", myCartProduct)
@@ -111,14 +138,7 @@ class CustomDrawerContent extends Component {
         {
           text: 'Confirm', onPress: () => {
             if (myCartProduct !== null) {
-              // myCartProduct.map((e) => {
-              //   let object = [{
-              //     _id: e.product_id,
-              //     product_id: e.product_id,
-              //     quantity: 1
 
-              //   },
-              //   { flag: 'logout' }]
               let flag = [{ flag: 'logout' }];
               const data = [...myCartProduct, ...flag];
               console.log(data, 'data1')
@@ -131,19 +151,25 @@ class CustomDrawerContent extends Component {
                   if (data.success) {
                     Alert.alert(data.message)
                     AsyncStorage.clear();
-                    this.setState({ token: ' ' })
-                    this.props.navigation.closeDrawer()
+                    this.setState({ LoggedIn: false })
+                    // this.props.navigation.closeDrawer()
 
+                    this.props.navigation.navigate('Homescreen', { logout: true });
 
                     // this.props.navigation.navigate('homescreen')
                   }
                   else {
-                    Alert.alert(data.message)
+                    console.log(data.error)
+                    //Alert.alert(data.message)
 
                   }
                 });
-              // })
             }
+            AsyncStorage.clear();
+            this.setState({ token: ' ' })
+            // this.props.navigation.closeDrawer()
+            this.props.navigation.navigate('Homescreen', { logout: true });
+            // this.props.navigation.navigate('homescreen')
 
           }
         },
@@ -154,16 +180,49 @@ class CustomDrawerContent extends Component {
   }
 
   render(props) {
+    const logged = this.state.LoggedIn
     const mycart = this.props.data
     const mycartlength = this.props.data.data
     console.log("data", this.state.token, this.state.cartproduct_length)
+    console.log('log in', this.state.LoggedIn, logged, this.state.expanded)
+    console.log(this.state.LoggedIn == true ? 123 : 23)
+    console.log(this.state.LoggedIn)
+
     const cust_data = this.state.userdata
     return (
       <>
         <ScrollView>
-          {!this.state.LoggedIn ?
-            (
+          <>
+            {this.state.LoggedIn == true ?
+
+              <View style={{ alignItems: 'center', marginTop: 20 }}>
+
+                {/* <Text style={{ color: 'red' }}>log{this.state.LoggedIn}</Text> */}
+                <TouchableOpacity onPress={() => Alert.alert('clicked')}>
+                  <Image style={{ borderRadius: 100, width: 150, height: 150, resizeMode: 'cover' }} source={this.state.imageSource} />
+                </TouchableOpacity>
+
+                <Text style={{ fontSize: 20, color: '#fff' }}>{cust_data.first_name}  {cust_data.last_name}</Text>
+                <Text style={{ fontSize: 20, color: '#e91b1a' }}>{cust_data.email}</Text>
+
+                <View style={styles.parent_drawer}>
+                  <View style={{ paddingLeft: 35, paddingRight: 10 }}>
+                    <Icon name='shopping-cart' size={30} color='#fff'
+                      onPress={() => this.props.navigation.navigate('Mycard', { data: 0 })} />
+                  </View>
+                  <Text style={styles.parent_drawerLabel}>My Cart </Text>
+                  <View style=
+                    {{ backgroundColor: 'red', borderRadius: 100, width: 40, height: 40, marginRight: 40 }}>
+                    <Text style={{ color: '#fff', paddingLeft: 15, paddingTop: 10 }}>
+                      {this.state.cartproduct_length}
+                      {/* {mycartlength !== undefined ? mycartlength.length : 0}  */}
+                    </Text>
+                  </View>
+                </View>
+              </View> :
+
               <View style={styles.header}>
+
                 <View style={styles.logoContainer}>
                   <Icon name="neos" size={80} color='white' />
                   <Text style={styles.logoText}>NEOSTOR</Text>
@@ -192,30 +251,12 @@ class CustomDrawerContent extends Component {
                   </View> : null}
 
               </View>
-            ) : (
-              <View style={{ alignItems: 'center', marginTop: 20 }}>
-                <TouchableOpacity onPress={() => Alert.alert('clicked')}>
-                  <Image style={{ borderRadius: 100, width: 150, height: 150, resizeMode: 'cover' }} source={this.state.imageSource} />
-                </TouchableOpacity>
 
-                <Text style={{ fontSize: 20, color: '#fff' }}>{cust_data.first_name}  {cust_data.last_name}</Text>
-                <Text style={{ fontSize: 20, color: '#e91b1a' }}>{cust_data.email}</Text>
-                <View style={styles.parent_drawer}>
-                  <View style={{ paddingLeft: 35, paddingRight: 10 }}>
-                    <Icon name='shopping-cart' size={30} color='#fff'
-                      onPress={() => this.props.navigation.navigate('Mycard', { data: 0 })} />
-                  </View>
-                  <Text style={styles.parent_drawerLabel}>My Cart </Text>
-                  <View style=
-                    {{ backgroundColor: 'red', borderRadius: 100, width: 40, height: 40, marginRight: 40 }}>
-                    <Text style={{ color: '#fff', paddingLeft: 15, paddingTop: 10 }}>
-                      {this.state.cartproduct_length}
-                      {/* {mycartlength !== undefined ? mycartlength.length : 0}  */}
-                    </Text>
-                  </View>
-                </View>
-              </View>
-            )}
+
+
+            }
+          </>
+
           <DrawerContentScrollView {...props} style={{
             backgroundColor: 'black', activeBackgroundColor: 'white',
           }}
@@ -259,20 +300,8 @@ class CustomDrawerContent extends Component {
               labelStyle={{ color: '#fff', fontSize: 20, marginLeft: 10, fontWeight: 'bold' }}
               onPress={() => this.props.navigation.navigate('Map')}
             />
-            {/* <DrawerItem
-              icon={() => <Icon name="map-marker-alt" size={30} color='#fff' />}
-              label="lazy loading "
-              labelStyle={{ color: '#fff', fontSize: 20, marginLeft: 10, fontWeight: 'bold' }}
-              onPress={() => this.props.navigation.navigate('LazyLoading')}
-            /> */}
 
-            {/* <DrawerItem
-              icon={() => <Icon name="map-marker-alt" size={30} color='#fff' />}
-              label="Store Lactor "
-              labelStyle={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}
-              onPress={() => this.props.navigation.navigate('storeLocator')}
-            /> */}
-            {this.state.LoggedIn ? (
+            {this.state.LoggedIn == true &&
               <>
                 <DrawerItem
                   icon={() => <Icon name='user-friends' size={30} color='#fff' />}
@@ -287,13 +316,6 @@ class CustomDrawerContent extends Component {
                   onPress={() => this.props.navigation.navigate('Myorder')}
                 />
 
-                {/* <DrawerItem
-                  icon={() => <Icon name='user-friends' size={30} color='#fff' />}
-                  label="AddressList"
-                  labelStyle={{ color: '#fff', fontSize: 20, fontWeight: 'bold', }}
-                  onPress={() => this.props.navigation.navigate('AddAddress')}
-                /> */}
-
 
                 <DrawerItem
                   icon={() => <Icon name='sign-out-alt' size={30} color='#fff' />}
@@ -303,8 +325,9 @@ class CustomDrawerContent extends Component {
                   }
                 >
 
+
                 </DrawerItem>
-              </>) : (null)}
+              </>}
 
           </DrawerContentScrollView>
         </ScrollView>

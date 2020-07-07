@@ -36,7 +36,7 @@ class Main extends Component {
             <NavigationContainer>
                 <Stack.Navigator
                     initialRouteName='MyDrawer' >
-                    <Stack.Screen name="homescreen" component={Homescreen} options={{ headerShown: false }} />
+                    {/* <Stack.Screen name="homescreen" component={Homescreen} options={{ headerShown: false }} /> */}
                     <Stack.Screen name="MyDrawer" component={MyDrawer} options={{ headerShown: false }} />
                     <Stack.Screen name="searchitem" component={Searchitem} options={{ headerShown: false }} />
                     <Stack.Screen name="search" component={Search} options={{ headerShown: false }} />

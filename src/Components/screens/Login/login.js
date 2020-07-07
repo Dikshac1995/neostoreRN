@@ -84,7 +84,7 @@ class LoginScreen extends Component {
                                     ' ',
                                     [{
                                         text: 'OK', onPress: () => {
-                                            this.props.navigation.navigate('Homescreen');
+                                            this.props.navigation.navigate('Homescreen', { login: true });
                                         }
                                     },],
                                     { cancelable: false }
