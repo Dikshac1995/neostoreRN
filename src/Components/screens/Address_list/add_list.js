@@ -33,66 +33,66 @@ class AddressList extends Component {
         this.getData()
 
     }
-    // componentDidUpdate(prevProps, prevState) {
-    //     console.log(prevProps, 'addre', this.props)
-    //     // if (prevState.Address === this.state.Address) {
-    //     // }
-    // };
+    componentDidUpdate(prevProps, prevState) {
+        console.log(prevProps, '@345', this.props)
+        // if (prevState.addressData !== this.props.addressData) {
+        //     this.getData()
+        // }
+    };
     async getData() {
+        console.log('data23')
         let token = await AsyncStorage.getItem('token');
         const customerData = JSON.parse(await AsyncStorage.getItem('customerDetail'))
-        // this.props.FetchAddress(token)
+        await this.props.FetchAddress(token)
+        // console.log('innnnn')
+        const data = this.props.addressData
+        console.log('a12s', data)
+        if (data !== undefined) {
+            const D_address = (element) => element.isDeliveryAddress == true;
+            const res = data.findIndex(D_address)
 
-        // const data = this.props.data
-        // console.log('a12s', data)
-        // if (data !== undefined) {
-        //     const D_address = (element) => element.isDeliveryAddress == true;
-        //     const res = data.findIndex(D_address)
-
-        //     setTimeout(() => {
-        //         this.setState({
-        //             token: token, data: customerData.customer_details,
-        //             addressData: data,
-        //             loading: this.props.loading,
-        //             radioCheck: res
-        //         })
-        //     }, 1000)
-        // }
-        // else {
-        //     setTimeout(() => {
-        //         this.setState({
-        //             // token: token, data: customerData.customer_details,
-        //             // addressData: data,
-        //             loading: false,
-        //             // radioCheck: res
-        //         })
-        //     }, 1000)
-        // }
+            setTimeout(() => {
+                this.setState({
+                    token: token, data: customerData.customer_details,
+                    addressData: data,
+                    loading: false,
+                    radioCheck: res
+                })
+            }, 1000)
+        }
+        else {
+            setTimeout(() => {
+                this.setState({
+                    // token: token, data: customerData.customer_details,
+                    // addressData: data,
+                    loading: false,
+                    // radioCheck: res
+                })
+            }, 4000)
+        }
 
 
 
-        api.fetchapi(api.baseUrl + 'getCustAddress', 'get', " ", token)
+        // api.fetchapi(api.baseUrl + 'getCustAddress', 'get', " ", token)
 
-            .then((response) => response.json())
-            .then((data) => {
-                console.log('Success:', data);
-                if (data.success == true) {
-                    const D_address = (element) => element.isDeliveryAddress == true;
-                    const res = data.customer_address.findIndex(D_address)
-                    this.setState({
-                        token: token,
-                        addressData: data.customer_address,
-                        loading: false,
-                        data: customerData.customer_details,
-                        radioCheck: res
-
-                    })
-
-                }
-                else {
-                    Alert.alert("not found ")
-                }
-            })
+        //     .then((response) => response.json())
+        //     .then((data) => {
+        //         console.log('Success:', data);
+        //         if (data.success == true) {
+        //             const D_address = (element) => element.isDeliveryAddress == true;
+        //             const res = data.customer_address.findIndex(D_address)
+        //             this.setState({
+        //                 token: token,
+        //                 addressData: data.customer_address,
+        //                 loading: false,
+        //                 data: customerData.customer_details,
+        //                 radioCheck: res
+        //             })
+        //         }
+        //         else {
+        //             Alert.alert("not found ")
+        //         }
+        //     })
 
 
     }
@@ -159,27 +159,24 @@ class AddressList extends Component {
 
     }
     render() {
-        console.log('hh', this.props)
-        console.log("customerdata", this.state.addressData)
         const data = this.state.data
-        console.log("data", data)
         return (
             <View style={{ flex: 1 }}>
                 <Header name1='arrowleft' text='Address List ' name2='plus'
                     onPress={() => this.props.navigation.goBack()}
                     onClick={() => this.props.navigation.navigate('AddAddress')}
                 />
-                {(this.state.loading) ?
+                {this.state.loading ?
                     <Loader name='onLoad'
                         loading={true} /> :
                     <>
                         <Loader
                             loading={this.state.loader} />
-                        <View style={{ height: '75%' }}>
-                            <Text style={{ fontSize: 25, margin: 20, color: '#8B8888' }}>
+                        <View style={{ flex: 8 }}>
+                            <Text style={styles.shipping_text}>
                                 Shipping Address</Text>
-                            <View style={{ padding: 10, height: 400, marginHorizontal: 10 }}>
-                                <Text style={{ marginHorizontal: 10, fontSize: 25, }}>
+                            <View style={styles.userName_wrapper}>
+                                <Text style={styles.userName_text}>
                                     {data.first_name}  {data.last_name}
                                 </Text>
                                 <FlatList
@@ -192,7 +189,7 @@ class AddressList extends Component {
                                                     flex: 1,
                                                     flexDirection: 'row',
                                                 }}>
-                                                <View style={{ marginTop: 40 }}>
+                                                <View style={{ flex: 0.1, justifyContent: 'center' }}>
                                                     <RadioButton
                                                         value={index}
                                                         status={this.state.radioCheck == index ? 'checked' : 'unchecked'}
@@ -205,16 +202,16 @@ class AddressList extends Component {
 
                                                         }} />
                                                 </View>
-                                                <TouchableOpacity>
-                                                    <View style={{ flex: 1, flexDirection: 'column', paddingVertical: 15 }}>
 
-                                                        <Text style={styles.address_text}> {item.address}, {item.city} , {item.state}</Text>
+                                                <View style={styles.address_wrapper}>
 
-                                                        <Text style={styles.address_text}>
-                                                            {item.pincode} , {item.country}
-                                                        </Text>
-                                                    </View>
-                                                </TouchableOpacity>
+                                                    <Text style={styles.address_text}> {item.address},
+                                                        {item.city} , {item.state}</Text>
+
+                                                    <Text style={styles.address_text}>
+                                                        {item.pincode} , {item.country}
+                                                    </Text>
+                                                </View>
                                             </View>
                                         );
                                     }}
@@ -224,10 +221,7 @@ class AddressList extends Component {
                             </View>
                         </View>
 
-                        <View style={{
-                            backgroundColor: '#fff',
-                            marginBottom: 10,
-                        }}>
+                        <View style={styles.footer}>
                             <ButtonField text='SAVE ADDRESS' style={styles.addAddress_button}
                                 disbled={this.state.ButtonDisable} onPress={() =>
                                     this.saveAddress()} />
@@ -239,8 +233,9 @@ class AddressList extends Component {
         )
     }
 }
+// addressData: state.AddressReducer.data
 const mapStateToProps = state => ({
-    data: state.AddressReducer.data,
+    addressData: state.AddressReducer.data,
     loading: state.AddressReducer.isFetching
 
 

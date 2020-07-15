@@ -22,7 +22,7 @@ export const styles = StyleSheet.create({
 
     },
     inputText: {
-        fontSize: StyleConstants.FONT_20,
+        fontSize: StyleConstants.FONT_18,
         color: '#fff'
     },
     eyeIcon: {
@@ -34,7 +34,7 @@ export const styles = StyleSheet.create({
         paddingBottom: 5,
         paddingLeft: 5,
         color: '#424242',
-        fontSize: StyleConstants.FONT_30,
+        fontSize: StyleConstants.FONT_22,
         width: '70%',
     },
     validText: {

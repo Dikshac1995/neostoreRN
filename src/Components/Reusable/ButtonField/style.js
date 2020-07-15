@@ -11,6 +11,7 @@ export const styles = StyleSheet.create({
     },
     buttonText: {
         padding: 10,
+        // color: '#fff',
         // color: 'red',
         // fontSize: 20,
         fontWeight: 'bold',

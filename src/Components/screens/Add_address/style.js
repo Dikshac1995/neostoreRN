@@ -55,10 +55,7 @@ export const styles = StyleSheet.create({
 
     },
     footer: {
-        // backgroundColor: 'pink',
-        // flex: 2,
-        // height: '20%',
-
+        backgroundColor: '#fff',
         elevation: 4,
 
     },

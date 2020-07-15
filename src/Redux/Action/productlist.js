@@ -27,77 +27,26 @@ export const getProductFailuer = () => {
 
 
 export const FetchProductList = (type) => {
-    console.log("typeery", type)
-    console.log("ddd")
+
     return async dispatch => {
-        console.log('dis')
+
 
         try {
-            console.log("in tey")
-            const ProductList = await api.fetchapi('http://180.149.241.208:3022/' + type, 'get')
+
+            const ProductList = await api.fetchapi(api.baseUrl + type, 'get')
             dispatch(getProduct(true))
-            console.log("in teydfdf")
+
             const commonProduct = await ProductList.json();
-            console.log("jjjjhh", commonProduct.product_details)
-            const data = []
-            data.concat(commonProduct.product_details)
-            console.log('datadata', data)
             dispatch(getProductSuccess(commonProduct))
 
         } catch (error) {
-            console.log('Getting People Error---------', error);
             dispatch(getProductFailuer(error))
         }
     }
 }
 
-export const FetchProductDetail = (type) => {
-    console.log("typeery", type)
-    console.log("ddd")
-    return async dispatch => {
-        console.log('dis')
 
-        try {
-            console.log("in tey")
-            const ProductList = await api.fetchapi('http://180.149.241.208:3022/' + type, 'get')
-            dispatch(getProduct(true))
-            console.log("in teydfdf", ProductList)
-            const commonProduct = await ProductList.json();
-            await AsyncStorage.setItem('datad', JSON.stringify(commonProduct))
-            const value = await AsyncStorage.getItem('datad');
-            var obj = JSON.parse(value);
-            console.log("Async", obj)
-            console.log("jjjjhh", commonProduct)
-            dispatch(getProductSuccess(commonProduct))
 
-        } catch (error) {
-            console.log('Getting People Error---------', error);
-            dispatch(getProductFailuer(error))
-        }
-    }
-}
-
-export const placeProductOrder = (type) => {
-    console.log("typeery", type)
-    console.log("ddd")
-    return async dispatch => {
-        console.log('dis')
-
-        try {
-            console.log("in tey")
-            const ProductList = await api.fetchapi('http://180.149.241.208:3022/' + type, 'get')
-            dispatch(getProduct(true))
-            console.log("in teydfdf")
-            const commonProduct = await ProductList.json();
-            console.log("jjjjhh", commonProduct)
-            dispatch(getProductSuccess(commonProduct))
-
-        } catch (error) {
-            console.log('Getting People Error---------', error);
-            dispatch(getProductFailuer(error))
-        }
-    }
-}
 
 
 

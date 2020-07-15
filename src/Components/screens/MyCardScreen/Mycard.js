@@ -3,10 +3,10 @@ import { Text, View, TouchableOpacity, FlatList, Image, Picker, Alert } from 're
 import AsyncStorage from '@react-native-community/async-storage';
 import Header from '../../Reusable/header /header'
 import { api } from '../../../utils/api';
-import Button from '../../Reusable/ButtonField/buttonField'
+import ButtonField from '../../Reusable/ButtonField/buttonField'
 import { styles } from './style'
 import { connect } from 'react-redux';
-import { getCartData } from '../../../Redux/Action/mycat'
+import { getCartData } from '../../../Redux/Action/mycart'
 import Loader from '../../Reusable/loader/loader'
 
 
@@ -81,7 +81,6 @@ class Mycart extends Component {
         const data = this.props.data
         console.log(data, 'daaaa')
         if (data.data !== undefined) {
-
             const cartProduct = data.data.map((res) => res.product_id)
             const prod_quantity = data.data.map((res) => res.quantity)
             const Valu = [...this.state.myCardItem]
@@ -111,11 +110,10 @@ class Mycart extends Component {
             // const cartData1 = [...this.state.mycardItem],
             if (cartData.length == 0) {
                 this.storedata(cartData)
-
                 this.setState({ loading: false })
             }
 
-            console.log('data is ', this.state.myCardItem)
+
 
         }
     }
@@ -154,8 +152,6 @@ class Mycart extends Component {
             const value = JSON.parse(await AsyncStorage.getItem('myOrder'));
             console.log('orderrrrr', value)
             this.props.navigation.navigate('oder summary', { product_id: 0, Product: 0 })
-
-
         }
         catch (error) {
             console.log(error)
@@ -193,10 +189,14 @@ class Mycart extends Component {
             [
                 {
                     text: 'OK', onPress: async () => {
-                        // Alert.alert(id)
+
                         this.state.myCardItem.splice(id, 1);
                         await AsyncStorage.setItem('MycartData', JSON.stringify(this.state.myCardItem))
                         this.setState({ myCardItem: JSON.parse(await AsyncStorage.getItem('MycartData')) })
+                        var cost = this.state.myCardItem.map(res => res.product_cost)
+                        var sum = cost.reduce(function (a, b) { return a + b; }, 0);
+                        this.setState({ finalCost: sum })
+
                     }
                 },
                 {
@@ -210,43 +210,6 @@ class Mycart extends Component {
 
     }
 
-
-
-    // retrieveData = async () => {
-    //     try {
-
-    //         const token = await AsyncStorage.getItem('token');
-    //         const existingProduct = await AsyncStorage.getItem('MycardData')
-    //         console.log('...', existingProduct)
-    //         console.log('   ', this.state.myCardItem)
-    //         let newProduct = JSON.parse(existingProduct);
-    //         myCartProduct.push(newProduct)
-
-    //         console.log("&&", myCartProduct)
-    //         var cost = newProduct.map(res => res.product_cost)
-    //         console.log("cost ", cost)
-    //         console.log(
-    //             cost.reduce((a, b) => a + b, 0)
-    //         )
-
-    //         var sum = cost.reduce(function (a, b) { return a + b; }, 0);
-    //         console.log("sum", sum)
-
-    //         this.setState({
-    //             myCardItem: newProduct,
-    //             cost: cost,
-    //             finalCost: sum,
-    //             token: token
-    //         })
-
-    //         console.log('AAAAAAAAAAAAAAAAAAAa', this.state.myCardItem)
-    //         console.log('AAAAAAAAAAAAAAAAAAAa', this.state.token)
-
-    //     } catch (error) {
-    //         // Error retrieving data
-    //     }
-    // };
-
     render() {
         const info = this.props.data
         const data = this.state.myCardItem
@@ -255,7 +218,7 @@ class Mycart extends Component {
             <>
                 <Header name1='arrowleft' text='My Carts' name2='search'
                     onPress={() => this.props.navigation.goBack()}
-                    onClick={() => this.props.navigation.navigate('share')}
+                    onClick={() => this.props.navigation.navigate('searchitem')}
                 />
 
 
@@ -267,30 +230,33 @@ class Mycart extends Component {
                         <>
                             {(data.length) == 0 ?
                                 <View style={{ justifyContent: 'center', alignItems: 'center', flex: 1 }}>
-                                    <Text style={{ fontSize: 20 }}> Your cart is empty</Text></View> :
-                                <View style={{ flex: 1 }}>
+                                    <Text style={{ fontSize: 20 }}> Your cart is empty</Text>
+                                </View> :
+                                <View style={{ flex: 1, }}>
 
                                     <View style={{ flex: 1, }}>
-                                        <View style={{ marginHorizontal: 20, flex: 8 }}>
+                                        <View style={{ marginHorizontal: 20, flex: 8, }}>
 
                                             <FlatList data={data}
                                                 showsVerticalScrollIndicator={false}
                                                 renderItem={({ item, index }) =>
-                                                    <View style={{ flex: 1 }}>
-                                                        <TouchableOpacity style={styles.myOrder_container}
-                                                            // onPress={() => { this.props.navigation.navigate('productDetail', { product_id: item.product_id }) }}
-                                                            onLongPress={() => this.removeProduct(data.indexOf(item))}>
-                                                            <View style={{ flex: 1 }}>
-                                                                <Image style={{ width: 120, height: 100 }} source={{
+                                                    // <View style={{ flex: 1 }}>
+                                                    <TouchableOpacity style={styles.myOrder_container}
+                                                        // onPress={() => { this.props.navigation.navigate('productDetail', { product_id: item.product_id }) }}
+                                                        onLongPress={() => this.removeProduct(data.indexOf(item))}>
+                                                        <View style={{ flex: 1 }}>
+                                                            <View>
+                                                                <Image style={{ width: '100%', height: 100, resizeMode: 'stretch' }} source={{
                                                                     uri: api.baseUrl + item.product_image
                                                                 }} />
                                                             </View>
-                                                            <View style={{ padding: 15, flex: 2 }}>
-                                                                <Text style={styles.product_name}>{item.product_name}</Text>
-                                                                <Text style={styles.product_material}>({item.product_material})</Text>
+                                                        </View>
+                                                        <View style={{ padding: 15, flex: 2, }}>
+                                                            <Text style={styles.product_name}>{item.product_name}</Text>
+                                                            <Text style={styles.product_material}>({item.product_material})</Text>
 
-                                                                <View>
-                                                                    {/* <Picker
+                                                            <View>
+                                                                {/* <Picker
                                                 key={index}
                                                 selectedValue={this.state.quantity[index]}
                                                 style={{ width: 80, }}
@@ -304,20 +270,25 @@ class Mycart extends Component {
                                                     })}
 
 
-                                            </Picker> */}
-                                                                    <Text style={styles.product_cost}>Rs.{item.product_cost}</Text>
-                                                                </View>
+                                            // </Picker> */}
+                                                                <Text style={styles.product_cost}>Rs.{item.product_cost}</Text>
                                                             </View>
-                                                        </TouchableOpacity>
-                                                    </View>}
+                                                        </View>
+                                                    </TouchableOpacity>
+                                                    // </View>
+                                                }
                                                 ItemSeparatorComponent={this.FlatListItemSeparator}
                                                 keyExtractor={(item, index) => index.toString()}
                                             />
                                         </View>
 
                                         <View style={styles.footer}>
-                                            <View ><Text style={styles.totalPrice}>Rs, {this.state.finalCost}</Text></View>
-                                            <Button text="order Now" onPress={() => this.orderNow()} style={styles.buttonStyle} />
+                                            <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
+                                                <Text style={styles.totalPrice}>Rs, {this.state.finalCost}</Text>
+                                                <ButtonField text="ORDER NOW" style={styles.footerButton_text}
+                                                    onPress={() => this.orderNow()} />
+                                            </View>
+
                                         </View>
                                     </View>
                                 </View>

@@ -23,12 +23,23 @@ export const GET_COROSAL_IMAGE_REJECTED = 'GET_COROSAL_IMAGE_REJECTED';
 const listReducer = (state = initialState, action) => {
     switch (action.type) {
         case GET_COROSAL_IMAGE:
-            return { ...state, loading: action.payload };
+            return {
+                ...state,
+                loading: action.payload
+            };
         case GET_COROSAL_IMAGE_FULFILLED:
 
-            return { ...state, data: action.payload, loading: action.loading };
+            return {
+                ...state,
+                data: action.payload,
+                loading: action.loading
+            };
         case GET_COROSAL_IMAGE_FULFILLED:
-            return { ...state, errorMessage: action.payload, loading: action.loading };
+            return {
+                ...state,
+                errorMessage: action.payload,
+                loading: action.loading
+            };
         default:
             return state;
     }

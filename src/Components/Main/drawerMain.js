@@ -3,10 +3,10 @@ import React, { Component } from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import Homescreen from '../screens/Home/homescreen'
 import Icon from 'react-native-vector-icons/FontAwesome5';
-import { Text, View, Image, TouchableOpacity, StyleSheet, Alert, LayoutAnimation, FlatList } from 'react-native'
-import AsyncStorage from '@react-native-community/async-storage';
-import CustomDrawerContent from './drawernav'
-import Registration from '../screens/Register/registration';
+// import { Text, View, Image, TouchableOpacity, StyleSheet, Alert, LayoutAnimation, FlatList } from 'react-native'
+// import AsyncStorage from '@react-native-community/async-storage';
+import CustomDrawerContent from '../screens/sliderscreen/drawernav'
+// import Registration from '../screens/Register/registration';
 
 
 
@@ -17,38 +17,33 @@ export default class MyDrawer extends Component {
         super(props);
         this.state = {
             LoggedIn: false,
-
-            expanded: false,
-
         }
     }
 
-    async getToken() {
-        let token = await AsyncStorage.getItem('token');
-        console.log('****************', token)
-        if (token !== null) {
-            this.setState({ LoggedIn: true })
-            console.log("!!!!!!!!!!!!!!!!!!!!!!!!!", this.state.LoggedIn)
-        }
+    // async getToken() {
+    //     let token = await AsyncStorage.getItem('token');
+    //     console.log('****************', token)
+    //     if (token !== null) {
+    //         this.setState({ LoggedIn: true })
+    //         console.log("!!!!!!!!!!!!!!!!!!!!!!!!!", this.state.LoggedIn)
+    //     }
 
-    }
-    componentDidMount() {
-        console.log('dataujfbb')
-        this.getToken()
+    // }
+    // componentDidMount() {
+    //     console.log('dataujfbb')
+    //     this.getToken()
 
-    }
-    componentDidUpdate() {
+    // }
+    // componentDidUpdate() {
 
-    }
-    toggleExpand = () => {
-        LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-        this.setState({ expanded: !this.state.expanded })
-        console.warn(this.state.expanded)
-    }
+    // }
+    // toggleExpand = () => {
+    //     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    //     this.setState({ expanded: !this.state.expanded })
+    //     console.warn(this.state.expanded)
+    // }
 
     render() {
-        console.log('data2345678908447')
-
         return (
             <Drawer.Navigator drawerContent={props => {
                 return <CustomDrawerContent {...props} />;

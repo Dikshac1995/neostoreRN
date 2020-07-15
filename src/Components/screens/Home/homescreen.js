@@ -21,13 +21,14 @@ class Homescreen extends Component {
     }
     componentDidMount() {
         //Dispatch your dispatcher
-        console.log('indid home')
         this.props.getImage();
     }
     getData() {
         const { data, loading } = this.props;
         if (this.props.loading) {
-            return (<ActivityIndicator size={30} />)
+            return (
+                <View style={{ flex: 1, alignItems: 'center' }}><ActivityIndicator size={30} />
+                </View>)
         }
         else {
             var img
@@ -54,7 +55,7 @@ class Homescreen extends Component {
 
     render() {
         const { data } = this.props
-        console.log('list', data)
+
         return (
             <SafeAreaView style={{ flex: 1 }}>
                 <View style={styles.headerSection}>

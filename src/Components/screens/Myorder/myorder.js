@@ -6,10 +6,8 @@ import AsyncStorage from '@react-native-community/async-storage';
 import moment from "moment";
 import * as Animatable from 'react-native-animatable';
 import Icon from 'react-native-vector-icons/FontAwesome';
-
-import Loader from '../../Reusable/loader/loader'
-
-
+import Loader from '../../Reusable/loader/loader';
+import styles from './style'
 
 export default class Myorder extends Component {
     constructor(props) {
@@ -18,7 +16,8 @@ export default class Myorder extends Component {
             myOder: [],
             token: ' ',
             serachShow: false,
-            loading: true
+            loading: true,
+            msg: ' '
         }
         this.arrayholder = [];
     }
@@ -28,16 +27,14 @@ export default class Myorder extends Component {
     }
 
     async getdata() {
-
         let token = await AsyncStorage.getItem('token');
-
         api.fetchapi(api.baseUrl + 'getOrderDetails', 'get', " ", token)
             .then((response) => response.json())
             .then((data) => {
                 console.log('Success:', data);
                 if (data.status_code === 200) {
                     const pdata = data.product_details
-                    this.setState({ myOder: data.product_details, loading: false })
+                    this.setState({ myOder: data.product_details, loading: false, })
                     this.arrayholder = pdata;
                 }
                 else {
@@ -52,7 +49,14 @@ export default class Myorder extends Component {
             const textData = text.toUpperCase();
             return itemData.indexOf(textData) > -1;
         });
-        this.setState({ myOder: newData });
+        console.log('myorder1', newData)
+        if (newData.length == 0) {
+            Alert.alert('search not found')
+            // this.setState({ msg: ' serach result not found' })
+        }
+        else {
+            this.setState({ myOder: newData });
+        }
     }
 
     onPressItem(product_details, order_id) {
@@ -73,7 +77,7 @@ export default class Myorder extends Component {
         );
     }
     onsearchClick() {
-        console.log('hiii', this.arrayholder)
+        // console.log('hiii', this.arrayholder)
         this.setState({
             serachShow: !this.state.serachShow,
             myOder: this.arrayholder
@@ -87,7 +91,7 @@ export default class Myorder extends Component {
         console.log(this.state.myOder, 'myorder', data)
 
         return (
-            // 
+
             <View style={{
                 flex: 1
             }}>
@@ -126,7 +130,7 @@ export default class Myorder extends Component {
                             <>
                                 {data.length === 0 &&
                                     <View style={{ flex: 1, alignItems: 'center', paddingTop: 200 }} >
-                                        <Text> oders list is empty</Text>
+                                        <Text> Order List is Empty</Text>
                                     </View>}
                                 <FlatList
                                     data={this.state.myOder}
@@ -136,7 +140,6 @@ export default class Myorder extends Component {
                                         var dt = item.product_details[0].createdAt;
 
                                         return (
-
                                             <TouchableOpacity style={{ padding: 10, paddingHorizontal: 20 }}
                                                 onPress={() => this.onPressItem(item, item.product_details[0].order_id)} >
                                                 <View style={{ flex: 1, padding: 10, flexDirection: 'row', justifyContent: 'space-between' }}>
@@ -144,18 +147,16 @@ export default class Myorder extends Component {
                                                     <Text style={{ fontSize: 20 }}>Rs, {item.product_details[0].total_cartCost}</Text>
 
                                                 </View>
-
-
                                                 <Text style={{ fontSize: 20 }}> Order-Date :
-                                    {moment(dt).format(' MMM  D  y')}
+                                                    {moment(dt).format(' MMM  D  y')}
                                                 </Text>
                                             </TouchableOpacity>
 
                                         );
                                     }}
                                     ItemSeparatorComponent={this.FlatListItemSeparator}
-
-                                    keyExtractor={(index, item) => index}
+                                    keyExtractor={(item, index) => index.toString()}
+                                // keyExtractor={(index, item) => index}
                                 />
                             </>}
                 </>

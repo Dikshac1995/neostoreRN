@@ -16,10 +16,12 @@ function TextField(props) {
                 <Icon name={props.name} size={30}
                     color="#fff"
                     style={styles.Icon} />
-                <TextInput style={styles.input_text} placeholder={props.placeholder} placeholderTextColor={_color.placeholderColor}
+                <TextInput style={styles.input_text} placeholder={props.placeholder}
+                    placeholderTextColor={_color.placeholderColor}
                     secureTextEntry={props.secureTextEntry ? props.secureTextEntry : null}
                     //onBlur={() => { this.props.onBlur() }}
                     value={props.value}
+                    // adjustsFontSizeToFit
                     //  autoFocus={true} selection={{start:0, end:0}}
                     onChangeText={props.onChangeText ? (e) => props.onChangeText(e) : null}
                     onBlur={props.onBlur ? props.onBlur : null}
@@ -27,6 +29,7 @@ function TextField(props) {
                     keyboardType={props.keyboardType}
                     defaultValue={props.defaultValue}
                     editable={props.editable}
+                // style={{ backgroundColor: 'yellow' }}
                 >
                 </TextInput>
             </View>

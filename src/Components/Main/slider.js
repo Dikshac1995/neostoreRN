@@ -78,7 +78,7 @@ export default class Sidebar extends Component {
                         {profile_img === null ? (
                             <Image
                                 source={images.sideDrawerImage}
-                                
+
                             />
                         ) : (
                                 <Image source={profile_img} />
@@ -93,8 +93,8 @@ export default class Sidebar extends Component {
                 ) : (
                         <View style={{ flexDirection: 'column' }}>
                             <Image
-                                // source={images.sideDrawerImage}
-                                // style={styles.sideMenuProfileIconLog}
+                            // source={images.sideDrawerImage}
+                            // style={styles.sideMenuProfileIconLog}
                             />
                         </View>
                     )}
@@ -309,7 +309,7 @@ export default class Sidebar extends Component {
                     {this.state.isloggedIn === true ? (
                         <View>
                             <TouchableOpacity
-                                
+
                                 onPress={() => {
                                     this.logoutHandler();
                                 }}>

@@ -80,7 +80,6 @@ export default class AddAddress extends Component {
                     console.log('Success:', data);
                     if (data.success == true) {
                         setTimeout(() => {
-                            // Alert.alert(responseJSON.message)
                             this.setState({ loading: false })
                             Alert.alert(
                                 'Your Address is  update successfully',

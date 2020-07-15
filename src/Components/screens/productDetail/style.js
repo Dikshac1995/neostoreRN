@@ -70,13 +70,17 @@ export const styles = StyleSheet.create({
 
 
     footer: {
-        display: 'flex', paddingBottom: 30, backgroundColor: '#fff',
-        marginBottom: 50,
-
+        display: 'flex', paddingBottom: 30, flex: 0.3, paddingBottom: 10,
+        // flexDirection: 'row', justifyContent: 'space-evenly',
+        paddingHorizontal: 15, backgroundColor: '#fff', elevation: 5
     },
     rate_button: {
         backgroundColor: '#7f7f7f',
-        width: 150,
+        // width: '200%',
+        // paddingHorizontal: 0,
+        // paddingVertical: 10,
+        // flex: 1,
+        paddingHorizontal: 40,
         fontSize: 20,
         color: '#fff',
         borderRadius: 8,
@@ -92,7 +96,8 @@ export const styles = StyleSheet.create({
     },
     buttonStyle: {
         backgroundColor: 'red',
-        width: 150,
+        paddingHorizontal: 20,
+        // width: 160,
         fontSize: 20,
         color: '#fff',
         borderRadius: 8,
@@ -136,7 +141,8 @@ export const styles = StyleSheet.create({
     },
     mycart_Wrapper: {
         display: 'flex', backgroundColor: '#3A3DE3', borderRadius: 80,
-        width: 70, height: 70, top: 90, left: 250,
+        width: 70, height: 70,
+        top: 120, left: 110,
     },
     mycart_icon: {
         paddingTop: 20, alignItems: 'center'
@@ -146,9 +152,6 @@ export const styles = StyleSheet.create({
     },
     subImage_Wrapper: {
         borderWidth: 2, borderColor: 'grey'
-
     }
-
-
 
 });

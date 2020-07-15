@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { NavigationContainer, DrawerActions } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import MyAccount from '../screens/MyAccount/index';
-import Homescreen from '../screens/Home/homescreen'
+// import Homescreen from '../screens/Home/homescreen'
 import LoginScreen from '../screens/Login/login'
 import Registration from '../screens/Register/registration'
 import MyDrawer from './drawerMain';
@@ -18,7 +18,6 @@ import Map from '../Map'
 import Mycard from '../screens/MyCardScreen/Mycard'
 import Addresses from '../screens/Address_list/add_list'
 import Searchitem from '../Reusable/searchnar/searchbar'
-import Search from '../Reusable/searchnar/search'
 import Share1 from '../Reusable/share/share'
 import StoreLocator from '../Map/index';
 import Myorder from '../screens/Myorder/myorder'
@@ -39,7 +38,6 @@ class Main extends Component {
                     {/* <Stack.Screen name="homescreen" component={Homescreen} options={{ headerShown: false }} /> */}
                     <Stack.Screen name="MyDrawer" component={MyDrawer} options={{ headerShown: false }} />
                     <Stack.Screen name="searchitem" component={Searchitem} options={{ headerShown: false }} />
-                    <Stack.Screen name="search" component={Search} options={{ headerShown: false }} />
                     <Stack.Screen name="share" component={Share1} options={{ headerShown: false }} />
                     <Stack.Screen name="Myorder" component={Myorder} options={{ headerShown: false }} />
                     <Stack.Screen name="LazyLoading" component={LazyLoading} options={{ headerShown: false }} />

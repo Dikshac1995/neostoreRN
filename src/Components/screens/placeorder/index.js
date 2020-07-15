@@ -6,7 +6,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Header from '../../Reusable/header /header';
 import { api } from '../../../utils/api'
 import { connect } from 'react-redux';
-import { getCartData } from '../../../Redux/Action/mycat'
+import { getCartData } from '../../../Redux/Action/mycart'
 import { useIsFocused } from '@react-navigation/native';
 import { FetchAddress } from '../../../Redux/Action/address'
 import Loader from '../../Reusable/loader/loader'
@@ -328,7 +328,7 @@ class Placeorder extends Component {
     }
     render() {
         const { product_id, Product, addressData } = this.props.route.params;
-        console.log('///////', this.state.productData, '///////')
+        // console.log('///////', this.state.productData, '///////')
         const customerData = this.state.customer_details
         const Address = this.state.addressData
         // console.log(Address, 'ad', customerData)
@@ -374,12 +374,12 @@ class Placeorder extends Component {
                                 showsVerticalScrollIndicator={false}
                                 renderItem={({ item, index }) =>
                                     <View>
-                                        <TouchableOpacity style={styles.product} >
+                                        <View style={styles.product} >
                                             <View style={styles.product_row}>
                                                 <View style={styles.productName_wrapper}>
                                                     <Text style={styles.productName_text}>{item.product_name}</Text>
                                                 </View>
-                                                <Image style={{ width: 110, height: 80 }} source={{
+                                                <Image style={{ width: 110, height: 80, resizeMode: 'stretch' }} source={{
                                                     uri: api.baseUrl + item.product_image
                                                 }} />
                                             </View>
@@ -407,7 +407,7 @@ class Placeorder extends Component {
                                                 </Picker>
                                             </View>
 
-                                        </TouchableOpacity>
+                                        </View>
                                     </View>}
                                 keyExtractor={item => item.id}
                                 ItemSeparatorComponent={this.FlatListItemSeparator} />

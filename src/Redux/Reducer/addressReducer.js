@@ -11,7 +11,6 @@ export default function productListReducer(state = initialstate, action) {
         case FETCH_ADDRESS:
             return {
                 ...state,
-                data: action.payload,
                 isFetching: true
             }
         case FETCH_ADDRESS_SUCCESS:

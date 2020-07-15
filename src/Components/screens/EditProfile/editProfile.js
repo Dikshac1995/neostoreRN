@@ -35,7 +35,8 @@ export default class EditProfile extends Component {
             radioCheck: '',
             img_filename: ' ',
             loading: false,
-            selectedImage: ' '
+            selectedImage: ' ',
+            DOB_err: false,
         };
     }
     componentDidMount() {
@@ -63,16 +64,17 @@ export default class EditProfile extends Component {
 
 
     async submit() {
+        // this.dwFile(this.state.imageSource)
         let token = await AsyncStorage.getItem('token');
-        console.log(this.state.first_nameError, 'dggdh')
-        console.log(this.state.loading, 'loader')
-        console.log(this.state.selectedImage, 'selectedImage')
+        if (!this.state.date) {
+            this.setState({ DOB_err: true })
+        }
         if (this.state.first_nameError == " " && this.state.last_nameError == " "
-            // && this.state.date == ''
+            && !this.state.DOB_err
             && this.state.emailError == " "
             && this.state.phone_noError == " ") {
             if (this.state.selectedImage == " ") {
-                console.log('data')
+
                 this.setState({ loading: true })
                 api.fetchapi(api.baseUrl + 'profile', 'put',
                     JSON.stringify(
@@ -169,11 +171,6 @@ export default class EditProfile extends Component {
                     )
                 }, 2000)
 
-
-                // Alert.alert(data.message);
-                // this.setState({ loading: false })
-                // this.props.navigation.navigate('MyAccount')
-
             }
             else {
                 Alert.alert(data.message);
@@ -249,7 +246,8 @@ export default class EditProfile extends Component {
                             loading={this.state.loading} />
                         <View style={{ alignItems: 'center', }}>
                             <TouchableOpacity onPress={() => this.onChangeImage()}>
-                                <Image style={{ borderRadius: 100, width: 150, height: 150, resizeMode: 'cover' }} source={this.state.imageSource} />
+                                <Image style={{ borderRadius: 100, width: 150, height: 150, resizeMode: 'cover' }}
+                                    source={this.state.imageSource} />
                             </TouchableOpacity>
                         </View>
 
@@ -324,10 +322,12 @@ export default class EditProfile extends Component {
                                     }
                                 }}
                                 onDateChange={date => {
-                                    this.setState({ date: date });
+                                    this.setState({ date: date, DOB_err: false });
                                 }}
                             />
                         </View>
+
+                        <Text style={{ color: '#fff' }}> {this.state.DOB_err ? 'This Field is required' : " "}</Text>
                         <View style={styles.GenderField}>
                             <Text style={styles.Gender}> Gender </Text>
                             <RadioButton value="first"

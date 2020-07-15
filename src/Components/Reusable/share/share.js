@@ -3,27 +3,51 @@ import React, { Component } from 'react'
 import { Text, View } from 'react-native'
 import Share from 'react-native-share';
 import { api } from '../../../utils/api'
+import RNFetchBlob from 'rn-fetch-blob';
 
 
 
+
+function dwFile(file_url, title) {
+    let imagePath = null;
+    RNFetchBlob.config({
+        fileCache: true
+    })
+        .fetch("GET", file_url)
+        // the image is now dowloaded to device's storage
+        .then(resp => {
+            // the image path you can use it directly with Image component
+            imagePath = resp.path();
+            return resp.readFile("base64");
+        })
+        .then(async base64Data => {
+            var base64Data = `data:image/png;base64,` + base64Data;
+            // here's base64 encoded image
+            await Share.open({ url: base64Data, message: title });
+            // remove the file from storage
+            return fs.unlink(imagePath);
+        });
+}
 
 function share(image, title) {
     image = api.baseUrl + image
-    console.log(image)
-    let shareOptions = {
-        title: 'Share via',
-        message: title,
-        url: 'data:image/png;base64', image,
-        dilogTitle: 'data',
-        filename: 'test', // only for base64 file in Android
-    };
-    Share.open(shareOptions)
-        .then(res => {
-            console.log(res);
-        })
-        .catch(err => {
-            err && console.log(err);
-        });
+    console.log(image, title)
+    dwFile(image, title)
+    // let shareOptions = {
+    //     title: 'Share via',
+    //     message: title,
+    //     // url: 'data:image/png;base64', image,
+    //     // url: RNFetchBlob.wrap(image),
+    //     dilogTitle: 'data',
+    //     filename: RNFetchBlob.wrap(image)
+    // };
+    // Share.open(shareOptions)
+    //     .then(res => {
+    //         console.log(res, '12356');
+    //     })
+    //     .catch(err => {
+    //         err && console.log(err);
+    //     });
 
 }
 

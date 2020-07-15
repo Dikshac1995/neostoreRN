@@ -15,13 +15,13 @@ export const styles = StyleSheet.create({
         // justifyContent: 'center',
         borderWidth: 2,
         borderColor: '#fff',
-        padding: 5,
+        padding: 5, height: 60
 
     },
     GenderField: {
         display: 'flex',
         flexDirection: 'row',
-        paddingTop: 10
+        // paddingTop: 10
         // justifyContent:'space-between'
     },
     Gender: {

@@ -11,9 +11,6 @@ import Button from '../../Reusable/ButtonField/buttonField'
 import { windowWidth, windowHeight, tokenHard } from '../../../Assets/Constant/constant'
 import Header from '../../Reusable/header /header'
 import AsyncStorage from '@react-native-community/async-storage';
-import Search from '../../Reusable/searchnar/search'
-import { ThemeProvider } from 'react-native-paper';
-import Share1 from 'react-native-share';
 import ImageViewer from 'react-native-image-zoom-viewer';
 import { api } from '../../../utils/api'
 import share from '../../Reusable/share/share'
@@ -46,7 +43,6 @@ class productDetail extends Component {
     componentDidMount() {
         this.gettoken()
         const { product_id } = this.props.route.params;
-        console.log("categoryId", product_id)
         const type = 'getProductByProdId/' + product_id
         this.setState({ isLoading: true })
         api.fetchapi(api.baseUrl + type, 'get')
@@ -82,18 +78,14 @@ class productDetail extends Component {
 
     updateRating() {
         if (this.state.token) {
-            console.log('token ', this.state.token_id)
-            console.log('product_id', this.state.product_id)
             const data = {
                 product_id: this.state.product_id,
                 product_rating: this.state.starCount
             };
-            console.log('data', data)
             const url = api.baseUrl + 'updateProductRatingByCustomer'
             api.fetchapi(url, 'put', JSON.stringify(data), this.state.token_id)
                 .then((response) => response.json())
                 .then((data) => {
-                    console.log('Success:', data);
                     if (data.status_code == 200) {
                         Alert.alert(data.message);
                         this.setState({ modalVisible: false });
@@ -215,7 +207,7 @@ class productDetail extends Component {
                     // <ActivityIndicator size='large' />
                     :
 
-                    <View style={{ width: windowWidth, height: windowHeight, backgroundColor: 'yellow' }}>
+                    <View style={{ width: windowWidth, height: windowHeight }}>
                         <ScrollView style={{ flex: 1, backgroundColor: '#eee' }}>
                             <View style={styles.productDeatailModule}>
                                 {/* ProductDetailInfo Section*/}
@@ -241,18 +233,17 @@ class productDetail extends Component {
                                             <Text style={styles.product_cost}>Rs,{this.state.ProductDetailData.product_cost}</Text>
                                             <Icon name="share-alt" size={30} color="#7f7f7f"
                                                 onPress={() => share(this.state.product_image, this.state.ProductDetailData.product_name)}
-                                            // {() => Share1.open(shareOptions)}
-                                            // {() => this.onShare()}
                                             />
                                         </View>
-                                        <View style={{ position: 'relative' }}>
-                                            <View style={{ alignItems: 'center' }}>
-                                                <TouchableOpacity onPress={() => this.showZoomModal(true)}  >
-                                                    <Image style={{ width: 220, height: 160 }} source={{
-                                                        uri: api.baseUrl + this.state.product_image
-                                                    }} />
-                                                </TouchableOpacity>
-                                            </View>
+                                        <View style={{ position: 'relative', flex: 1, alignItems: 'center' }}>
+                                            {/* <View style={{ alignItems: 'center', height: '30%', backgroundColor: 'yellow' }}> */}
+                                            <TouchableOpacity onPress={() => this.showZoomModal(true)} style={{ width: '80%', height: 200, alignItems: 'center' }} >
+                                                <Image style={{ width: '80%', height: '90%', resizeMode: "stretch" }} source={{
+                                                    uri: api.baseUrl + this.state.product_image
+                                                }}
+                                                />
+                                            </TouchableOpacity>
+                                            {/* </View> */}
                                             <View style={styles.mycart_WrapperContainer}>
                                                 <TouchableOpacity style={styles.mycart_Wrapper}>
                                                     <View style={styles.mycart_icon}>
@@ -273,7 +264,7 @@ class productDetail extends Component {
                                                             onPress={() => this.onClickSubImage(item)}
                                                         >
                                                             <View style={styles.subImage_Wrapper}>
-                                                                <Image style={{ width: 90, height: 100 }}
+                                                                <Image style={{ width: 100, height: 100, resizeMode: 'stretch' }}
                                                                     source={{ uri: api.baseUrl + item }} />
                                                             </View>
                                                         </TouchableOpacity>
@@ -299,9 +290,13 @@ class productDetail extends Component {
                         </ScrollView>
 
                         <View style={styles.footer}>
-                            <View style={{ paddingHorizontal: 20, flexDirection: 'row', justifyContent: 'space-evenly' }}>
-                                <Button text="BUY_NOW" onPress={() => this.Buynow()} style={styles.buttonStyle} />
-                                <Button text="RATE" onPress={() => this.toggleModal(true)} style={styles.rate_button} />
+                            <View style={{ flex: 1, paddingTop: 7, flexDirection: 'row', justifyContent: 'space-between' }}>
+                                <View style={{ flex: 1, alignItems: 'center' }}>
+                                    <Button text="BUY_NOW" onPress={() => this.Buynow()} style={styles.buttonStyle} />
+                                </View>
+                                <View style={{ flex: 1, alignItems: 'center', }}>
+                                    <Button text="RATE" onPress={() => this.toggleModal(true)} style={styles.rate_button} />
+                                </View>
                             </View>
                         </View>
                     </View>}

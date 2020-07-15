@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Text, View, TouchableOpacity, FlatList, ActivityIndicator, Image } from 'react-native'
 import Header from '../../Reusable/header /header';
 import { styles } from './styles'
+import { api } from '../../../utils/api';
 
 
 export default class OrderId extends Component {
@@ -36,13 +37,15 @@ export default class OrderId extends Component {
                         renderItem={({ item }) =>
                             <View >
                                 <TouchableOpacity style={styles.orderId_wrapper}>
-                                    <View>
-                                        {!item.product_details[0].product_image ? <ActivityIndicator size='large' /> :
-                                            <Image style={{ width: 120, height: 100 }} source={{
-                                                uri: 'http://180.149.241.208:3022/' + item.product_details[0].product_image
-                                            }} />}
+                                    <View style={{ flex: 0.4, }}>
+                                        <View style={{ width: '100 %' }}>
+                                            {!item.product_details[0].product_image ? <ActivityIndicator size='large' /> :
+                                                <Image style={{ width: '90%', height: 100, resizeMode: 'stretch' }} source={{
+                                                    uri: api.baseUrl + item.product_details[0].product_image
+                                                }} />}
+                                        </View>
                                     </View>
-                                    <View style={{ padding: 20, width: 250 }}>
+                                    <View style={{ padding: 20, flex: 0.6, paddingLeft: 10 }}>
                                         <Text style={styles.product_name}>{
                                             ((item.product_details[0].product_name).length > 20) ?
                                                 (((item.product_details[0].product_name).substring(0, 20 - 3)) + '...') :
@@ -56,7 +59,6 @@ export default class OrderId extends Component {
                                     </View>
                                 </TouchableOpacity>
                             </View>}
-                        onScroll={() => this.showToastWithGravityAndOffset()}
                         ItemSeparatorComponent={this.FlatListItemSeparator}
                         keyExtractor={item => item.id} />
                 </View>

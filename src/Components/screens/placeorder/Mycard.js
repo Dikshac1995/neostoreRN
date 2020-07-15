@@ -6,7 +6,7 @@ import { api } from '../../../utils/api';
 import Button from '../../Reusable/ButtonField/buttonField'
 import { styles } from './style'
 import { connect } from 'react-redux';
-import { getCartData } from '../../../Redux/Action/mycat'
+import { getCartData } from '../../../Redux/Action/mycart'
 import Loader from '../../Reusable/loader/loader'
 
 
@@ -276,7 +276,7 @@ class Mycart extends Component {
                                                             // onPress={() => { this.props.navigation.navigate('productDetail', { product_id: item.product_id }) }}
                                                             onLongPress={() => this.removeProduct(data.indexOf(item))}>
                                                             <View>
-                                                                <Image style={{ width: 120, height: 100 }} source={{
+                                                                <Image style={{ width: '100%', height: 100, resizeMode: 'stretch' }} source={{
                                                                     uri: api.baseUrl + item.product_image
                                                                 }} />
                                                             </View>

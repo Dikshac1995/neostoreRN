@@ -24,10 +24,10 @@ export default class ProductList extends Component {
             loading: false
         };
     }
-    showToastWithGravityAndOffset = () => {
-        console.log('tost')
+    showToastWithGravityAndOffset = (item) => {
+        console.log('tost', item.length)
         ToastAndroid.showWithGravityAndOffset(
-            " 5 out of 8 ",
+            item.length + " out of 8 ",
             ToastAndroid.LONG,
             ToastAndroid.BOTTOM,
             25,
@@ -37,12 +37,12 @@ export default class ProductList extends Component {
         );
     };
     componentDidMount() {
-        // this.fetchdata(this.page)
         this.fetchProductList(this.page)
     }
 
     fetchProductList() {
         const { category_id } = this.props.route.params;
+        console.log(category_id, '1234')
         const { page } = this.state;
         const url = api.baseUrl + `commonProducts?category_id=${category_id}&pageNo=${page}&perPage=5`
         fetch(url)
@@ -57,7 +57,7 @@ export default class ProductList extends Component {
                                 : [...this.state.ProductList, ...response.product_details],
                         isLoading: false
                     }));
-                }, 5000)
+                }, 2000)
             }).catch(error => {
                 this.setState({ error, isLoading: false });
             });
@@ -86,16 +86,12 @@ export default class ProductList extends Component {
 
                 <View
                     style={{
-                        // position: 'relative',
                         flex: 1,
-
                         height: 50,
                         paddingVertical: 20,
                         borderTopWidth: 1,
                         marginTop: 10,
                         marginBottom: 10,
-                        // backgroundColor: 'blue'
-
                     }}
                 >
                     <ActivityIndicator animating size="large" />
@@ -103,7 +99,6 @@ export default class ProductList extends Component {
             );
         }
         else {
-            console.log('loader1')
             return null
         }
     };
@@ -111,10 +106,7 @@ export default class ProductList extends Component {
 
     _handleLoadMore = () => {
         if (!this.state.loading) {
-
-
             if (this.state.page < 2) {
-                // setTimeout(() => {
                 this.setState(
                     (prevState, nextProps) => ({
                         page: prevState.page + 1,
@@ -124,7 +116,7 @@ export default class ProductList extends Component {
                         this.fetchProductList();
                     }
                 )
-                // }, 5000)
+
             }
         }
     };
@@ -159,14 +151,8 @@ export default class ProductList extends Component {
                     {(this.state.isLoading) ?
                         <Loader name='onLoad'
                             loading={true} />
-                        // <View style={styles.loading}>
-                        //     <View>
-                        //         <ActivityIndicator size='large' />
-                        //     </View>
-                        // </View>
-
                         :
-                        <View style={{ marginHorizontal: 20, }}>
+                        <View style={{ marginHorizontal: 20, flex: 1 }}>
                             <FlatList data={this.state.ProductList}
                                 showsVerticalScrollIndicator={false}
                                 refreshControl={
@@ -177,38 +163,40 @@ export default class ProductList extends Component {
                                 }
                                 renderItem={({ item, index }) =>
                                     <View >
-                                        <TouchableOpacity style={{ display: 'flex', flexDirection: 'row', padding: 0, alignItems: 'center' }}
+                                        <TouchableOpacity style={styles.Product_List}
                                             onPress={() => this.onPressItem(item.product_id, item.product_name)
                                             }
                                         >
                                             <View style={{ flex: 1 }}>
                                                 {!item.product_image ? <ActivityIndicator size='large' /> :
-                                                    <Image style={{ width: 120, height: 100 }} source={{
+                                                    <Image style={{ width: '100%', height: 100, resizeMode: "stretch" }} source={{
                                                         uri: api.baseUrl + item.product_image
                                                     }} />}
                                             </View>
-                                            <View style={{ padding: 20, flex: 2 }}>
-                                                <Text style={{ fontSize: 15, fontWeight: 'bold' }}>{
+                                            <View style={styles.productName_warpper}>
+                                                <Text style={styles.Product_name}>{
                                                     ((item.product_name).length > 20) ?
                                                         (((item.product_name).substring(0, 20 - 3)) + '...') :
                                                         item.product_name}
                                                 </Text>
-                                                <Text style={{ fontSize: 15 }}>{item.product_material}</Text>
-                                                <View style={{ justifyContent: 'flex-end', alignItems: 'flex-end' }}>
-                                                    <StarRating rating={item.product_rating} starSize={20} fullStarColor="orange" />
+
+                                                <Text style={styles.Product_material}>{item.product_producer}</Text>
+                                                <View style={styles.start_wapper}>
+                                                    <StarRating rating={Number(item.product_rating)} starSize={20} fullStarColor="orange" />
                                                 </View>
-                                                <Text style={{ color: 'red', fontSize: 15, fontWeight: 'bold' }}>Rs.{item.product_cost}</Text>
+                                                <Text style={styles.Product_cost}>Rs.{item.product_cost}</Text>
                                             </View>
                                         </TouchableOpacity>
                                     </View>
                                 }
-                                onScroll={() => this.showToastWithGravityAndOffset()}
+                                onScroll={() => this.showToastWithGravityAndOffset(this.state.ProductList)}
                                 ItemSeparatorComponent={this.FlatListItemSeparator}
                                 onEndReached={this._handleLoadMore}
                                 onEndReachedThreshold={0}
                                 initialNumToRender={6}
                                 ListFooterComponent={this._renderFooter}
-                                keyExtractor={item => item.id} />
+                                keyExtractor={(item, index) => index.toString()}
+                            />
                         </View>
                     }
                 </View>

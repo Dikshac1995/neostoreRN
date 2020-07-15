@@ -110,7 +110,7 @@ class LoginScreen extends Component {
                     loading={this.state.loading} />
                 <View style={styles.login}>
                     <Text style={styles.login_neostore}>NeoSTORE</Text>
-                    <TextField placeholder="Email" name="envelope"
+                    <TextField placeholder="User-Id" name="envelope"
                         onChangeText={value => this.setState({
                             email: value.trim(),
                             emailValid: validation('email', value)

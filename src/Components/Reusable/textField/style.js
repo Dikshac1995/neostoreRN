@@ -12,8 +12,13 @@ export const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center',
         marginTop: 5,
-        padding:5,
-    // marginBottom: 5,    
+        // marginRight: 10,
+        padding: 5,
+        paddingRight: 10,
+        // flexShrink:''
+        // flexGrow: ''
+        // flexWrap: 'wrap'
+        // marginBottom: 5,    
     },
     Icon: {
         paddingLeft: 10,
@@ -21,12 +26,17 @@ export const styles = StyleSheet.create({
     },
     input_text: {
         paddingTop: 10,
-        paddingRight: 10,
+        flex: 1,
+        alignItems: 'stretch',
+
+        // backgroundColor: 'yellow',
+        // marginRight: 50,
+        // paddingRight: 10,
         paddingBottom: 10,
         paddingLeft: 10,
         color: '#fff',
-       
-        fontSize: 20,
-        width :'90%',
+
+        fontSize: 18,
+        // width: '90%',
     },
-    })
+})

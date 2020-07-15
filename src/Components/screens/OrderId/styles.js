@@ -8,7 +8,8 @@ export const styles = StyleSheet.create({
         marginHorizontal: 20, height: '80%'
     },
     orderId_wrapper: {
-        display: 'flex', flexDirection: 'row', padding: 0, alignItems: 'center'
+        display: 'flex', flexDirection: 'row', padding: 0, alignItems: 'center', flex: 1,
+        justifyContent: 'space-between'
     },
     product_name: { fontSize: 20, fontWeight: 'bold' },
     product_material: {
@@ -20,7 +21,8 @@ export const styles = StyleSheet.create({
     footer_wrapper: {
         display: 'flex', flexDirection: 'row', borderTopWidth: 1,
         borderTopColor: '#000', justifyContent: 'space-between',
-        marginHorizontal: 10
+        // marginHorizontal: 10,
+        paddingHorizontal: 20
 
     },
     footer_text: {

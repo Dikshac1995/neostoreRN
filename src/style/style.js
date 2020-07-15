@@ -30,5 +30,7 @@ export const globalstyles = StyleSheet.create({
         width: ((windowWidth / 2) - 20),
         // backgroundColor: 'yellow',
         //display:'flex'
-    }
+    },
+    product_imgWidth:
+        {},
 })

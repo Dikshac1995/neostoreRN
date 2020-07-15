@@ -5,7 +5,6 @@ import { globalstyles } from '../../style/style'
 
 
 function Card(props) {
-    console.log('id', props.category_id)
     return (
         <View style={globalstyles.card}>
             <View style={style.cards}>
