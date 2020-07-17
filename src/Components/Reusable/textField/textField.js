@@ -34,7 +34,7 @@ function TextField(props) {
                 </TextInput>
             </View>
             <View>
-                <Text style={{ color: 'white', textAlign: 'center' }}>{props.validate ? props.validate : null}</Text>
+                <Text style={{ color: 'white', paddingLeft: 60 }}>{props.validate ? props.validate : null}</Text>
             </View>
         </View>
     )

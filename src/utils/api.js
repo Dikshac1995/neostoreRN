@@ -2,14 +2,14 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-community/async-storage';
 export const api = {
 
-    baseUrl: 'https://9db13fc36ac4.ngrok.io/',
+    baseUrl:
+        // 'https://9db13fc36ac4.ngrok.io/',
+        'https://4ec5dcecfae4.ngrok.io/',
     // 'http://180.149.241.208:3022/',
-    // 'https://dbe6d59fca1d.ngrok.io',
-    // 'https://8bee45f97401.ngrok.io',/
-
     fetchapi: function (url, type, data, token) {
         console.log("in api", data, token)
-        if (type === 'post' || type === 'put') {
+        if (type === 'post' || type === 'put' || type === 'Delete') {
+            console.log(url, 'url')
             return fetch(
                 url,
                 {

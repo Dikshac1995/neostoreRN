@@ -72,7 +72,7 @@ export default class ForgotPassword extends Component {
                     loading={this.state.loading} />
                 <Text style={globalstyles.neostore_logo}>NeoSTORE</Text>
                 <Text style={globalstyles.Containerhead}>Forgot Password ?</Text>
-                <TextField placeholder="Enter Userid" name="user"
+                <TextField placeholder="Enter Userid" name="envelope"
                     onChangeText={value => this.setState({
                         emailId: value.trim(),
                         email_err: validation('email', value.trim())

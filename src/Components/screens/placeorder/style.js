@@ -80,11 +80,12 @@ export const styles = StyleSheet.create({
         fontWeight: '900'
     },
     footer: {
-        flex: 1,
+        // flex: 1,
         justifyContent: 'flex-end',
         borderTopWidth: 2,
         borderTopColor: '#eee',
         elevation: 4,
+        backgroundColor: 'red'
     },
     footer_wrapper: {
         display: 'flex', flexDirection: 'row',

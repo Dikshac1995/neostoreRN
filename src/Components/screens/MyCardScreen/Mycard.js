@@ -12,7 +12,7 @@ import Loader from '../../Reusable/loader/loader'
 
 
 
-
+const arr = []
 class Mycart extends Component {
     constructor(props) {
         super(props);
@@ -31,6 +31,7 @@ class Mycart extends Component {
             quantity: [],
             loading: true
         }
+        this.array = []
 
     }
 
@@ -52,16 +53,27 @@ class Mycart extends Component {
     async getCartData() {
         try {
             const data = JSON.parse(await AsyncStorage.getItem('CardData'));
-            data.forEach(function (element) {
-                element.quantity = 1;
-            })
-            const prod_quantity = data.map((res) => res.quantity)
-            if (data !== null) {
-                var cost = data.map(res => res.product_cost)
+            const da = []
+            da.push(data)
+            console.log(data, 'l22', da)
+            if (data.length === 0) {
+                console.log(data.length)
+            }
+            // const arr = []
+            else if (data !== null || data.length !== 0) {
+                const data1 = arr.concat(da)
+                // this.array.push(data)
+                arr.forEach(function (element) {
+                    element.quantity = 1;
+                })
+                const prod_quantity = arr.map((res) => res.quantity)
+
+
+                var cost = data1.map(res => res.product_cost)
                 var sum = cost.reduce(function (a, b) { return a + b; }, 0);
-                console.log('product cost', cost, prod_quantity)
+                console.log('product cost', data, cost, prod_quantity)
                 this.setState({
-                    myCardItem: data,
+                    myCardItem: data1,
                     quantity: prod_quantity,
                     finalCost: sum,
                     product_cost: cost,
@@ -82,20 +94,32 @@ class Mycart extends Component {
         console.log(data, 'daaaa')
         if (data.data !== undefined) {
             const cartProduct = data.data.map((res) => res.product_id)
+            console.log(cartProduct, '1')
             const prod_quantity = data.data.map((res) => res.quantity)
             const Valu = [...this.state.myCardItem]
+            console.log(Valu, '2')
             const quantity = [...this.state.quantity]
             const mycartdata = Valu.concat(cartProduct)
-            const product_quantity = quantity.concat(prod_quantity)
-            console.log('cartProduct', mycartdata)
 
-            var cost = mycartdata.map(res => res.product_cost)
+            const product_quantity = quantity.concat(prod_quantity)
+            var uniqueArray = mycartdata.reduce((filter, current) => {
+                var dk = filter.find(item => item._id === current._id);
+                if (!dk) {
+                    return filter.concat([current]);
+                } else {
+                    return filter;
+                }
+            }, []);
+            // let names = ['Mike', 'Matt', 'Nancy', 'Adam', 'Jenny', 'Nancy', 'Carl', 'Nancy'];
+            let dup = [...new Set(mycartdata)];
+            console.log(dup, '123');
+            var cost = uniqueArray.map(res => res.product_cost)
             var sum = cost.reduce(function (a, b) { return a + b; }, 0);
 
 
             console.log(cost, sum, '233333')
             this.setState({
-                myCardItem: mycartdata,
+                myCardItem: uniqueArray,
                 // quantity: product_quantity,
                 finalCost: sum,
                 product_cost: cost,
@@ -191,7 +215,10 @@ class Mycart extends Component {
                     text: 'OK', onPress: async () => {
 
                         this.state.myCardItem.splice(id, 1);
+                        arr.splice(id, 1)
+                        console.log(arr, 'll')
                         await AsyncStorage.setItem('MycartData', JSON.stringify(this.state.myCardItem))
+                        await AsyncStorage.setItem('CardData', JSON.stringify(arr))
                         this.setState({ myCardItem: JSON.parse(await AsyncStorage.getItem('MycartData')) })
                         var cost = this.state.myCardItem.map(res => res.product_cost)
                         var sum = cost.reduce(function (a, b) { return a + b; }, 0);

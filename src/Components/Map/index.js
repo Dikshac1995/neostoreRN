@@ -192,13 +192,9 @@ export default class Map extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-        // ...StyleSheet.absoluteFillObject,
-        // height: '100%'
         marginTop: 20,
         height: screen.height - 140,
-        // width: screen.width,
-        // justifyContent: 'flex-end',
-        // alignItems: 'center',
+
     },
     map: {
         ...StyleSheet.absoluteFillObject,

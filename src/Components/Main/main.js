@@ -1,28 +1,30 @@
 import React, { Component } from 'react';
 import { NavigationContainer, DrawerActions } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import MyAccount from '../screens/MyAccount/index';
+import MyAccount from '../Screens/MyAccount/index';
 // import Homescreen from '../screens/Home/homescreen'
-import LoginScreen from '../screens/Login/login'
-import Registration from '../screens/Register/registration'
+import LoginScreen from '../Screens/Login/login'
+import Registration from '../Screens/Register/registration'
 import MyDrawer from './drawerMain';
-import ForgotPassword from '../screens/ForgotPassword/forgotpassword';
-import SetPassword from '../screens/setpassword/setpassword'
-import ProductList from '../screens/Productlist/product';
-import productDetail from '../screens/productDetail/productDetail'
-import Placeorder from '../screens/placeorder'
-import EditProfile from '../screens/EditProfile/editProfile'
-import ResetPassword from '../screens/ResePassword/resetPassword'
-import AddAddress from '../screens/Add_address/add_address';
+import ForgotPassword from '../Screens/ForgotPassword/forgotpassword';
+import SetPassword from '../Screens/setpassword/setpassword'
+import ProductList from '../Screens/Productlist/product';
+import productDetail from '../Screens/productDetail/productDetail'
+import Placeorder from '../Screens/placeorder'
+import EditProfile from '../Screens/EditProfile/editProfile'
+import ResetPassword from '../Screens/ResePassword/resetPassword'
+import AddAddress from '../Screens/Adress-Module/Add-address/AddAddress'
+import AddressList from '../Screens/Adress-Module/Address-List/AddressList'
+// import AddAddress from '../screens/Add_address/add_address';
 import Map from '../Map'
-import Mycard from '../screens/MyCardScreen/Mycard'
-import Addresses from '../screens/Address_list/add_list'
+import Mycard from '../Screens/MyCardScreen/Mycard'
+// import Addresses from '../screens/Address_list/add_list'
 import Searchitem from '../Reusable/searchnar/searchbar'
 import Share1 from '../Reusable/share/share'
 import StoreLocator from '../Map/index';
-import Myorder from '../screens/Myorder/myorder'
-import LazyLoading from '../screens/flatlistLazy/lazyloading'
-import Orderid from '../screens/OrderId/orderid'
+import Myorder from '../Screens/Myorder/myorder'
+import LazyLoading from '../Screens/flatlistLazy/lazyloading'
+import Orderid from '../Screens/OrderId/orderid'
 
 
 
@@ -101,6 +103,7 @@ class Main extends Component {
                         headerStyle: { backgroundColor: 'red' },
                         headerTintColor: '#fff',
                         headerTitleAlign: 'center',
+                        headerTitle: 'Order Summary',
                         headerTitleStyle: {
                             fontWeight: 'bold',
                             fontSize: 25,
@@ -137,7 +140,7 @@ class Main extends Component {
                     <Stack.Screen name='AddAddress' component={AddAddress} options={{
                         headerShown: false
                     }} />
-                    <Stack.Screen name='address' component={Addresses} options={{
+                    <Stack.Screen name='address' component={AddressList} options={{
                         headerShown: false
                     }} />
 

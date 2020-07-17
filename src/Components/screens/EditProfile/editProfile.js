@@ -314,7 +314,7 @@ export default class EditProfile extends Component {
                                     },
                                     dateText: {
                                         color: '#fff',
-                                        fontSize: 20
+                                        fontSize: 18
                                     },
                                     placeholderText: {
                                         color: 'rgba(255,255,255,0.7)',
@@ -352,11 +352,7 @@ export default class EditProfile extends Component {
                         // onPress={() => this.onuploadimage()}
 
                         />
-                        {/* <ButtonField text="EDIT PROFILE"
 
-                            onPress={() => this.props.navigation.navigate('EditProfile', { data: this.state.customer_data })}
-                            style={styles.edit_button}
-                        /> */}
 
 
                     </View>

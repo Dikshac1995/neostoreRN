@@ -18,12 +18,14 @@ export const styles = StyleSheet.create({
         marginBottom: 5,
     },
     Icon: {
-        paddingLeft: 10,
+        paddingLeft: 15,
 
     },
     inputText: {
         fontSize: StyleConstants.FONT_18,
-        color: '#fff'
+        color: '#fff',
+        paddingLeft: 10,
+
     },
     eyeIcon: {
         paddingLeft: 20,
@@ -38,6 +40,6 @@ export const styles = StyleSheet.create({
         width: '70%',
     },
     validText: {
-        color: 'white', textAlign: 'center'
+        color: 'white', paddingLeft: 60
     }
 })

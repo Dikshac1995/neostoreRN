@@ -45,8 +45,9 @@ export default class MyAccount extends Component {
         const res = await api.fetchapi(api.baseUrl + 'getCustProfile', 'get', " ", token)
         const result = await res.json();
         const customer_profile = result.customer_proile
+        console.log(customer_profile)
 
-        if (customer_profile.profile_img === null) {
+        if (customer_profile.profile_img === null || customer_profile.profile_img === undefined) {
             this.setState({
                 imageSource:
                     require('../../../Assets/Images/user-profileIcon.png')

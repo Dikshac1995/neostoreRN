@@ -118,6 +118,7 @@ export default class ProductList extends Component {
                 )
 
             }
+
         }
     };
     _handleRefresh = () => {

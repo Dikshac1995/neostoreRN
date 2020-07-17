@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import { Text, View, Button, Alert, ScrollView, SafeAreaView } from 'react-native'
 import { TextInput } from 'react-native-gesture-handler'
-import ButtonField from '../../Reusable/ButtonField/buttonField'
+import ButtonField from '../../../Reusable/ButtonField/buttonField'
 import { styles } from './style'
 import AsyncStorage from '@react-native-community/async-storage';
-import validation from '../../../utils/valid'
-import { api } from '../../../utils/api'
-import Header from '../../Reusable/header /header'
-import Loader from '../../Reusable/loader/loader'
+import validation from '../../../../utils/valid'
+import { api } from '../../../../utils/api'
+import Header from '../../../Reusable/header /header'
+import Loader from '../../../Reusable/loader/loader'
 
 
 export default class AddAddress extends Component {

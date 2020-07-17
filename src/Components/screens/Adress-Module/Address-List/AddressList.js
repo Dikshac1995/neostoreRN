@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 import { Text, View, ScrollView, Alert, FlatList, TouchableOpacity } from 'react-native'
-import Header from '../../Reusable/header /header'
-import ButtonField from '../../Reusable/ButtonField/buttonField'
+import Header from '../../../Reusable/header /header'
+import ButtonField from '../../../Reusable/ButtonField/buttonField'
 import { styles } from './style'
 import AsyncStorage from '@react-native-community/async-storage';
-import { api } from '../../../utils/api'
+import { api } from '../../../../utils/api'
 import { RadioButton } from 'react-native-paper';
 import { connect } from 'react-redux';
-import { FetchAddress } from '../../../Redux/Action/address'
-import Loader from '../../Reusable/loader/loader'
+import { FetchAddress } from '../../../../Redux/Action/address'
+import Loader from '../../../Reusable/loader/loader'
 
 
 class AddressList extends Component {
@@ -44,9 +44,7 @@ class AddressList extends Component {
         let token = await AsyncStorage.getItem('token');
         const customerData = JSON.parse(await AsyncStorage.getItem('customerDetail'))
         await this.props.FetchAddress(token)
-        // console.log('innnnn')
         const data = this.props.addressData
-        console.log('a12s', data)
         if (data !== undefined) {
             const D_address = (element) => element.isDeliveryAddress == true;
             const res = data.findIndex(D_address)
@@ -109,11 +107,42 @@ class AddressList extends Component {
         );
     }
 
+    Delete_address(id) {
+        const data = { address_id: id }
+        Alert.alert(
+            'Delete Address ',
+            'Do you want to Delete Address ',
+            [
+                {
+                    text: 'OK', onPress: async () => {
+
+                        api.fetchapi(api.baseUrl + 'deladdress/' + id, 'Delete', JSON.stringify(data), this.state.token)
+                            .then((res) => res.json())
+                            .then((data) => {
+                                console.log(data)
+                                if (data.success === true) {
+                                    // this.setState({})
+                                    this.getData()
+                                    // this.state.addressData.splice(id, 1);
+                                    console.log(this.state.addressData, '12')
+
+                                }
+                            })
+                    }
+                },
+                {
+                    text: 'cancle', onPress: () => {
+                        return null
+                    }
+                },
+            ],
+            { cancelable: false }
+        )
+
+
+    }
 
     saveAddress() {
-        console.log(this.state.data)
-        console.log(this.state.address_id)
-        console.log(this.state.addressinfo, "daaaa")
         const address_data = {
             address_id: this.state.addressinfo.address_id,
             address: this.state.addressinfo.address,
@@ -179,12 +208,13 @@ class AddressList extends Component {
                                 <Text style={styles.userName_text}>
                                     {data.first_name}  {data.last_name}
                                 </Text>
+                                {this.state.addressData == 0 && <Text> Your Address list is Empty - First Add Address </Text>}
                                 <FlatList
                                     data={this.state.addressData}
                                     ItemSeparatorComponent={this.FlatListItemSeparator}
                                     renderItem={({ item, index }) => {
                                         return (
-                                            <View
+                                            <TouchableOpacity onPress={() => this.Delete_address(item.address_id)}
                                                 style={{
                                                     flex: 1,
                                                     flexDirection: 'row',
@@ -212,7 +242,7 @@ class AddressList extends Component {
                                                         {item.pincode} , {item.country}
                                                     </Text>
                                                 </View>
-                                            </View>
+                                            </TouchableOpacity>
                                         );
                                     }}
                                     keyExtractor={(item, index) => index.toString()}

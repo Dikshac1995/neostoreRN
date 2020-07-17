@@ -27,15 +27,13 @@ class Homescreen extends Component {
         const { data, loading } = this.props;
         if (this.props.loading) {
             return (
-                <View style={{ flex: 1, alignItems: 'center' }}><ActivityIndicator size={30} />
-                </View>)
+                <ActivityIndicator size={30} />
+            )
         }
         else {
             var img
             img = this.props.data.map((res) => res.product_image);
-            console.log(img, "123")
             var images = img.map((a) => api.baseUrl.concat(a))
-            console.log("ncc", images)
             return < SliderBox autoplay circleLoop DotColor="#90A4AE"
                 inactiveDotColor="red"
                 // onCurrentImagePressed={index => this.onpress(index)}

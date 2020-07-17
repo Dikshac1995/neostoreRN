@@ -23,18 +23,14 @@ export const getAddressFailuer = () => {
 
 
 export const FetchAddress = (token) => {
-    console.log('token<->', token)
+
     return async dispatch => {
         try {
             dispatch(getAddress(true))
             const Address = await api.fetchapi(api.baseUrl + 'getCustAddress', 'get', " ", token)
-            console.log(Address, 'edr')
             dispatch(getAddress(false))
             const result = await Address.json();
-            console.log('result', result.customer_address)
-
             dispatch(getAddressSuccess(result.customer_address))
-            console.log('result', result.customer_address)
 
         } catch (error) {
             dispatch(getAddressFailuer(error))

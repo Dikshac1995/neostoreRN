@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
+import React, { Component } from './node_modules/react';
 import {
     View,
     Text,
-    StyleSheet,Button, ActivityIndicator
+    StyleSheet, Button, ActivityIndicator
 } from 'react-native';
 
 
@@ -15,10 +15,10 @@ class Splashscreen extends Component {
 
     render() {
         return (
-            <View style = {styles.splashscreen1}>
+            <View style={styles.splashscreen1}>
                 <Text style={styles.splashscreen_message}> Welcome to </Text>
-                <Text style={styles.splashscreen_logo} > NeoSTORE </Text> 
-                <ActivityIndicator size = "large"  color = "#fff" / >
+                <Text style={styles.splashscreen_logo} > NeoSTORE </Text>
+                <ActivityIndicator size="large" color="#fff" />
             </View>
         );
     }

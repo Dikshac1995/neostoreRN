@@ -112,7 +112,14 @@ class productDetail extends Component {
                 [
                     {
                         text: 'OK', onPress: () => {
-                            CartItem.push(data)
+                            {
+                                CartItem.indexOf(data) === -1 ? CartItem.push(data) :
+                                    // console.log("This item already exists");
+                                    Alert.alert('This item is already exists')
+                            }
+
+
+                            // CartItem.push(data)
                             this.storeData(CartItem)
                             this.props.navigation.navigate('Mycard',
                                 { data: this.state.ProductDetailData }
@@ -149,7 +156,7 @@ class productDetail extends Component {
         const values = this.state.ProductDetailData
         const value = data
         try {
-            await AsyncStorage.setItem('CardData', JSON.stringify(value));
+            await AsyncStorage.setItem('CardData', JSON.stringify(values));
         } catch (error) {
             console.log(error)
         }
@@ -263,8 +270,12 @@ class productDetail extends Component {
                                                         <TouchableOpacity style={styles.subImage_Container}
                                                             onPress={() => this.onClickSubImage(item)}
                                                         >
+                                                            {!this.state.subImages_id.product_subImages && <ActivityIndicator />}
                                                             <View style={styles.subImage_Wrapper}>
-                                                                <Image style={{ width: 100, height: 100, resizeMode: 'stretch' }}
+                                                                <Image style={{
+                                                                    width: 100, height: 100,
+                                                                    resizeMode: 'stretch'
+                                                                }}
                                                                     source={{ uri: api.baseUrl + item }} />
                                                             </View>
                                                         </TouchableOpacity>
@@ -292,7 +303,7 @@ class productDetail extends Component {
                         <View style={styles.footer}>
                             <View style={{ flex: 1, paddingTop: 7, flexDirection: 'row', justifyContent: 'space-between' }}>
                                 <View style={{ flex: 1, alignItems: 'center' }}>
-                                    <Button text="BUY_NOW" onPress={() => this.Buynow()} style={styles.buttonStyle} />
+                                    <Button text="BUY NOW" onPress={() => this.Buynow()} style={styles.buttonStyle} />
                                 </View>
                                 <View style={{ flex: 1, alignItems: 'center', }}>
                                     <Button text="RATE" onPress={() => this.toggleModal(true)} style={styles.rate_button} />
