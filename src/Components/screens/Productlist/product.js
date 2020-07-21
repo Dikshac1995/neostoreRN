@@ -42,7 +42,6 @@ export default class ProductList extends Component {
 
     fetchProductList() {
         const { category_id } = this.props.route.params;
-        console.log(category_id, '1234')
         const { page } = this.state;
         const url = api.baseUrl + `commonProducts?category_id=${category_id}&pageNo=${page}&perPage=5`
         fetch(url)
@@ -68,32 +67,15 @@ export default class ProductList extends Component {
     FlatListItemSeparator = () => {
         return (
             <View
-                style={{
-                    height: 1,
-                    width: "100%",
-                    backgroundColor: "#000",
-                }}
+                style={styles.flatlistSepertor}
             />
         );
     }
 
     _renderFooter = () => {
-        console.log('loading', this.state.loading)
         if (this.state.loading) {
-            console.log('load');
-
             return (
-
-                <View
-                    style={{
-                        flex: 1,
-                        height: 50,
-                        paddingVertical: 20,
-                        borderTopWidth: 1,
-                        marginTop: 10,
-                        marginBottom: 10,
-                    }}
-                >
+                <View style={styles.footerIndicator}>
                     <ActivityIndicator animating size="large" />
                 </View>
             );
@@ -140,7 +122,6 @@ export default class ProductList extends Component {
 
     render() {
         const { category_name } = this.props.route.params;
-        console.log('product in state ', this.state.ProductList)
 
         return (
             <>
@@ -153,7 +134,7 @@ export default class ProductList extends Component {
                         <Loader name='onLoad'
                             loading={true} />
                         :
-                        <View style={{ marginHorizontal: 20, flex: 1 }}>
+                        <View style={styles.flatlistContainer}>
                             <FlatList data={this.state.ProductList}
                                 showsVerticalScrollIndicator={false}
                                 refreshControl={
@@ -169,8 +150,9 @@ export default class ProductList extends Component {
                                             }
                                         >
                                             <View style={{ flex: 1 }}>
-                                                {!item.product_image ? <ActivityIndicator size='large' /> :
-                                                    <Image style={{ width: '100%', height: 100, resizeMode: "stretch" }} source={{
+                                                {console.log('item', item.product_image)}
+                                                {item.product_image == ' ' ? <ActivityIndicator size='large' /> :
+                                                    <Image style={styles.productImage} source={{
                                                         uri: api.baseUrl + item.product_image
                                                     }} />}
                                             </View>

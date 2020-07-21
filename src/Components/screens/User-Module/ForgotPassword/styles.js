@@ -1,5 +1,4 @@
 import { StyleSheet } from 'react-native'
-import { StyleConstants } from '../../../Assets/Constant/constant'
 
 export const styles = StyleSheet.create({
     submit_button: {
@@ -9,6 +8,6 @@ export const styles = StyleSheet.create({
         backgroundColor: 'white',
         textAlign: 'center',
         borderRadius: 8,
-
+        opacity: 0.8,
     },
 })

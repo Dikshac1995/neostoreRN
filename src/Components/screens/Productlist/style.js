@@ -8,6 +8,9 @@ export const styles = StyleSheet.create({
         // alignItems: 'center'
         display: 'flex', flexDirection: 'row', padding: 0, alignItems: 'center'
     },
+    flatlistContainer: {
+        marginHorizontal: 20, flex: 1
+    },
     productName_warpper: {
         padding: 20, flex: 2
 
@@ -35,5 +38,21 @@ export const styles = StyleSheet.create({
     },
     Product_cost: {
         color: 'red', fontSize: 15, fontWeight: 'bold'
-    }
+    },
+    productImage: {
+        width: '100%', height: 100, resizeMode: "stretch"
+    },
+    flatlistSepertor: {
+        height: 1,
+        width: "100%",
+        backgroundColor: "#000",
+    },
+    footerIndicator: {
+        flex: 1,
+        height: 50,
+        paddingVertical: 20,
+        borderTopWidth: 1,
+        marginTop: 10,
+        marginBottom: 10,
+    },
 })

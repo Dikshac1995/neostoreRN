@@ -1,14 +1,12 @@
 import React, { Component } from 'react'
 import { Text, View, TouchableOpacity, Image, Alert } from 'react-native'
-import TextField from '../../Reusable/textField/textField'
-import ButtonField from '../../Reusable/ButtonField/buttonField'
-import { globalstyles } from '../../../style/style'
-import validation from '../../../utils/valid'
-import { api } from '../../..//utils/api'
+import ButtonField from '../../../Reusable/ButtonField/buttonField'
+import { globalstyles } from '../../../../style/style'
+import validation from '../../../../utils/valid'
+import { api } from '../../../../utils/api'
 import AsyncStorage from '@react-native-community/async-storage';
-import Loader from '../../Reusable/loader/loader'
-import authHeader from '../../../Redux/helper/authHeader'
-import PasswordCon from '../../Reusable/Password/Password'
+import Loader from '../../../Reusable/loader/loader'
+import PasswordCon from '../../../Reusable/Password/Password'
 import { styles } from './style'
 export default class ResetPassword extends Component {
     constructor(props) {

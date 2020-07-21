@@ -14,7 +14,6 @@ import Loader from '../../../Reusable/loader/loader'
 class AddressList extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
             addressData: [],
             token: '',
@@ -61,36 +60,12 @@ class AddressList extends Component {
         else {
             setTimeout(() => {
                 this.setState({
-                    // token: token, data: customerData.customer_details,
-                    // addressData: data,
                     loading: false,
-                    // radioCheck: res
                 })
             }, 4000)
         }
 
 
-
-        // api.fetchapi(api.baseUrl + 'getCustAddress', 'get', " ", token)
-
-        //     .then((response) => response.json())
-        //     .then((data) => {
-        //         console.log('Success:', data);
-        //         if (data.success == true) {
-        //             const D_address = (element) => element.isDeliveryAddress == true;
-        //             const res = data.customer_address.findIndex(D_address)
-        //             this.setState({
-        //                 token: token,
-        //                 addressData: data.customer_address,
-        //                 loading: false,
-        //                 data: customerData.customer_details,
-        //                 radioCheck: res
-        //             })
-        //         }
-        //         else {
-        //             Alert.alert("not found ")
-        //         }
-        //     })
 
 
     }
@@ -116,16 +91,13 @@ class AddressList extends Component {
                 {
                     text: 'OK', onPress: async () => {
 
-                        api.fetchapi(api.baseUrl + 'deladdress/' + id, 'Delete', JSON.stringify(data), this.state.token)
+                        api.fetchapi(api.baseUrl + 'deladdress/' + id, 'Delete',
+                            JSON.stringify(data), this.state.token)
                             .then((res) => res.json())
                             .then((data) => {
                                 console.log(data)
                                 if (data.success === true) {
-                                    // this.setState({})
                                     this.getData()
-                                    // this.state.addressData.splice(id, 1);
-                                    console.log(this.state.addressData, '12')
-
                                 }
                             })
                     }
@@ -175,9 +147,6 @@ class AddressList extends Component {
                             { cancelable: false }
                         )
                     }, 2000)
-
-
-
                 }
                 else {
                     Alert.alert(data.message)

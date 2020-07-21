@@ -2,7 +2,9 @@ import { StyleSheet } from 'react-native'
 import { StyleConstants } from '../../../Assets/Constant/constant'
 
 export const styles = StyleSheet.create({
-
+    productSection: {
+        flex: 1, backgroundColor: '#eee'
+    },
     productDeatailSection1: {
         backgroundColor: "#fff",
         // height: '20%'
@@ -16,10 +18,12 @@ export const styles = StyleSheet.create({
     productDetailSection2: {
         paddingHorizontal: 30,
         // height: '40%'
-
-
-
     },
+    productImage: {
+        width: 100, height: 100,
+        resizeMode: 'stretch'
+    },
+
     PDsection2_Price: {
         display: 'flex', flexDirection: 'row',
         justifyContent: 'space-between', padding: 10,

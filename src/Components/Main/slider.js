@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
 import { View, Image, TouchableOpacity, Text, Alert } from 'react-native';
-
 import FaIcon from 'react-native-vector-icons/FontAwesome5';
-// import images from '../../../utils/images';
 import EnIcon from 'react-native-vector-icons/Entypo';
 import { DrawerContentScrollView } from '@react-navigation/drawer';
-
 import { List } from 'react-native-paper';
-
-
 import AsyncStorage from '@react-native-community/async-storage';
+
 export default class Sidebar extends Component {
     constructor(props) {
         super(props);

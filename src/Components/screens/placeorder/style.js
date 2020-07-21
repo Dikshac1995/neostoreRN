@@ -5,8 +5,9 @@ export const styles = StyleSheet.create({
     Address: {
         paddingHorizontal: 5,
         paddingTop: 10,
+        // paddingVertical: 90
         // backgroundColor: 'yellow',
-        height: '55%'
+        // height: '50%'
     },
     address_custname: {
         fontWeight: 'bold',
@@ -59,18 +60,20 @@ export const styles = StyleSheet.create({
         textAlign: 'center'
     },
     priceDetail: {
-        height: '30%'
+        // height: '30%'
     },
     priceDetail_container: {
-        height: 100, marginBottom: 10
+        height: 100, marginBottom: 10,
+        // paddingHorizontal: 20
     },
     priceDetail_text: {
-        textDecorationLine: 'underline', fontSize: 20, paddingLeft: 25,
+        textDecorationLine: 'underline', fontSize: 20, paddingLeft: 20,
 
     },
     priceDetailWrapper: {
         display: 'flex', flexDirection: 'row',
-        justifyContent: 'space-evenly', padding: 10,
+        justifyContent: 'space-between', paddingHorizontal: 20, paddingVertical: 10
+
     },
     priceDetailWrapper_text: {
         fontSize: 20, width: 250

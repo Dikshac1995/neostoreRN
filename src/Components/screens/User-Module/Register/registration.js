@@ -1,16 +1,15 @@
 import React, { Component } from 'react'
 import { Text, View, ScrollView, Alert, Linking } from 'react-native'
-import TextField from '../../Reusable/textField/textField'
-import ButtonField from '../../Reusable/ButtonField/buttonField'
+import TextField from '../../../Reusable/textField/textField'
+import ButtonField from '../../../Reusable/ButtonField/buttonField'
 import { styles } from './style'
-import { api } from '../../../utils/api'
+import { api } from '../../../../utils/api'
 import { connect } from 'react-redux';
-import { register } from '../../../Redux/Action/register'
-import { globalstyles } from '../../../style/style'
-import validation from '../../../utils/valid'
-import PasswordCon from '../../Reusable/Password/Password'
+import { globalstyles } from '../../../../style/style'
+import validation from '../../../../utils/valid'
+import PasswordCon from '../../../Reusable/Password/Password'
 import { Checkbox, RadioButton } from 'react-native-paper';
-import Loader from '../../Reusable/loader/loader'
+import Loader from '../../../Reusable/loader/loader'
 
 
 
@@ -210,7 +209,7 @@ class Registration extends Component {
                                 uncheckedColor='#fff' onPress={() => { this.setState({ radioCheck: 'second', gender: 'female' }); }} />
                             <Text style={styles.GenderName}> Female </Text>
                         </View>
-                        <Text style={{ color: '#fff', textAlign: 'center' }}>{this.state.genderErr ? 'Select the Gender ' : ' '} </Text>
+                        <Text style={{ color: '#fff', paddingLeft: 60 }}>{this.state.genderErr ? 'Select the Gender ' : ' '} </Text>
                     </View>
 
                     <TextField placeholder="Phone number" name="mobile-phone" maxLength={10}
@@ -245,7 +244,7 @@ class Registration extends Component {
                                 Linking.openURL('http://180.149.241.208:3022/2019-06-28T06-10-29.263ZTerms_and_Conditions.pdf')
                             }> Terms and conditions </Text>
                         </View>
-                        <Text style={{ color: '#fff', textAlign: 'center' }}>{this.state.checkboxErr ? 'select the checkbox' : ' '}</Text>
+                        <Text style={{ color: '#fff', paddingLeft: 60 }}>{this.state.checkboxErr ? 'select the checkbox' : ' '}</Text>
                     </View>
                     <View>
                         <ButtonField text="Registration" style={styles.registerButton}

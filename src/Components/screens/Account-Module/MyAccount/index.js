@@ -1,16 +1,15 @@
 import React, { Component } from 'react'
 import { Text, View, TouchableOpacity, Image, TextInput, ActivityIndicator } from 'react-native'
-import TextField from '../../Reusable/textField/textField'
-import ButtonField from '../../Reusable/ButtonField/buttonField'
-import { globalstyles } from '../../../style/style'
-import Header from '../../Reusable/header /header'
+import TextField from '../../../Reusable/textField/textField'
+import ButtonField from '../../../Reusable/ButtonField/buttonField'
+import Header from '../../../Reusable/header /header'
 import { ScrollView } from 'react-native-gesture-handler'
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import { styles } from './style'
 import { Avatar } from 'react-native-elements';
 import AsyncStorage from '@react-native-community/async-storage';
-import { api } from '../../../utils/api'
-import Loader from '../../Reusable/loader/loader'
+import { api } from '../../../../utils/api'
+import Loader from '../../../Reusable/loader/loader'
 
 
 
@@ -21,7 +20,8 @@ export default class MyAccount extends Component {
         this.state = {
             customer_data: [],
             loading: true,
-            imageSource: require('../../../Assets/Images/user-profileIcon.png'),
+            // imageSource: require('../../../Assets/Images/user-profileIcon.png'),
+            imageSource: require('../../../../Assets/Images/user-profileIcon.png'),
 
 
         }
@@ -50,7 +50,7 @@ export default class MyAccount extends Component {
         if (customer_profile.profile_img === null || customer_profile.profile_img === undefined) {
             this.setState({
                 imageSource:
-                    require('../../../Assets/Images/user-profileIcon.png')
+                    require('../../../../Assets/Images/user-profileIcon.png')
             })
 
         }

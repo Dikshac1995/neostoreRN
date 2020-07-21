@@ -103,7 +103,7 @@ class CustomDrawerContent extends Component {
 
   }
   async getCartData1() {
-    const value = JSON.parse(await AsyncStorage.getItem('MycartData'));
+    const value = JSON.parse(await AsyncStorage.getItem('CardData'));
     if (value !== null) {
       console.log('cart async ', value)
       this.setState({ cartproduct_length: value.length })
@@ -120,7 +120,8 @@ class CustomDrawerContent extends Component {
   }
 
   async signOut() {
-    const myCartProduct = JSON.parse(await AsyncStorage.getItem('MycartData'))
+    const myCartProduct = JSON.parse(await AsyncStorage.getItem('CardData'))
+    console.log('mydata', myCartProduct)
     Alert.alert(
       'Log out',
       'Do you want to logout?',

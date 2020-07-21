@@ -3,13 +3,14 @@ import AsyncStorage from '@react-native-community/async-storage';
 export const api = {
 
     baseUrl:
-        // 'https://9db13fc36ac4.ngrok.io/',
-        'https://4ec5dcecfae4.ngrok.io/',
+        'https://1d81591afa0d.ngrok.io/',
+
+    // 'https://5295a84fd1ed.ngrok.io/',
+
     // 'http://180.149.241.208:3022/',
     fetchapi: function (url, type, data, token) {
-        console.log("in api", data, token)
         if (type === 'post' || type === 'put' || type === 'Delete') {
-            console.log(url, 'url')
+            console.log(url, 'url', data)
             return fetch(
                 url,
                 {

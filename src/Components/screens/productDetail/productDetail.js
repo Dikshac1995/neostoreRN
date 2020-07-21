@@ -47,7 +47,6 @@ class productDetail extends Component {
         this.setState({ isLoading: true })
         api.fetchapi(api.baseUrl + type, 'get')
             .then((response) => response.json()).then((data) => {
-                console.log('Success:', data.product_details);
                 setTimeout(() => {
                     this.setState({
                         isLoading: false,
@@ -99,41 +98,31 @@ class productDetail extends Component {
                 });
         }
         else {
-            Alert.alert(' you have to login First ');
+            Alert.alert(' You have to login First ');
             this.setState({ modalVisible: false });
         }
     }
 
-    addToCard(data) {
+    async addToCard(data) {
         if (this.state.token) {
-            Alert.alert(
-                'ADD to card ',
-                'Do you want to  Add this to Mycard',
-                [
-                    {
-                        text: 'OK', onPress: () => {
-                            {
-                                CartItem.indexOf(data) === -1 ? CartItem.push(data) :
-                                    // console.log("This item already exists");
-                                    Alert.alert('This item is already exists')
-                            }
+            data.quantity = 1
+            const existingProducts = await AsyncStorage.getItem('CardData');
+            let newProduct = JSON.parse(existingProducts);
+            if (!newProduct) {
+                newProduct = [];
+                newProduct.push(data);
+                this.storeData(newProduct)
+            } else {
+                let existed_item = newProduct.find(item => data._id === item._id);
+                if (existed_item) {
+                    Alert.alert('Product already exists in cart ');
+                } else {
+                    newProduct.push(data);
+                    this.storeData(newProduct)
 
+                }
 
-                            // CartItem.push(data)
-                            this.storeData(CartItem)
-                            this.props.navigation.navigate('Mycard',
-                                { data: this.state.ProductDetailData }
-                            )
-                        }
-                    },
-                    {
-                        text: 'cancle', onPress: () => {
-                            return null
-                        }
-                    },
-                ],
-                { cancelable: false }
-            )
+            };
         }
         else {
             Alert.alert(
@@ -153,10 +142,14 @@ class productDetail extends Component {
         }
     }
     storeData = async (data) => {
-        const values = this.state.ProductDetailData
+        // const values = this.state.ProductDetailData
         const value = data
         try {
-            await AsyncStorage.setItem('CardData', JSON.stringify(values));
+            await AsyncStorage.setItem('CardData', JSON.stringify(value))
+                .then(() => {
+                    Alert.alert('Product Added  to cart');
+                })
+
         } catch (error) {
             console.log(error)
         }
@@ -164,7 +157,6 @@ class productDetail extends Component {
 
 
     async Buynow() {
-        console.log("token", this.state.token)
         const { product_id } = this.props.route.params;
 
         if (this.state.token) {
@@ -215,7 +207,7 @@ class productDetail extends Component {
                     :
 
                     <View style={{ width: windowWidth, height: windowHeight }}>
-                        <ScrollView style={{ flex: 1, backgroundColor: '#eee' }}>
+                        <ScrollView style={styles.productSection}>
                             <View style={styles.productDeatailModule}>
                                 {/* ProductDetailInfo Section*/}
                                 <View style={styles.productDeatailSection1}>
@@ -266,16 +258,17 @@ class productDetail extends Component {
                                                 showsVerticalScrollIndicator={false}
                                                 horizontal={true}
                                                 renderItem={({ item, index }) =>
+
                                                     <View>
+
+
+                                                        {console.log('i', item)}
                                                         <TouchableOpacity style={styles.subImage_Container}
                                                             onPress={() => this.onClickSubImage(item)}
                                                         >
-                                                            {!this.state.subImages_id.product_subImages && <ActivityIndicator />}
+                                                            {!item && <ActivityIndicator />}
                                                             <View style={styles.subImage_Wrapper}>
-                                                                <Image style={{
-                                                                    width: 100, height: 100,
-                                                                    resizeMode: 'stretch'
-                                                                }}
+                                                                <Image style={styles.productImage}
                                                                     source={{ uri: api.baseUrl + item }} />
                                                             </View>
                                                         </TouchableOpacity>

@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
-import { Text, View, Image, ScrollView, FlatList, Picker, TouchableOpacity, Alert, ActivityIndicator } from 'react-native'
+import {
+    Text, View, Image, ScrollView, FlatList, Picker, TouchableOpacity, Alert,
+    ActivityIndicator
+} from 'react-native'
 import { styles } from './style'
 import ButtonField from '../../Reusable/ButtonField/buttonField';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -7,7 +10,6 @@ import Header from '../../Reusable/header /header';
 import { api } from '../../../utils/api'
 import { connect } from 'react-redux';
 import { getCartData } from '../../../Redux/Action/mycart'
-import { useIsFocused } from '@react-navigation/native';
 import { FetchAddress } from '../../../Redux/Action/address'
 import Loader from '../../Reusable/loader/loader'
 
@@ -62,10 +64,9 @@ class Placeorder extends Component {
 
     async  getDataFrom_route() {
         const { product_id, Product, addressData } = this.props.route.params;
-        console.log(arr, 'arr')
-        console.log("product1234", Product)
+
         if (Product == 0) {
-            console.log(0)
+
             this.getStoredData()
         }
 
@@ -372,89 +373,94 @@ class Placeorder extends Component {
                     <View style={{ flex: 1 }}>
                         <Loader
                             loading={this.state.loading} />
-                        <ScrollView style={{ flex: 8 }}>
+                        <View style={{ flex: 8 }}>
+                            <ScrollView style={{ flex: 1 }}>
+                                <View style={{ paddingHorizontal: 20, flex: 1 }}>
+                                    {/* <View style={{ paddingHorizontal: 20, flex: 1 }} > */}
+                                    <View style={styles.Address} >
+                                        {Address.length !== 0 ?
+                                            <>
+                                                <Text style={styles.address_custname}> {customerData.first_name}  {customerData.last_name}</Text>
+                                                <Text style={styles.address_text}>
+                                                    {Address.address} ,{Address.city}, {Address.state},
+                                                       {Address.country} , {Address.pincode}</Text>
+                                            </> :
+                                            <>
+                                                <Text style={{ paddingVertical: 30 }}>  </Text>
+                                            </>}
+                                    </View>
 
-                            <View style={{ paddingHorizontal: 20, flex: 3 }} >
-                                <View style={styles.Address} >
-                                    {Address.length !== 0 &&
-                                        <>
-                                            <Text style={styles.address_custname}> {customerData.first_name}  {customerData.last_name}</Text>
-                                            <Text style={styles.address_text}>
-                                                {Address.address} ,{Address.city}, {Address.state},
-                                {Address.country} , {Address.pincode}</Text>
-                                        </>}
+
+                                    <ButtonField text=" Change or Add Address" style={styles.addressButton}
+                                        onPress={() => {
+                                            Address.length === 0 ?
+                                                this.props.navigation.navigate('AddAddress') :
+                                                this.props.navigation.navigate('address')
+                                        }
+                                        }
+                                    />
+                                    {/* </View> */}
+
                                 </View>
+                                {this.FlatListItemSeparator()}
 
-
-                                <ButtonField text=" Change or Add Address" style={styles.addressButton}
-                                    onPress={() => {
-                                        Address.length === 0 ?
-                                            this.props.navigation.navigate('AddAddress') :
-                                            this.props.navigation.navigate('address')
-                                    }
-                                    }
-                                />
-                            </View>
-
-                            {/* product section start  */}
-
-                            {this.FlatListItemSeparator()}
-                            <View style={{}}>
-                                <FlatList data={this.state.productData}
-                                    showsVerticalScrollIndicator={false}
-                                    renderItem={({ item, index }) =>
-                                        <TouchableOpacity onPress={() => this.removeProduct(index)}>
-                                            <View style={styles.product} >
-                                                <View style={styles.product_row}>
-                                                    <View style={styles.productName_wrapper}>
-                                                        <Text style={styles.productName_text}>{item.product_name}</Text>
+                                <View style={{ flex: 2 }}>
+                                    <FlatList data={this.state.productData}
+                                        showsVerticalScrollIndicator={false}
+                                        renderItem={({ item, index }) =>
+                                            <TouchableOpacity onPress={() => this.removeProduct(index)}>
+                                                <View style={styles.product} >
+                                                    <View style={styles.product_row}>
+                                                        <View style={styles.productName_wrapper}>
+                                                            <Text style={styles.productName_text}>{item.product_name}</Text>
+                                                        </View>
+                                                        <Image style={{ width: 110, height: 80, resizeMode: 'stretch' }} source={{
+                                                            uri: api.baseUrl + item.product_image
+                                                        }} />
                                                     </View>
-                                                    <Image style={{ width: 110, height: 80, resizeMode: 'stretch' }} source={{
-                                                        uri: api.baseUrl + item.product_image
-                                                    }} />
-                                                </View>
-                                                <View style={styles.product_row}>
-                                                    <View style={styles.productProducer_text}>
-                                                        <Text style={styles.productProducer_text}>{item.product_producer}</Text>
+                                                    <View style={styles.product_row}>
+                                                        <View style={styles.productProducer_text}>
+                                                            <Text style={styles.productProducer_text}>{item.product_producer}</Text>
+                                                        </View>
+                                                        <View>
+                                                            <Text style={styles.product_cost}>
+                                                                Rs.{item.product_cost * this.state.quantity[index]}</Text>
+                                                        </View>
                                                     </View>
                                                     <View>
-                                                        <Text style={styles.product_cost}>
-                                                            Rs.{item.product_cost * this.state.quantity[index]}</Text>
+                                                        <Picker
+                                                            selectedValue={this.state.quantity[index]}
+                                                            style={{ width: 100 }}
+                                                            onValueChange={(itemValue, itemIndex) =>
+                                                                this.pickerChange(index, itemValue)} >
+                                                            <Picker.Item label="1 " value="1" />
+                                                            <Picker.Item label="2" value="2" />
+                                                            <Picker.Item label="3" value="3" />
+                                                            <Picker.Item label="4 " value="4" />
+                                                            <Picker.Item label="5 " value="5" />
+
+                                                        </Picker>
                                                     </View>
+
                                                 </View>
-                                                <View>
-                                                    <Picker
-                                                        selectedValue={this.state.quantity[index]}
-                                                        style={{ width: 100 }}
-                                                        onValueChange={(itemValue, itemIndex) =>
-                                                            this.pickerChange(index, itemValue)} >
-                                                        <Picker.Item label="1 " value="1" />
-                                                        <Picker.Item label="2" value="2" />
-                                                        <Picker.Item label="3" value="3" />
-                                                        <Picker.Item label="4 " value="4" />
-                                                        <Picker.Item label="5 " value="5" />
+                                            </TouchableOpacity>}
+                                        keyExtractor={item => item.id}
+                                        ItemSeparatorComponent={this.FlatListItemSeparator} />
+                                    {/* </View> */}
 
-                                                    </Picker>
-                                                </View>
+                                    {/* sfooter section  */}
+                                    {this.FlatListItemSeparator()}
+                                    <View style={styles.priceDetail}>
+                                        <Text style={styles.priceDetail_text}>Price Detail</Text>
+                                        <View style={styles.priceDetailWrapper}>
 
-                                            </View>
-                                        </TouchableOpacity>}
-                                    keyExtractor={item => item.id}
-                                    ItemSeparatorComponent={this.FlatListItemSeparator} />
-                            </View>
-
-                            {/* sfooter section  */}
-                            {this.FlatListItemSeparator()}
-                            <View style={styles.priceDetail}>
-                                <View style={styles.priceDetail_container}>
-                                    <Text style={styles.priceDetail_text}>Price Detail</Text>
-                                    <View style={styles.priceDetailWrapper}>
-                                        <Text style={styles.priceDetailWrapper_text}>Price</Text>
-                                        <Text style={styles.priceDetail_totalCost}>Rs.{this.state.finalCost}</Text>
+                                            <Text style={styles.priceDetail_totalCost}>Price</Text>
+                                            <Text style={styles.priceDetail_totalCost}>Rs.{this.state.finalCost}</Text>
+                                        </View>
                                     </View>
                                 </View>
-                            </View>
-                        </ScrollView>
+                            </ScrollView>
+                        </View>
                         <View style={styles.footer}>
                             <View style={styles.footer_wrapper}>
                                 <Text style={styles.footerProduct_cost}>Rs.{this.state.finalCost}</Text>

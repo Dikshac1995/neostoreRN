@@ -1,30 +1,30 @@
 import React, { Component } from 'react';
 import { NavigationContainer, DrawerActions } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import MyAccount from '../Screens/MyAccount/index';
+import MyAccount from '../Screens/Account-Module/MyAccount/index';
 // import Homescreen from '../screens/Home/homescreen'
-import LoginScreen from '../Screens/Login/login'
-import Registration from '../Screens/Register/registration'
+import LoginScreen from '../Screens/User-Module/Login/login'
+import Registration from '../Screens/User-Module/Register/registration'
 import MyDrawer from './drawerMain';
-import ForgotPassword from '../Screens/ForgotPassword/forgotpassword';
-import SetPassword from '../Screens/setpassword/setpassword'
-import ProductList from '../Screens/Productlist/product';
-import productDetail from '../Screens/productDetail/productDetail'
-import Placeorder from '../Screens/placeorder'
-import EditProfile from '../Screens/EditProfile/editProfile'
-import ResetPassword from '../Screens/ResePassword/resetPassword'
+import ForgotPassword from '../Screens/User-Module/ForgotPassword/forgotpassword';
+import SetPassword from '../Screens/User-Module/setpassword/setpassword'
+import ProductList from '../Screens/ProductList/product';
+import productDetail from '../Screens/ProductDetail/productDetail'
+import Placeorder from '../Screens/PlaceOrder/index'
+import EditProfile from '../Screens/Account-Module/EditProfile/editProfile'
+import ResetPassword from '../Screens/Account-Module/ResePassword/resetPassword'
 import AddAddress from '../Screens/Adress-Module/Add-address/AddAddress'
 import AddressList from '../Screens/Adress-Module/Address-List/AddressList'
 // import AddAddress from '../screens/Add_address/add_address';
 import Map from '../Map'
-import Mycard from '../Screens/MyCardScreen/Mycard'
+import Mycard from '../Screens/MyCartScreen/Mycard'
 // import Addresses from '../screens/Address_list/add_list'
 import Searchitem from '../Reusable/searchnar/searchbar'
 import Share1 from '../Reusable/share/share'
 import StoreLocator from '../Map/index';
-import Myorder from '../Screens/Myorder/myorder'
+import Myorder from '../Screens/Myorder-Module/Myorder/myorder'
 import LazyLoading from '../Screens/flatlistLazy/lazyloading'
-import Orderid from '../Screens/OrderId/orderid'
+import Orderid from '../Screens/Myorder-Module/OrderId/orderid'
 
 
 

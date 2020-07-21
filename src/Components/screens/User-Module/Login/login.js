@@ -2,15 +2,15 @@ import React, { Component } from 'react';
 import AsyncStorage from '@react-native-community/async-storage';
 import { View, Text, TouchableOpacity, Alert, ActivityIndicator } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import TextField from '../../Reusable/textField/textField'
-import ButtonField from '../../Reusable/ButtonField/buttonField'
+import TextField from '../../../Reusable/textField/textField'
+import ButtonField from '../../../Reusable/ButtonField/buttonField'
 import { styles } from './style'
 import { connect } from 'react-redux';
-import * as actions from '../../../Redux/Action/action'
-import PasswordCon from '../../Reusable/Password/Password'
-import validation from '../../../utils/valid'
-import { api } from '../../../utils/api'
-import Loader from '../../Reusable/loader/loader'
+// import * as actions from '../../../Redux/Action/action'
+import PasswordCon from '../../../Reusable/Password/Password'
+import validation from '../../../../utils/valid'
+import { api } from '../../../../utils/api'
+import Loader from '../../../Reusable/loader/loader'
 
 
 

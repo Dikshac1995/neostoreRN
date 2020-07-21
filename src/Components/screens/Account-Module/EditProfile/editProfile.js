@@ -1,17 +1,17 @@
 import React, { Component } from 'react'
 import { Text, View, TouchableOpacity, Image, Alert, ActivityIndicator } from 'react-native'
-import TextField from '../../Reusable/textField/textField'
-import ButtonField from '../../Reusable/ButtonField/buttonField'
-import { globalstyles } from '../../../style/style'
+import TextField from '../../../Reusable/textField/textField'
+import ButtonField from '../../../Reusable/ButtonField/buttonField'
+import { globalstyles } from '../../../../style/style'
 import { ScrollView } from 'react-native-gesture-handler'
 import DatePicker from 'react-native-datepicker';
-import validation from '../../../utils/valid'
+import validation from '../../../../utils/valid'
 import { RadioButton } from 'react-native-paper';
 import AsyncStorage from '@react-native-community/async-storage';
 import { styles } from './styles'
-import { api } from '../../..//utils/api'
+import { api } from '../../../../utils/api'
 import ImagePicker from 'react-native-image-picker';
-import Loader from '../../Reusable/loader/loader'
+import Loader from '../../../Reusable/loader/loader'
 import RNFetchBlob from 'rn-fetch-blob'
 
 export default class EditProfile extends Component {
@@ -24,7 +24,7 @@ export default class EditProfile extends Component {
             email: ' ',
             phone_no: ' ',
             profile_img: ' ',
-            imageSource: require('../../../Assets/Images/user-profileIcon.png'),
+            imageSource: require('../../../../Assets/Images/user-profileIcon.png'),
             gender: '',
             first_nameError: ' ',
             last_nameError: ' ',

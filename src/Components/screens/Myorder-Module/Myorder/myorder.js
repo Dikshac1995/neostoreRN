@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import { Text, View, FlatList, TouchableOpacity, Alert, TextInput } from 'react-native'
-import Header from '../../Reusable/header /header';
-import { api } from '../../../utils/api';
+import Header from '../../../Reusable/header /header';
+import { api } from '../../../../utils/api';
 import AsyncStorage from '@react-native-community/async-storage';
 import moment from "moment";
 import * as Animatable from 'react-native-animatable';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Loader from '../../Reusable/loader/loader';
+import Loader from '../../../Reusable/loader/loader';
 import styles from './style'
 
 export default class Myorder extends Component {

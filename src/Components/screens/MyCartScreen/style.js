@@ -30,6 +30,9 @@ export const styles = StyleSheet.create({
         // height: '20%',
         flex: 1.2
     },
+    footer_wrapper: {
+        flex: 1, flexDirection: 'row', justifyContent: 'space-between'
+    },
     footerButton_text: {
         color: 'white',
         fontSize: 20,
@@ -62,5 +65,11 @@ export const styles = StyleSheet.create({
 
 
     },
+    flatList_wrapper: {
+        marginHorizontal: 20, flex: 8,
+    },
+    emptyCart_err: {
+        justifyContent: 'center', alignItems: 'center', flex: 1
+    }
 
 })

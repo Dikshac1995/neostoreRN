@@ -5,7 +5,7 @@ import Homescreen from '../Screens/Home/homescreen'
 import Icon from 'react-native-vector-icons/FontAwesome5';
 // import { Text, View, Image, TouchableOpacity, StyleSheet, Alert, LayoutAnimation, FlatList } from 'react-native'
 // import AsyncStorage from '@react-native-community/async-storage';
-import CustomDrawerContent from '../Screens/sliderscreen/drawernav'
+import CustomDrawerContent from '../Screens/SliderScreen/drawernav'
 // import Registration from '../screens/Register/registration';
 
 

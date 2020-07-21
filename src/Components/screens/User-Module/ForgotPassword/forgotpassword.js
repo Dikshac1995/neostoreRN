@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import { Text, View, Alert } from 'react-native'
-import TextField from '../../Reusable/textField/textField'
-import ButtonField from '../../Reusable/ButtonField/buttonField'
-import { globalstyles } from '../../../style/style'
+import TextField from '../../../Reusable/textField/textField'
+import ButtonField from '../../../Reusable/ButtonField/buttonField'
+import { globalstyles } from '../../../../style/style'
 import { styles } from './styles'
-import validation from '../../../utils/valid'
-import { api } from '../../..//utils/api'
-import Loader from '../../Reusable/loader/loader'
+import validation from '../../../../utils/valid'
+import { api } from '../../../../utils/api'
+import Loader from '../../../Reusable/loader/loader'
 
 export default class ForgotPassword extends Component {
     constructor(props) {

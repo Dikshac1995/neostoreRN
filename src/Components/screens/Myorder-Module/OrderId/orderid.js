@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { Text, View, TouchableOpacity, FlatList, ActivityIndicator, Image } from 'react-native'
-import Header from '../../Reusable/header /header';
+import Header from '../../../Reusable/header /header';
 import { styles } from './styles'
-import { api } from '../../../utils/api';
+import { api } from '../../../../utils/api';
 
 
 export default class OrderId extends Component {
